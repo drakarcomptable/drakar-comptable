@@ -2,11 +2,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Send, ShieldCheck, CheckCircle, Ship } from 'lucide-react';
 
-// Pour activer la réception des emails :
-// 1. Allez sur https://web3forms.com
-// 2. Entrez : contact@drakarexpertcomptable.fr → cliquez "Create Access Key"
-// 3. Vous recevrez la clé par email — copiez-la ici :
-const WEB3FORMS_KEY = 'VOTRE_CLE_WEB3FORMS';
+const WEB3FORMS_KEY = 'efc6af61-d62e-4e0b-b4f5-e1e7907cb179';
 
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
