@@ -2,12 +2,40 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Send, ShieldCheck, CheckCircle, Ship } from 'lucide-react';
 
+// Pour activer la réception des emails :
+// 1. Allez sur https://web3forms.com
+// 2. Entrez : contact@drakarexpertcomptable.fr → cliquez "Create Access Key"
+// 3. Vous recevrez la clé par email — copiez-la ici :
+const WEB3FORMS_KEY = 'VOTRE_CLE_WEB3FORMS';
+
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    data.append('access_key', WEB3FORMS_KEY);
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data,
+      });
+      const json = await res.json();
+      if (json.success) {
+        setSubmitted(true);
+        form.reset();
+      } else {
+        alert('Une erreur est survenue. Merci de réessayer ou de nous appeler directement.');
+      }
+    } catch {
+      alert('Une erreur est survenue. Merci de réessayer ou de nous appeler directement.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -20,7 +48,7 @@ const Contact: React.FC = () => {
         <p className="text-2xl text-slate-600 max-w-xl mb-16 font-medium leading-relaxed">
           Merci pour votre confiance. Un expert Drakar étudie déjà votre dossier et reviendra vers vous sous 24h.
         </p>
-        <button 
+        <button
           onClick={() => setSubmitted(false)}
           className="text-brand-orange font-black text-lg hover:underline"
         >
@@ -47,23 +75,23 @@ const Contact: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-10 bg-white rounded-[40px] shadow-sm border border-slate-100 flex flex-col gap-6">
-                <div className="bg-brand-slate w-14 h-14 rounded-2xl flex items-center justify-center text-brand-orange">
+            <div className="grid grid-cols-1 gap-8">
+              <div className="p-8 bg-white rounded-[40px] shadow-sm border border-slate-100 flex items-center gap-6">
+                <div className="bg-brand-slate w-14 h-14 rounded-2xl flex items-center justify-center text-brand-orange shrink-0">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-black text-xl text-brand-blue mb-2 uppercase tracking-tight">Appelez-nous</h3>
+                  <h3 className="font-black text-xl text-brand-blue mb-1 uppercase tracking-tight">Appelez-nous</h3>
                   <p className="text-slate-500 font-bold">06 11 01 25 59</p>
                 </div>
               </div>
 
-              <div className="p-10 bg-white rounded-[40px] shadow-sm border border-slate-100 flex flex-col gap-6">
-                <div className="bg-brand-slate w-14 h-14 rounded-2xl flex items-center justify-center text-brand-orange">
+              <div className="p-8 bg-white rounded-[40px] shadow-sm border border-slate-100 flex items-center gap-6">
+                <div className="bg-brand-slate w-14 h-14 rounded-2xl flex items-center justify-center text-brand-orange shrink-0">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-black text-xl text-brand-blue mb-2 uppercase tracking-tight">E-mail</h3>
+                  <h3 className="font-black text-xl text-brand-blue mb-1 uppercase tracking-tight">E-mail</h3>
                   <p className="text-slate-500 font-bold">contact@drakarexpertcomptable.fr</p>
                 </div>
               </div>
@@ -83,30 +111,32 @@ const Contact: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue">Nom & Prénom</label>
-                  <input 
+                  <input
                     required
-                    type="text" 
+                    name="name"
+                    type="text"
                     placeholder="Marc Morel"
                     className="w-full px-6 py-5 bg-brand-slate border-2 border-transparent focus:border-brand-orange rounded-2xl outline-none transition-all font-bold"
                   />
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue">E-mail Pro</label>
-                  <input 
+                  <input
                     required
-                    type="email" 
+                    name="email"
+                    type="email"
                     placeholder="marc@startup.co"
                     className="w-full px-6 py-5 bg-brand-slate border-2 border-transparent focus:border-brand-orange rounded-2xl outline-none transition-all font-bold"
                   />
                 </div>
               </div>
 
-              {/* Ligne Téléphone Dédiée */}
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue">Numéro de téléphone</label>
-                <input 
+                <input
                   required
-                  type="tel" 
+                  name="phone"
+                  type="tel"
                   placeholder="06 11 01 25 59"
                   className="w-full px-6 py-5 bg-brand-slate border-2 border-transparent focus:border-brand-orange rounded-2xl outline-none transition-all font-bold"
                 />
@@ -114,7 +144,10 @@ const Contact: React.FC = () => {
 
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue">Type de structure</label>
-                <select className="w-full px-6 py-5 bg-brand-slate border-2 border-transparent focus:border-brand-orange rounded-2xl outline-none transition-all appearance-none cursor-pointer font-bold">
+                <select
+                  name="structure"
+                  className="w-full px-6 py-5 bg-brand-slate border-2 border-transparent focus:border-brand-orange rounded-2xl outline-none transition-all appearance-none cursor-pointer font-bold"
+                >
                   <option>SAS / SASU</option>
                   <option>SARL / EURL</option>
                   <option>SA</option>
@@ -125,8 +158,9 @@ const Contact: React.FC = () => {
 
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue">Votre défi comptable</label>
-                <textarea 
+                <textarea
                   required
+                  name="message"
                   rows={4}
                   placeholder="Décrivez brièvement votre situation ou vos besoins spécifiques..."
                   className="w-full px-6 py-5 bg-brand-slate border-2 border-transparent focus:border-brand-orange rounded-2xl outline-none transition-all resize-none font-bold"
@@ -134,11 +168,12 @@ const Contact: React.FC = () => {
               </div>
 
               <div className="pt-6">
-                <button 
+                <button
                   type="submit"
-                  className="w-full bg-brand-orange text-white py-6 rounded-2xl font-black text-xl shadow-2xl shadow-orange-500/40 hover:bg-brand-orange-hover transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-4"
+                  disabled={loading}
+                  className="w-full bg-brand-orange text-white py-6 rounded-2xl font-black text-xl shadow-2xl shadow-orange-500/40 hover:bg-brand-orange-hover transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
-                  Envoyer à Drakar <Send className="w-6 h-6" />
+                  {loading ? 'Envoi en cours...' : <><span>Envoyer à Drakar</span><Send className="w-6 h-6" /></>}
                 </button>
               </div>
 

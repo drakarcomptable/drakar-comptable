@@ -12,7 +12,7 @@ const Services: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-8">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">Nos Expertises</h1>
           <p className="text-xl text-slate-600 font-medium leading-relaxed">
-            Drakar a structuré son accompagnement autour de 7 briques stratégiques souveraines. Sélectionnez un pôle pour découvrir nos solutions.
+            Drakar a structuré son accompagnement autour de 5 briques stratégiques souveraines. Sélectionnez un pôle pour découvrir nos solutions.
           </p>
         </div>
 

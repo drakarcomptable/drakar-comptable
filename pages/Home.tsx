@@ -98,9 +98,14 @@ const Home: React.FC = () => {
               </div>
               <div className="flex items-center gap-8 pt-8 border-t border-slate-100">
                 <div className="flex -space-x-4">
-                  {[1, 2, 3, 4].map(i => (
+                  {[
+                    'https://i.pravatar.cc/150?u=21',
+                    'https://randomuser.me/api/portraits/women/44.jpg',
+                    'https://i.pravatar.cc/150?u=23',
+                    'https://i.pravatar.cc/150?u=24',
+                  ].map((src, i) => (
                     <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-slate-200 flex items-center justify-center font-bold text-xs text-slate-400 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/150?u=${i + 20}`} alt="Client" />
+                      <img src={src} alt="Client" />
                     </div>
                   ))}
                 </div>
