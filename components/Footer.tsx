@@ -75,9 +75,9 @@ const Footer: React.FC = () => {
             © {new Date().getFullYear()} DRAKAR COMPTABLE. Excellence et Rigueur.
           </p>
           <div className="flex gap-10 text-xs font-black uppercase tracking-widest text-slate-500">
-            <a href="#" className="hover:text-white transition-colors">Mentions Légales</a>
-            <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
-            <a href="#" className="hover:text-white transition-colors">CGV</a>
+            <Link to="/mentions-legales" className="hover:text-white transition-colors">Mentions Légales</Link>
+            <Link to="/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link to="/cgv" className="hover:text-white transition-colors">CGV</Link>
           </div>
         </div>
       </div>

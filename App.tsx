@@ -9,8 +9,12 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import Agencies from './pages/Agencies';
 import AgencyDetail from './pages/AgencyDetail';
+import MentionsLegales from './pages/MentionsLegales';
+import Confidentialite from './pages/Confidentialite';
+import CGV from './pages/CGV';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import CookieBanner from './components/CookieBanner';
 
 // Composant utilitaire pour remonter en haut de page à chaque changement de route
 const ScrollToTop = () => {
@@ -39,11 +43,15 @@ const App: React.FC = () => {
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/agences" element={<Agencies />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+            <Route path="/confidentialite" element={<Confidentialite />} />
+            <Route path="/cgv" element={<CGV />} />
             <Route path="/:citySlug" element={<AgencyDetail />} />
           </Routes>
         </main>
         <Footer />
       </div>
+      <CookieBanner />
     </HashRouter>
   );
 };
