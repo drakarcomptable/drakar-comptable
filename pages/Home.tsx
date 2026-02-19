@@ -76,7 +76,7 @@ const Home: React.FC = () => {
                 <span className="text-brand-orange mr-1">★</span>
                 Cabinet Drakar
               </div>
-              <h1 className="text-4xl lg:text-6xl font-black text-brand-blue leading-[0.9] tracking-tighter min-h-[1.8em] lg:min-h-[2.7em]">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black text-brand-blue leading-tight tracking-tighter min-h-[1.8em] lg:min-h-[2.7em]">
                 L'expertise comptable au service de votre <span className="text-brand-orange inline-block animate-word-change" key={words[wordIndex]}>{words[wordIndex]}</span>
               </h1>
               <p className="text-xl text-brand-blue/70 leading-relaxed max-w-xl font-medium">
@@ -193,7 +193,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-20">
           <div className="flex flex-col md:flex-row justify-between items-end gap-12">
             <div className="max-w-3xl space-y-6">
-              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-none">
+              <h2 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white tracking-tighter leading-tight">
                 Nos domaines <span className="text-brand-orange">d'expertises.</span>
               </h2>
               <p className="text-base lg:text-lg text-slate-400 font-medium leading-relaxed max-w-2xl">
@@ -257,7 +257,7 @@ const Home: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
               <div className="space-y-10">
-                <h2 className="text-5xl lg:text-6xl font-black text-brand-blue leading-none tracking-tighter">
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-brand-blue leading-tight tracking-tighter">
                   <span className="text-brand-orange">Optimiser</span> votre gestion quotidienne.
                 </h2>
                 <ul className="space-y-6">

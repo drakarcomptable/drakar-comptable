@@ -12,7 +12,7 @@ const About: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-10">
-            <h1 className="text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-none">
+            <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">
               Drakar : Naviguez sur votre comptabilité en <span className="text-brand-orange">toute sérénité.</span>
             </h1>
             <p className="text-xl text-slate-600 font-medium leading-relaxed border-l-4 border-brand-orange pl-8">

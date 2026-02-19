@@ -41,7 +41,7 @@ const Blog: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue text-brand-orange rounded-full text-[10px] font-black uppercase tracking-widest">
             <BookOpen className="w-3 h-3" /> Veille Institutionnelle
           </div>
-          <h1 className="text-6xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-none">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">
             Analyses & Décryptages <span className="text-brand-orange">Experts.</span>
           </h1>
           <p className="text-xl text-slate-600 font-medium">
@@ -89,7 +89,7 @@ const Blog: React.FC = () => {
         {/* Newsletter placeholder */}
         <div className="mt-32 bg-brand-blue rounded-[60px] p-12 lg:p-24 text-white text-center relative overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto space-y-10">
-            <h2 className="text-5xl font-black tracking-tighter">Recevez notre veille mensuelle.</h2>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tighter leading-tight">Recevez notre veille mensuelle.</h2>
             <p className="text-xl text-slate-400 font-medium">L'essentiel de l'actualité fiscale et sociale sélectionné par nos experts pour votre entreprise.</p>
             <div className="flex flex-col sm:flex-row gap-4">
                <input 

@@ -35,7 +35,7 @@ const Agencies: React.FC = () => {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange/10 text-brand-orange rounded-full text-[10px] font-black uppercase tracking-widest">
               <Globe className="w-4 h-4" /> Réseau National Drakar
             </div>
-            <h1 className="text-6xl lg:text-8xl font-black text-brand-blue tracking-tighter leading-[0.85]">
+            <h1 className="text-3xl sm:text-5xl lg:text-8xl font-black text-brand-blue tracking-tighter leading-tight">
               Expert-comptable <span className="text-brand-orange">de proximité.</span>
             </h1>
             <p className="text-xl text-slate-600 font-medium leading-relaxed max-w-xl">
@@ -124,7 +124,7 @@ const Agencies: React.FC = () => {
           </div>
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20">
             <div className="space-y-8">
-              <h2 className="text-4xl lg:text-5xl font-black tracking-tighter leading-none">Un maillage territorial <br /><span className="text-brand-orange">souverain.</span></h2>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tighter leading-tight">Un maillage territorial <br /><span className="text-brand-orange">souverain.</span></h2>
               <p className="text-lg text-slate-400 font-medium leading-relaxed">
                 Le cabinet Drakar a fait le choix de la proximité. Nous croyons que l'excellence de l'expertise comptable passe par une connaissance parfaite des enjeux économiques locaux et une présence physique forte.
               </p>

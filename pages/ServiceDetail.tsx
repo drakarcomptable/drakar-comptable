@@ -56,10 +56,10 @@ const ServiceDetail: React.FC = () => {
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange/10 text-brand-orange rounded-full text-[10px] font-black uppercase tracking-widest">
                 <Star className="w-3 h-3 fill-brand-orange" /> Excellence Drakar
               </div>
-              <h1 className="text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-none">
+              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">
                 {pageTitle}
               </h1>
-              <p className="text-2xl text-slate-600 font-medium leading-relaxed max-w-2xl">
+              <p className="text-lg sm:text-2xl text-slate-600 font-medium leading-relaxed max-w-2xl">
                 {content.introduction}
               </p>
               

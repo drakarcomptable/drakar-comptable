@@ -16,7 +16,7 @@ const Contact: React.FC = () => {
         <div className="bg-green-100 p-10 rounded-full mb-10">
           <CheckCircle className="w-20 h-20 text-green-600" />
         </div>
-        <h1 className="text-6xl font-black text-brand-blue mb-6 tracking-tighter">C'est en route !</h1>
+        <h1 className="text-4xl sm:text-6xl font-black text-brand-blue mb-6 tracking-tighter leading-tight">C'est en route !</h1>
         <p className="text-2xl text-slate-600 max-w-xl mb-16 font-medium leading-relaxed">
           Merci pour votre confiance. Un expert Drakar étudie déjà votre dossier et reviendra vers vous sous 24h.
         </p>
@@ -41,8 +41,8 @@ const Contact: React.FC = () => {
                 <Ship className="w-4 h-4" />
                 Contact Direct
               </div>
-              <h1 className="text-6xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-[0.9]">Parlons de votre gestion comptable.</h1>
-              <p className="text-2xl text-slate-600 font-medium leading-relaxed">
+              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">Parlons de votre gestion comptable.</h1>
+              <p className="text-lg sm:text-2xl text-slate-600 font-medium leading-relaxed">
                 Remplissez ce formulaire et recevez une offre Drakar sur-mesure pour la gestion structurée de votre entreprise.
               </p>
             </div>

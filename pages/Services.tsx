@@ -10,7 +10,7 @@ const Services: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Text */}
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-8">
-          <h1 className="text-6xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-none">Nos Expertises</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">Nos Expertises</h1>
           <p className="text-xl text-slate-600 font-medium leading-relaxed">
             Drakar a structuré son accompagnement autour de 7 briques stratégiques souveraines. Sélectionnez un pôle pour découvrir nos solutions.
           </p>
@@ -52,7 +52,7 @@ const Services: React.FC = () => {
             <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 bg-white/20 rounded-full text-xs font-black uppercase tracking-widest">
               <Zap className="w-4 h-4" /> Accompagnement Souverain
             </div>
-            <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-[0.9] mb-10">
+            <h2 className="text-3xl sm:text-5xl lg:text-7xl font-black tracking-tighter leading-tight mb-10">
               Transformez votre gestion en levier de réussite.
             </h2>
             <p className="text-xl lg:text-2xl text-white/90 font-medium leading-relaxed mb-12 max-w-2xl">
