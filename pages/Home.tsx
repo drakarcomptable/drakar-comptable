@@ -145,7 +145,7 @@ const Home: React.FC = () => {
       {/* Trust Band (Logos Clients) */}
       <section className="py-20 bg-brand-slate/50 overflow-hidden border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
-            <p className="text-sm sm:text-lg font-black uppercase tracking-[0.3em] text-brand-orange">Ils font confiance à l'expertise Drakar</p>
+            <p className="text-xl sm:text-2xl font-black text-brand-blue">Ils font confiance à <span className="text-brand-orange">l'expertise Drakar</span></p>
         </div>
         <div className="marquee-container relative">
           <div className="animate-scroll flex items-center">
