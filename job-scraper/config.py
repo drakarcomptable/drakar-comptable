@@ -250,8 +250,8 @@ EMAIL_CONFIG = {
     # Voir README pour la configuration
     "smtp_server": "smtp.gmail.com",
     "smtp_port": 587,
-    "expediteur": "",       # À remplir avec votre email d'envoi
-    "mot_de_passe": "",     # À remplir avec le mot de passe d'application Gmail
+    "expediteur": "matthieu.batardpro@gmail.com",
+    "mot_de_passe": "gxer hdan ffsi voqg",
 }
 
 # === SCRAPING CONFIG ===
