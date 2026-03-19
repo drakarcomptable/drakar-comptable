@@ -193,7 +193,11 @@ def generer_html_rapport(offres: list) -> str:
     # Afficher les offres groupées par catégorie
     for categorie in ["Customer Success Manager", "Responsable Marketing",
                        "Business Intelligence", "Contrôleur de gestion",
-                       "Chef de projet", "Commercial", "Non catégorisé"]:
+                       "Chef de projet", "Chargé d'études / Consultant",
+                       "Operations / Ops Manager", "Product / Produit",
+                       "Account Manager / KAM", "Média / Audiovisuel",
+                       "Administratif / Gestion",
+                       "Commercial", "Non catégorisé"]:
         cat_offres = categories.get(categorie, [])
         if not cat_offres:
             continue
@@ -212,6 +216,14 @@ def generer_html_rapport(offres: list) -> str:
             source = offre.get("source", "")
             detail = offre.get("note_detail", "")
             desc = offre.get("description", "")[:200]
+            niveau = offre.get("niveau", "non_specifie")
+            niveau_labels = {
+                "junior": ("Junior", "#28a745", "#d4edda"),
+                "non_specifie": ("Tous niveaux", "#6c757d", "#e9ecef"),
+                "mid": ("Intermédiaire", "#fd7e14", "#fff3cd"),
+                "senior": ("Senior", "#dc3545", "#f8d7da"),
+            }
+            niv_label, niv_color, niv_bg = niveau_labels.get(niveau, ("?", "#6c757d", "#e9ecef"))
 
             html += f"""
             <div class="offre">
@@ -222,6 +234,7 @@ def generer_html_rapport(offres: list) -> str:
                             <span>🏢 {entreprise or 'N/A'}</span>
                             <span>📍 {localisation or 'Paris'}</span>
                             <span class="source-badge">{source}</span>
+                            <span style="background:{niv_bg};color:{niv_color};padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;">{niv_label}</span>
                         </div>
                     </div>
                     <span class="note {note_class}">{note}/10</span>

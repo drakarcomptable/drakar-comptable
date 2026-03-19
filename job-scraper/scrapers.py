@@ -113,7 +113,10 @@ def scrape_wttj() -> list:
         "customer success manager", "responsable marketing",
         "business intelligence", "contrôleur de gestion",
         "data analyst", "chef de projet", "marketing analyst",
-        "business analyst",
+        "business analyst", "chargé CRM", "content manager",
+        "account manager", "chef de produit", "consultant junior",
+        "chargé de reporting", "operations manager",
+        "chargé relation client", "media planner",
     ]
 
     for term in search_terms:
@@ -181,6 +184,13 @@ def scrape_linkedin_via_google() -> list:
         "site:linkedin.com/jobs Data analyst junior Paris CDI",
         "site:linkedin.com/jobs Chef de projet innovation Paris CDI",
         "site:linkedin.com/jobs Business analyst Paris CDI",
+        "site:linkedin.com/jobs CRM manager Paris CDI",
+        "site:linkedin.com/jobs Account manager junior Paris CDI",
+        "site:linkedin.com/jobs Product manager junior Paris CDI",
+        "site:linkedin.com/jobs Consultant junior Paris CDI",
+        "site:linkedin.com/jobs Chargé de reporting Paris CDI",
+        "site:linkedin.com/jobs Growth marketing Paris CDI",
+        "site:linkedin.com/jobs Revenue operations Paris CDI",
     ]
 
     for query in queries:
@@ -247,6 +257,10 @@ def scrape_france_travail() -> list:
         "site:francetravail.fr contrôleur de gestion Paris CDI",
         "site:francetravail.fr business intelligence Paris CDI",
         "site:francetravail.fr data analyst Paris CDI",
+        "site:francetravail.fr chef de projet marketing Paris CDI",
+        "site:francetravail.fr chargé de relation client Paris CDI",
+        "site:francetravail.fr chargé CRM Paris CDI",
+        "site:francetravail.fr consultant junior Paris CDI",
     ]
 
     for query in queries:
@@ -307,6 +321,10 @@ def scrape_apec() -> list:
         "site:apec.fr contrôleur de gestion Paris CDI",
         "site:apec.fr business intelligence Paris CDI",
         "site:apec.fr chef de projet Paris CDI",
+        "site:apec.fr account manager Paris CDI",
+        "site:apec.fr chargé d'études Paris CDI",
+        "site:apec.fr analyste financier junior Paris CDI",
+        "site:apec.fr consultant junior Paris CDI",
     ]
 
     for query in queries:
@@ -367,6 +385,9 @@ def scrape_hellowork() -> list:
         "site:hellowork.com contrôleur de gestion Paris CDI",
         "site:hellowork.com data analyst Paris CDI",
         "site:hellowork.com business analyst Paris CDI",
+        "site:hellowork.com account manager Paris CDI",
+        "site:hellowork.com chef de projet digital Paris CDI",
+        "site:hellowork.com chargé CRM Paris CDI",
     ]
 
     for query in queries:
@@ -428,6 +449,12 @@ def scrape_google_jobs() -> list:
         "Contrôleur de gestion CDI Paris offre",
         "Data analyst junior CDI Paris emploi",
         "Chef de projet marketing CDI Paris recrutement",
+        "Consultant junior management CDI Paris emploi",
+        "Product manager junior CDI Paris recrutement",
+        "Account manager junior CDI Paris emploi",
+        "CRM manager CDI Paris offre emploi",
+        "Revenue operations CDI Paris emploi",
+        "Chargé d'études CDI Paris recrutement",
     ]
 
     for query in queries:
