@@ -1,0 +1,20 @@
+{
+  "name": "drakar-prospect-mailing",
+  "version": "1.0.0",
+  "description": "Agent autonome d'envoi de courriers personnalisés aux prospects via La Poste e-poste",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "import": "node index.js --step import",
+    "addresses": "node index.js --step addresses",
+    "letters": "node index.js --step letters",
+    "send": "node index.js --step send",
+    "dry-run": "node index.js --dry-run",
+    "setup": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "docx": "^9.1.0",
+    "playwright": "^1.49.0"
+  }
+}

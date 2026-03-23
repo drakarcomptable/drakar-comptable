@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Prospect mailing — données sensibles
+prospect-mailing/.env
+prospect-mailing/output/
+prospect-mailing/node_modules/
