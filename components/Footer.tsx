@@ -52,19 +52,25 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-brand-orange mb-8">Siège Social</h3>
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 text-brand-orange shrink-0" />
-                <span className="text-slate-400 font-medium text-sm leading-relaxed">10 RUE DE PENTHIEVRE,<br />75008 PARIS</span>
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-brand-orange mb-8">Nos Agences</h3>
+            <ul className="space-y-4 mb-8">
+              <li><Link to="/expert-comptable-caen" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Expert-comptable Caen</Link></li>
+              <li><Link to="/expert-comptable-rouen" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Expert-comptable Rouen</Link></li>
+              <li><Link to="/agences" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Toutes nos agences →</Link></li>
+            </ul>
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-brand-orange mb-6">Contact</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-brand-orange shrink-0 mt-0.5" />
+                <span className="text-slate-400 font-medium text-sm leading-relaxed">10 Rue de Penthièvre,<br />75008 Paris</span>
               </li>
-              <li className="flex items-center gap-4">
-                <Phone className="w-6 h-6 text-brand-orange shrink-0" />
-                <span className="text-slate-400 font-bold text-sm">06 11 01 25 59</span>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-brand-orange shrink-0" />
+                <a href="tel:+33611012559" className="text-slate-400 font-bold text-sm hover:text-white transition-colors">06 11 01 25 59</a>
               </li>
-              <li className="flex items-center gap-4">
-                <Mail className="w-6 h-6 text-brand-orange shrink-0" />
-                <span className="text-slate-400 font-bold text-sm">contact@drakarexpertcomptable.fr</span>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-brand-orange shrink-0" />
+                <a href="mailto:contact@drakarexpertcomptable.fr" className="text-slate-400 font-bold text-sm hover:text-white transition-colors">contact@drakarexpertcomptable.fr</a>
               </li>
             </ul>
           </div>
