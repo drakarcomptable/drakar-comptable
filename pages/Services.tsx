@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, CheckCircle, Zap, Ship } from 'lucide-react';
-import { SERVICE_CATEGORIES } from '../constants';
+import { SEO_SERVICES } from '../constants';
 
 const Services: React.FC = () => {
   return (
@@ -12,30 +12,30 @@ const Services: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-8">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-blue tracking-tighter leading-tight">Nos Expertises</h1>
           <p className="text-xl text-slate-600 font-medium leading-relaxed">
-            Drakar a structuré son accompagnement autour de 5 briques stratégiques souveraines. Sélectionnez un pôle pour découvrir nos solutions.
+            Le cabinet Drakar vous accompagne sur l'ensemble des leviers de votre entreprise. Sélectionnez une expertise pour découvrir nos missions en détail.
           </p>
         </div>
 
-        {/* Services Grid */}
+        {/* Services Grid — 8 services SEO */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {SERVICE_CATEGORIES.map((category) => (
-            <Link 
-              key={category.id} 
-              to={`/expertises/${category.slug}`}
+          {SEO_SERVICES.map((service) => (
+            <Link
+              key={service.id}
+              to={service.to}
               className="bg-white rounded-[40px] p-10 shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 flex flex-col group relative overflow-hidden h-full"
             >
-              <div className="relative z-10">
+              <div className="relative z-10 flex flex-col h-full">
                 <div className="w-16 h-16 bg-brand-slate rounded-2xl flex items-center justify-center text-brand-orange mb-8 group-hover:bg-brand-orange group-hover:text-white transition-all">
-                  {category.icon}
+                  {service.icon}
                 </div>
-                <h3 className="text-3xl font-black text-brand-blue mb-4 leading-tight tracking-tight group-hover:text-brand-orange transition-colors">
-                  {category.title}
+                <h3 className="text-2xl font-black text-brand-blue mb-4 leading-tight tracking-tight group-hover:text-brand-orange transition-colors">
+                  {service.title}
                 </h3>
-                <p className="text-slate-400 text-xs font-black uppercase tracking-widest mb-6">
-                  {category.subServices.length} sous-services disponibles
+                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 flex-grow">
+                  {service.description}
                 </p>
                 <div className="flex items-center gap-2 text-brand-orange font-black text-sm uppercase tracking-widest mt-auto">
-                  Consulter le pôle <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                  En savoir plus <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </div>
               </div>
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
@@ -56,11 +56,11 @@ const Services: React.FC = () => {
               Transformez votre gestion en levier de réussite.
             </h2>
             <p className="text-xl lg:text-2xl text-white/90 font-medium leading-relaxed mb-12 max-w-2xl">
-              L’expertise comptable n’est que le début. Nos experts Drakar fusionnent conseil financier, social et juridique pour sécuriser votre croissance.
+              L'expertise comptable n'est que le début. Nos experts Drakar fusionnent conseil financier, social et juridique pour sécuriser votre croissance.
             </p>
             <div className="flex flex-wrap gap-6 items-center">
-              <Link 
-                to="/contact" 
+              <Link
+                to="/contact"
                 className="bg-brand-blue text-white px-10 py-6 rounded-2xl font-black text-xl hover:bg-brand-blue-light transition-all shadow-2xl flex items-center gap-4 group active:scale-95"
               >
                 Prendre rendez-vous <Calendar className="w-6 h-6 group-hover:rotate-12 transition-transform" />

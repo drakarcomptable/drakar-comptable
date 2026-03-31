@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, Star, TrendingUp, Ship, Cpu, Briefcase, Building2, Utensils, Scale, Activity, Globe, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
-import { SERVICE_CATEGORIES, FEATURES } from '../constants';
+import { SEO_SERVICES, FEATURES } from '../constants';
 import SolutionVisual from '../components/SolutionVisual';
 
 const LogoItem: React.FC<{ icon: any; name: string }> = ({ icon: Icon, name }) => (
@@ -12,16 +12,16 @@ const LogoItem: React.FC<{ icon: any; name: string }> = ({ icon: Icon, name }) =
   </div>
 );
 
-const ExpertiseBubble: React.FC<{ category: any }> = ({ category }) => (
-  <Link 
-    to={`/expertises/${category.slug}`} 
+const ExpertiseBubble: React.FC<{ service: any }> = ({ service }) => (
+  <Link
+    to={service.to}
     className="flex-shrink-0 w-[280px] sm:w-[450px] snap-center bg-brand-blue-light/40 backdrop-blur-sm p-8 sm:p-14 rounded-[40px] sm:rounded-[60px] border border-white/5 hover:border-brand-orange hover:bg-brand-blue-light transition-all duration-500 group flex flex-col items-center text-center"
   >
     <div className="w-16 h-16 sm:w-24 h-24 bg-white/5 rounded-full flex items-center justify-center text-brand-orange mb-6 sm:mb-10 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all shadow-2xl">
-      {React.cloneElement(category.icon as React.ReactElement<any>, { className: "w-7 h-7 sm:w-10 h-10" })}
+      {React.cloneElement(service.icon as React.ReactElement<any>, { className: "w-7 h-7 sm:w-10 h-10" })}
     </div>
     <h3 className="text-base sm:text-lg font-black text-white mb-4 sm:mb-6 tracking-tight group-hover:text-brand-orange transition-colors whitespace-normal leading-tight">
-      {category.title}
+      {service.shortTitle}
     </h3>
     <p className="text-slate-500 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] mb-6 sm:mb-8">Pôle Expertise Drakar</p>
     <div className="flex items-center gap-3 text-brand-orange font-black text-[9px] sm:text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
@@ -234,8 +234,8 @@ const Home: React.FC = () => {
           >
             {/* Espacement initial mobile pour centrer le début */}
             <div className="flex-shrink-0 w-0 sm:hidden"></div>
-            {SERVICE_CATEGORIES.map((category) => (
-              <ExpertiseBubble key={category.id} category={category} />
+            {SEO_SERVICES.map((service) => (
+              <ExpertiseBubble key={service.id} service={service} />
             ))}
             <div className="flex-shrink-0 w-6 sm:hidden"></div>
           </div>

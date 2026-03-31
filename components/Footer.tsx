@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Ship, Mail, Phone, MapPin, Linkedin } from 'lucide-react';
-import { SERVICE_CATEGORIES } from '../constants';
+import { SEO_SERVICES } from '../constants';
 
 const Footer: React.FC = () => {
   return (
@@ -41,10 +41,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-brand-orange mb-8">Nos Expertises</h3>
             <ul className="space-y-4">
-              {SERVICE_CATEGORIES.map((cat) => (
-                <li key={cat.id}>
-                  <Link to={`/expertises/${cat.slug}`} className="text-slate-300 font-bold hover:text-white transition-colors text-sm">
-                    {cat.title}
+              {SEO_SERVICES.map((service) => (
+                <li key={service.id}>
+                  <Link to={service.to} className="text-slate-300 font-bold hover:text-white transition-colors text-sm">
+                    {service.shortTitle}
                   </Link>
                 </li>
               ))}
@@ -56,6 +56,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-4 mb-8">
               <li><Link to="/expert-comptable-caen" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Expert-comptable Caen</Link></li>
               <li><Link to="/expert-comptable-rouen" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Expert-comptable Rouen</Link></li>
+              <li><Link to="/expert-comptable-le-havre" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Expert-comptable Le Havre</Link></li>
               <li><Link to="/agences" className="text-slate-300 font-bold hover:text-white transition-colors text-sm">Toutes nos agences →</Link></li>
             </ul>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-brand-orange mb-6">Contact</h3>

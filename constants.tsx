@@ -84,6 +84,92 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
   }
 ];
 
+// Liste des 8 services SEO pour la page Expertises, le footer et la Home
+export interface SEOServiceLink {
+  id: string;
+  slug: string;
+  title: string;
+  shortTitle: string;
+  description: string;
+  to: string;
+  icon: React.ReactNode;
+}
+
+export const SEO_SERVICES: SEOServiceLink[] = [
+  {
+    id: 'comptabilite',
+    slug: 'comptabilite',
+    title: 'Tenue de comptabilité & Bilan',
+    shortTitle: 'Comptabilité & Bilan',
+    description: 'Saisie comptable, bilan annuel, liasse fiscale et déclarations de TVA. Vos comptes toujours à jour grâce à nos outils digitaux.',
+    to: '/comptabilite',
+    icon: <BarChart3 className="w-6 h-6" />
+  },
+  {
+    id: 'fiscalite',
+    slug: 'fiscalite',
+    title: 'Conseil fiscal & Optimisation',
+    shortTitle: 'Fiscalité',
+    description: 'Choix du régime, crédits d\'impôt, optimisation de la rémunération du dirigeant. Payez le juste impôt.',
+    to: '/fiscalite',
+    icon: <FileText className="w-6 h-6" />
+  },
+  {
+    id: 'conseil-gestion',
+    slug: 'conseil-gestion',
+    title: 'Conseil en gestion & Pilotage',
+    shortTitle: 'Conseil en gestion',
+    description: 'Tableaux de bord, analyse de rentabilité, budget prévisionnel et gestion de trésorerie pour piloter votre PME.',
+    to: '/conseil-gestion',
+    icon: <PieChart className="w-6 h-6" />
+  },
+  {
+    id: 'gestion-sociale-paie',
+    slug: 'gestion-sociale-paie',
+    title: 'Gestion sociale & Paie',
+    shortTitle: 'Social & Paie',
+    description: 'Bulletins de paie, DSN, contrats de travail et conseil en droit social. Conformité garantie avec Silae.',
+    to: '/gestion-sociale-paie',
+    icon: <Users className="w-6 h-6" />
+  },
+  {
+    id: 'conseil-juridique',
+    slug: 'conseil-juridique',
+    title: 'Accompagnement juridique',
+    shortTitle: 'Juridique',
+    description: 'Rédaction de statuts, assemblées générales, cessions de parts, transfert de siège et modifications statutaires.',
+    to: '/conseil-juridique',
+    icon: <Gavel className="w-6 h-6" />
+  },
+  {
+    id: 'creation-reprise',
+    slug: 'creation-reprise-entreprise',
+    title: 'Création & Reprise d\'entreprise',
+    shortTitle: 'Création d\'entreprise',
+    description: 'Choix du statut juridique, business plan, prévisionnel financier et formalités d\'immatriculation.',
+    to: '/creation-reprise-entreprise',
+    icon: <Briefcase className="w-6 h-6" />
+  },
+  {
+    id: 'gestion-patrimoine',
+    slug: 'gestion-patrimoine',
+    title: 'Gestion de patrimoine',
+    shortTitle: 'Patrimoine',
+    description: 'Holding patrimoniale, SCI, épargne retraite TNS, Pacte Dutreil. Protégez et transmettez votre patrimoine.',
+    to: '/gestion-patrimoine',
+    icon: <ShieldCheck className="w-6 h-6" />
+  },
+  {
+    id: 'commissariat-aux-comptes',
+    slug: 'commissariat-aux-comptes',
+    title: 'Commissariat aux comptes',
+    shortTitle: 'Commissariat aux comptes',
+    description: 'Certification légale ou contractuelle, audit des comptes annuels, due diligence et audit d\'acquisition.',
+    to: '/commissariat-aux-comptes',
+    icon: <TrendingUp className="w-6 h-6" />
+  }
+];
+
 export const FEATURES: Feature[] = [
   {
     title: 'Rigueur & Souveraineté',
