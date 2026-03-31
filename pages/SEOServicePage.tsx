@@ -62,7 +62,7 @@ const SEOServicePage: React.FC = () => {
           Le service demand&eacute; n'existe pas ou a &eacute;t&eacute; d&eacute;plac&eacute;.
         </p>
         <Link
-          to="/services"
+          to="/expertises"
           className="text-brand-orange font-bold inline-flex items-center gap-2 hover:underline"
         >
           <ArrowRight className="w-4 h-4" />
@@ -85,8 +85,8 @@ const SEOServicePage: React.FC = () => {
             Accueil
           </Link>
           <ChevronRight className="w-3 h-3" />
-          <Link to="/services" className="hover:text-brand-orange transition-colors">
-            Services
+          <Link to="/expertises" className="hover:text-brand-orange transition-colors">
+            Expertises
           </Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-brand-blue">{data.h1}</span>
