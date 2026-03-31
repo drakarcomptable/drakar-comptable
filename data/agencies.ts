@@ -4,7 +4,7 @@ import { RegionData, Agency } from '../types';
 export const REGIONS_DATA: RegionData[] = [
   {
     name: "Normandie",
-    cities: ["Caen", "Rouen"]
+    cities: ["Caen", "Rouen", "Le Havre"]
   }
 ];
 
@@ -237,5 +237,92 @@ export const AGENCY_CONTENT: Record<string, AgencyContent> = {
     ],
     ctaTitle: "Contactez votre expert-comptable à Rouen",
     ctaDescription: "Envie d'être accompagné par un cabinet d'expertise comptable à Rouen qui comprend votre activité et s'engage à vos côtés ? Contactez Drakar pour un premier échange gratuit et sans engagement."
+  },
+
+  "expert-comptable-le-havre": {
+    metaTitle: "Expert-Comptable au Havre | Cabinet Drakar — Devis Gratuit",
+    metaDescription: "Cabinet Drakar, expert-comptable au Havre et en Seine-Maritime. Comptabilité, fiscalité, paie et conseil pour TPE, PME, indépendants et entreprises portuaires. Devis gratuit.",
+    heroTitle: "Votre cabinet d'expert-comptable au Havre",
+    heroSubtitle: "Vous cherchez un expert-comptable au Havre pour piloter la gestion financière de votre entreprise avec rigueur et sérénité ? Le cabinet Drakar Expert Comptable, inscrit à l'Ordre des experts-comptables, accompagne les entrepreneurs, TPE et PME de Seine-Maritime et du littoral normand depuis la création de leur activité jusqu'à leur développement. Commerce maritime, BTP, services, professions libérales ou startups : nous mettons notre expertise comptable, fiscale et juridique à votre service, où que vous en soyez dans votre parcours d'entrepreneur.",
+    whyChooseUs: {
+      intro: "Travailler avec un cabinet de proximité, c'est s'assurer d'un interlocuteur qui comprend les réalités économiques havraises et qui s'engage sur la durée à vos côtés. Voici ce qui nous différencie :",
+      points: [
+        {
+          title: "Une approche personnalisée",
+          description: "Auto-entrepreneur, artisan, commerçant, profession libérale ou dirigeant de PME — nous construisons nos missions autour de votre activité réelle, pas d'un modèle standard."
+        },
+        {
+          title: "Une expertise pluridisciplinaire",
+          description: "Comptabilité, fiscalité, droit social, juridique et conseil en gestion. Un seul interlocuteur pour toutes les dimensions de votre entreprise."
+        },
+        {
+          title: "Disponibilité et réactivité",
+          description: "Basés au Havre, nous répondons rapidement à vos questions et vous accompagnons dans les moments décisifs, en présentiel ou à distance."
+        },
+        {
+          title: "Des outils numériques performants",
+          description: "Accédez à votre comptabilité en temps réel, échangez vos documents en ligne et suivez vos indicateurs financiers à tout moment."
+        }
+      ]
+    },
+    missions: [
+      {
+        title: "Création et reprise d'entreprise",
+        description: "Vous souhaitez lancer votre projet dans le bassin havrais ou reprendre une affaire existante ? Nous intervenons dès le départ : choix de la forme juridique (SAS, SARL, EURL, micro-entreprise…), élaboration du business plan, prévisionnel financier et stratégie fiscale optimisée dès le lancement. En cas de reprise, nous réalisons un audit d'acquisition complet, incluant la valorisation de l'entreprise cible."
+      },
+      {
+        title: "Tenue de comptabilité et établissement du bilan",
+        description: "Nous prenons en charge l'ensemble de votre comptabilité : enregistrement des opérations, rapprochement bancaire, établissement du bilan et du compte de résultat, liasse fiscale et déclarations de TVA. Nos outils digitaux vous permettent de consulter vos comptes en ligne et de nous transmettre vos pièces comptables sans contrainte."
+      },
+      {
+        title: "Conseil fiscal et optimisation",
+        description: "Votre expert-comptable au Havre analyse votre situation fiscale pour identifier les leviers d'optimisation adaptés : choix du régime d'imposition, utilisation des crédits d'impôt disponibles, arbitrage dividendes/salaire, optimisation de la rémunération du dirigeant. L'objectif est simple : payer le juste impôt, sans surprise."
+      },
+      {
+        title: "Gestion sociale et paie",
+        description: "Bulletins de paie, déclarations sociales nominatives (DSN), gestion des contrats de travail et des mouvements de personnel, conseil en droit social : Drakar sécurise vos obligations RH et vous accompagne dans le respect du cadre légal, quelle que soit la taille de votre équipe."
+      },
+      {
+        title: "Accompagnement juridique",
+        description: "Rédaction ou modification de statuts, tenue des assemblées générales, approbation des comptes, transfert de siège social, augmentation de capital : notre cabinet vous assiste dans l'ensemble de vos formalités juridiques courantes, avec rigueur et efficacité."
+      }
+    ],
+    clientele: {
+      intro: "Le cabinet Drakar intervient auprès d'une clientèle diversifiée sur Le Havre et en Seine-Maritime :",
+      types: [
+        "Créateurs et repreneurs d'entreprise",
+        "Acteurs du commerce maritime, logistique et transport",
+        "Artisans, commerçants et restaurateurs",
+        "Professions libérales (médecins, avocats, consultants, architectes…)",
+        "Freelances, prestataires de services et entreprises du numérique",
+        "TPE et PME tous secteurs (BTP, immobilier, industrie, tech…)",
+        "Investisseurs immobiliers (SCI, LMNP)"
+      ],
+      outro: "Quel que soit votre statut — SARL, SAS, EURL, micro-entreprise, BNC, BIC — nous adaptons nos prestations à votre profil et à vos enjeux."
+    },
+    localSection: {
+      title: "Drakar : un cabinet implanté au cœur du territoire havrais",
+      description: "Le Havre, deuxième port de commerce de France et ville récompensée au patrimoine mondial de l'UNESCO pour son architecture d'après-guerre, est un territoire économique à part entière. Son port autonome, ses zones d'activité industrielle, sa tradition commerciale et son université font du Havre un écosystème entrepreneurial riche et diversifié. En choisissant Drakar comme partenaire comptable, vous bénéficiez d'un cabinet qui comprend les spécificités de ce tissu économique local : les contraintes des entreprises portuaires et logistiques, les dispositifs d'aides en Seine-Maritime, les opportunités liées aux pôles de compétitivité régionaux. Nous travaillons en lien avec les acteurs du territoire — CCI Seine-Estuaire, CMA Normandie, structures d'accompagnement à la création — pour vous orienter vers les bons interlocuteurs au bon moment."
+    },
+    faq: [
+      {
+        question: "Quel est le tarif d'un expert-comptable au Havre ?",
+        answer: "Les honoraires dépendent de la taille de l'entreprise, du volume d'opérations et des missions confiées. Pour une TPE, une mission complète (comptabilité, fiscalité, social) représente généralement entre 100 et 500 € HT par mois. Chez Drakar, nous établissons un devis personnalisé et transparent, sans engagement. Contactez-nous pour une estimation gratuite."
+      },
+      {
+        question: "Comment trouver un bon expert-comptable au Havre ?",
+        answer: "Vérifiez son inscription à l'Ordre des experts-comptables, son expérience dans votre secteur et sa capacité à offrir un suivi réactif et personnalisé. La connaissance du tissu économique local est un atout indéniable. Chez Drakar, nous combinons expertise sectorielle, disponibilité et outils digitaux pour un accompagnement complet."
+      },
+      {
+        question: "Combien coûte l'établissement d'un bilan comptable ?",
+        answer: "Pour une petite structure, l'établissement du bilan représente généralement entre 800 et 2 500 € HT, selon la complexité de l'activité et le nombre de pièces à traiter. Contactez-nous pour un devis adapté à votre situation."
+      },
+      {
+        question: "Quelle est la différence entre un comptable et un expert-comptable ?",
+        answer: "Le comptable prend en charge la saisie et le suivi des opérations courantes. L'expert-comptable, titulaire d'un diplôme d'État et inscrit à l'Ordre, est le seul professionnel légalement habilité à certifier vos comptes. Il apporte également une dimension conseil et d'optimisation fiscale et patrimoniale que le comptable ne peut pas offrir."
+      }
+    ],
+    ctaTitle: "Contactez votre expert-comptable au Havre",
+    ctaDescription: "Vous souhaitez confier la gestion comptable, fiscale et sociale de votre entreprise à un cabinet réactif et de confiance ? Prenez contact avec le cabinet Drakar dès maintenant pour un premier échange gratuit et sans engagement."
   }
 };

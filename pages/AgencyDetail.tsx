@@ -40,6 +40,18 @@ const CITY_SEO: Record<string, {
     crossLinkSlug: 'expert-comptable-caen',
     crossLinkText: "Vous exercez votre activité à Caen ou dans le Calvados ? Découvrez notre cabinet expert-comptable à Caen.",
     trustStats: { clients: '200+', years: '10+', rating: '4.9', reviews: '47' }
+  },
+  'expert-comptable-le-havre': {
+    department: 'Seine-Maritime',
+    postalCode: '76600',
+    streetAddress: '10 Rue de Penthièvre',
+    latitude: 49.4944,
+    longitude: 0.1079,
+    googleMapsEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41289.5!2d0.1!3d49.49!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e02f0b3e7d7f27%3A0x40c14484fbceaf0!2sLe%20Havre!5e0!3m2!1sfr!2sfr!4v1',
+    crossLinkCity: 'Rouen',
+    crossLinkSlug: 'expert-comptable-rouen',
+    crossLinkText: "Vous exercez votre activité à Rouen ou en Seine-Maritime ? Découvrez notre cabinet expert-comptable à Rouen.",
+    trustStats: { clients: '200+', years: '10+', rating: '4.9', reviews: '47' }
   }
 };
 

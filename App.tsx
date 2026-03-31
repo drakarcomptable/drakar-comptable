@@ -12,6 +12,7 @@ import AgencyDetail from './pages/AgencyDetail';
 import MentionsLegales from './pages/MentionsLegales';
 import Confidentialite from './pages/Confidentialite';
 import CGV from './pages/CGV';
+import SEOServicePage from './pages/SEOServicePage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CookieBanner from './components/CookieBanner';
@@ -43,6 +44,14 @@ const App: React.FC = () => {
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/agences" element={<Agencies />} />
+            <Route path="/comptabilite" element={<SEOServicePage />} />
+            <Route path="/fiscalite" element={<SEOServicePage />} />
+            <Route path="/conseil-gestion" element={<SEOServicePage />} />
+            <Route path="/gestion-sociale-paie" element={<SEOServicePage />} />
+            <Route path="/conseil-juridique" element={<SEOServicePage />} />
+            <Route path="/creation-reprise-entreprise" element={<SEOServicePage />} />
+            <Route path="/gestion-patrimoine" element={<SEOServicePage />} />
+            <Route path="/commissariat-aux-comptes" element={<SEOServicePage />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/confidentialite" element={<Confidentialite />} />
             <Route path="/cgv" element={<CGV />} />
