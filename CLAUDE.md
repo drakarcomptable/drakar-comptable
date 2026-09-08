@@ -19,9 +19,10 @@ Au début de chaque session, sans attendre qu'on te le demande :
    Ces fichiers font foi pour la répartition des clients par consultant
    (contrat, échéance, périmètre vendu, engagements, points d'attention).
 
-2. **Charger l'historique des échanges** depuis le Google Doc
-   `Notes Consultants — Suivi points François / Clément`.
-   C'est le seul endroit où les notes sont conservées d'une session à l'autre.
+2. **Charger l'historique des échanges** : le Google Doc index
+   `Notes Consultants — Suivi points François / Clément`, plus les comptes rendus
+   datés `Point consultant — <PRÉNOM> — JJ/MM/AAAA` du même dossier Drive.
+   Compléter avec les notes déjà présentes sur les fiches entreprise HubSpot.
 
 3. **Afficher la liste des clients par consultant** (nom + échéance + point ouvert éventuel),
    puis demander par quel consultant on commence.
@@ -30,9 +31,17 @@ Au début de chaque session, sans attendre qu'on te le demande :
    ouvert issu de la note précédente et poser la question de suivi correspondante,
    plutôt que de repartir de zéro.
 
-5. **Écrire les notes au fil de l'eau** dans le Google Doc ci-dessus, au format
-   `[JJ/MM/AAAA] — Sujet — Décision / action — Prochaine échéance`,
-   et mettre à jour la ligne « Points ouverts » du client concerné.
+5. **Écrire les notes dans les deux destinations**, systématiquement :
+   - **Drive** : un compte rendu daté par point, nommé
+     `Point consultant — <PRÉNOM> — JJ/MM/AAAA` (synthèse, actions, points à
+     redemander au prochain point).
+   - **HubSpot** : une note par client, rattachée à sa fiche entreprise, préfixée
+     `Point consultant JJ/MM/AAAA (<PRÉNOM>)`. Demander validation avant d'écrire
+     dans le CRM, sauf si l'utilisateur a levé les confirmations pour la session.
+
+   > Limite connue : le connecteur Google Drive ne sait que **créer** un fichier,
+   > pas modifier le contenu d'un document existant. D'où un document daté par
+   > point plutôt qu'un document maître que l'on complèterait.
 
 ### Sources complémentaires
 
@@ -53,3 +62,7 @@ Au début de chaque session, sans attendre qu'on te le demande :
   dans ce dépôt : elles restent dans Drive / HubSpot / PandaDoc.
 - En cas d'écart entre MRR Pilot, HubSpot et les fichiers de suivi, signaler l'écart
   au lieu de trancher seul.
+- Un client sans fiche entreprise HubSpot dédiée : rattacher la note à la fiche du
+  groupe et le signaler, ne pas créer de fiche sans validation.
+- Toute sortie client annoncée en point consultant doit être répercutée dans
+  MRR Pilot et vérifiée contre le préavis contractuel du devis PandaDoc.
