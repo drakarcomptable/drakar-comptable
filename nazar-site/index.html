@@ -27,6 +27,8 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html,body{overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
 body{margin:0;background:var(--ice);color:var(--ink);font-family:var(--sans);font-size:16px;
   line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:-.01em}
 img{max-width:100%;display:block}
@@ -215,50 +217,68 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .ocenter img{width:52%;height:52%;object-fit:contain}
 @media(max-width:880px){.orbit-wrap{grid-template-columns:1fr}.otile .nm{display:none}}
 
-/* rapport */
-.showhead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:end}
-.showhead h2{max-width:16ch}
-.tabs{display:flex;flex-wrap:wrap;gap:clamp(10px,1.6vw,22px);justify-content:flex-end}
-.tab{display:inline-flex;align-items:center;gap:8px;background:none;border:0;cursor:pointer;padding:.3rem 0;
-  font-family:var(--sans);font-size:.92rem;font-weight:500;color:var(--dim);transition:color .3s}
-.tab i{width:8px;height:8px;border-radius:50%;background:rgba(223,242,249,.25);transition:background .3s,box-shadow .3s}
-.tab.on{color:#fff}
-.tab.on i{background:var(--acc);box-shadow:0 0 0 4px rgba(127,216,238,.18)}
-.show{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
-  gap:clamp(26px,4vw,62px);align-items:center;margin-top:clamp(30px,4vw,54px)}
-.pane{min-width:0}
-.pane .kk{font-size:.88rem;font-weight:700;color:var(--acc);margin-bottom:12px}
-.pane h3{margin-bottom:18px}
-.vs{display:flex;flex-direction:column;gap:14px}
-.vs .hd{display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700}
-.vs .us .hd{color:var(--acc)}.vs .them .hd{color:var(--dim)}
-.vs .hd svg{width:13px;height:13px}
-.vs p{font-size:.97rem;line-height:1.5;max-width:42ch;margin-top:7px}
-.vs .them p{color:var(--dim)}
-.vs .line{height:1px;background:rgba(223,242,249,.12)}
-.card-n{background:var(--night-2);border-radius:20px;padding:clamp(20px,2.4vw,30px);
-  min-height:330px;min-width:0;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(223,242,249,.07)}
-.card-n .cap{font-size:.92rem;color:var(--dim);padding-bottom:16px;border-bottom:1px solid rgba(223,242,249,.1)}
-.big-n{font-size:clamp(2.5rem,5vw,3.6rem);font-weight:800;letter-spacing:-.05em;line-height:1;
-  margin-top:26px;display:flex;align-items:baseline;gap:12px;color:#fff}
-.big-n em{font-style:normal;font-size:.26em;font-weight:600;color:#3ddc97}
-.brows{display:flex;flex-direction:column;gap:16px;margin-top:auto;padding-top:24px}
-.brow{display:flex;align-items:center;gap:clamp(10px,1.6vw,20px);font-size:.94rem}
-.brow .nm{flex:none;width:clamp(96px,11vw,150px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.brow .bar{flex:1;height:6px;border-radius:99px;background:rgba(223,242,249,.1);overflow:hidden;min-width:0}
-.brow .bar i{display:block;height:100%;width:0;border-radius:99px;
-  background:linear-gradient(90deg,var(--acc),#4fb9d6);transition:width .9s cubic-bezier(.22,1,.36,1)}
-.brow .vl{flex:none;font-weight:700;font-variant-numeric:tabular-nums;min-width:58px;text-align:right}
-.lrow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;
-  border-bottom:1px solid rgba(223,242,249,.08);font-size:.97rem}
-.lrow:last-child{border-bottom:0}
-.lrow .rt{display:flex;align-items:center;gap:12px;flex:none}
-.lrow b{font-variant-numeric:tabular-nums}
-.chip2{font-size:.72rem;font-weight:600;border-radius:7px;padding:.2rem .5rem}
-.chip2.hi{background:rgba(255,138,110,.16);color:#ff9b7e}
-.chip2.md{background:rgba(255,216,110,.14);color:#e8c46a}
-.chip2.lo{background:rgba(223,242,249,.1);color:var(--dim)}
-@media(max-width:940px){.showhead{grid-template-columns:1fr}.tabs{justify-content:flex-start}.show{grid-template-columns:1fr}}
+/* plateforme */
+.apgrid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:clamp(30px,4.6vw,70px);align-items:center}
+.apcopy{min-width:0}
+.apcopy h2{max-width:14ch}
+.aplede{font-size:1.04rem;line-height:1.62;margin-top:18px;max-width:46ch;color:var(--on-night);opacity:.86}
+.aplist{display:flex;flex-direction:column;gap:18px;margin-top:clamp(22px,2.6vw,32px)}
+.apitem{display:flex;gap:14px;align-items:flex-start}
+.apic{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(127,216,238,.14);color:var(--acc)}
+.apic svg{width:17px;height:17px}
+.apitem b{display:block;color:#fff;font-size:1rem;margin-bottom:3px}
+.apitem p{font-size:.96rem;line-height:1.52;color:var(--on-night);opacity:.76;max-width:40ch}
+.apcopy .btn{margin-top:clamp(24px,2.8vw,34px)}
+
+.apwrap{perspective:1500px;min-width:0}
+.apwin{background:#fff;color:var(--ink);border-radius:20px;overflow:hidden;max-width:100%;
+  box-shadow:0 46px 92px -42px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.09);
+  transform:rotateY(-7deg) rotateX(2deg);animation:apfloat 9s ease-in-out infinite;
+  transition:transform .65s cubic-bezier(.22,1,.36,1)}
+.apwrap:hover .apwin{transform:rotateY(0deg) rotateX(0deg)}
+@keyframes apfloat{0%,100%{translate:0 0}50%{translate:0 -11px}}
+.apbar{display:flex;align-items:center;gap:8px;padding:10px 13px;
+  background:#eef7fb;border-bottom:1px solid rgba(0,67,88,.08)}
+.apbar .tl{display:flex;gap:6px}
+.apbar .tl i{width:9px;height:9px;border-radius:50%;background:rgba(0,67,88,.17)}
+.apurl{flex:1;text-align:center;font-family:var(--mono);font-size:.66rem;color:var(--steel)}
+.apbody{display:grid;grid-template-columns:148px minmax(0,1fr)}
+.apside{display:flex;flex-direction:column;gap:3px;padding:14px 10px;
+  background:#f6fbfd;border-right:1px solid rgba(0,67,88,.07)}
+.apmod{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:9px;
+  font-size:.8rem;font-weight:500;color:var(--steel);white-space:nowrap}
+.apmod i{width:7px;height:7px;border-radius:2px;background:rgba(68,121,138,.32);flex:none}
+.apmod.on{background:var(--ice);color:var(--ink);font-weight:700}
+.apmod.on i{background:var(--ink)}
+.apmain{padding:clamp(14px,1.7vw,20px);display:flex;flex-direction:column;gap:13px;min-width:0}
+.apdoc{border:1px solid rgba(0,67,88,.1);border-radius:13px;padding:14px 16px}
+.apdoc .ti{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:13px;line-height:1.35}
+.apdoc .ln{display:block;height:7px;border-radius:99px;background:rgba(0,67,88,.1);margin-bottom:8px}
+.apdoc .ln:last-child{margin-bottom:0}
+.apdoc .w1{width:100%}.apdoc .w2{width:88%}.apdoc .w3{width:95%}.apdoc .w4{width:58%}
+.apdoc .hl{background:rgba(127,216,238,.45)}
+.apsc{border-radius:13px;padding:14px 16px;background:var(--ice)}
+.apsc .hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  font-size:.82rem;font-weight:600;color:var(--ink-2)}
+.apsc .hd b{font-size:1.65rem;font-weight:800;letter-spacing:-.045em;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1}
+.apsc .pb{height:7px;border-radius:99px;background:rgba(0,67,88,.13);margin:10px 0 13px;overflow:hidden}
+.apsc .pb i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--steel),var(--acc));transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+.apsc ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;
+  font-size:.8rem;color:var(--ink-2)}
+.apsc li{display:flex;align-items:center;gap:8px}
+.apsc li::before{content:"";flex:none;width:13px;height:13px;border-radius:50%;background:rgba(0,67,88,.14)}
+.apsc li.ok::before{background:#3ddc97}
+.apsc li.todo::before{background:#e8c46a}
+@media(max-width:940px){.apgrid{grid-template-columns:minmax(0,1fr)}
+  .apwrap{perspective:none}.apwin{transform:none;animation:none}}
+@media(max-width:560px){.apbody{grid-template-columns:minmax(0,1fr)}
+  .apside{flex-direction:row;min-width:0;overflow-x:auto;scrollbar-width:none;
+    border-right:0;border-bottom:1px solid rgba(0,67,88,.07)}
+  .apside::-webkit-scrollbar{display:none}}
 
 /* parcours */
 .flow{position:relative;padding-block:clamp(58px,6.8vw,96px)}
@@ -403,7 +423,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   <div class="nav">
     <a class="brand" href="#top" aria-label="Nazar, accueil"><img src="logo.png" alt="Nazar"></a>
     <a class="nl" href="#surfaces">Les moteurs</a>
-    <a class="nl" href="#rapport">Le rapport</a>
+    <a class="nl" href="#plateforme">La plateforme</a>
     <a class="nl" href="#audit">L'audit</a>
     <a class="nl" href="#consultant">Votre consultant</a>
     <a class="nl" href="#cas">Résultats</a>
@@ -479,18 +499,67 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
 </section>
 
-<!-- RAPPORT -->
-<section class="night sec" id="rapport">
-  <div class="rail">
-    <div class="showhead">
-      <div>
-        <h2 class="rv">Qui l'IA recommande à vos clients, <em>à votre place</em></h2>
+<!-- PLATEFORME -->
+<section class="night sec" id="plateforme">
+  <div class="rail apgrid">
+    <div class="apcopy">
+      <h2 class="rv">Vos contenus sortent <em>déjà optimisés</em></h2>
+      <p class="aplede rv d1">Nous ouvrons notre plateforme à vos équipes. Vous écrivez vos pages, l'outil montre en direct ce qui manque pour être repris par Google et cité par les IA, et vous suivez vos positions dans les réponses semaine après semaine.</p>
+      <div class="aplist">
+        <div class="apitem rv d1">
+          <span class="apic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="3"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2"/></svg></span>
+          <div><b>Une page, deux moteurs</b>
+            <p>Le même contenu travaille pour le référencement Google et pour la lecture des modèles. Pas deux chantiers séparés.</p></div>
+        </div>
+        <div class="apitem rv d2">
+          <span class="apic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c0-6 4-11 10-12 1 7-3 11-9 12z"/><path d="M3 17l5-5"/></svg></span>
+          <div><b>Vous gardez la main</b>
+            <p>Vos équipes rédigent et publient quand elles veulent. Plus besoin de nous écrire pour mettre une page en ligne.</p></div>
+        </div>
+        <div class="apitem rv d2">
+          <span class="apic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5l1.9 4.6 4.6 1.9-4.6 1.9L10 15.5 8.1 10.9 3.5 9l4.6-1.9z"/><path d="M16 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg></span>
+          <div><b>Une techno AI first</b>
+            <p>Les recommandations viennent de ce que les IA citent réellement sur votre marché, pas d'une liste de mots-clés.</p></div>
+        </div>
       </div>
-      <div class="tabs rv d2" id="tabs" role="tablist"></div>
+      <a class="btn btn-white rv d2" href="#rdv">Demander une démo
+        <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
     </div>
-    <div class="show">
-      <div class="pane" id="pane"></div>
-      <div class="card-n" id="cardn"></div>
+
+    <div class="apwrap rv d2">
+      <div class="apwin">
+        <div class="apbar">
+          <span class="tl" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="apurl">plateforme nazar / éditeur</span>
+        </div>
+        <div class="apbody">
+          <nav class="apside" aria-label="Modules de la plateforme">
+            <span class="apmod on"><i></i>Éditeur</span>
+            <span class="apmod"><i></i>Positions IA</span>
+            <span class="apmod"><i></i>Concurrents</span>
+            <span class="apmod"><i></i>Socle technique</span>
+          </nav>
+          <div class="apmain">
+            <div class="apdoc">
+              <div class="ti">Comment choisir une ESN pour un projet data</div>
+              <span class="ln w1"></span>
+              <span class="ln w2 hl"></span>
+              <span class="ln w3"></span>
+              <span class="ln w1"></span>
+              <span class="ln w4"></span>
+            </div>
+            <div class="apsc">
+              <div class="hd"><span>Score GEO</span><b id="apScore">0</b></div>
+              <div class="pb"><i id="apBar"></i></div>
+              <ul>
+                <li class="ok">Question d'achat traitée dès l'intro</li>
+                <li class="ok">Chiffres citables et datés</li>
+                <li class="todo">Ajouter un comparatif chiffré</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -603,7 +672,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         <div class="fbrand"><img src="logo.png" alt="Nazar"></div>
         <p style="margin-top:12px;max-width:28ch">Collectif de consultants en référencement sur Google et sur les IA génératives.</p>
       </div>
-      <div><h4>L'agence</h4><a href="#consultant">Votre consultant</a><a href="#cas">Résultats</a><a href="#rapport">Le rapport du lundi</a></div>
+      <div><h4>L'agence</h4><a href="#consultant">Votre consultant</a><a href="#cas">Résultats</a><a href="#plateforme">La plateforme</a></div>
       <div><h4>L'audit</h4><a href="#surfaces">Les moteurs couverts</a><a href="#audit">Comment ça marche</a><a href="#rdv">Demander l'audit</a></div>
       <div>
         <h4>Contact</h4>
@@ -673,7 +742,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 
   /* amorces de section */
   (function(){
-    var MAP = { surfaces:'radar', ecosysteme:'orbit', rapport:'report',
+    var MAP = { surfaces:'radar', ecosysteme:'orbit',
                 audit:'spark', consultant:'person', cas:'trend' };
     document.querySelectorAll('[data-ic]').forEach(function(el){
       var key = el.getAttribute('data-ic');
@@ -843,68 +912,30 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     } else run();
   })();
 
-  /* ---------- onglets rapport ---------- */
+  /* ---------- plateforme ---------- */
   (function(){
-    var TABS = [
-      { t:'Part de voix', kk:'Part de voix', h:'Qui l’IA nomme à votre place',
-        us:'Un pourcentage daté, relevé sur vos prompts, comparé à vos cinq concurrents.',
-        them:'Un rapport de positions Google qui ne dit rien des réponses générées.',
-        cap:'Part de voix sur 120 prompts d’achat', big:['31 %','+27 pts'],
-        bars:[['Votre marque',31],['Concurrent A',24],['Concurrent B',18],['Concurrent C',11]] },
-      { t:'Questions d’achat', kk:'Questions d’achat', h:'Les phrases qui déclenchent un achat',
-        us:'La liste réelle des questions posées par vos acheteurs, classées par valeur.',
-        them:'Une liste de mots-clés sortie d’un outil, sans intention ni contexte.',
-        cap:'Questions les plus lucratives détectées',
-        rows:[['« meilleure agence pour… »','1,2K','hi'],['« X ou Y, lequel choisir »','840','md'],
-              ['« combien coûte… »','610','md'],['« alternative à… »','430','lo']] },
-      { t:'Concurrents cités', kk:'Concurrents cités', h:'Là où vous perdez la réponse',
-        us:'Le nom exact de qui passe devant, et la phrase qui l’a fait choisir.',
-        them:'Un classement générique du secteur, jamais rattaché à une réponse.',
-        cap:'Citations captées par vos concurrents',
-        bars:[['Concurrent A',68],['Concurrent B',54],['Concurrent C',37],['Votre marque',19]] },
-      { t:'Sources reprises', kk:'Sources reprises', h:'Ce que les modèles lisent vraiment',
-        us:'Les pages, annuaires et articles que l’IA cite, donc ceux sur lesquels agir.',
-        them:'Un audit technique qui s’arrête au sitemap.',
-        cap:'Sources reprises dans les réponses',
-        rows:[['Comparatifs sectoriels','41 %','hi'],['Annuaires métier','28 %','md'],
-              ['Presse spécialisée','19 %','md'],['Votre site','12 %','lo']] }
-    ];
-    var tabsHost = document.getElementById('tabs'), pane = document.getElementById('pane'), cardn = document.getElementById('cardn');
-    tabsHost.innerHTML = TABS.map(function(x,i){
-      return '<button class="tab'+(i===0?' on':'')+'" type="button" role="tab"><i></i>'+x.t+'</button>';
-    }).join('');
-    var tabEls = [].slice.call(tabsHost.children);
-    function render(i){
-      var T = TABS[i];
-      tabEls.forEach(function(b,j){ b.classList.toggle('on', i===j); });
-      pane.innerHTML = '<div class="kk">'+T.kk+'</div><h3>'+T.h+'</h3><div class="vs">'+
-        '<div class="us"><span class="hd"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5 6.5 12 13 4.5"/></svg>Nazar</span><p>'+T.us+'</p></div>'+
-        '<div class="line"></div>'+
-        '<div class="them"><span class="hd"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4l8 8M12 4l-8 8"/></svg>Les autres</span><p>'+T.them+'</p></div></div>';
-      var h = '<div class="cap">'+T.cap+'</div>';
-      if(T.big) h += '<div class="big-n">'+T.big[0]+'<em>'+T.big[1]+'</em></div>';
-      if(T.bars) h += '<div class="brows">'+T.bars.map(function(b){
-        return '<div class="brow"><span class="nm">'+b[0]+'</span><span class="bar"><i data-w="'+b[1]+'"></i></span><span class="vl">'+b[1]+' %</span></div>';
-      }).join('')+'</div>';
-      if(T.rows) h += '<div style="margin-top:22px">'+T.rows.map(function(r){
-        return '<div class="lrow"><span>'+r[0]+'</span><span class="rt"><b>'+r[1]+'</b><span class="chip2 '+r[2]+'">'+
-          (r[2]==='hi'?'Élevé':r[2]==='md'?'Moyen':'Faible')+'</span></span></div>';
-      }).join('')+'</div>';
-      cardn.innerHTML = h;
-      requestAnimationFrame(function(){
-        cardn.querySelectorAll('.bar i').forEach(function(el){ el.style.width = el.getAttribute('data-w')+'%'; });
+    var bar = document.getElementById('apBar'), num = document.getElementById('apScore'),
+        host = document.getElementById('plateforme');
+    if(!bar || !num || !host) return;
+    var CIBLE = 78, raf = 0;
+    if(reduce){ bar.style.transition = 'none'; bar.style.width = CIBLE+'%'; num.textContent = CIBLE; return; }
+    function joue(){
+      bar.style.width = CIBLE+'%';
+      var t0 = 0;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function pas(ts){
+        if(!t0) t0 = ts;
+        var k = Math.min((ts - t0)/1400, 1);
+        num.textContent = Math.round(CIBLE * (1 - Math.pow(1 - k, 3)));
+        if(k < 1) raf = requestAnimationFrame(pas);
       });
     }
-    render(0);
-    var cur = 0, auto = 0;
-    tabEls.forEach(function(b,i){ b.addEventListener('click', function(){ cur = i; render(i); clearInterval(auto); auto = 0; }); });
-    if(!reduce && 'IntersectionObserver' in window){
+    function remise(){ cancelAnimationFrame(raf); bar.style.width = '0%'; num.textContent = '0'; }
+    if('IntersectionObserver' in window){
       new IntersectionObserver(function(en){
-        if(en[0].isIntersecting && !auto){
-          auto = setInterval(function(){ if(document.hidden) return; cur = (cur+1)%TABS.length; render(cur); }, 4200);
-        } else if(!en[0].isIntersecting && auto){ clearInterval(auto); auto = 0; }
-      },{threshold:.3}).observe(document.getElementById('rapport'));
-    }
+        if(en[0].isIntersecting) joue(); else remise();
+      },{threshold:.35}).observe(host);
+    } else { joue(); }
   })();
 
   /* ---------- parcours ---------- */
