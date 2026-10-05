@@ -122,13 +122,18 @@ rien : ça change seulement les requêtes sur lesquelles il peut remonter.
 
 ## 8. Logos et contenus manquants
 
-- [ ] **Logo Whentocop** : la carte et la page de mission s'affichent sans
-      logo. Le fichier blanc du Drive est celui de **Kairntech**, pas de
-      Whentocop.
+- [x] **Logo Whentocop** : reçu et intégré, passé en blanc pour le voile.
 - [ ] **Kairntech** est un vrai client (18 000 € de deals gagnés) et son logo
       blanc est disponible. À ajouter au bandeau si tu veux.
 - [ ] **Business IoT** : deux lignes sur leur activité réelle. La page ne dit
       aujourd'hui que ce qui est vérifiable.
 - [ ] **Whentocop** : idem, deux lignes sur leur positionnement.
-- [ ] **Avis client Business IoT** : remplacerait le témoignage encore fictif
-      de la section consultant.
+- [x] **Témoignage** : signé Isabelle Cosijnse, Chief Marketing Officer de
+      Business IoT, avec sa photo.
+- [ ] **Faire valider le texte du témoignage par Isabelle Cosijnse.** La
+      citation affichée est celle rédigée en interne, pas une phrase qu'elle
+      a écrite. Son nom et sa photo y sont associés : il lui faut un accord
+      écrit sur le libellé exact.
+- [ ] **Confirmer « premier échange de 9 minutes »** au-dessus du
+      formulaire. C'est le chiffre dicté, mais il détonne avec les trente
+      minutes évoquées plus tôt.

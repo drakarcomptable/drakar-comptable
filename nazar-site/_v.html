@@ -347,7 +347,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
   min-width:0;box-shadow:0 30px 64px -44px rgba(0,0,0,.9);
   transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s}
 .mcard:hover{transform:translateY(-8px);box-shadow:0 44px 80px -44px rgba(0,0,0,.95)}
-.mcard .vis{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--night-3)}
+.mcard .vis{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--night-3);
+  display:grid;place-items:center}
 .mcard .vis>img{width:100%;height:100%;object-fit:cover;display:block;
   transition:transform .6s cubic-bezier(.22,1,.36,1)}
 .mcard:hover .vis>img{transform:scale(1.045)}
@@ -357,12 +358,10 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .mcard .kd{position:absolute;top:12px;left:12px;z-index:3;background:var(--acc);color:var(--night);
   border-radius:7px;padding:.26rem .62rem;font-size:.7rem;font-weight:800;
   letter-spacing:.05em;text-transform:uppercase}
-.mcard .clg{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
-  padding:0 14%;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.mcard .clg{position:relative;z-index:3;width:78%;display:grid;place-items:center;
+  transition:transform .5s cubic-bezier(.22,1,.36,1)}
 .mcard:hover .clg{transform:scale(1.06)}
-.mcard .clg img{width:100%;height:auto;max-height:clamp(40px,4.4vw,56px);object-fit:contain}
-.mcard .clg img.plaque{background:#fff;border-radius:10px;padding:9px 13px;
-  max-height:clamp(46px,5vw,62px);box-shadow:0 10px 26px -16px rgba(0,0,0,.8)}
+.mcard .clg img{height:auto;width:100%;max-height:clamp(42px,4.6vw,60px);object-fit:contain}
 .mcard .bd{padding:clamp(16px,1.6vw,20px) clamp(16px,1.6vw,20px) clamp(18px,1.9vw,22px);color:var(--ink)}
 .mcard .ti{font-size:clamp(1.7rem,2.6vw,2.25rem);font-weight:800;letter-spacing:-.05em;line-height:1.02}
 .mcard .ti span{color:var(--steel)}
@@ -468,6 +467,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   .anim .rv{opacity:1;transform:none}
 }
 </style>
+<style>.rv{opacity:1!important;transform:none!important}.crow{animation:none!important}</style>
 </head>
 <body>
 
@@ -1284,7 +1284,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
       {kd:'Agence',     ph:'cas-02.webp', lg:'cas-logo-02.svg',  nm:'Slidor',
        ti:'Top <span>1</span>',
        sb:'sur « agence powerpoint », repris en un mois de mission et tenu depuis un an.'},
-      {kd:'IoT B2B',    ph:'cas-03.webp', lg:'cas-logo-03.webp', nm:'Business IoT', pl:1,
+      {kd:'IoT B2B',    ph:'cas-03.webp', lg:'cas-logo-03.webp', nm:'Business IoT',
        ti:'9 <span>RDV</span>',
        sb:'générés chaque mois en moyenne, sur des paniers moyens à 32 000 €.'},
       {kd:'E-commerce', ph:'cas-04.webp', lg:'cas-logo-04.webp', nm:'Whentocop',
@@ -1299,7 +1299,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
           '<img src="'+c.ph+'" alt="" loading="lazy">' +
           '<span class="veil"></span>' +
           '<span class="kd">'+c.kd+'</span>' +
-          '<span class="clg"><img class="'+(c.pl?'plaque':'')+'" src="'+c.lg+'" alt="'+c.nm+'"></span>' +
+          '<span class="clg"><img src="'+c.lg+'" alt="'+c.nm+'"></span>' +
         '</div>' +
         '<div class="bd">' +
           '<div class="ti">'+c.ti+'</div>' +
@@ -1366,5 +1366,5 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 })();
 </script>
 
-</body>
+<script>addEventListener('load',function(){setTimeout(function(){var c=document.getElementById('cas').getBoundingClientRect();var k=document.getElementById('consultant').getBoundingClientRect();var r=document.getElementById('rdv').getBoundingClientRect();var im=[].slice.call(document.querySelectorAll('.mcard img, .qav img'));var ko=im.filter(function(e){return !(e.complete&&e.naturalWidth>0)});document.title='V|cas'+Math.round(c.top+scrollY)+'/'+Math.round(c.height)+'|cons'+Math.round(k.top+scrollY)+'/'+Math.round(k.height)+'|rdv'+Math.round(r.top+scrollY)+'|img'+im.length+'|ko'+ko.length+(ko[0]?':'+ko[0].getAttribute('src'):'')+'|doc'+document.documentElement.scrollWidth;},2600)});</script></body>
 </html>
