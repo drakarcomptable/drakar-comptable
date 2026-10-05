@@ -187,8 +187,18 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .sf h3{font-size:.99rem;font-weight:700;letter-spacing:-.025em;color:#fff}
 .sf p{font-size:.86rem;color:var(--dim);margin-top:7px;line-height:1.45}
 @media(max-width:1180px){.grid9{grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.5vw,18px)}}
-@media(max-width:620px){.grid9{grid-template-columns:1fr}}
-@media(max-width:560px){.grid9{grid-template-columns:1fr}}
+/* sur mobile la grille tient en trois colonnes : tuiles resserrees, logo plus petit,
+   et le dixieme moteur occupe la ligne qui reste pour ne pas finir orphelin. */
+@media(max-width:620px){
+  .grid9{grid-template-columns:repeat(3,1fr);gap:8px;margin-top:26px}
+  .sf{padding:12px 9px 13px;border-radius:13px}
+  .sf .top{margin-bottom:9px}
+  .sf .lg{width:30px;height:30px;border-radius:9px}
+  .sf .lg svg{width:18px;height:18px}
+  .sf h3{font-size:.76rem;line-height:1.18;letter-spacing:-.03em}
+  .sf p{font-size:.68rem;line-height:1.34;margin-top:5px}
+  .grid9 .sf:last-child{grid-column:span 3}
+}
 
 /* orbite */
 .orbit-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
