@@ -370,15 +370,18 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 @media(max-width:1060px){.mcards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.mcards{grid-template-columns:1fr}}
 
-.pill9{display:inline-flex;align-items:center;gap:10px;border-radius:999px;
-  padding:.5rem 1.05rem .5rem .72rem;background:#fff;color:var(--ink);font-size:.92rem;font-weight:700;
+.pill9{display:inline-flex;align-items:center;gap:11px;border-radius:999px;
+  padding:.38rem 1.15rem .38rem .4rem;background:#fff;color:var(--ink);font-size:.95rem;font-weight:700;
   box-shadow:0 0 0 1px rgba(0,67,88,.1),0 16px 34px -22px rgba(0,67,88,.8);
   animation:pillflot 4.2s ease-in-out infinite}
-.pill9 i{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;
-  background:var(--ice);position:relative}
-.pill9 i::after{content:"";position:absolute;inset:-4px;border-radius:50%;
+.pill9 i{width:40px;height:40px;border-radius:50%;flex:none;position:relative;
+  background:var(--ice);overflow:visible}
+.pill9 i img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.pill9 i::before{content:"";position:absolute;right:1px;bottom:1px;width:10px;height:10px;
+  border-radius:50%;background:#3ddc97;box-shadow:0 0 0 2.5px #fff;z-index:2}
+.pill9 i::after{content:"";position:absolute;inset:-5px;border-radius:50%;
   border:2px solid var(--acc);opacity:0;animation:pillonde 2.4s ease-out infinite}
-.pill9 i svg{width:14px;height:14px;color:var(--ink)}
+.pill9 .qui{font-weight:500;color:var(--steel)}
 @keyframes pillflot{0%,100%{translate:0 0}50%{translate:0 -6px}}
 @keyframes pillonde{0%{opacity:.85;transform:scale(.72)}70%{opacity:0;transform:scale(1.35)}100%{opacity:0}}
 
@@ -669,7 +672,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <section class="cta" id="rdv">
   <div class="trame" aria-hidden="true"><span></span><span class="s2"></span></div>
   <div class="rail inner">
-    <span class="pill9 rv"><i aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.6V8l2.4 1.5"/></svg></i>Premier échange de 9 minutes</span>
+    <span class="pill9 rv"><i><img src="hote-mael.webp" width="200" height="200" loading="lazy" alt="Maël, consultant NAZAR"></i>Premier échange de 9 minutes <span class="qui">avec Maël</span></span>
     <h2>Échangeons sur ce que les IA disent <em>de votre marché</em></h2>
     <p class="sub">Nous analysons vos concurrents, nous cherchons pourquoi votre site ne ressort pas dans les réponses des IA, et nous chiffrons ce qu'un référencement sur les moteurs génératifs peut vous rapporter.</p>
     <div class="formwrap">
