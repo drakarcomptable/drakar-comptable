@@ -383,6 +383,11 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
   border:2px solid var(--acc);opacity:0;animation:pillonde 2.4s ease-out infinite}
 .pill9 .qui{font-weight:500;color:var(--steel)}
 @keyframes pillflot{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@media(max-width:560px){
+  .pill9{font-size:.8rem;gap:9px;padding:.32rem .85rem .32rem .32rem}
+  .pill9 i{width:34px;height:34px}
+  .pill9 i::before{width:9px;height:9px}
+}
 @keyframes pillonde{0%{opacity:.85;transform:scale(.72)}70%{opacity:0;transform:scale(1.35)}100%{opacity:0}}
 
 /* faq */
@@ -672,7 +677,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <section class="cta" id="rdv">
   <div class="trame" aria-hidden="true"><span></span><span class="s2"></span></div>
   <div class="rail inner">
-    <span class="pill9 rv"><i><img src="hote-mael.webp" width="200" height="200" loading="lazy" alt="Maël, consultant NAZAR"></i>Premier échange de 9 minutes <span class="qui">avec Maël</span></span>
+    <span class="pill9 rv"><i><img src="hote-mael.webp" width="200" height="200" decoding="async" alt="Maël, consultant NAZAR"></i>Premier échange de 9 minutes <span class="qui">avec Maël</span></span>
     <h2>Échangeons sur ce que les IA disent <em>de votre marché</em></h2>
     <p class="sub">Nous analysons vos concurrents, nous cherchons pourquoi votre site ne ressort pas dans les réponses des IA, et nous chiffrons ce qu'un référencement sur les moteurs génératifs peut vous rapporter.</p>
     <div class="formwrap">
@@ -960,7 +965,9 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     var row = document.getElementById('crow');
     if(!row || !CLIENTS.length) return;
     var one = CLIENTS.map(function(c){
-      return '<img class="'+(c.c||'')+'" src="'+c.f+'" alt="'+c.n+'" loading="lazy">';
+      // pas de chargement differe ici : le defilement du bandeau se fait par transformation,
+      // ce qui ne declenche jamais le chargement des logos places hors de l'ecran a droite.
+      return '<img class="'+(c.c||'')+'" src="'+c.f+'" alt="'+c.n+'" decoding="async">';
     }).join('');
     // on repete la serie jusqu'a couvrir largement l'ecran, puis on la double pour la boucle
     var reps = 1;
@@ -1199,7 +1206,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   /* ---------- parcours ---------- */
   (function(){
     var STEPS = [
-      ['01','On échange ?','Trente minutes, sans engagement.','Compte rendu de cadrage'],
+      ['01','On échange ?','Neuf minutes, sans engagement.','Compte rendu de cadrage'],
       ['02','On audite','Cinquante questions, dix moteurs.','Relevé daté'],
       ['03','On vous le présente','Ce que l’IA répond, et pourquoi.','Restitution de 45 min'],
       ['04','Vous recevez votre audit','Potentiel chiffré et priorités.','Votre plan d’action']
