@@ -1,0 +1,5 @@
+# Les logos clients ne sont pas bloques ici volontairement :
+# Google doit pouvoir les telecharger pour lire l'en-tete
+# X-Robots-Tag: noindex qui les sort de Google Images (voir vercel.json).
+User-agent: *
+Allow: /
