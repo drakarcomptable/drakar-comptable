@@ -145,8 +145,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 
 /* logos clients */
 .clients{background:#fff;padding-block:clamp(30px,3.4vw,48px);overflow:hidden}
-.clabel{text-align:center;font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--steel);margin-bottom:clamp(20px,2.4vw,32px)}
+.clabel{text-align:center;font-size:clamp(1.05rem,1.7vw,1.35rem);font-weight:700;
+  letter-spacing:-.022em;word-spacing:.06em;color:var(--ink);margin:0 0 clamp(24px,2.8vw,36px)}
 .cmar{position:relative;overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
@@ -221,7 +221,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .apgrid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
   gap:clamp(30px,4.6vw,70px);align-items:center}
 .apcopy{min-width:0}
-.apcopy h2{max-width:14ch}
+.apcopy h2{max-width:17ch}
 .aplede{font-size:1.04rem;line-height:1.62;margin-top:18px;max-width:46ch;color:var(--on-night);opacity:.86}
 .aplist{display:flex;flex-direction:column;gap:18px;margin-top:clamp(22px,2.6vw,32px)}
 .apitem{display:flex;gap:14px;align-items:flex-start}
@@ -252,13 +252,22 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .apmod i{width:7px;height:7px;border-radius:2px;background:rgba(68,121,138,.32);flex:none}
 .apmod.on{background:var(--ice);color:var(--ink);font-weight:700}
 .apmod.on i{background:var(--ink)}
-.apmain{padding:clamp(14px,1.7vw,20px);display:flex;flex-direction:column;gap:13px;min-width:0}
+.apmain{padding:clamp(14px,1.7vw,20px);display:flex;flex-direction:column;gap:12px;min-width:0}
+.apq{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 10px;align-items:center;
+  border:1px solid rgba(0,67,88,.1);border-radius:13px;padding:11px 14px}
+.apq .lb{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--steel)}
+.apq .qv{grid-column:1/-1;min-width:0;font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.35}
+.apq .tg{justify-self:end;font-size:.67rem;font-weight:700;border-radius:7px;padding:.24rem .52rem;
+  background:rgba(127,216,238,.34);color:var(--ink);white-space:nowrap}
+.pop{animation:appop .45s cubic-bezier(.22,1.2,.4,1) both}
+@keyframes appop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .apdoc{border:1px solid rgba(0,67,88,.1);border-radius:13px;padding:14px 16px}
 .apdoc .ti{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:13px;line-height:1.35}
-.apdoc .ln{display:block;height:7px;border-radius:99px;background:rgba(0,67,88,.1);margin-bottom:8px}
+.apdoc .ln{display:block;height:7px;width:0;border-radius:99px;background:rgba(0,67,88,.1);
+  margin-bottom:8px;transition:width .55s cubic-bezier(.22,1,.36,1)}
 .apdoc .ln:last-child{margin-bottom:0}
-.apdoc .w1{width:100%}.apdoc .w2{width:88%}.apdoc .w3{width:95%}.apdoc .w4{width:58%}
-.apdoc .hl{background:rgba(127,216,238,.45)}
+.apdoc .ln.hl{background:rgba(127,216,238,.55)}
 .apsc{border-radius:13px;padding:14px 16px;background:var(--ice)}
 .apsc .hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
   font-size:.82rem;font-weight:600;color:var(--ink-2)}
@@ -269,7 +278,9 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
   background:linear-gradient(90deg,var(--steel),var(--acc));transition:width 1.4s cubic-bezier(.22,1,.36,1)}
 .apsc ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;
   font-size:.8rem;color:var(--ink-2)}
-.apsc li{display:flex;align-items:center;gap:8px}
+.apsc li{display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(5px);
+  transition:opacity .42s ease,transform .42s cubic-bezier(.22,1,.36,1)}
+.apsc li.in{opacity:1;transform:none}
 .apsc li::before{content:"";flex:none;width:13px;height:13px;border-radius:50%;background:rgba(0,67,88,.14)}
 .apsc li.ok::before{background:#3ddc97}
 .apsc li.todo::before{background:#e8c46a}
@@ -314,6 +325,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .frame{position:relative;border-radius:18px;overflow:hidden;max-width:430px;background:#8c8c8c;
   box-shadow:0 44px 84px -50px rgba(0,67,88,.7)}
 .frame img{width:100%;height:auto;display:block;aspect-ratio:4/5;object-fit:cover}
+.coll{font-size:1rem;line-height:1.55;color:var(--ink-2);margin-top:16px;max-width:52ch}
+.coll b{color:var(--ink);font-weight:700}
 .team p.bd{font-size:1.04rem;line-height:1.62;color:var(--ink-2);margin-top:18px;max-width:52ch}
 .quote{margin:clamp(26px,3vw,36px) 0 0;display:flex;gap:clamp(16px,2vw,22px);align-items:flex-start;
   background:#fff;border-radius:22px;padding:clamp(20px,2.4vw,28px);max-width:56ch;
@@ -503,23 +516,23 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <section class="night sec" id="plateforme">
   <div class="rail apgrid">
     <div class="apcopy">
-      <h2 class="rv">Vos contenus sortent <em>déjà optimisés</em></h2>
-      <p class="aplede rv d1">Nous ouvrons notre plateforme à vos équipes. Vous écrivez vos pages, l'outil montre en direct ce qui manque pour être repris par Google et cité par les IA, et vous suivez vos positions dans les réponses semaine après semaine.</p>
+      <h2 class="rv">Testez notre outil de contenu <em>optimisé pour les LLM</em></h2>
+      <p class="aplede rv d1">Vous donnez une requête. La plateforme identifie l'intention de recherche derrière, propose le plan qui y répond et contrôle en direct que le texte est repris par Google et cité par les IA.</p>
       <div class="aplist">
         <div class="apitem rv d1">
           <span class="apic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="3"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2"/></svg></span>
-          <div><b>Une page, deux moteurs</b>
-            <p>Le même contenu travaille pour le référencement Google et pour la lecture des modèles. Pas deux chantiers séparés.</p></div>
+          <div><b>Part de l'intention, pas du mot-clé</b>
+            <p>L'outil lit la question réelle derrière la requête et impose le plan qui y répond vraiment.</p></div>
         </div>
         <div class="apitem rv d2">
           <span class="apic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c0-6 4-11 10-12 1 7-3 11-9 12z"/><path d="M3 17l5-5"/></svg></span>
-          <div><b>Vous gardez la main</b>
-            <p>Vos équipes rédigent et publient quand elles veulent. Plus besoin de nous écrire pour mettre une page en ligne.</p></div>
+          <div><b>Écrit pour être cité</b>
+            <p>Chaque section est contrôlée sur ce que les modèles reprennent : réponse directe, chiffres datés, sources vérifiables.</p></div>
         </div>
         <div class="apitem rv d2">
           <span class="apic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5l1.9 4.6 4.6 1.9-4.6 1.9L10 15.5 8.1 10.9 3.5 9l4.6-1.9z"/><path d="M16 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg></span>
-          <div><b>Une techno AI first</b>
-            <p>Les recommandations viennent de ce que les IA citent réellement sur votre marché, pas d'une liste de mots-clés.</p></div>
+          <div><b>Vos équipes gardent la main</b>
+            <p>Elles rédigent et publient quand elles veulent, avec un outil nourri par ce que les IA citent sur votre marché.</p></div>
         </div>
       </div>
       <a class="btn btn-white rv d2" href="#rdv">Demander une démo
@@ -535,27 +548,28 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         <div class="apbody">
           <nav class="apside" aria-label="Modules de la plateforme">
             <span class="apmod on"><i></i>Éditeur</span>
+            <span class="apmod"><i></i>Intentions</span>
             <span class="apmod"><i></i>Positions IA</span>
             <span class="apmod"><i></i>Concurrents</span>
-            <span class="apmod"><i></i>Socle technique</span>
           </nav>
           <div class="apmain">
+            <div class="apq">
+              <span class="lb">Requête</span>
+              <span class="qv" id="apQ"></span>
+              <span class="tg" id="apI"></span>
+            </div>
             <div class="apdoc">
-              <div class="ti">Comment choisir une ESN pour un projet data</div>
-              <span class="ln w1"></span>
-              <span class="ln w2 hl"></span>
-              <span class="ln w3"></span>
-              <span class="ln w1"></span>
-              <span class="ln w4"></span>
+              <div class="ti" id="apT"></div>
+              <span class="ln"></span>
+              <span class="ln hl"></span>
+              <span class="ln"></span>
+              <span class="ln"></span>
+              <span class="ln"></span>
             </div>
             <div class="apsc">
               <div class="hd"><span>Score GEO</span><b id="apScore">0</b></div>
               <div class="pb"><i id="apBar"></i></div>
-              <ul>
-                <li class="ok">Question d'achat traitée dès l'intro</li>
-                <li class="ok">Chiffres citables et datés</li>
-                <li class="todo">Ajouter un comparatif chiffré</li>
-              </ul>
+              <ul id="apL"></ul>
             </div>
           </div>
         </div>
@@ -586,6 +600,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     <div>
       <h2 class="rv d1" style="margin-top:18px">Un consultant <em>dédié à votre projet</em></h2>
       <p class="bd rv d1">Vous ne parlez pas à un compte, vous parlez à quelqu'un. La même personne relève vos moteurs chaque semaine, rédige vos contenus, corrige votre socle technique et présente vos résultats. Pas de sous-traitance, pas de passage de dossier, pas de rapport automatique envoyé sans lecture.</p>
+      <p class="coll rv d2"><b>NAZAR est un collectif de consultants SEO.</b> Notre métier n'a pas changé : vous faire ressortir quand quelqu'un cherche ce que vous vendez. Sur Google, et désormais dans les réponses des IA.</p>
       <figure class="quote rv d2">
         <div class="qav" aria-hidden="true">PN</div>
         <div class="qbody">
@@ -914,28 +929,105 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 
   /* ---------- plateforme ---------- */
   (function(){
-    var bar = document.getElementById('apBar'), num = document.getElementById('apScore'),
-        host = document.getElementById('plateforme');
-    if(!bar || !num || !host) return;
-    var CIBLE = 78, raf = 0;
-    if(reduce){ bar.style.transition = 'none'; bar.style.width = CIBLE+'%'; num.textContent = CIBLE; return; }
-    function joue(){
-      bar.style.width = CIBLE+'%';
-      var t0 = 0;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(function pas(ts){
-        if(!t0) t0 = ts;
-        var k = Math.min((ts - t0)/1400, 1);
-        num.textContent = Math.round(CIBLE * (1 - Math.pow(1 - k, 3)));
-        if(k < 1) raf = requestAnimationFrame(pas);
-      });
+    var host = document.getElementById('plateforme');
+    var q = document.getElementById('apQ'), ic = document.getElementById('apI'),
+        ti = document.getElementById('apT'), bar = document.getElementById('apBar'),
+        num = document.getElementById('apScore'), list = document.getElementById('apL');
+    if(!host || !q || !ic || !ti || !bar || !num || !list) return;
+    var lignes = [].slice.call(host.querySelectorAll('.apdoc .ln'));
+    var LARG = [100, 88, 95, 92, 58];
+
+    var CAS = [
+      { q:'meilleure agence de communication B2B à Lyon',
+        i:'Intention : comparatif',
+        t:'Agences de communication B2B à Lyon : comment choisir',
+        n:84,
+        c:[['ok','Réponse directe dès la première ligne'],
+           ['ok','Critères de choix comparés'],
+           ['todo','Ajouter les tarifs constatés']] },
+      { q:'ESN qui propose des profils data en régie',
+        i:'Intention : prestataire',
+        t:'Profils data en régie : ce qu\'il faut vérifier',
+        n:79,
+        c:[['ok','Délais et TJM chiffrés'],
+           ['ok','Cas clients datés et citables'],
+           ['todo','Préciser les certifications']] },
+      { q:'logiciel de gestion de flotte pour PME',
+        i:'Intention : achat',
+        t:'Gestion de flotte pour PME : le comparatif',
+        n:91,
+        c:[['ok','Tableau comparatif repris par les IA'],
+           ['ok','Prix et conditions explicites'],
+           ['ok','Sources et dates vérifiables']] }
+    ];
+
+    function puces(cas){
+      list.innerHTML = cas.c.map(function(x){
+        return '<li class="'+x[0]+'">'+x[1]+'</li>';
+      }).join('');
+      return [].slice.call(list.children);
     }
-    function remise(){ cancelAnimationFrame(raf); bar.style.width = '0%'; num.textContent = '0'; }
+    function fige(cas){
+      q.textContent = cas.q; ic.textContent = cas.i; ti.textContent = cas.t;
+      lignes.forEach(function(el,k){ el.style.width = LARG[k]+'%'; });
+      bar.style.width = cas.n+'%'; num.textContent = cas.n;
+      puces(cas).forEach(function(li){ li.classList.add('in'); });
+    }
+
+    if(reduce){ fige(CAS[0]); return; }
+
+    var idx = 0, tms = [], actif = false;
+    function stop(){ tms.forEach(clearTimeout); tms = []; }
+    function plus_tard(ms, fn){ tms.push(setTimeout(fn, ms)); }
+
+    function compte(cible){
+      var N = 26;
+      for(var k = 1; k <= N; k++){
+        (function(k){
+          plus_tard(k*46, function(){
+            num.textContent = Math.round(cible * (1 - Math.pow(1 - k/N, 3)));
+          });
+        })(k);
+      }
+    }
+    function anime(el){ el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+
+    function cycle(){
+      if(!actif) return;
+      stop();
+      var cas = CAS[idx];
+      lignes.forEach(function(el){ el.style.width = '0%'; });
+      bar.style.width = '0%'; num.textContent = '0';
+      ic.style.visibility = 'hidden'; ti.style.visibility = 'hidden';
+      var puce = puces(cas);
+
+      q.textContent = cas.q; anime(q);
+      plus_tard(420, function(){ ic.textContent = cas.i; ic.style.visibility = ''; anime(ic); });
+      plus_tard(900, function(){ ti.textContent = cas.t; ti.style.visibility = ''; anime(ti); });
+      lignes.forEach(function(el,k){
+        plus_tard(1250 + k*200, function(){ el.style.width = LARG[k]+'%'; });
+      });
+      plus_tard(2500, function(){ bar.style.width = cas.n+'%'; });
+      plus_tard(2560, function(){ compte(cas.n); });
+      puce.forEach(function(li,k){
+        plus_tard(2900 + k*380, function(){ li.classList.add('in'); });
+      });
+      plus_tard(7600, function(){ idx = (idx+1) % CAS.length; cycle(); });
+    }
+
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ actif = false; stop(); }
+      else if(vu){ actif = true; cycle(); }
+    });
+
+    var vu = false;
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(en){
-        if(en[0].isIntersecting) joue(); else remise();
-      },{threshold:.35}).observe(host);
-    } else { joue(); }
+        vu = en[0].isIntersecting;
+        if(vu && !document.hidden){ actif = true; cycle(); }
+        else { actif = false; stop(); }
+      },{threshold:.3}).observe(host);
+    } else { vu = true; actif = true; cycle(); }
   })();
 
   /* ---------- parcours ---------- */
