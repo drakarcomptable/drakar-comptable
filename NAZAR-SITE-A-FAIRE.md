@@ -1,6 +1,6 @@
 # Site NAZAR — ce qui reste à faire côté Brice
 
-Dernière mise à jour : 5 octobre 2026
+Dernière mise à jour : 5 octobre 2026 (seconde passe)
 Code : branche `claude/youthful-dirac-hq8gun`, dossier `nazar-site/`
 Aperçu : https://claude.ai/artifact/HFyoqgEKaM4RhSLbNaRFb1
 
@@ -89,3 +89,46 @@ rien : ça change seulement les requêtes sur lesquelles il peut remonter.
       À nettoyer : le statut ne veut plus rien dire en l'état.
 - [ ] **La fiche `idun-group.com` n'a pas de nom renseigné**, alors que
       c'est le plus gros effectif du portefeuille (494 salariés).
+
+---
+
+## 6. Brancher le formulaire, l'email et le téléphone
+
+- [ ] **Créer le formulaire côté HubSpot** et me donner son identifiant.
+      La page postera dessus directement, sans serveur à maintenir. Je ne
+      peux pas le créer moi-même : le connecteur HubSpot de la session a la
+      lecture mais pas l'écriture sur les formulaires.
+- [ ] **Brancher les notifications Slack** depuis HubSpot, qui a une
+      intégration native. Rien à coder.
+- [ ] **Connecter l'email entrant** `contact@seo-nazar.fr` à HubSpot et à
+      Slack, pour voir arriver les demandes.
+- [ ] **Créer un numéro en 01 renvoyé vers le 07** affiché sur le site,
+      pour recevoir les appels sur une ligne fixe.
+
+---
+
+## 7. À vérifier dans les pages légales
+
+- [ ] **Numéro de TVA** : j'ai écrit `FR17 931 478 812`, calculé à partir du
+      SIREN par l'algorithme officiel. Vérifie-le sur un document comptable.
+- [ ] **Adresse postale et téléphone de l'hébergeur** : les mentions légales
+      citent Vercel Inc. sans adresse complète, puisque l'hébergement n'est
+      pas encore en place. À compléter à la mise en ligne.
+- [ ] **Faire relire la politique de confidentialité**, en particulier la
+      durée de conservation (j'ai mis trois ans après le dernier contact) et
+      la base légale de la prospection. Je ne suis pas juriste.
+
+---
+
+## 8. Logos et contenus manquants
+
+- [ ] **Logo Whentocop** : la carte et la page de mission s'affichent sans
+      logo. Le fichier blanc du Drive est celui de **Kairntech**, pas de
+      Whentocop.
+- [ ] **Kairntech** est un vrai client (18 000 € de deals gagnés) et son logo
+      blanc est disponible. À ajouter au bandeau si tu veux.
+- [ ] **Business IoT** : deux lignes sur leur activité réelle. La page ne dit
+      aujourd'hui que ce qui est vérifiable.
+- [ ] **Whentocop** : idem, deux lignes sur leur positionnement.
+- [ ] **Avis client Business IoT** : remplacerait le témoignage encore fictif
+      de la section consultant.

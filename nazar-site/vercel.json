@@ -3,12 +3,15 @@
   "headers": [
     {
       "source": "/ref-(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, noimageindex, noarchive"
-        }
-      ]
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, noimageindex, noarchive" }]
+    },
+    {
+      "source": "/cas-0(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, noimageindex, noarchive" }]
+    },
+    {
+      "source": "/cas-logo-(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, noimageindex, noarchive" }]
     }
   ]
 }

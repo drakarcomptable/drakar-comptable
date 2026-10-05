@@ -344,24 +344,57 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 @media(max-width:880px){.team{grid-template-columns:1fr}}
 
 /* cas */
-.mcards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,22px);margin-top:clamp(28px,3.6vw,48px)}
-.mcard{background:#fff;border-radius:18px;overflow:hidden;min-width:0;
-  box-shadow:0 30px 64px -44px rgba(0,0,0,.9);transition:transform .4s cubic-bezier(.22,1,.36,1)}
-.mcard:hover{transform:translateY(-8px)}
+.mcards{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(14px,1.8vw,24px);margin-top:clamp(28px,3.6vw,48px)}
+.mcard{display:block;text-decoration:none;color:inherit;background:#fff;border-radius:18px;overflow:hidden;
+  min-width:0;box-shadow:0 30px 64px -44px rgba(0,0,0,.9);
+  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s}
+.mcard:hover{transform:translateY(-8px);box-shadow:0 44px 80px -44px rgba(0,0,0,.95)}
 .mcard .vis{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--night-3)}
-.mcard .vis canvas{width:100%;height:100%;object-fit:cover;display:block;image-rendering:pixelated}
-.mcard .kd{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);color:var(--ink);
-  border-radius:999px;padding:.34rem .8rem;font-size:.78rem;font-weight:600;z-index:2}
-.mcard .bignum{position:absolute;inset:0;display:grid;place-items:center;z-index:1;
-  font-size:clamp(2rem,4vw,2.9rem);font-weight:800;letter-spacing:-.05em;color:#fff;
-  text-shadow:0 6px 30px rgba(0,33,44,.85)}
+.mcard .vis>img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s cubic-bezier(.22,1,.36,1)}
+.mcard:hover .vis>img{transform:scale(1.045)}
+.mcard .veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(0,33,44,.45) 0%,rgba(0,33,44,.68) 52%,rgba(0,33,44,.92) 100%),
+             linear-gradient(90deg,rgba(14,78,98,.5),rgba(0,33,44,.2))}
+.mcard .kd{position:absolute;top:12px;left:12px;z-index:3;background:var(--acc);color:var(--night);
+  border-radius:7px;padding:.26rem .62rem;font-size:.7rem;font-weight:800;
+  letter-spacing:.05em;text-transform:uppercase}
+.mcard .clg{position:absolute;top:14px;right:14px;z-index:3;max-width:44%}
+.mcard .clg img{height:clamp(22px,2.4vw,30px);width:auto;max-width:100%;object-fit:contain;
+  margin-left:auto;display:block}
+.mcard .bignum{position:absolute;left:clamp(14px,1.8vw,20px);bottom:clamp(12px,1.6vw,18px);z-index:3;
+  font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-.05em;line-height:1;color:#fff}
 .mcard .bignum span{color:var(--acc)}
-.mcard .bd{padding:18px 20px 22px;color:var(--ink)}
-.mcard .src{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+.mcard .bd{padding:18px 20px 20px;color:var(--ink)}
+.mcard .src{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--steel);margin-bottom:8px}
-.mcard .ti{font-size:1.04rem;font-weight:700;letter-spacing:-.025em;line-height:1.22}
-.mcard .sb{font-size:.88rem;color:var(--steel);margin-top:6px}
-@media(max-width:900px){.mcards{grid-template-columns:1fr}}
+.mcard .ti{font-size:1.06rem;font-weight:700;letter-spacing:-.025em;line-height:1.24}
+.mcard .sb{font-size:.9rem;color:var(--steel);margin-top:7px;line-height:1.45}
+.mcard .more{display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+  font-size:.86rem;font-weight:700;color:var(--ink)}
+.mcard .more svg{width:14px;height:14px;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.mcard:hover .more svg{transform:translateX(4px)}
+@media(max-width:820px){.mcards{grid-template-columns:1fr}}
+
+/* faq */
+.faq{background:var(--cream);padding-block:clamp(54px,6.4vw,96px)}
+.faq .head{text-align:center;max-width:46ch;margin:0 auto clamp(30px,3.6vw,48px)}
+.faq .head p{margin-top:14px;color:var(--ink-2);font-size:1.02rem;line-height:1.6}
+.faqlist{width:min(780px,100%);margin-inline:auto;display:flex;flex-direction:column;gap:10px}
+.qa{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 18px 44px -38px rgba(0,67,88,.75)}
+.qa summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:14px;
+  padding:clamp(16px,1.9vw,22px) clamp(18px,2.1vw,26px);
+  font-size:clamp(1rem,1.3vw,1.09rem);font-weight:700;letter-spacing:-.022em;color:var(--ink);
+  line-height:1.35;transition:color .25s}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:hover{color:var(--ink-2)}
+.qa summary .pm{flex:none;margin-left:auto;width:24px;height:24px;border-radius:50%;
+  background:var(--ice);display:grid;place-items:center;transition:transform .35s cubic-bezier(.22,1,.36,1),background .25s}
+.qa summary .pm svg{width:12px;height:12px;color:var(--ink)}
+.qa[open] summary .pm{transform:rotate(45deg);background:var(--acc)}
+.qa .ans{padding:0 clamp(18px,2.1vw,26px) clamp(18px,2.1vw,24px);
+  font-size:1rem;line-height:1.66;color:var(--ink-2)}
+.qa .ans i{font-style:italic}
 
 /* cta */
 .cta{position:relative;background:#fff;padding-block:clamp(66px,8vw,116px);overflow:hidden;text-align:center;
@@ -435,10 +468,10 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <header>
   <div class="nav">
     <a class="brand" href="#top" aria-label="Nazar, accueil"><img src="logo.png" alt="Nazar"></a>
-    <a class="nl" href="#surfaces">Les moteurs</a>
-    <a class="nl" href="#plateforme">La plateforme</a>
+    <a class="nl" href="#surfaces">Nos services</a>
+    <a class="nl" href="#plateforme">Notre outil</a>
     <a class="nl" href="#audit">L'audit</a>
-    <a class="nl" href="#consultant">Votre consultant</a>
+    <a class="nl" href="#consultant">Vos consultants</a>
     <a class="nl" href="#cas">Résultats</a>
     <a class="btn btn-dark" href="#rdv">Audit gratuit
       <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
@@ -618,8 +651,8 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <section class="night sec" id="cas">
   <div class="rail">
     <div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
-      <span class="kick on-night rv" data-ic="__IC__">Résultats</span>
-      <h2 class="rv d1" style="max-width:20ch">Trois marchés, <em>trois remontées</em></h2>
+      <span class="kick on-night rv" data-ic="__IC__">Prises de position</span>
+      <h2 class="rv d1" style="max-width:22ch">Quatre marchés, <em>quatre remontées</em></h2>
     </div>
     <div class="mcards" id="mcards"></div>
   </div>
@@ -629,13 +662,8 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <section class="cta" id="rdv">
   <div class="trame" aria-hidden="true"><span></span><span class="s2"></span></div>
   <div class="rail inner">
-    <h2>Vos prospects ont déjà posé la question. <em>Savez-vous ce qu'on leur a répondu ?</em></h2>
-    <p class="sub">En sept jours, vous recevez la liste des concurrents que l'IA cite à votre place, et les trois raisons pour lesquelles elle ne vous cite pas.</p>
-    <div class="checks">
-      <div><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5 6.5 12 13 4.5"/></svg>Sans engagement</div>
-      <div><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5 6.5 12 13 4.5"/></svg>30 min d'échange</div>
-      <div><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5 6.5 12 13 4.5"/></svg>Direct avec un consultant</div>
-    </div>
+    <h2>Échangeons sur ce que les IA disent <em>de votre marché</em></h2>
+    <p class="sub">Nous analysons vos concurrents, nous cherchons pourquoi votre site ne ressort pas dans les réponses des IA, et nous chiffrons ce qu'un référencement sur les moteurs génératifs peut vous rapporter.</p>
     <div class="formwrap">
       <form id="auditForm" novalidate>
         <div class="f2">
@@ -674,7 +702,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         <h3 style="font-size:1.15rem">Votre demande est prête.</h3>
         <p class="smallnote" style="margin-top:10px">Copiez ce récapitulatif et envoyez-le à l'adresse ci-dessous, ou branchez le formulaire à votre CRM pour l'automatiser.</p>
         <div class="recap" id="recap"></div>
-        <div class="mailrow"><code>bonjour@nazar-geo.fr</code>
+        <div class="mailrow"><code>contact@seo-nazar.fr</code>
           <button class="btn btn-dark" type="button" id="copyBtn" style="padding:.5rem 1rem;font-size:.88rem">Copier</button>
           <button class="btn btn-white" type="button" id="againBtn" style="padding:.5rem 1rem;font-size:.88rem">Modifier</button></div>
       </div>
@@ -682,24 +710,142 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="rail">
+    <div class="head">
+      <h2 class="rv">Ce qu'on nous demande <em>le plus souvent</em></h2>
+      <p class="rv d1">Le référencement sur les IA est un sujet jeune, et les idées reçues vont vite. Voici nos réponses, sans détour.</p>
+    </div>
+    <div class="faqlist">
+      <details class="qa rv">
+        <summary>Qu'est-ce que le GEO ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Le GEO, pour <i>generative engine optimization</i>, consiste à faire en sorte qu'une entreprise soit citée dans les réponses des moteurs génératifs : ChatGPT, Perplexity, Gemini, Claude, Copilot, ou les AI Overviews de Google. Quand quelqu'un demande à une IA quel prestataire choisir sur votre marché, elle cite des noms. Le GEO, c'est le travail qui fait que le vôtre en fasse partie.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>En quoi est-ce différent du référencement classique ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Le référencement classique vise une position dans une liste de liens. Le visiteur voit dix résultats et choisit. Un moteur génératif, lui, ne propose pas de liste : il donne une réponse, et cite deux ou trois sources. Il n'y a pas de deuxième page, pas de dixième place. Vous êtes dans la réponse ou vous n'existez pas. Les leviers se recoupent en partie, la structure technique et l'autorité comptent dans les deux cas, mais ce que le modèle retient d'une page n'obéit pas aux mêmes règles qu'un classement.</div>
+      </details>
+      <details class="qa rv">
+        <summary>Le GEO a-t-il un intérêt réel en B2B ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">C'est même là qu'il est le plus rentable, pour une raison simple : en B2B, l'achat commence par une phase de recherche longue, et cette phase se déplace vers les IA. Un directeur qui cherche une ESN, un logiciel ou une agence pose aujourd'hui sa question à un modèle avant d'ouvrir Google. Avec des cycles longs et des paniers élevés, un seul rendez-vous gagné par ce canal peut couvrir plusieurs mois de prestation. C'est l'arithmétique qui rend le B2B particulièrement adapté.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>Et en B2C ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">L'intérêt est différent mais réel. En B2C, les volumes sont massifs et les décisions plus rapides, donc une citation dans une réponse pèse surtout sur la notoriété et sur la comparaison. Quand un particulier demande « quelle est la meilleure marque pour… », la réponse qu'il obtient oriente sa liste de candidats avant même qu'il n'arrive sur un site. Le travail porte alors moins sur quelques requêtes commerciales que sur la couverture d'un marché entier.</div>
+      </details>
+      <details class="qa rv">
+        <summary>Faut-il arrêter le référencement classique ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Non, et ce serait même contre-productif. Les moteurs génératifs s'appuient en grande partie sur ce qu'ils trouvent sur le web, et les pages bien positionnées dans Google ont statistiquement plus de chances d'être reprises dans une réponse. Un socle technique sain, des contenus structurés et une autorité établie servent les deux à la fois. Nous ne remplaçons pas votre référencement : nous l'étendons à des surfaces qu'il ne couvrait pas.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>Au bout de combien de temps voit-on quelque chose ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Les premiers déplacements se mesurent en semaines sur les moteurs génératifs, qui réévaluent leurs sources plus souvent qu'un index classique ne se réorganise. Mais une position stable se construit sur plusieurs mois. Méfiez-vous de quiconque vous promet une citation garantie sous trente jours : personne ne contrôle ce qu'un modèle décide de reprendre.</div>
+      </details>
+      <details class="qa rv">
+        <summary>Comment mesure-t-on le retour sur investissement ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">En relevant, chaque semaine, ce que les moteurs répondent sur un corpus de questions d'achat propres à votre marché, et en suivant trois choses : la fréquence à laquelle votre nom apparaît, les sources que le modèle reprend pour parler de vous, et les demandes entrantes qui en découlent. Une citation qui ne déclenche aucun contact n'a pas de valeur. C'est pourquoi nous raisonnons en rendez-vous et en montants, pas en positions.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>Que contient l'audit gratuit ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Un relevé de ce que les principaux moteurs répondent aujourd'hui aux questions d'achat de votre secteur, la liste des concurrents qu'ils citent à votre place, les sources sur lesquelles ils s'appuient pour le faire, et une estimation chiffrée de ce que représenterait une place dans ces réponses. L'échange dure une trentaine de minutes et se fait directement avec le consultant qui suivrait votre dossier.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Qu'est-ce que le GEO ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le GEO, pour generative engine optimization, consiste à faire en sorte qu'une entreprise soit citée dans les réponses des moteurs génératifs : ChatGPT, Perplexity, Gemini, Claude, Copilot, ou les AI Overviews de Google. Quand quelqu'un demande à une IA quel prestataire choisir sur votre marché, elle cite des noms. Le GEO, c'est le travail qui fait que le vôtre en fasse partie."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "En quoi est-ce différent du référencement classique ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le référencement classique vise une position dans une liste de liens. Le visiteur voit dix résultats et choisit. Un moteur génératif, lui, ne propose pas de liste : il donne une réponse, et cite deux ou trois sources. Il n'y a pas de deuxième page, pas de dixième place. Vous êtes dans la réponse ou vous n'existez pas. Les leviers se recoupent en partie, la structure technique et l'autorité comptent dans les deux cas, mais ce que le modèle retient d'une page n'obéit pas aux mêmes règles qu'un classement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le GEO a-t-il un intérêt réel en B2B ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "C'est même là qu'il est le plus rentable, pour une raison simple : en B2B, l'achat commence par une phase de recherche longue, et cette phase se déplace vers les IA. Un directeur qui cherche une ESN, un logiciel ou une agence pose aujourd'hui sa question à un modèle avant d'ouvrir Google. Avec des cycles longs et des paniers élevés, un seul rendez-vous gagné par ce canal peut couvrir plusieurs mois de prestation. C'est l'arithmétique qui rend le B2B particulièrement adapté."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Et en B2C ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'intérêt est différent mais réel. En B2C, les volumes sont massifs et les décisions plus rapides, donc une citation dans une réponse pèse surtout sur la notoriété et sur la comparaison. Quand un particulier demande « quelle est la meilleure marque pour… », la réponse qu'il obtient oriente sa liste de candidats avant même qu'il n'arrive sur un site. Le travail porte alors moins sur quelques requêtes commerciales que sur la couverture d'un marché entier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Faut-il arrêter le référencement classique ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non, et ce serait même contre-productif. Les moteurs génératifs s'appuient en grande partie sur ce qu'ils trouvent sur le web, et les pages bien positionnées dans Google ont statistiquement plus de chances d'être reprises dans une réponse. Un socle technique sain, des contenus structurés et une autorité établie servent les deux à la fois. Nous ne remplaçons pas votre référencement : nous l'étendons à des surfaces qu'il ne couvrait pas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Au bout de combien de temps voit-on quelque chose ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les premiers déplacements se mesurent en semaines sur les moteurs génératifs, qui réévaluent leurs sources plus souvent qu'un index classique ne se réorganise. Mais une position stable se construit sur plusieurs mois. Méfiez-vous de quiconque vous promet une citation garantie sous trente jours : personne ne contrôle ce qu'un modèle décide de reprendre."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment mesure-t-on le retour sur investissement ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "En relevant, chaque semaine, ce que les moteurs répondent sur un corpus de questions d'achat propres à votre marché, et en suivant trois choses : la fréquence à laquelle votre nom apparaît, les sources que le modèle reprend pour parler de vous, et les demandes entrantes qui en découlent. Une citation qui ne déclenche aucun contact n'a pas de valeur. C'est pourquoi nous raisonnons en rendez-vous et en montants, pas en positions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Que contient l'audit gratuit ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Un relevé de ce que les principaux moteurs répondent aujourd'hui aux questions d'achat de votre secteur, la liste des concurrents qu'ils citent à votre place, les sources sur lesquelles ils s'appuient pour le faire, et une estimation chiffrée de ce que représenterait une place dans ces réponses. L'échange dure une trentaine de minutes et se fait directement avec le consultant qui suivrait votre dossier."
+      }
+    }
+  ]
+}
+</script>
+
 <footer>
   <div class="rail">
     <div class="fgrid">
       <div>
         <div class="fbrand"><img src="logo.png" alt="Nazar"></div>
-        <p style="margin-top:12px;max-width:28ch">Collectif de consultants en référencement sur Google et sur les IA génératives.</p>
+        <p style="margin-top:12px;max-width:28ch">Collectif de quinze consultants en référencement sur Google et sur les IA génératives.</p>
       </div>
-      <div><h4>L'agence</h4><a href="#consultant">Votre consultant</a><a href="#cas">Résultats</a><a href="#plateforme">La plateforme</a></div>
-      <div><h4>L'audit</h4><a href="#surfaces">Les moteurs couverts</a><a href="#audit">Comment ça marche</a><a href="#rdv">Demander l'audit</a></div>
+      <div><h4>L'agence</h4><a href="#consultant">Vos consultants</a><a href="#plateforme">Notre outil</a><a href="#faq">Questions fréquentes</a></div>
+      <div><h4>Prises de position</h4><a href="cas-perle-rare.html">Perle Rare</a><a href="cas-slidor.html">Slidor</a><a href="cas-business-iot.html">Business IoT</a><a href="cas-whentocop.html">Whentocop</a></div>
       <div>
         <h4>Contact</h4>
-        <a href="#rdv">bonjour@nazar-geo.fr</a>
-        <a href="#rdv">01 23 45 67 89</a>
+        <a href="mailto:contact@seo-nazar.fr">contact@seo-nazar.fr</a>
+        <a href="tel:+33743392574">+33 7 43 39 25 74</a>
+        <a href="#rdv">Demander l'audit</a>
       </div>
     </div>
     <div class="fbot">
       <span>© 2026 Nazar</span>
-      <div class="lk"><a href="#top" style="text-decoration:none">Mentions légales</a><a href="#top" style="text-decoration:none">Confidentialité</a></div>
+      <div class="lk"><a href="mentions-legales.html" style="text-decoration:none">Mentions légales</a><a href="confidentialite.html" style="text-decoration:none">Confidentialité</a></div>
     </div>
   </div>
 </footer>
@@ -1124,35 +1270,47 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   /* ---------- cartes resultats ---------- */
   (function(){
     var CASES = [
-      {kd:'SaaS B2B', big:'4 → <span>31 %</span>', src:'Part de voix IA · 5 mois',
-       ti:'De cité nulle part à cité partout', sb:'120 questions d’achat suivies, 68 leads par mois attribués', seed:1},
-      {kd:'Conseil', big:'+<span>19</span> RDV', src:'Demandes entrantes · par mois',
-       ti:'Des prospects qui citent la réponse IA', sb:'Citations Perplexity ×7,5, point mort au mois 3', seed:2},
-      {kd:'E-commerce', big:'<span>312 k€</span>', src:'CA annuel attribué',
-       ti:'147 fiches produits citées', sb:'Conversion en hausse de 0,9 point sur le trafic IA', seed:3}
+      {kd:'B2C local', ph:'cas-01.webp', lg:'cas-logo-01.webp', nm:'Perle Rare',
+       big:'+<span>192 %</span>', src:'Leads SEO · chasseur immobilier à Paris',
+       ti:'Ses pages de vente se déclaraient comme des articles',
+       sb:'Première place sur la requête principale, leads issus du SEO presque triplés.',
+       url:'cas-perle-rare.html'},
+      {kd:'Agence', ph:'cas-02.webp', lg:'cas-logo-02.svg', nm:'Slidor',
+       big:'<span>Top 1</span>', src:'Agence powerpoint · tenu un an',
+       ti:'Une place perdue, reprise en un mois de mission',
+       sb:'Et gardée depuis. Sur ce marché, tenir vaut mieux qu\'un pic.',
+       url:'cas-slidor.html'},
+      {kd:'IoT B2B', ph:'cas-03.webp', lg:'cas-logo-03.webp', nm:'Business IoT',
+       big:'<span>9</span> RDV', src:'Par mois · panier moyen 32 000 €',
+       ti:'Des rendez-vous, pas des visites',
+       sb:'Deux ans d\'accompagnement sur un cycle de vente long.',
+       url:'cas-business-iot.html'},
+      {kd:'E-commerce', ph:'cas-04.webp', lg:'', nm:'Whentocop',
+       big:'<span>1 M</span>', src:'Visites SEO par an · marché de la sneaker',
+       ti:'Une audience qui ne s\'arrête pas avec le budget',
+       sb:'Première place sur son marché, sans achat de trafic.',
+       url:'cas-whentocop.html'}
     ];
     var host = document.getElementById('mcards');
+    if(!host) return;
+    var fleche = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" ' +
+                 'stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
     host.innerHTML = CASES.map(function(c,i){
-      return '<article class="mcard rv'+(i?' d'+i:'')+'"><div class="vis"><span class="kd">'+c.kd+'</span>'+
-        '<canvas width="400" height="250" id="cv'+i+'" aria-hidden="true"></canvas>'+
-        '<div class="bignum">'+c.big+'</div></div><div class="bd"><div class="src">'+c.src+
-        '</div><div class="ti">'+c.ti+'</div><div class="sb">'+c.sb+'</div></div></article>';
+      return '<a class="mcard rv'+(i?' d'+(i>2?2:i):'')+'" href="'+c.url+'">' +
+        '<div class="vis">' +
+          '<img src="'+c.ph+'" alt="" loading="lazy">' +
+          '<span class="veil"></span>' +
+          '<span class="kd">'+c.kd+'</span>' +
+          (c.lg ? '<span class="clg"><img src="'+c.lg+'" alt="'+c.nm+'"></span>' : '') +
+          '<span class="bignum">'+c.big+'</span>' +
+        '</div>' +
+        '<div class="bd">' +
+          '<div class="src">'+c.src+'</div>' +
+          '<div class="ti">'+c.ti+'</div>' +
+          '<div class="sb">'+c.sb+'</div>' +
+          '<span class="more">Lire le rapport de mission '+fleche+'</span>' +
+        '</div></a>';
     }).join('');
-    CASES.forEach(function(c,i){
-      var cv=document.getElementById('cv'+i); if(!cv) return;
-      var ctx=cv.getContext('2d',{willReadFrequently:true}), W=cv.width, H=cv.height, s=c.seed;
-      var g=ctx.createLinearGradient(0,0,W,H);
-      g.addColorStop(0,'#e8e8e8'); g.addColorStop(.5,'#8e8e8e'); g.addColorStop(1,'#3a3a3a');
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-      for(var n=0;n<5;n++){
-        var cx=W*(.15+.19*((n*s)%5)), cy=H*(.2+.14*((n+s)%5));
-        var rg=ctx.createRadialGradient(cx,cy,6,cx,cy,W*(.22+.06*n));
-        rg.addColorStop(0, n%2?'rgba(255,255,255,.85)':'rgba(30,30,30,.7)');
-        rg.addColorStop(1,'rgba(0,0,0,0)');
-        ctx.fillStyle=rg; ctx.fillRect(0,0,W,H);
-      }
-      dither(ctx,W,H,1.16,18);
-    });
   })();
 
   /* reveals : tout, y compris les blocs injectes */
