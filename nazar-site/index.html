@@ -104,7 +104,12 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
    assez pour que « clients vous cherchent » tienne sur une seule ligne. */
 @media(max-width:620px){
   .bm{display:inline}
-  .hero h1{max-width:none;font-size:clamp(1.6rem,8.1vw,2.6rem)}
+  /* les trois titres sont coupes a la main, groupe par groupe. L'equilibrage
+     automatique rajoutait des sauts par-dessus : il est neutralise ici, et la taille
+     est calculee pour que le plus long groupe tienne sur une ligne avec 12 % de marge. */
+  .hero h1,.flow h2,#consultant h2{text-wrap:wrap;max-width:none}
+  .hero h1{font-size:min(2.6rem,calc((100vw - 42px) / 10.89))}
+  #consultant h2{font-size:min(2.6rem,calc((100vw - 42px) / 10.17))}
 }
 
 
@@ -322,6 +327,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 
 /* parcours */
 .flow{position:relative;padding-block:clamp(58px,6.8vw,96px)}
+.flow h2{max-width:26ch}
 .flowtrack{position:relative;margin-top:clamp(32px,3.8vw,50px)}
 .flowline{position:absolute;left:12.5%;right:12.5%;top:26px;height:3px;border-radius:99px;
   background:rgba(223,242,249,.12);overflow:hidden}
@@ -348,7 +354,12 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 /* sur telephone la frise garde ses quatre jalons alignes et sa ligne qui se remplit ;
    les descriptions cedent la place, les titres suffisent a tenir la largeur. */
 @media(max-width:620px){
-  .flow h2{font-size:clamp(1.35rem,5.9vw,2rem);max-width:none;text-wrap:normal}
+  .flow h2{font-size:min(2.4rem,calc((100vw - 42px) / 11.89))}
+  /* les sections respiraient trop sur telephone : l'ecart entre deux blocs passe
+     d'environ 125 px a 90 px, et a 60 px entre le mock-up et la frise. */
+  .sec,.cream-s{padding-block:clamp(44px,8vw,68px)}
+  .flow{padding-top:clamp(30px,6vw,44px);padding-bottom:clamp(44px,8vw,68px)}
+  #plateforme{padding-bottom:clamp(30px,6vw,44px)}
   .fsteps{grid-template-columns:repeat(4,1fr);gap:7px}
   .fstep{text-align:center}
   .fstep .dot{margin-inline:auto}
@@ -555,7 +566,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
   <div class="rail hgrid">
     <div class="hcopy">
-      <h1 class="rv d1">Vos prochains<br class="bm"> clients vous cherchent<br class="bm"> <em>sur les IA</em>.</h1>
+      <h1 class="rv d1">Vos prochains clients<br class="bm"> vous cherchent<br class="bm"> <em>sur les IA</em>.</h1>
       <p class="hlede rv d2">NAZAR accompagne <b>plus de 100 entreprises B2B</b> dans leur positionnement sur Google et sur les principales IA. Nous sommes un collectif de consultants aguerris : on relève ce que les moteurs répondent sur votre marché, et on fait entrer votre nom dans la réponse.</p>
       <a class="btn btn-white rv d2" href="#rdv">Audit GEO gratuit
         <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
@@ -679,7 +690,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <!-- PARCOURS -->
 <section class="night flow" id="audit">
   <div class="rail">
-    <h2 class="rv" style="max-width:26ch">Vous souhaitez savoir combien de leads vous pouvez générer <em>grâce au GEO</em> ?</h2>
+    <h2 class="rv">Vous souhaitez savoir<br class="bm"> combien de leads vous<br class="bm"> pouvez générer<br class="bm"> <em>grâce au GEO</em> ?</h2>
     <div class="flowtrack">
       <div class="flowline"><i id="flowFill"></i></div>
       <div class="fsteps" id="fsteps"></div>
@@ -698,7 +709,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
       alt="Consultant SEO NAZAR au travail sur le positionnement d'un client"
       title="Consultant SEO NAZAR"></div>
     <div class="tcopy">
-      <h2 class="rv d1" style="margin-top:18px">Un consultant <em>dédié à votre projet</em></h2>
+      <h2 class="rv d1" style="margin-top:18px">Un consultant<br class="bm"> <em>dédié à votre projet</em></h2>
       <p class="bd rv d1">Vous ne parlez pas à un compte, vous parlez à quelqu'un. La même personne relève vos moteurs chaque semaine, rédige vos contenus, corrige votre socle technique et présente vos résultats. Pas de sous-traitance, pas de passage de dossier, pas de rapport automatique envoyé sans lecture.</p>
       <p class="coll rv d2"><b>NAZAR est un collectif de consultants GEO et SEO.</b> Notre métier n'a pas changé : vous faire ressortir quand quelqu'un cherche ce que vous vendez. Sur Google, et désormais dans les réponses des IA.</p>
       <figure class="quote rv d2">
