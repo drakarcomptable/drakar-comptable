@@ -107,29 +107,33 @@ Collectif de consultants SEO & GEO. Visibles sur Google, cités par les IA.
 Nous plaçons votre entreprise dans les réponses des IA et en tête sur Google.
 ```
 
-### Descriptif (limite 2 000 caractères, ~1 150 utilisés)
+### Descriptif (limite 2 000 caractères, 1279 utilisés)
+
+Les deux critères de sélection et les trois piliers sont repris de la version
+actuelle. Deux fautes au passage : « 3 pilliers » prend un seul l, et « une
+fusion entre consultant » prend un s.
 
 ```
-Vos clients ne cherchent plus seulement sur Google. Ils posent leurs questions à ChatGPT, à Perplexity, à Gemini. Et ces moteurs citent des entreprises. Rarement au hasard.
+Vos clients ne cherchent plus seulement sur Google. Ils posent leurs questions à ChatGPT, à Perplexity, à Gemini. Et ces moteurs citent des entreprises, rarement au hasard.
 
 NAZAR est un collectif de consultants spécialisés en SEO et en GEO, l'optimisation pour les moteurs de réponse. Nous rendons votre entreprise visible là où vos futurs clients cherchent vraiment.
 
-Notre accompagnement :
+Notre accompagnement se base sur 3 piliers : Proximité, Accessibilité, Résultat.
+
+Concrètement :
 • audit de votre visibilité sur Google et sur les moteurs IA
 • optimisation technique, éditoriale et sémantique de votre site
 • contenus et signaux de marque qui amènent les IA à vous citer
 • suivi mensuel de vos positions, de vos citations et de vos demandes entrantes
 
-Notre modèle : la force de frappe d'une agence, la proximité d'un freelance. Chaque mission est pilotée par le consultant dont c'est le métier, épaulé par le collectif.
+Né d'une fusion entre consultants, NAZAR a accompagné plus de 80 entreprises en 360 sur leur stratégie de visibilité. Nous réunissons exclusivement des professionnels aguerris, sélectionnés sur deux critères : la qualité de leurs références et la véracité de leurs résultats.
 
-Trois principes depuis 2021 : proximité, accessibilité, résultat.
+La force de frappe d'une agence, la proximité d'un freelance. Chaque mission est pilotée par le consultant dont c'est le métier, épaulé par le collectif.
 
-Plus de 80 entreprises accompagnées. 4,9/5 sur Google.
+4,9/5 sur Google. Plus de 80 entreprises accompagnées depuis 2021.
 
 Audit gratuit en 9 minutes : nazar-seo.fr
 ```
-
----
 
 ## 3. Réglages à corriger au passage
 
