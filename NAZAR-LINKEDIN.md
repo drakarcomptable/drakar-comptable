@@ -23,26 +23,45 @@ Cofondateur @NAZAR SEO & GEO | Être trouvé sur Google ne suffit plus : vos cli
 Consultant SEO & GEO | Cofondateur de NAZAR, collectif de 80+ accompagnements | Visibilité sur Google et dans les réponses des IA
 ```
 
-### À propos (limite 2 600 caractères, ~1 300 utilisés)
+### À propos / Infos (limite 2 600 caractères)
+
+Version actuelle : 97 caractères, une seule ligne, et elle ne parle que de Google.
+
+**Version longue, 1 229 caractères**
 
 ```
+📣 Mon objectif : que vos clients vous trouvent, sur Google comme dans les réponses des IA.
+
 Il y a encore deux ans, être premier sur Google suffisait. Aujourd'hui une partie de vos clients pose sa question à ChatGPT, à Perplexity ou à Gemini, et ne voit jamais la page de résultats.
 
-C'est ce déplacement que nous accompagnons chez NAZAR.
-
-Je suis cofondateur de NAZAR, un collectif de consultants SEO et GEO. Nous aidons les entreprises à être trouvées là où leurs clients cherchent vraiment : en tête sur Google, et dans les réponses que les intelligences artificielles donnent sur leur marché.
+C'est ce déplacement que nous accompagnons chez NAZAR, un collectif de consultants SEO et GEO.
 
 Concrètement :
-• audit de votre visibilité actuelle, sur Google et sur les moteurs IA
-• travail technique, éditorial et sémantique sur votre site
-• suivi des citations de votre marque dans ChatGPT, Perplexity, Gemini, Claude et Copilot
-• reporting sur ce qui compte : trafic qualifié, demandes entrantes, chiffre d'affaires
+⚡ audit de votre visibilité actuelle, sur Google et sur les moteurs IA
+⚡ travail technique, éditorial et sémantique sur votre site
+⚡ suivi des citations de votre marque dans ChatGPT, Perplexity, Gemini, Claude et Copilot
+⚡ reporting sur ce qui compte : trafic qualifié, demandes entrantes, chiffre d'affaires
 
 Depuis 2021, plus de 80 entreprises nous ont fait confiance. Notre méthode tient en trois mots : proximité, accessibilité, résultat. Pas de rapport illisible, pas d'engagement de 24 mois, un interlocuteur qui connaît votre dossier.
 
 Nous sommes un collectif, pas une agence classique. Chaque mission est portée par le consultant dont c'est vraiment le métier, avec la force de frappe d'une équipe derrière.
 
-Vous vous demandez où en est votre entreprise sur ces nouveaux moteurs ? Audit gratuit en 9 minutes : nazar-seo.fr
+Vous vous demandez où en est votre entreprise sur ces nouveaux moteurs ?
+👉 Audit gratuit en 9 minutes : nazar-seo.fr
+```
+
+**Version courte, 556 caractères**, si tu préfères rester bref comme aujourd'hui
+
+```
+📣 Mon objectif : que vos clients vous trouvent, sur Google comme dans les réponses des IA.
+
+Être premier sur Google ne suffit plus. Une partie de vos clients pose désormais sa question à ChatGPT, à Perplexity ou à Gemini, et ne voit jamais la page de résultats.
+
+Chez NAZAR, collectif de consultants SEO et GEO, nous travaillons les deux : votre position sur Google, et les citations de votre marque dans les réponses des IA.
+
+Plus de 80 entreprises accompagnées depuis 2021. Proximité, accessibilité, résultat.
+
+👉 Audit gratuit en 9 minutes : nazar-seo.fr
 ```
 
 ### Expérience chez NAZAR SEO
@@ -122,6 +141,8 @@ Audit gratuit en 9 minutes : nazar-seo.fr
 | Page entreprise, secteur | Services de publicité | Services de marketing |
 | Page entreprise, site web | à vérifier | https://nazar-seo.fr |
 | Page entreprise, spécialités | à remplir | SEO, GEO, AEO, référencement naturel, visibilité IA, ChatGPT, Perplexity, content marketing |
+| Profil, compétences | 2 seulement | en ajouter 3 : Référencement naturel, Marketing numérique, Stratégie de contenu |
+| Photo de profil | fond feuillage vert | `nazar-linkedin/NAZAR-photo-profil.jpg` |
 
 ---
 
@@ -132,7 +153,9 @@ Audit gratuit en 9 minutes : nazar-seo.fr
 | NAZAR-profil-A.png | 1584 x 396 | Couverture profil, accroche du site |
 | NAZAR-profil-B.png | 1584 x 396 | Couverture profil, accroche pivot |
 | NAZAR-profil-C.png | 1584 x 396 | Couverture profil, ligne actuelle modernisée |
+| NAZAR-profil-D/E/F.png | 1584 x 396 | Couverture profil, composition horizontale |
 | NAZAR-entreprise-A/B/C.png | 1128 x 191 | Couverture page entreprise |
+| NAZAR-photo-profil.jpg | 1200 x 1200 | Photo de profil, détourée sur le fond de la bannière |
 
 Tout est calé à droite : LinkedIn pose la photo de profil (ou le logo) en bas à gauche
 et recouvre cette zone. Le texte reste donc lisible sur ordinateur comme sur mobile.
