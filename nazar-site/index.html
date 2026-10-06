@@ -20,13 +20,30 @@
 <link rel="icon" type="image/png" href="logo.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
 <title>Nazar SEO &amp; GEO : Expert en référencement sur les IA</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Les polices sont servies par notre propre domaine.
+     La feuille de style de Google Fonts bloquait l'affichage : le navigateur
+     devait resoudre fonts.googleapis.com, negocier le TLS, lire le fichier,
+     puis seulement decouvrir l'adresse des polices sur fonts.gstatic.com et
+     recommencer. Deux allers-retours vers deux domaines tiers avant le premier
+     pixel. Ici les fichiers sont a cote de la page, deja annonces, et aucune
+     requete ne part vers Google : c'est plus rapide, et aucune adresse IP de
+     visiteur n'est transmise a un tiers. -->
+<link rel="preload" href="police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <!-- la resolution DNS et la poignee de main TLS avec l'agenda sont faites
      des le chargement, pour que le clic sur un bouton d'audit ne les paie pas -->
 <link rel="preconnect" href="https://meetings-eu1.hubspot.com" crossorigin>
 <link rel="dns-prefetch" href="https://meetings-eu1.hubspot.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+/* Jakarta est une police variable : un seul fichier couvre toutes les graisses
+   de 200 a 800, la ou Google en servait cinq. La mono n'est appelee que sur de
+   courtes etiquettes, en deux graisses seulement : son affichage est donc
+   differe pour ne jamais retarder le texte principal. */
+@font-face{font-family:'Plus Jakarta Sans';src:url(police-jakarta.woff2) format('woff2');
+  font-weight:200 800;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(police-mono-400.woff2) format('woff2');
+  font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url(police-mono-600.woff2) format('woff2');
+  font-weight:600;font-style:normal;font-display:swap}
 :root{
   --ice:#e3f7fe; --paper:#f4fbff; --white:#fff; --cream:#e9f6fb;
   --ink:#004358; --ink-2:#0e4e62; --steel:#44798a; --acc:#7fd8ee;
@@ -1074,20 +1091,20 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
      client ne doit pas pouvoir remonter jusqu'a ce site. La correspondance entre
      chaque fichier et son client est tenue hors ligne, dans le depot. */
   var CLIENTS = [
-    {f:'ref-01.webp', c:'tall'},
-    {f:'ref-08.webp'},
-    {f:'ref-13.webp'},
-    {f:'ref-02.webp'},
-    {f:'ref-11.webp'},
-    {f:'ref-03.webp', c:'tall'},
-    {f:'ref-14.webp'},
-    {f:'ref-09.webp'},
-    {f:'ref-04.webp'},
-    {f:'ref-10.webp'},
-    {f:'ref-12.svg'},
-    {f:'ref-05.svg',  c:'tall'},
-    {f:'ref-06.svg',  c:'small'},
-    {f:'ref-07.svg'}
+    {f:'ref-01.webp', w:590, h:240, c:'tall'},
+    {f:'ref-08.webp', w:476, h:160},
+    {f:'ref-13.webp', w:604, h:160},
+    {f:'ref-02.webp', w:912, h:240},
+    {f:'ref-11.webp', w:160, h:160},
+    {f:'ref-03.webp', w:580, h:240, c:'tall'},
+    {f:'ref-14.webp', w:479, h:160},
+    {f:'ref-09.webp', w:888, h:160},
+    {f:'ref-04.webp', w:1038, h:240},
+    {f:'ref-10.webp', w:275, h:160},
+    {f:'ref-12.svg', w:280, h:90},
+    {f:'ref-05.svg', w:363, h:165,  c:'tall'},
+    {f:'ref-06.svg', w:1000, h:295,  c:'small'},
+    {f:'ref-07.svg', w:190, h:37}
   ];
   (function(){
     var row = document.getElementById('crow');
@@ -1097,7 +1114,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       // ce qui ne declenche jamais le chargement des logos places hors de l'ecran a droite.
       // texte de remplacement vide : le nom du client ne doit apparaitre nulle part
       // dans le code, pour qu'une recherche sur sa marque ne remonte pas ce site.
-      return '<img class="'+(c.c||'')+'" src="'+c.f+'" alt="" decoding="async">';
+      return '<img class="'+(c.c||'')+'" src="'+c.f+'" width="'+c.w+'" height="'+c.h+'" alt="" decoding="async">';
     }).join('');
     /* Deux defauts corriges ici.
 
