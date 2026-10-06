@@ -12,6 +12,10 @@
     {
       "source": "/cas-logo-(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, noimageindex, noarchive" }]
+    },
+    {
+      "source": "/police-(.*).woff2",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
 }
