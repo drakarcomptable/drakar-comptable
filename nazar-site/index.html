@@ -437,7 +437,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
   display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden}
 /* capture partagee par l'auteur de l'avis : elle remplace quatre lignes de texte
    pour que la carte ne depasse pas trop les autres. */
-.av.jc p{-webkit-line-clamp:3}
+.av.jc p{-webkit-line-clamp:4}
 .av .sc{margin:0}
 .av .sc img{width:100%;height:auto;display:block;border-radius:10px;
   border:1px solid rgba(0,67,88,.12)}
@@ -1112,7 +1112,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
      s'affiche seulement s'il a de quoi le remplir. NOTE vaut par exemple
      {n:'5,0', nb:12, url:'https://...'} pour la ligne de synthese. */
   var AVIS = [
-    {nm:'Maxime Carpentier', no:5, dt:'juin 2025',
+    {nm:'Maxime Carpentier', ro:'Directeur marketing', no:5, dt:'juin 2025',
      tx:'Bien plus que de simples exécutants, ce sont de véritables partenaires stratégiques. Leur accompagnement SEO joue un rôle clé dans notre croissance.'},
     {nm:'Imane Aitbaady', ro:'Head of Marketing, équipements du bâtiment', no:5, dt:'juin 2026',
      im:'avis-sc-01.webp',
@@ -1121,16 +1121,18 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     {nm:'Ilhan Belli', ro:'Co-founder, HIROS', no:5, dt:'septembre 2025',
      tx:'Une équipe pro, réactive et à l\u2019écoute. Nazar a boosté notre visibilité SEO en un temps record. Je recommande les yeux fermés !'},
     {nm:'Keita Isaac', ro:'Directeur commercial et marketing, AWF', no:5, dt:'octobre 2025',
+     im:'avis-sc-02.webp',
+     ia:'Search Console du client : 55,5 k clics et 2,46 M impressions',
      tx:'Merci beaucoup à l\u2019équipe de Nazar pour avoir apporté une assistance et un savoir-faire de pointe dans le cadre de l\u2019intégration de notre nouvelle marque au catalogue, ainsi que pour la formation de nos équipes au référencement IA. Je recommande !'},
-    {nm:'Hishame M.', no:5, dt:'juillet 2025',
+    {nm:'Hishame M.', ro:'Head of Marketing', no:5, dt:'juillet 2025',
      tx:'Super collectif SEO, au taquet sur les sujets LLM. Une belle découverte !'},
-    {nm:'Christopher Fernandes', ro:'Local Guide', no:5, dt:'juin 2025',
+    {nm:'Christopher Fernandes', ro:'Directeur marketing', no:5, dt:'juin 2025',
      tx:'Une montée en puissance impressionnante sur notre trafic organique. Merci à l\u2019équipe !'},
-    {nm:'Philippe Lacombe', no:5, dt:'juin 2025',
+    {nm:'Philippe Lacombe', ro:'Head of Marketing', no:5, dt:'juin 2025',
      tx:'Rarement vu une équipe aussi impliquée. Nazar nous a permis de prendre une vraie avance sur nos concurrents.'},
     {nm:'Yossi Volet', ro:'Directeur général, YossiZik', no:5, dt:'septembre 2025',
      tx:'Un vrai boost pour nos services de DJ-pianiste mariage : +40 % de demandes via notre site en seulement quelques mois. Équipe réactive et professionnelle, merci !'},
-    {nm:'Bertille Chevet', no:5, dt:'août 2025',
+    {nm:'Bertille Chevet', ro:'Directrice marketing', no:5, dt:'août 2025',
      tx:'Découverte de l\u2019environnement SEO via une formation avec le collectif NAZAR : expertise technique et fluidité des échanges, je recommande.'}
   ];
   var NOTE = {n:'4,9', nb:'36'};
