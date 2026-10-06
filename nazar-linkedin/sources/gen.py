@@ -205,6 +205,8 @@ def profil_F(L=1584, H=396):
     </div>""" % {'chips': pastilles(48, 27, 12)}
     return page(L, H, corps)
 
+
+
 JEUX = [
     ('profil-A', profil_A, 1584, 396),
     ('profil-B', profil_B, 1584, 396),
@@ -217,7 +219,10 @@ JEUX = [
     ('entreprise-C', entreprise_C, 1128, 191),
 ]
 
-for nom, fn, L, H in JEUX:
-    chemin = os.path.join(ICI, nom + '.html')
-    io.open(chemin, 'w', encoding='utf-8').write(fn(L, H))
-    print('ecrit', nom, L, H)
+def ecrire(jeux):
+    for nom, fn, L, H in jeux:
+        io.open(os.path.join(ICI, nom + '.html'), 'w', encoding='utf-8').write(fn(L, H))
+        print('ecrit', nom, L, H)
+
+if __name__ == '__main__':
+    ecrire(JEUX)

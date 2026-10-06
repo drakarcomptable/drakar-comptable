@@ -7,7 +7,9 @@ Ce dossier n'est **pas** publié : le site déployé sur Vercel a pour racine
 |---|---|---|
 | `NAZAR-profil-A/B/C.png` | 1584 x 396 | Couverture du profil, texte sur deux lignes pleine largeur |
 | `NAZAR-profil-D/E/F.png` | 1584 x 396 | Couverture du profil, composition horizontale avec filet et logos |
-| `NAZAR-entreprise-A/B/C.png` | 1128 x 191 | Couverture de la page entreprise |
+| `NAZAR-entreprise-A/B/C.png` | 1128 x 191 | Couverture de la page entreprise, fond bleu nuit |
+| `NAZAR-entreprise-claire-A/B/C.png` | 1128 x 191 | Les mêmes sur le bleu glace du site |
+| `NAZAR-profil-clair-D.png` | 1584 x 396 | Couverture du profil, version claire |
 
 Les textes qui vont avec sont dans `../NAZAR-LINKEDIN.md`.
 

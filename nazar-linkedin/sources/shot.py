@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 ICI = os.path.dirname(os.path.abspath(__file__))
 FF = '/tmp/ffpkg/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2'
-JEUX = [('profil-D',1584,396),('profil-E',1584,396),('profil-F',1584,396),('profil-A',1584,396),('profil-B',1584,396),('profil-C',1584,396),
+JEUX = [('entreprise-claire-A',1128,191),('entreprise-claire-B',1128,191),('entreprise-claire-C',1128,191),('profil-clair-D',1584,396),('profil-D',1584,396),('profil-E',1584,396),('profil-F',1584,396),('profil-A',1584,396),('profil-B',1584,396),('profil-C',1584,396),
         ('entreprise-A',1128,191),('entreprise-B',1128,191),('entreprise-C',1128,191)]
 
 with sync_playwright() as p:
