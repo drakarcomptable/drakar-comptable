@@ -10,33 +10,25 @@ Trois precautions :
     cheveux a 17 % du haut, pour que le cercle d'affichage de LinkedIn ne
     rogne ni les cheveux ni le menton.
 """
-import math
+import math, sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from PIL import Image, ImageFilter
+import fond_banniere as FB
+
+# Position du disque de la photo dans la banniere, relevee sur une capture du
+# profil : LinkedIn pose l'avatar a cheval sur le bord bas, 61 % du disque
+# recouvre la banniere, le reste tombe sur la carte blanche. Reproduire cette
+# portion precise, plutot qu'un fond qui lui ressemble, est ce qui fait que la
+# photo se fond dans la banniere au lieu d'y etre posee.
+ZONE = (54.0, 210.5, 360.3, 516.9)
 
 COTE = 1200
 NUIT, PROF, HAUT = (0x00,0x21,0x2c), (0x00,0x30,0x3f), (0x0a,0x4a,0x60)
 ACC = (0x7f,0xd8,0xee)
 
 def fond(n=COTE):
-    y, x = np.mgrid[0:n, 0:n].astype(np.float32)
-    cx, cy = n*.82, n*.10
-    r = np.clip(np.sqrt(((x-cx)/(n*1.25))**2 + ((y-cy)/(n*1.35))**2), 0, 1)
-    img = np.zeros((n, n, 3), np.float32)
-    for i in range(3):
-        a, b, c = HAUT[i], PROF[i], NUIT[i]
-        img[..., i] = np.where(r < .42, a + (b-a)*(r/.42), b + (c-b)*((r-.42)/.58))
-    lignes = np.zeros((n, n), np.float32)
-    for k in range(30):
-        t = k/29.0
-        base = -n*.22 + t*n*1.34
-        amp = n*(.055 + .04*math.sin(t*math.pi))
-        d = np.abs(y - (base + amp*np.sin(x/n*5.1 + t*2.3) - t*n*.04))
-        lignes += np.clip(1.0 - d/1.7, 0, 1) * (.30 + .34*math.sin(t*math.pi))
-    lignes = np.clip(lignes, 0, 1)
-    for i in range(3):
-        img[..., i] = img[..., i]*(1 - lignes*.20) + ACC[i]*lignes*.20
-    return Image.fromarray(np.clip(img, 0, 255).astype(np.uint8))
+    return Image.fromarray(FB.rendu(ZONE[0], ZONE[1], ZONE[2], ZONE[3], n).astype(np.uint8))
 
 def nettoie(im, marge=34):
     a = np.asarray(im).astype(np.float32)
@@ -112,8 +104,8 @@ def fabrique(src_png, sortie):
 
     base = fond().convert('RGBA')
     ombre = Image.new('RGBA', (COTE, COTE), (0, 0, 0, 0))
-    ombre.putalpha(toile.getchannel('A').filter(ImageFilter.GaussianBlur(30))
-                        .point(lambda v: int(v*.38)))
+    ombre.putalpha(toile.getchannel('A').filter(ImageFilter.GaussianBlur(34))
+                        .point(lambda v: int(v*.16)))
     base.paste((0, 11, 17), (0, 12), ombre.getchannel('A'))
     base.alpha_composite(toile)
     base.convert('RGB').save(sortie, quality=95)
