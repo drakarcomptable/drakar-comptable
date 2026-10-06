@@ -403,6 +403,40 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
   .team .quote{order:5}
 }
 
+/* avis google : meme principe que le bandeau de logos, en cartes */
+.avis{margin-top:clamp(30px,4vw,46px)}
+.avis-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;
+  margin-bottom:clamp(16px,2vw,24px)}
+.avis-head h3{font-size:clamp(1.05rem,1.7vw,1.35rem);letter-spacing:-.025em}
+.gnote{display:inline-flex;align-items:center;gap:8px;font-size:.92rem;color:var(--steel)}
+.gnote b{font-size:1.02rem;color:var(--ink);font-weight:700}
+.gnote .st{color:#fbbc04;letter-spacing:.08em;font-size:.95rem}
+.amar{position:relative;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.arow{display:flex;align-items:stretch;gap:clamp(12px,1.4vw,18px);width:max-content;
+  padding-block:6px;animation:slide 64s linear infinite}
+.av{flex:none;width:clamp(258px,74vw,320px);background:#fff;border-radius:16px;
+  padding:clamp(16px,1.7vw,20px);display:flex;flex-direction:column;gap:10px;
+  box-shadow:0 20px 48px -36px rgba(0,67,88,.8);
+  transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s}
+.av:hover{transform:translateY(-4px);box-shadow:0 28px 56px -32px rgba(0,67,88,.85)}
+.av .hd{display:flex;align-items:center;gap:11px}
+.av .pic{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:var(--ice);color:var(--ink);font-weight:700;font-size:.92rem;overflow:hidden}
+.av .pic img{width:100%;height:100%;object-fit:cover}
+.av .who{min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.av .who b{font-size:.94rem;font-weight:700;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.av .who span{font-size:.8rem;color:var(--steel);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.av .gg{margin-left:auto;width:17px;height:17px;flex:none}
+.av .st{color:#fbbc04;letter-spacing:.09em;font-size:.95rem;line-height:1}
+.av p{font-size:.9rem;line-height:1.5;color:var(--ink-2);
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
+.av time{margin-top:auto;font-size:.76rem;color:var(--dim)}
+@media(prefers-reduced-motion:reduce){.arow{animation:none}}
+
 /* cas */
 .mcards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.4vw,18px);margin-top:clamp(28px,3.6vw,48px)}
 .mcard{display:block;background:#fff;border-radius:18px;overflow:hidden;
@@ -721,6 +755,13 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         </div>
       </figure>
     </div>
+  </div>
+  <div class="avis rv" id="avis" hidden>
+    <div class="rail avis-head">
+      <h3>Ce qu'ils en disent sur Google</h3>
+      <span class="gnote" id="gnote"></span>
+    </div>
+    <div class="amar"><div class="arow" id="arow"></div></div>
   </div>
 </section>
 
@@ -1064,6 +1105,49 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       return '<article class="sf rv'+(i%3?' d'+(i%3):'')+(s[3]?' nomob':'')+'"><div class="top"><span class="lg">'+ico(s[0])+
         '</span></div><h3>'+s[1]+'</h3><p>'+s[2]+'</p></article>';
     }).join('');
+  })();
+
+  /* ---------- avis google ----------
+     AVIS reste vide tant que les avis reels ne sont pas fournis : le bandeau
+     s'affiche seulement s'il a de quoi le remplir. NOTE vaut par exemple
+     {n:'5,0', nb:12, url:'https://...'} pour la ligne de synthese. */
+  var AVIS = [];
+  var NOTE = null;
+  (function(){
+    var host = document.getElementById('avis');
+    if(!host || !AVIS.length) return;
+    host.hidden = false;
+
+    if(NOTE){
+      document.getElementById('gnote').innerHTML =
+        '<span class="st">★★★★★</span><b>'+NOTE.n+'</b> sur Google'+
+        (NOTE.nb ? ' <span>· '+NOTE.nb+' avis</span>' : '');
+    }
+
+    function carte(a){
+      var pic = a.ph ? '<img src="'+a.ph+'" alt="" loading="lazy" decoding="async">'
+                     : (a.nm||'?').trim().charAt(0).toUpperCase();
+      return '<article class="av">'+
+        '<div class="hd"><span class="pic">'+pic+'</span>'+
+          '<span class="who"><b>'+a.nm+'</b>'+(a.ro?'<span>'+a.ro+'</span>':'')+'</span>'+
+          '<span class="gg">'+ico('Google')+'</span></div>'+
+        '<span class="st" aria-label="'+(a.no||5)+' étoiles sur 5">'+
+          '★★★★★'.slice(0, a.no||5)+'</span>'+
+        '<p>'+a.tx+'</p>'+
+        (a.dt ? '<time>'+a.dt+'</time>' : '')+
+      '</article>';
+    }
+
+    var row = document.getElementById('arow');
+    var une = AVIS.map(carte).join('');
+    row.innerHTML = une;
+    // on repete la serie jusqu'a couvrir largement l'ecran, puis on la double :
+    // le defilement de -50 % reboucle alors sans saut visible.
+    var reps = 1;
+    for(var i=0;i<8 && row.scrollWidth < window.innerWidth*1.35; i++){
+      reps++; row.innerHTML = une.repeat(reps);
+    }
+    row.innerHTML = une.repeat(reps) + une.repeat(reps);
   })();
 
   /* ---------- orbite ---------- */
