@@ -599,7 +599,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 
 <header>
   <div class="nav">
-    <a class="brand" href="#top" aria-label="Nazar, accueil"><img src="logo.png" alt="Nazar"></a>
+    <a class="brand" href="#top" aria-label="Nazar, accueil"><img src="logo.png" width="48" height="48" alt="Nazar"></a>
     <a class="nl" href="#surfaces">Nos services</a>
     <a class="nl" href="#plateforme">Notre outil</a>
     <a class="nl" href="#audit">L'audit</a>
@@ -672,7 +672,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     <div class="orbit rv d1" id="orbit" aria-hidden="true">
       <div class="ring r2"></div>
       <div class="ring r1"></div>
-      <div class="ocenter"><img src="logo.png" alt=""></div>
+      <div class="ocenter"><img src="logo.png" width="48" height="48" alt=""></div>
     </div>
   </div>
 </section>
@@ -965,7 +965,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   <div class="rail">
     <div class="fgrid">
       <div>
-        <div class="fbrand"><img src="logo.png" alt="Nazar"></div>
+        <div class="fbrand"><img src="logo.png" width="48" height="48" alt="Nazar"></div>
         <p style="margin-top:12px;max-width:28ch">Collectif de consultants en référencement sur Google et sur les IA génératives.</p>
       </div>
       <div><h4>L'agence</h4><a href="#consultant">Vos consultants</a><a href="#plateforme">Notre outil</a><a href="#faq">Questions fréquentes</a></div>
@@ -1099,13 +1099,56 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       // dans le code, pour qu'une recherche sur sa marque ne remonte pas ce site.
       return '<img class="'+(c.c||'')+'" src="'+c.f+'" alt="" decoding="async">';
     }).join('');
-    // on repete la serie jusqu'a couvrir largement l'ecran, puis on la double pour la boucle
-    var reps = 1;
-    row.innerHTML = one;
-    for(var i=0;i<8 && row.scrollWidth < window.innerWidth*1.35; i++){
-      reps++; row.innerHTML = one.repeat(reps);
+    /* Deux defauts corriges ici.
+
+       Le premier : le nombre de repetitions se decidait sur la largeur mesuree
+       juste apres avoir pose le HTML, alors que les logos n'etaient pas encore
+       charges. Leur hauteur est fixee en CSS mais pas leur largeur, qui depend
+       de l'image : tant qu'elle n'est pas arrivee, la piste parait vide et la
+       boucle repetait la serie jusqu'a huit fois. Le resultat changeait donc
+       d'une visite a l'autre. On attend desormais les images avant de mesurer.
+
+       Le second : la duree etait fixe, 72 secondes, quelle que soit la longueur
+       de la piste. Or l'ecart entre logos est en clamp() et se resserre sur
+       telephone, ce qui raccourcit la piste : a duree egale, le bandeau y
+       defilait presque deux fois moins vite que sur grand ecran. La duree suit
+       maintenant la longueur, pour une vitesse identique partout. */
+    var VITESSE = 100;   // pixels par seconde, la cadence constatee sur grand ecran
+
+    function cale(){
+      var reps = 1;
+      row.innerHTML = one;
+      for(var i=0;i<8 && row.scrollWidth < window.innerWidth*1.35; i++){
+        reps++; row.innerHTML = one.repeat(reps);
+      }
+      row.innerHTML = one.repeat(reps) + one.repeat(reps);
+      row.style.animationDuration = Math.max(18, Math.round((row.scrollWidth/2)/VITESSE)) + 's';
     }
-    row.innerHTML = one.repeat(reps) + one.repeat(reps);
+
+    function quandCharges(fn){
+      var imgs = [].slice.call(row.querySelectorAll('img'));
+      var reste = imgs.length, fait = false;
+      function fini(){ if(!fait){ fait = true; fn(); } }
+      if(!reste) return fini();
+      imgs.forEach(function(im){
+        if(im.complete && im.naturalWidth) { if(--reste <= 0) fini(); }
+        else {
+          var vu = function(){ im.removeEventListener('load', vu);
+                               im.removeEventListener('error', vu);
+                               if(--reste <= 0) fini(); };
+          im.addEventListener('load', vu); im.addEventListener('error', vu);
+        }
+      });
+      // filet de securite : on ne reste pas bloque si une image ne repond pas
+      setTimeout(fini, 2500);
+    }
+
+    row.innerHTML = one;
+    quandCharges(cale);
+    var minuteurBande;
+    addEventListener('resize', function(){
+      clearTimeout(minuteurBande); minuteurBande = setTimeout(cale, 220);
+    });
   })();
 
   /* ---------- grille des moteurs ---------- */
@@ -1136,13 +1179,13 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     {nm:'Maxime Carpentier', ro:'Responsable commercial et marketing', no:5, dt:'juin 2025',
      tx:'Bien plus que de simples exécutants, ce sont de véritables partenaires stratégiques. Leur accompagnement SEO joue un rôle clé dans notre croissance.'},
     {nm:'Imane Aitbaady', ro:'Head of Marketing, équipements du bâtiment', no:5, dt:'juin 2026',
-     im:'avis-sc-01.webp',
+     im:'avis-sc-01.webp', iw:720, ih:320,
      ia:'Search Console du client : 28,5 k clics et 300,1 k impressions sur trois mois',
      tx:'On travaille avec Nazar depuis quelques mois sur notre SEO et notre visibilité sur Google et les IA. Clément est disponible, clair dans ses explications et propose des actions concrètes adaptées à notre activité dans les équipements du bâtiment. Il connaît bien le marché marocain et la zone MENA, ce qui rend les recommandations vraiment pertinentes pour nous. Les backlinks proposés sont de bonne qualité et on commence à voir des résultats. Je recommande Nazar pour toute entreprise qui veut améliorer sa visibilité en ligne au Maroc et en zone MENA.'},
     {nm:'Ilhan Belli', ro:'Co-founder, HIROS', no:5, dt:'septembre 2025',
      tx:'Une équipe pro, réactive et à l\u2019écoute. Nazar a boosté notre visibilité SEO en un temps record. Je recommande les yeux fermés !'},
     {nm:'Keita Isaac', ro:'Directeur commercial et marketing, AWF', no:5, dt:'octobre 2025',
-     im:'avis-sc-02.webp',
+     im:'avis-sc-02.webp', iw:720, ih:294,
      ia:'Search Console du client : 55,5 k clics et 2,46 M impressions',
      tx:'Merci beaucoup à l\u2019équipe de Nazar pour avoir apporté une assistance et un savoir-faire de pointe dans le cadre de l\u2019intégration de notre nouvelle marque au catalogue, ainsi que pour la formation de nos équipes au référencement IA. Je recommande !'},
     {nm:'Hishame M.', ro:'Responsable de l\u2019acquisition', no:5, dt:'juillet 2025',
@@ -1180,7 +1223,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         '<span class="st" aria-label="'+(a.no||5)+' étoiles sur 5">'+
           '★★★★★'.slice(0, a.no||5)+'</span>'+
         '<p>'+a.tx+'</p>'+
-        (a.im ? '<figure class="sc"><img src="'+a.im+'" alt="'+(a.ia||'')+
+        (a.im ? '<figure class="sc"><img src="'+a.im+'" width="'+a.iw+'" height="'+a.ih+'" alt="'+(a.ia||'')+
                 '" loading="lazy" decoding="async"><figcaption>Capture jointe à l\u2019avis</figcaption></figure>' : '')+
         (a.dt ? '<time>'+a.dt+'</time>' : '')+
       '</article>';
@@ -1264,6 +1307,42 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       return;
     }
 
+    /* La demonstration change de question en boucle, et la reponse disparait
+       entre deux tours : le cadre changeait donc de hauteur sans arret et
+       poussait tout ce qui suit. Safari ne recale pas le defilement quand un
+       bloc grandit au-dessus du doigt, d'ou l'a-coup sec ressenti sur iPhone
+       toutes les quelques secondes. On reserve ici la place du plus grand des
+       etats, mesuree pour de vrai a la largeur courante plutot que devinee. */
+    var corps = document.querySelector('.scr-body');
+    function reserve(){
+      if(!corps) return;
+      var etat = {q:qMsg.textContent, h:aiHead.innerHTML, b:aiBody.innerHTML,
+                  s:srcs.innerHTML, cache:aiMsg.hidden};
+      corps.style.minHeight = '0px';
+      aiMsg.hidden = false;
+      var max = 0;
+      Q.forEach(function(Qx){
+        qMsg.textContent = Qx.q;
+        aiHead.innerHTML = head(ENGINES[Qx.e % ENGINES.length]);
+        aiBody.textContent = Qx.a;
+        paint(Qx);
+        var h = corps.getBoundingClientRect().height;
+        if(h > max) max = h;
+      });
+      /* tout est remis en place dans la meme tache : aucun affichage
+         intermediaire n'a lieu, la mesure reste invisible */
+      qMsg.textContent = etat.q; aiHead.innerHTML = etat.h;
+      aiBody.innerHTML = etat.b; srcs.innerHTML = etat.s;
+      aiMsg.hidden = etat.cache;
+      corps.style.minHeight = Math.ceil(max) + 'px';
+    }
+    reserve();
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(reserve);
+    var minuteurRes;
+    addEventListener('resize', function(){
+      clearTimeout(minuteurRes); minuteurRes = setTimeout(reserve, 180);
+    });
+
     var qi = 0, timers = [], spin = 0;
     function at(fn,ms){ timers.push(setTimeout(fn,ms)); }
     function run(){
@@ -1333,6 +1412,34 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
            ['ok','Prix et conditions explicites'],
            ['ok','Sources et dates vérifiables']] }
     ];
+
+    /* Meme travers que l'ecran du hero : requete, titre et liste de points
+       changent a chaque tour et n'ont pas la meme longueur, donc le bloc
+       respirait en boucle. On reserve la hauteur du plus grand des trois cas. */
+    var main = host.querySelector('.apmain');
+    function reserveAp(){
+      if(!main) return;
+      var etat = {q:q.textContent, i:ic.textContent, t:ti.textContent, l:list.innerHTML};
+      main.style.minHeight = '0px';
+      var max = 0;
+      CAS.forEach(function(cas){
+        q.textContent = cas.q; ic.textContent = cas.i; ti.textContent = cas.t;
+        list.innerHTML = cas.c.map(function(x){
+          return '<li class="'+x[0]+' in">'+x[1]+'</li>';
+        }).join('');
+        var h = main.getBoundingClientRect().height;
+        if(h > max) max = h;
+      });
+      q.textContent = etat.q; ic.textContent = etat.i;
+      ti.textContent = etat.t; list.innerHTML = etat.l;
+      main.style.minHeight = Math.ceil(max) + 'px';
+    }
+    reserveAp();
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(reserveAp);
+    var minuteurAp;
+    addEventListener('resize', function(){
+      clearTimeout(minuteurAp); minuteurAp = setTimeout(reserveAp, 180);
+    });
 
     function puces(cas){
       list.innerHTML = cas.c.map(function(x){
@@ -1488,16 +1595,16 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   /* ---------- cartes resultats ---------- */
   (function(){
     var CASES = [
-      {kd:'B2C local',  ph:'cas-01.webp', lg:'cas-logo-01.webp',
+      {kd:'B2C local',  ph:'cas-01.webp', lg:'cas-logo-01.webp', lw:458, lh:150,
        ti:'+192 <span>%</span>',
        sb:'de leads issus du SEO pour un chasseur immobilier parisien, passé premier sur sa requête principale.'},
-      {kd:'Agence',     ph:'cas-02.webp', lg:'cas-logo-02.svg', 
+      {kd:'Agence',     ph:'cas-02.webp', lg:'cas-logo-02.svg', lw:300, lh:150, 
        ti:'Top <span>1</span>',
        sb:'sur « agence powerpoint », repris en un mois de mission et tenu depuis un an.'},
-      {kd:'IoT B2B',    ph:'cas-03.webp', lg:'cas-logo-03.webp', pl:1,
+      {kd:'IoT B2B',    ph:'cas-03.webp', lg:'cas-logo-03.webp', lw:538, lh:150, pl:1,
        ti:'9 <span>RDV</span>',
        sb:'générés chaque mois en moyenne, sur des paniers moyens à 32 000 €.'},
-      {kd:'E-commerce', ph:'cas-04.webp', lg:'cas-logo-04.webp',
+      {kd:'E-commerce', ph:'cas-04.webp', lg:'cas-logo-04.webp', lw:1463, lh:150,
        ti:'1 <span>M</span>',
        sb:'de visites annuelles issues du SEO, sur le marché français de la sneaker.'}
     ];
@@ -1509,7 +1616,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
           '<img src="'+c.ph+'" alt="" loading="lazy">' +
           '<span class="veil"></span>' +
           '<span class="kd">'+c.kd+'</span>' +
-          '<span class="clg"><img class="'+(c.pl?'plaque':'')+'" src="'+c.lg+'" alt=""></span>' +
+          '<span class="clg"><img class="'+(c.pl?'plaque':'')+'" src="'+c.lg+'" width="'+c.lw+'" height="'+c.lh+'" alt=""></span>' +
         '</div>' +
         '<div class="bd">' +
           '<div class="ti">'+c.ti+'</div>' +
