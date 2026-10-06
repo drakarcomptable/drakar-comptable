@@ -5,7 +5,8 @@ Ce dossier n'est **pas** publié : le site déployé sur Vercel a pour racine
 
 | Fichier | Dimensions | Destination |
 |---|---|---|
-| `NAZAR-profil-A/B/C.png` | 1584 x 396 | Couverture du profil personnel |
+| `NAZAR-profil-A/B/C.png` | 1584 x 396 | Couverture du profil, texte sur deux lignes pleine largeur |
+| `NAZAR-profil-D/E/F.png` | 1584 x 396 | Couverture du profil, composition horizontale avec filet et logos |
 | `NAZAR-entreprise-A/B/C.png` | 1128 x 191 | Couverture de la page entreprise |
 
 Les textes qui vont avec sont dans `../NAZAR-LINKEDIN.md`.

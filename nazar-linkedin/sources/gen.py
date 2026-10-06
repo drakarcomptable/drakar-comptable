@@ -169,10 +169,49 @@ def entreprise_C(L=1128, H=191):
     </div>""" % {'chips': pastilles(38, 22, 10)}
     return page(L, H, corps, 20)
 
+
+# -- composition horizontale, celle de la banniere entreprise, remise a l'echelle
+#    du profil personnel. Le texte occupe une bande centrale : LinkedIn garde
+#    ainsi de l'air au-dessus et en dessous, et la photo de profil a la place
+#    qu'elle prend de toute facon en bas a gauche.
+def profil_D(L=1584, H=396):
+    corps = u"""
+    <div class="bloc" style="right:84px;top:50%%;transform:translateY(-50%%);
+         display:flex;align-items:center;gap:30px">
+      <h1 style="font-size:40px;text-align:right;line-height:1.14">Vos prochains clients<br>vous cherchent <span class="acc">sur les IA.</span></h1>
+      <span class="filet" style="width:3px;height:74px"></span>
+      %(chips)s
+    </div>""" % {'chips': pastilles(56, 32, 14)}
+    return page(L, H, corps)
+
+def profil_E(L=1584, H=396):
+    corps = u"""
+    <div class="bloc" style="right:84px;top:50%%;transform:translateY(-50%%);
+         display:flex;align-items:center;gap:34px">
+      <h1 style="font-size:46px;text-align:right;line-height:1.14">Vos prochains clients<br>vous cherchent <span class="acc">sur les IA.</span></h1>
+      <span class="filet" style="width:3px;height:84px"></span>
+      %(chips)s
+    </div>""" % {'chips': pastilles(62, 35, 15)}
+    return page(L, H, corps)
+
+def profil_F(L=1584, H=396):
+    """Variante sobre : une seule ligne, encore plus discrete."""
+    corps = u"""
+    <div class="bloc" style="right:84px;top:50%%;transform:translateY(-50%%);
+         display:flex;align-items:center;gap:28px">
+      <h1 style="font-size:34px;text-align:right;line-height:1.14">Vos prochains clients<br>vous cherchent <span class="acc">sur les IA.</span></h1>
+      <span class="filet" style="width:3px;height:64px"></span>
+      %(chips)s
+    </div>""" % {'chips': pastilles(48, 27, 12)}
+    return page(L, H, corps)
+
 JEUX = [
     ('profil-A', profil_A, 1584, 396),
     ('profil-B', profil_B, 1584, 396),
     ('profil-C', profil_C, 1584, 396),
+    ('profil-D', profil_D, 1584, 396),
+    ('profil-E', profil_E, 1584, 396),
+    ('profil-F', profil_F, 1584, 396),
     ('entreprise-A', entreprise_A, 1128, 191),
     ('entreprise-B', entreprise_B, 1128, 191),
     ('entreprise-C', entreprise_C, 1128, 191),
