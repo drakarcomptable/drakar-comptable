@@ -21,27 +21,27 @@ html,body{width:__L__px;height:__H__px;overflow:hidden}
 body{font-family:'PJS',sans-serif;-webkit-font-smoothing:antialiased;
   background:#e3f7fe;position:relative}
 .fond{position:absolute;inset:0;
-  background:radial-gradient(130% 150% at 16% 8%,#f6fcff 0%,#e2f4fd 44%,#c3e2f4 100%)}
+  background:radial-gradient(130% 150% at 16% 8%,#f2fcff 0%,#e3f7fe 44%,#c7f0ff 100%)}
 .vg{position:absolute;inset:0;display:block}
 .voile{position:absolute;inset:0;
   background:linear-gradient(280deg,rgba(255,255,255,.80) 0%,rgba(255,255,255,.34) 36%,rgba(255,255,255,0) 64%)}
 .bloc{position:absolute;z-index:3}
 .chips{display:flex;align-items:center}
 .chip{display:inline-flex;align-items:center;justify-content:center;
-  background:#fff;border-radius:26%;border:1px solid rgba(0,67,88,.16);
+  background:#fff;border-radius:26%;border:1px solid rgba(0,67,88,.14);
   box-shadow:0 3px 10px rgba(0,67,88,.13)}
-h1{color:#00212c;font-weight:800;letter-spacing:-.025em;line-height:1.08;
+h1{color:#004358;font-weight:800;letter-spacing:-.025em;line-height:1.08;
   text-transform:uppercase}
-h1 .acc{color:#0a7fa0}
+h1 .acc{color:#0d9bc4}
 .sous{color:#44798a;font-weight:600;letter-spacing:.02em}
-.filet{background:#0a7fa0;border-radius:2px}
+.filet{background:#0d9bc4;border-radius:2px}
 </style></head><body>
 <div class="fond"></div>__VAGUES__<div class="voile"></div>
 __CORPS__
 </body></html>"""
 
 def page(L, H, corps, n=26):
-    v = gen.vagues(L, H, n, opac=.30).replace('stroke="#7fd8ee"', 'stroke="#15607a"')
+    v = gen.vagues(L, H, n, opac=.30).replace('stroke="#7fd8ee"', 'stroke="#004358"')
     return (SOCLE.replace('__POLICE__', gen.POLICE).replace('__L__', str(L))
                  .replace('__H__', str(H)).replace('__VAGUES__', v)
                  .replace('__CORPS__', corps))

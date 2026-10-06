@@ -50,3 +50,21 @@ sur 255.
 sur mobile LinkedIn place l'avatar ailleurs et le raccord n'y est
 qu'approché. Et la photo est liée à la bannière **D** : changer de bannière
 demande de régénérer le fond avec la nouvelle valeur de `BAN`.
+
+## Palette de la version claire
+
+Elle n'est pas choisie à l'œil : elle est relevée sur le logo lui-même.
+`logo.png` ne contient que deux couleurs, `#004358` pour le blob et
+`#e3f7fe` pour son fond, et c'est ce fond que LinkedIn affiche derrière la
+pastille sur la page entreprise.
+
+| Élément | Couleur | Origine |
+|---|---|---|
+| Dégradé du fond | `#f2fcff` → `#e3f7fe` → `#c7f0ff` | la teinte du logo, à trois luminosités |
+| Lignes de niveau | `#004358` | le blob du logo |
+| Titre | `#004358` | le blob du logo |
+| Mot accentué, filet | `#0d9bc4` | même teinte, saturée |
+
+Là où la pastille du logo se pose, le fond dominant de la bannière mesure
+`#e4f7fe` contre `#e3f7fe` pour la pastille : une unité d'écart, donc aucune
+démarcation visible. `apercu-page-entreprise.jpg` le montre.
