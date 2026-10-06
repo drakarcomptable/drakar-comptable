@@ -1066,21 +1066,24 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   })();
 
   /* logos clients : defilement infini, lent */
+  /* Les noms des clients ne figurent plus ici : une recherche sur la marque d'un
+     client ne doit pas pouvoir remonter jusqu'a ce site. La correspondance entre
+     chaque fichier et son client est tenue hors ligne, dans le depot. */
   var CLIENTS = [
-    {n:'Maugé Immobilier',       f:'ref-01.webp', c:'tall'},
-    {n:'App\u2019Ines',           f:'ref-08.webp'},
-    {n:'Sanofi',                 f:'ref-13.webp'},
-    {n:'Subclic',                f:'ref-02.webp'},
-    {n:'Orange',                 f:'ref-11.webp'},
-    {n:'Quintésens Groupe',      f:'ref-03.webp', c:'tall'},
-    {n:'Welcome to the Jungle',  f:'ref-14.webp'},
-    {n:'Coefficy',               f:'ref-09.webp'},
-    {n:'Ubigreen',               f:'ref-04.webp'},
-    {n:'Inet Process',           f:'ref-10.webp'},
-    {n:'Slidor',                 f:'ref-12.svg'},
-    {n:'Oteria Cyber School',    f:'ref-05.svg',  c:'tall'},
-    {n:'Alteia',                 f:'ref-06.svg',  c:'small'},
-    {n:'Bring4you',              f:'ref-07.svg'}
+    {f:'ref-01.webp', c:'tall'},
+    {f:'ref-08.webp'},
+    {f:'ref-13.webp'},
+    {f:'ref-02.webp'},
+    {f:'ref-11.webp'},
+    {f:'ref-03.webp', c:'tall'},
+    {f:'ref-14.webp'},
+    {f:'ref-09.webp'},
+    {f:'ref-04.webp'},
+    {f:'ref-10.webp'},
+    {f:'ref-12.svg'},
+    {f:'ref-05.svg',  c:'tall'},
+    {f:'ref-06.svg',  c:'small'},
+    {f:'ref-07.svg'}
   ];
   (function(){
     var row = document.getElementById('crow');
@@ -1088,7 +1091,9 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     var one = CLIENTS.map(function(c){
       // pas de chargement differe ici : le defilement du bandeau se fait par transformation,
       // ce qui ne declenche jamais le chargement des logos places hors de l'ecran a droite.
-      return '<img class="'+(c.c||'')+'" src="'+c.f+'" alt="'+c.n+'" decoding="async">';
+      // texte de remplacement vide : le nom du client ne doit apparaitre nulle part
+      // dans le code, pour qu'une recherche sur sa marque ne remonte pas ce site.
+      return '<img class="'+(c.c||'')+'" src="'+c.f+'" alt="" decoding="async">';
     }).join('');
     // on repete la serie jusqu'a couvrir largement l'ecran, puis on la double pour la boucle
     var reps = 1;
@@ -1479,16 +1484,16 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   /* ---------- cartes resultats ---------- */
   (function(){
     var CASES = [
-      {kd:'B2C local',  ph:'cas-01.webp', lg:'cas-logo-01.webp', nm:'Perle Rare',
+      {kd:'B2C local',  ph:'cas-01.webp', lg:'cas-logo-01.webp',
        ti:'+192 <span>%</span>',
        sb:'de leads issus du SEO pour un chasseur immobilier parisien, passé premier sur sa requête principale.'},
-      {kd:'Agence',     ph:'cas-02.webp', lg:'cas-logo-02.svg',  nm:'Slidor',
+      {kd:'Agence',     ph:'cas-02.webp', lg:'cas-logo-02.svg', 
        ti:'Top <span>1</span>',
        sb:'sur « agence powerpoint », repris en un mois de mission et tenu depuis un an.'},
-      {kd:'IoT B2B',    ph:'cas-03.webp', lg:'cas-logo-03.webp', nm:'Business IoT', pl:1,
+      {kd:'IoT B2B',    ph:'cas-03.webp', lg:'cas-logo-03.webp', pl:1,
        ti:'9 <span>RDV</span>',
        sb:'générés chaque mois en moyenne, sur des paniers moyens à 32 000 €.'},
-      {kd:'E-commerce', ph:'cas-04.webp', lg:'cas-logo-04.webp', nm:'Whentocop',
+      {kd:'E-commerce', ph:'cas-04.webp', lg:'cas-logo-04.webp',
        ti:'1 <span>M</span>',
        sb:'de visites annuelles issues du SEO, sur le marché français de la sneaker.'}
     ];
@@ -1500,7 +1505,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
           '<img src="'+c.ph+'" alt="" loading="lazy">' +
           '<span class="veil"></span>' +
           '<span class="kd">'+c.kd+'</span>' +
-          '<span class="clg"><img class="'+(c.pl?'plaque':'')+'" src="'+c.lg+'" alt="'+c.nm+'"></span>' +
+          '<span class="clg"><img class="'+(c.pl?'plaque':'')+'" src="'+c.lg+'" alt=""></span>' +
         '</div>' +
         '<div class="bd">' +
           '<div class="ti">'+c.ti+'</div>' +
