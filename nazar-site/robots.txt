@@ -4,3 +4,5 @@
 # Un Disallow empecherait la desindexation au lieu de la provoquer.
 User-agent: *
 Allow: /
+
+Sitemap: https://nazar-seo.fr/sitemap.xml
