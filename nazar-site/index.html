@@ -435,6 +435,13 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .av .st{color:#fbbc04;letter-spacing:.09em;font-size:.95rem;line-height:1}
 .av p{font-size:.9rem;line-height:1.5;color:var(--ink-2);
   display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden}
+/* capture partagee par l'auteur de l'avis : elle remplace quatre lignes de texte
+   pour que la carte ne depasse pas trop les autres. */
+.av.jc p{-webkit-line-clamp:3}
+.av .sc{margin:0}
+.av .sc img{width:100%;height:auto;display:block;border-radius:10px;
+  border:1px solid rgba(0,67,88,.12)}
+.av .sc figcaption{font-size:.7rem;color:var(--dim);margin-top:6px}
 .av time{margin-top:auto;font-size:.76rem;color:var(--dim)}
 @media(prefers-reduced-motion:reduce){.arow{animation:none}}
 
@@ -1108,6 +1115,8 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     {nm:'Maxime Carpentier', no:5, dt:'juin 2025',
      tx:'Bien plus que de simples exécutants, ce sont de véritables partenaires stratégiques. Leur accompagnement SEO joue un rôle clé dans notre croissance.'},
     {nm:'Imane Aitbaady', ro:'Head of Marketing, équipements du bâtiment', no:5, dt:'juin 2026',
+     im:'avis-sc-01.webp',
+     ia:'Search Console du client : 28,5 k clics et 300,1 k impressions sur trois mois',
      tx:'On travaille avec Nazar depuis quelques mois sur notre SEO et notre visibilité sur Google et les IA. Clément est disponible, clair dans ses explications et propose des actions concrètes adaptées à notre activité dans les équipements du bâtiment. Il connaît bien le marché marocain et la zone MENA, ce qui rend les recommandations vraiment pertinentes pour nous. Les backlinks proposés sont de bonne qualité et on commence à voir des résultats. Je recommande Nazar pour toute entreprise qui veut améliorer sa visibilité en ligne au Maroc et en zone MENA.'},
     {nm:'Ilhan Belli', ro:'Co-founder, HIROS', no:5, dt:'septembre 2025',
      tx:'Une équipe pro, réactive et à l\u2019écoute. Nazar a boosté notre visibilité SEO en un temps record. Je recommande les yeux fermés !'},
@@ -1139,13 +1148,15 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     function carte(a){
       var pic = a.ph ? '<img src="'+a.ph+'" alt="" loading="lazy" decoding="async">'
                      : (a.nm||'?').trim().charAt(0).toUpperCase();
-      return '<article class="av">'+
+      return '<article class="av'+(a.im?' jc':'')+'">'+
         '<div class="hd"><span class="pic">'+pic+'</span>'+
           '<span class="who"><b>'+a.nm+'</b>'+(a.ro?'<span>'+a.ro+'</span>':'')+'</span>'+
           '<span class="gg">'+ico('Google')+'</span></div>'+
         '<span class="st" aria-label="'+(a.no||5)+' étoiles sur 5">'+
           '★★★★★'.slice(0, a.no||5)+'</span>'+
         '<p>'+a.tx+'</p>'+
+        (a.im ? '<figure class="sc"><img src="'+a.im+'" alt="'+(a.ia||'')+
+                '" loading="lazy" decoding="async"><figcaption>Capture jointe à l\u2019avis</figcaption></figure>' : '')+
         (a.dt ? '<time>'+a.dt+'</time>' : '')+
       '</article>';
     }
