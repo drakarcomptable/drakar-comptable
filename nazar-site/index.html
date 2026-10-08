@@ -599,6 +599,15 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   background:var(--ice);border-radius:20px;padding:9px}
 .fbot{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;
   margin-top:clamp(26px,3.4vw,42px);padding-top:22px;border-top:1px solid rgba(223,242,249,.1);font-size:.84rem}
+/* .fgrid a est en display:block : le bouton doit reprendre la main pour
+   rester une pastille a sa largeur, et non une bande sur toute la colonne. */
+.fgrid .rs{display:inline-flex !important;align-items:center;gap:8px;
+  margin-top:18px;text-decoration:none;color:var(--dim);font-weight:600;
+  border:1px solid rgba(223,242,249,.16);border-radius:999px;
+  padding:.42rem .82rem .42rem .68rem;
+  transition:color .2s,border-color .2s,background .2s}
+.fgrid .rs svg{width:17px;height:17px;flex:none}
+.fgrid .rs:hover{color:var(--night);background:var(--acc);border-color:var(--acc)}
 .fbot .lk{display:flex;flex-wrap:wrap;gap:18px}
 @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
 
@@ -917,6 +926,19 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 </section>
 
 <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization",
+ "name":"NAZAR","legalName":"NAZAR DEV","alternateName":"NAZAR SEO",
+ "url":"https://nazar-seo.fr/",
+ "logo":"https://nazar-seo.fr/logo.png",
+ "description":"Collectif de consultants en r\u00e9f\u00e9rencement sur Google et sur les IA g\u00e9n\u00e9ratives.",
+ "email":"contact@seo-nazar.fr",
+ "telephone":"+33743392574",
+ "vatID":"FR17931478812",
+ "address":{"@type":"PostalAddress","streetAddress":"10 rue de Penthi\u00e8vre",
+            "postalCode":"75008","addressLocality":"Paris","addressCountry":"FR"},
+ "sameAs":["https://www.linkedin.com/company/nazar-seo/"]}
+</script>
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -995,6 +1017,15 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
       <div>
         <div class="fbrand"><img src="logo.png" width="48" height="48" alt="Nazar"></div>
         <p style="margin-top:12px;max-width:28ch">Collectif de consultants en référencement sur Google et sur les IA génératives.</p>
+          <!-- Forme publique de l'adresse de la page. Celle que donne le
+               navigateur d'un administrateur porte en plus /home/ et
+               ?viewAsMember=true, deux reliquats de la vue "en tant que
+               membre" qui n'ont rien a faire dans un lien public. -->
+          <a class="rs" href="https://www.linkedin.com/company/nazar-seo/"
+             target="_blank" rel="noopener" aria-label="NAZAR sur LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            <span>LinkedIn</span>
+          </a>
       </div>
       <div><h4>L'agence</h4><a href="#consultant">Vos consultants</a><a href="#plateforme">Notre outil</a><a href="#faq">Questions fréquentes</a></div>
       <div><h4>L'audit</h4><a href="#surfaces">Les moteurs couverts</a><a href="#audit">Comment ça marche</a><a href="#cas">Nos résultats</a><a href="https://meetings-eu1.hubspot.com/mael-gallais/auditgeonazar?uuid=35289a56-0d65-4dc5-8725-29da4834660a" target="_blank" rel="noopener">Demander l'audit</a></div>
