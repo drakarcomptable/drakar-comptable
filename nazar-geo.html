@@ -556,6 +556,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 form{display:flex;flex-direction:column;gap:12px}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .inp{display:flex;flex-direction:column;gap:6px;min-width:0}
+.piege{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .inp label{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
 .inp input{background:var(--paper);border:0;border-radius:12px;padding:.85rem 1rem;color:var(--ink);
   font-family:var(--sans);font-size:.98rem;width:100%}
@@ -820,7 +821,17 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         </div>
         <div class="inp"><label for="fconc">Vos principaux concurrents</label>
           <input id="fconc" placeholder="Trois noms suffisent"></div>
-        <div class="inp"><label for="fmsg">Ce que vous attendez de l'audit</label>
+        <!-- Champ piege. Il est invisible et hors du parcours : ni le clavier
+       (tabindex -1), ni les lecteurs d'ecran (aria-hidden), ni la souris ne
+       le rencontrent. Les robots qui remplissent tous les champs d'un
+       formulaire, eux, le remplissent, et c'est la seule facon de les
+       reconnaitre a coup sur. Il n'est pas en display:none, que certains
+       robots savent deja ignorer. -->
+  <div class="piege" aria-hidden="true">
+    <label for="fpiege">Ne remplissez pas ce champ</label>
+    <input id="fpiege" name="_honey" type="text" tabindex="-1" autocomplete="off">
+  </div>
+  <div class="inp"><label for="fmsg">Ce que vous attendez de l'audit</label>
           <textarea id="fmsg" placeholder="Générer des demandes entrantes qualifiées, comprendre pourquoi l'IA cite mes concurrents…"></textarea></div>
         <button class="btn btn-dark" type="submit" style="align-self:flex-start">Envoyer ma demande
           <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
@@ -1644,6 +1655,26 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
        l'exercice cote navigateur. */
     if(dest) dest.textContent = ['mael', 'nazar-seo.fr'].join('@');
 
+    /* Deux filtres avant l'envoi, parce que le formulaire a recu du
+       demarchage automatise des son ouverture.
+
+       Le premier lit le champ piege : un visiteur ne peut pas l'avoir rempli,
+       il est hors de sa portee. Le second mesure le temps passe sur la page :
+       personne ne renseigne huit champs en moins de trois secondes.
+
+       La meme valeur `_honey` part aussi vers FormSubmit, qui applique son
+       propre filtre : deux barrages valent mieux qu'un, et celui-ci ne depend
+       pas de nous. Dans les deux cas le robot voit un message de reussite et
+       ne reessaie pas : lui repondre une erreur l'inciterait a recommencer. */
+    var OUVERTURE = Date.now();
+    var DELAI_MINI = 3000;
+    function robot(){
+      var p = document.getElementById('fpiege');
+      if(p && p.value) return 'piege rempli';
+      if(Date.now() - OUVERTURE < DELAI_MINI) return 'envoi trop rapide';
+      return null;
+    }
+
     var CHAMPS = [
       ['fnom','Nom et prénom'], ['fsoc','Société'], ['fmail','Email professionnel'],
       ['ftel','Téléphone'], ['fsite','Site web'], ['fsect','Secteur'],
@@ -1686,14 +1717,27 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       }
 
       envoi.disabled = true; envoi.textContent = 'Envoi…';
-      var charge = {_subject: 'Audit GEO — ' + (val('fsoc') || val('fnom')), _captcha: 'false', _template: 'table'};
-      CHAMPS.forEach(function(c){ charge[c[1]] = val(c[0]) || '—'; });
 
       function fini(bon){
         envoi.disabled = false; envoi.innerHTML = envoiTexte;
         (bon ? reussi : echoue)();
         form.hidden = true; sent.hidden = false;
       }
+
+      /* Le controle vient apres la validation des champs et avant l'envoi :
+         un robot recoit donc la meme confirmation qu'un visiteur, sans que
+         rien ne parte. */
+      var suspect = robot();
+      if(suspect){
+        fini(true);
+        return;
+      }
+
+      var charge = {_subject: 'Audit GEO — ' + (val('fsoc') || val('fnom')),
+                    _captcha: 'false', _template: 'table',
+                    _honey: (document.getElementById('fpiege') || {}).value || ''};
+      CHAMPS.forEach(function(c){ charge[c[1]] = val(c[0]) || '—'; });
+
       if(!window.fetch){ fini(false); return; }
       fetch(BOITE, {
         method: 'POST',
