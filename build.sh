@@ -1,6 +1,11 @@
 set -e
-SP=/tmp/claude-0/-home-user-drakar-comptable/053d6a3d-6ce3-51d7-a083-05ef634a21f1/scratchpad
-OUT=$SP/deploy
+# Les chemins sont relatifs au depot : le dossier de travail d'une session
+# disparait avec son conteneur, le script ne doit pas en dependre.
+# nazar-geo.html est la source unique du site, nazar-site/ sa sortie, qui
+# est aussi la racine de deploiement declaree dans Vercel.
+SP="$(cd "$(dirname "$0")" && pwd)"
+OUT="$SP/nazar-site"
+mkdir -p "$OUT"
 cat > "$OUT/index.html" <<'HEAD'
 <!doctype html>
 <html lang="fr">

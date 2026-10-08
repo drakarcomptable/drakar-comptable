@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import io
+import io, os
 FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
           'stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>')
 
@@ -44,7 +44,10 @@ def doc(fichier, titre, desc, corps):
 </body>
 </html>
 """ % (titre, desc, FLECHE, corps)
-    io.open("deploy/" + fichier, "w", encoding="utf-8").write(s)
+    # ecrit a cote du script, dans la racine de deploiement du site, et non
+    # dans un "deploy/" relatif au dossier courant au moment de l'appel
+    sortie = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nazar-site", fichier)
+    io.open(sortie, "w", encoding="utf-8").write(s)
     print("ecrit", fichier)
 
 ML = u"""    <p class="maj">Dernière mise à jour : 5 octobre 2026</p>
