@@ -68,3 +68,18 @@ pastille sur la page entreprise.
 Là où la pastille du logo se pose, le fond dominant de la bannière mesure
 `#e4f7fe` contre `#e3f7fe` pour la pastille : une unité d'écart, donc aucune
 démarcation visible. `apercu-page-entreprise.jpg` le montre.
+
+## Second portrait
+
+`NAZAR-photo-profil-2.jpg` reprend la même zone de bannière et la même
+hauteur relative pour le sommet des cheveux. Deux différences tenant à la
+source, carrée et où le sujet touche trois bords :
+
+- le cadre ne peut pas s'élargir autant, 2,17 fois la largeur du visage
+  contre 2,52. Le portrait est donc un peu plus serré ;
+- le fond d'origine est un gris clair uniforme, `#f0eae3`. Les pixels de
+  bord en gardaient la clarté et dessinaient un halo pâle sur le bleu nuit.
+  `sources/photo2-compose.py` retire cette couleur par le calcul, en
+  inversant l'équation du mélange. `sources/photo2-verif.py` contrôle le
+  résultat : recomposé sur son gris d'origine, le détourage redonne la
+  photo de départ, écart médian nul et moyen de 0,6 sur 255.
