@@ -83,3 +83,15 @@ source, carrée et où le sujet touche trois bords :
   inversant l'équation du mélange. `sources/photo2-verif.py` contrôle le
   résultat : recomposé sur son gris d'origine, le détourage redonne la
   photo de départ, écart médian nul et moyen de 0,6 sur 255.
+
+## Troisième portrait
+
+Son fond de studio n'est pas uni : il s'éclaircit vers le bas, de `#b3a192`
+à `#bcaa9e`. Lui opposer une couleur unique aurait laissé un bord trop clair
+en haut et trop sombre en bas. `sources/photo3-compose.py` relève donc le
+fond ligne par ligne, là où le masque le déclare, puis lisse les mesures.
+Sous les épaules le sujet occupe toute la largeur : la dernière ligne
+mesurée est prolongée, le fond y variant de toute façon lentement.
+
+Contrôle : recomposé sur son fond d'origine, le détourage redonne la photo
+de départ, écart médian nul et moyen de 0,9 sur 255.
