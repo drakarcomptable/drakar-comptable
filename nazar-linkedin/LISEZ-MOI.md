@@ -113,9 +113,17 @@ de lui. Un rayon unique et large mélangeait le mur et le tableau juste
 au-dessus de la tête, sous-estimait la clarté du fond, et la couleur
 reconstituée partait vers le blanc.
 
-Il subsiste un liséré clair au sommet des boucles. Vérification faite sur
-la photo d'origine : le mur passe à travers les cheveux à cet endroit, et à
-360 px chaque pixel mélange cheveu et mur sans qu'aucune couleur de cheveu
-pure ne soit récupérable. Ce n'est donc pas un défaut du traitement. Aux
-tailles où LinkedIn affiche l'avatar, 200 px et moins, cela se lit comme un
-reflet.
+**Le mur à travers les cheveux.** Au sommet du crâne, le mur passe entre les
+boucles, et le masque inclut des pixels qui sont du mur, dix pour cent d'entre
+eux étant même déclarés pleinement opaques. Leur rendre une couleur de cheveu
+ne marche pas : il n'y a pas de cheveu dessous. Ils sont donc retirés du
+masque, et la silhouette se resserre un peu, ce qu'un retoucheur ferait à la
+main.
+
+Le critère est **relatif** et non absolu, pour ne pas entamer le visage. Les
+mesures sur cette photo : les vrais cheveux plafonnent à 107 de clarté au 99e
+centile, le mur est à 226, la peau à 145. Un seuil fixe à 150 aurait donc
+rogné la joue. Chaque pixel du bord est comparé à la clarté du sujet qui
+l'entoure : au sommet du crâne le cœur est à 55, un pixel à 200 s'en écarte de
+145 et part ; au bord de la joue le cœur est à 145, la peau ne s'en écarte pas
+et reste.

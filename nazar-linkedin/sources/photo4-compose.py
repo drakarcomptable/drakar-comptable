@@ -63,6 +63,45 @@ def decontamine(src_rgb, al, fond):
     f = np.where(trop, (voisin * 1.06) / np.maximum(cl, 1e-6), 1.0)
     return np.clip(sujet * f[..., None], 0, 255)
 
+def ravale(src_rgb, al, bande=6, rayon=9, marge=40, pente=55):
+    """Retire du masque les pixels de fond qu'il a pris pour du sujet.
+
+    Au sommet du crane le mur passe entre les boucles. Le masque y inclut des
+    pixels qui sont du mur, parfois en les declarant pleinement opaques. Tenter
+    de leur rendre une couleur de cheveu ne marche pas : il n'y a pas de cheveu
+    dessous. On les ecarte donc, et la silhouette se resserre un peu, ce qu'un
+    retoucheur ferait a la main.
+
+    Le critere est relatif et non absolu, pour ne pas entamer le visage. Les
+    mesures sur cette photo : les vrais cheveux plafonnent a 107 de clarte au
+    99e centile, le mur est a 226, la peau a 145. Un seuil fixe a 150
+    rognerait donc la joue. On compare chaque pixel du bord a la clarte du
+    sujet qui l'entoure : au sommet du crane le coeur est a 55, un pixel a 200
+    s'en ecarte de 145 et part ; au bord de la joue le coeur est a 145, la peau
+    ne s'en ecarte pas et reste.
+    """
+    def clarte(x):
+        return .299 * x[..., 0] + .587 * x[..., 1] + .114 * x[..., 2]
+
+    bord = np.asarray(Image.fromarray(((al < 250) * 255).astype(np.uint8))
+                      .filter(ImageFilter.MaxFilter(2 * bande + 1))).astype(np.float32) / 255.0
+    proche = bord > 0.5
+    # la clarte de reference est relevee au coeur du masque, a l'ecart de la
+    # bande : les pixels de mur qui s'y trouvent ne doivent pas la tirer vers
+    # le haut
+    coeur = ((al > 240) & ~proche).astype(np.float32)
+    poids = np.asarray(Image.fromarray((coeur * 255).astype(np.uint8))
+                       .filter(ImageFilter.GaussianBlur(rayon))).astype(np.float32) / 255.0
+    somme = np.asarray(Image.fromarray((clarte(src_rgb) * coeur).astype(np.uint8))
+                       .filter(ImageFilter.GaussianBlur(rayon))).astype(np.float32)
+    cv = somme / np.maximum(poids, 1e-3)
+    sur = poids > 0.04
+
+    trop = (clarte(src_rgb) - cv - marge) / float(pente)
+    garde = np.clip(1.0 - trop, 0.0, 1.0)
+    garde = np.where(proche & sur, garde, 1.0)
+    return al * garde
+
 def nettoie(im, marge=18):
     a = np.asarray(im).astype(np.float32)
     al = a[..., 3]
@@ -93,6 +132,7 @@ def fabrique(src_png, sortie, src_brut='source.webp'):
     fond = carte_du_fond(rgb, al)
     print('   fond estime localement : #%02x%02x%02x a gauche, #%02x%02x%02x a droite'
           % (tuple(fond[20, 10].astype(int)) + tuple(fond[20, -10].astype(int))))
+    al = ravale(rgb, al)
     couleur = decontamine(rgb, al, fond)
     # meme seuil que la decontamination : ce qu'on ne sait pas corriger, on
     # l'ecarte, au prix de cheveux legerement plus fins
