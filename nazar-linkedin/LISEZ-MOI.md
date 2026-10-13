@@ -95,3 +95,27 @@ mesurée est prolongée, le fond y variant de toute façon lentement.
 
 Contrôle : recomposé sur son fond d'origine, le détourage redonne la photo
 de départ, écart médian nul et moyen de 0,9 sur 255.
+
+## Quatrième portrait
+
+Deux limites tiennent à la source, et aucune n'est corrigeable ici.
+
+**Résolution.** 360 x 360 contre 800 x 800 pour les autres. Le rendu est
+donc un agrandissement de 3,3 fois, visiblement plus doux. LinkedIn
+affichant l'avatar jusqu'à 400 px, c'est acceptable, mais un original plus
+grand resterait préférable.
+
+**Fond.** Ni uni ni en dégradé : mur clair à gauche, tableau sombre à
+droite. `sources/photo4-compose.py` estime donc le fond localement, en
+étalant le fond connu sous le sujet du plus serré au plus large, chaque
+pixel retenant la première estimation qui dispose d'assez de fond autour
+de lui. Un rayon unique et large mélangeait le mur et le tableau juste
+au-dessus de la tête, sous-estimait la clarté du fond, et la couleur
+reconstituée partait vers le blanc.
+
+Il subsiste un liséré clair au sommet des boucles. Vérification faite sur
+la photo d'origine : le mur passe à travers les cheveux à cet endroit, et à
+360 px chaque pixel mélange cheveu et mur sans qu'aucune couleur de cheveu
+pure ne soit récupérable. Ce n'est donc pas un défaut du traitement. Aux
+tailles où LinkedIn affiche l'avatar, 200 px et moins, cela se lit comme un
+reflet.
