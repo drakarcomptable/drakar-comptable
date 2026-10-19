@@ -1,0 +1,178 @@
+# -*- coding: utf-8 -*-
+"""Pose le sixieme portrait sur la portion de banniere que le cercle de
+LinkedIn recouvre.
+
+Le fond d'origine est un rideau clair, avec un angle de mur et une barre
+chromee a droite : ni uni, ni en simple degrade. Il est donc estime
+localement, pixel par pixel, en prolongeant le fond environnant sous le sujet.
+
+Le sujet est tres sombre (clarte 43) sur un fond tres clair (195), le pire des
+cas pour le contour : la bande semi-transparente est a 117, soit presque
+moitie fond. Sans correction, le col et les cheveux prendraient un lisere
+blanc sur le bleu nuit de la banniere.
+
+Les rayons sont donnes en pixels pour une image de 1500 x 2000, quatre fois
+plus grande que celle du portrait precedent.
+"""
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import numpy as np
+from PIL import Image, ImageFilter
+import fond_banniere as FB
+
+COTE = 1200
+ZONE = (54.0, 210.5, 360.3, 516.9)
+HAUT_CHEVEUX = 0.19
+
+def carte_du_fond(src_rgb, al, rayons=(20, 48, 120, 280)):
+    """Prolonge le fond sous le sujet, pour savoir quelle couleur retirer.
+
+    Mur clair d'un cote, tableau sombre de l'autre : ni une couleur unique ni
+    un degrade vertical ne conviennent. Le fond connu est donc etale sous le
+    sujet, en divisant son flou par le flou de son propre masque, ce qui
+    l'empeche d'etre contamine par le sujet absent du calcul.
+
+    L'etalement se fait du plus serre au plus large, et chaque pixel retient
+    la premiere estimation disposant d'assez de fond autour de lui. Un rayon
+    unique et large melangeait le mur et le tableau juste au-dessus de la
+    tete : il sous-estimait la clarte du fond, et la couleur reconstituee
+    partait vers le blanc, d'ou un lisere pale sur le bleu nuit.
+    """
+    dehors = (al < 4).astype(np.float32)
+    estime = None
+    acquis = None
+    for r in rayons:
+        poids = np.asarray(Image.fromarray((dehors * 255).astype(np.uint8))
+                           .filter(ImageFilter.GaussianBlur(r))).astype(np.float32) / 255.0
+        canaux = [np.asarray(Image.fromarray((src_rgb[..., c] * dehors).astype(np.uint8))
+                             .filter(ImageFilter.GaussianBlur(r))).astype(np.float32)
+                  for c in range(3)]
+        couche = np.stack(canaux, axis=2) / np.maximum(poids, 1e-3)[..., None]
+        bon = (poids > 0.05)[..., None]
+        if estime is None:
+            estime, acquis = couche, bon
+        else:
+            estime = np.where(acquis, estime, couche)
+            acquis = acquis | bon
+    secours = np.median(src_rgb[al < 4], axis=0)
+    return np.where(acquis, np.clip(estime, 0, 255), secours)
+
+def decontamine(src_rgb, al, fond):
+    """observe = a x sujet + (1 - a) x fond, inverse pour retrouver le sujet."""
+    a = al[..., None] / 255.0
+    sujet = np.clip(np.where(a > 0.25, (src_rgb - (1 - a) * fond) / np.maximum(a, 1e-6),
+                             src_rgb), 0, 255)
+    def clarte(x):
+        return .299 * x[..., 0] + .587 * x[..., 1] + .114 * x[..., 2]
+    plein = np.where(al > 240, clarte(src_rgb), 0).astype(np.uint8)
+    voisin = np.asarray(Image.fromarray(plein).filter(ImageFilter.MaxFilter(41))).astype(np.float32)
+    cl = clarte(sujet)
+    trop = (al > 4) & (al < 250) & (cl > voisin * 1.06) & (voisin > 0)
+    f = np.where(trop, (voisin * 1.06) / np.maximum(cl, 1e-6), 1.0)
+    return np.clip(sujet * f[..., None], 0, 255)
+
+def ravale(src_rgb, al, bande=24, rayon=36, marge=40, pente=55):
+    """Retire du masque les pixels de fond qu'il a pris pour du sujet.
+
+    Au sommet du crane le mur passe entre les boucles. Le masque y inclut des
+    pixels qui sont du mur, parfois en les declarant pleinement opaques. Tenter
+    de leur rendre une couleur de cheveu ne marche pas : il n'y a pas de cheveu
+    dessous. On les ecarte donc, et la silhouette se resserre un peu, ce qu'un
+    retoucheur ferait a la main.
+
+    Le critere est relatif et non absolu, pour ne pas entamer le visage. Les
+    mesures sur cette photo : les vrais cheveux plafonnent a 107 de clarte au
+    99e centile, le mur est a 226, la peau a 145. Un seuil fixe a 150
+    rognerait donc la joue. On compare chaque pixel du bord a la clarte du
+    sujet qui l'entoure : au sommet du crane le coeur est a 55, un pixel a 200
+    s'en ecarte de 145 et part ; au bord de la joue le coeur est a 145, la peau
+    ne s'en ecarte pas et reste.
+    """
+    def clarte(x):
+        return .299 * x[..., 0] + .587 * x[..., 1] + .114 * x[..., 2]
+
+    bord = np.asarray(Image.fromarray(((al < 250) * 255).astype(np.uint8))
+                      .filter(ImageFilter.MaxFilter(2 * bande + 1))).astype(np.float32) / 255.0
+    proche = bord > 0.5
+    # la clarte de reference est relevee au coeur du masque, a l'ecart de la
+    # bande : les pixels de mur qui s'y trouvent ne doivent pas la tirer vers
+    # le haut
+    coeur = ((al > 240) & ~proche).astype(np.float32)
+    poids = np.asarray(Image.fromarray((coeur * 255).astype(np.uint8))
+                       .filter(ImageFilter.GaussianBlur(rayon))).astype(np.float32) / 255.0
+    somme = np.asarray(Image.fromarray((clarte(src_rgb) * coeur).astype(np.uint8))
+                       .filter(ImageFilter.GaussianBlur(rayon))).astype(np.float32)
+    cv = somme / np.maximum(poids, 1e-3)
+    sur = poids > 0.04
+
+    trop = (clarte(src_rgb) - cv - marge) / float(pente)
+    garde = np.clip(1.0 - trop, 0.0, 1.0)
+    garde = np.where(proche & sur, garde, 1.0)
+    return al * garde
+
+def nettoie(im, marge=72):
+    a = np.asarray(im).astype(np.float32)
+    al = a[..., 3]
+    w = al.shape[1]
+    g = np.clip(np.arange(w) / float(marge), 0, 1)
+    al *= np.minimum(g, g[::-1])[None, :]
+    a[..., 3] = al
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), 'RGBA')
+
+
+def cadre(al):
+    """Carre de 2,52 largeur de tete, centre sur la tete, cheveux a 19 % du haut.
+
+    Le cadre est centre horizontalement sur la tete et non sur la silhouette :
+    sur cette photo l'epaule droite sort de l'image et le bras gauche avance,
+    si bien qu'un centrage sur la silhouette aurait decale le visage.
+    """
+    m = al > 24
+    ys, xs = np.where(m)
+    y0 = ys.min()
+    bande = m[y0:y0 + int((ys.max() - y0) * .45)]
+    bxs = np.where(bande.max(axis=0))[0]
+    tete = float(bxs.max() - bxs.min())
+    cxv = (bxs.min() + bxs.max()) / 2.0
+    cote = tete * 2.52
+    gx, gy = cxv - cote / 2.0, y0 - HAUT_CHEVEUX * cote
+    print('   tete %.0f px, cote %.0f, cadre x %.0f..%.0f  y %.0f..%.0f'
+          % (tete, cote, gx, gx + cote, gy, gy + cote))
+    return tuple(int(round(v)) for v in (gx, gy, gx + cote, gy + cote))
+
+
+def fabrique(src_png, sortie, src_brut='source.jpg', apercu=None):
+    al = np.asarray(Image.open(src_png).convert('RGBA'))[..., 3].astype(np.float32)
+    rgb = np.asarray(Image.open(src_brut).convert('RGB')).astype(np.float32)
+    fond = carte_du_fond(rgb, al)
+    print('   fond estime localement : #%02x%02x%02x a gauche, #%02x%02x%02x a droite'
+          % (tuple(fond[20, 10].astype(int)) + tuple(fond[20, -10].astype(int))))
+    al = ravale(rgb, al)
+    couleur = decontamine(rgb, al, fond)
+    al = np.clip((al / 255.0 - 0.26) / 0.74, 0, 1) * 255.0
+    brut = Image.fromarray(np.clip(np.concatenate([couleur, al[..., None]], 2), 0, 255).astype(np.uint8), 'RGBA')
+    im = nettoie(brut)
+    g = cadre(np.asarray(im)[..., 3].astype(np.float32))
+    toile = Image.new('RGBA', (g[2] - g[0], g[3] - g[1]), (0, 0, 0, 0))
+    toile.paste(im, (-g[0], -g[1]))
+    toile = toile.resize((COTE, COTE), Image.LANCZOS)
+
+    base = Image.fromarray(FB.rendu(*ZONE, COTE).astype(np.uint8)).convert('RGBA')
+    ombre = Image.new('RGBA', (COTE, COTE), (0, 0, 0, 0))
+    ombre.putalpha(toile.getchannel('A').filter(ImageFilter.GaussianBlur(34)).point(lambda v: int(v * .16)))
+    base.paste((0, 11, 17), (0, 12), ombre.getchannel('A'))
+    base.alpha_composite(toile)
+    base.convert('RGB').save(sortie, quality=95)
+    print('->', sortie)
+    if apercu:
+        from PIL import ImageDraw
+        rond = Image.new('L', (COTE, COTE), 0)
+        ImageDraw.Draw(rond).ellipse((0, 0, COTE - 1, COTE - 1), fill=255)
+        vue = Image.new('RGB', (COTE, COTE), (0x00, 0x21, 0x2c))
+        vue.paste(base.convert('RGB'), (0, 0), rond)
+        vue.save(apercu, quality=92)
+        print('->', apercu)
+
+
+if __name__ == '__main__':
+    fabrique('decoupe.png', 'NAZAR-photo-profil-6.jpg', 'source.jpg', 'apercu-6.jpg')

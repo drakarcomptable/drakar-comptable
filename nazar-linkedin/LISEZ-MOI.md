@@ -127,3 +127,75 @@ rogné la joue. Chaque pixel du bord est comparé à la clarté du sujet qui
 l'entoure : au sommet du crâne le cœur est à 55, un pixel à 200 s'en écarte de
 145 et part ; au bord de la joue le cœur est à 145, la peau ne s'en écarte pas
 et reste.
+
+## Cinquième portrait
+
+La source n'est pas une photo mais **un avatar déjà fabriqué** : le sujet
+détouré sur un disque turquoise uni, `#04445d`, posé sur le bleu glace de la
+marque. Le détourage de départ est donc propre, mais le disque est plus petit
+que le cadre voulu : les épaules sont coupées par son bord, 5786 pixels du
+sujet reposent sur le rayon 336. Reposées telles quelles sur le bleu nuit,
+elles auraient dessiné un arc de cercle en bas de l'image.
+
+`sources/photo5-compose.py` prolonge donc le buste. La silhouette des épaules
+est extrapolée depuis les rangées encore intactes, avec une pente qui
+s'amortit en exponentielle, et le cadre est choisi pour que la reconstruction
+reste courte : elle ne porte que sur les deux coins du bas.
+
+Le remplissage a demandé trois essais. Un étalement par flous successifs
+laissait des arcs concentriques là où le rayon de flou changeait. Une couleur
+unique par rangée, relevée au bord, étalait sur toute l'épaule le reflet clair
+qui ne court en réalité que le long de la couture : cela donnait un liston
+pâle. Ce qui marche est un **miroir** : chaque pixel manquant prend la couleur
+de son symétrique par rapport au bord de sa rangée. La jonction est exacte par
+construction et le tissu garde ses plis.
+
+Dernier point, mesuré et non supposé : le contour des cheveux ne porte aucun
+liseré clair (cœur à 52 de clarté, bande semi-transparente à 57, 95e centile
+à 80). Le ravalement appliqué au quatrième portrait n'avait donc rien à faire
+ici, et ne faisait que denteler le bord.
+
+## Sixième portrait
+
+Une vraie photo, 1500 x 2000, la plus grande reçue jusqu'ici. Le fond est un
+rideau clair avec un angle de mur et une barre chromée : il est estimé
+localement, comme pour le quatrième.
+
+C'est le pire des cas pour le contour : sujet très sombre (clarté 43) sur fond
+très clair (195), la bande semi-transparente mesurant 117, soit presque moitié
+fond. Sans correction, le col et les cheveux auraient pris un liseré blanc sur
+le bleu nuit. Les rayons d'estimation sont donnés en pixels, donc multipliés
+par quatre par rapport au portrait précédent.
+
+Le cadre est centré sur **la tête** et non sur la silhouette : l'épaule droite
+sort de l'image et le bras gauche avance, si bien qu'un centrage sur la
+silhouette aurait décalé le visage.
+
+## Septième portrait
+
+Encore un avatar fabriqué, 360 x 360, détouré sur un bleu uni mesuré à
+`#6ab0f8` (écart-type 1,2). Le fond ayant une couleur connue, la
+décontamination du contour est exacte.
+
+Deux difficultés tiennent à la source.
+
+**Cadrage très serré.** Le sujet touche le bord droit et le bas de l'image,
+alors que le cadre voulu, 2,52 largeurs de tête comme pour les six autres,
+mesure 446 pixels. Les bandes manquantes sont prolongées tout droit depuis la
+dernière colonne et la dernière rangée. Un prolongement au miroir, essayé
+d'abord, repliait le buste entier et dessinait des losanges au coin : sur une
+image aussi serrée, le miroir ramène le visage dans la zone à combler.
+
+**Paillettes dans les boucles.** Le détourage d'origine a laissé, le long des
+cheveux, des pixels bleu-blanc que la compression a étalés. Ils sont
+pleinement opaques, donc ni le seuil d'opacité ni le plafond de clarté ne les
+attrapent. Leur clarté est de l'ordre de 190 là où le cheveu est à 60 : ils
+sont retirés du masque sur ce critère, relevé à l'écart de la bande pour que
+les paillettes ne tirent pas elles-mêmes la référence vers le haut.
+
+## Une remarque sur les avatars
+
+Les cinquième et septième portraits, comme le quatrième, sont des images déjà
+retouchées par quelqu'un d'autre, pas des photos. Le travail fait ici hérite
+de ce que ce détourage-là a raté, et le résultat ne peut pas être meilleur
+que sa source. Quand l'original existe, il vaut mieux le fournir.
