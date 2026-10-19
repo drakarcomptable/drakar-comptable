@@ -42,18 +42,59 @@ CHAMPS = {
     "commune":  ["commune", "ville"],
 }
 
-# Domaines RGE retenus. "coeur" = la cible annoncee (solaire + PAC), "large"
-# ajoute le reste des ENR si le volume coeur est trop mince.
+# Libelles exacts du champ `domaine`, releves par --probe (33 valeurs dans le
+# dataset, dont architectes et isolation qu'on ne veut pas). Le filtre part en
+# `qs` cote serveur : 63 861 lignes a lire au lieu de 157 679.
 DOMAINES = {
-    "coeur": ["solaire", "photovoltaiqu", "pompe a chaleur", "pompes a chaleur",
-              "chauffe-eau thermodynamique", "chauffe eau thermodynamique"],
-    "large": ["solaire", "photovoltaiqu", "pompe a chaleur", "pompes a chaleur",
-              "chauffe-eau thermodynamique", "chauffe eau thermodynamique",
-              "geothermi", "biomasse", "bois", "eolien", "solaire thermique"],
+    # Le perimetre de prospection : les installations ENR visees.
+    "enr": [
+        "Pompe \u00e0 chaleur : chauffage",
+        "Chauffe-Eau Thermodynamique",
+        "Panneaux solaires photovolta\u00efques",
+        "Chauffage et/ou eau chaude solaire",
+        "Po\u00eale ou insert bois",
+        "Chaudi\u00e8re bois",
+        "Forage g\u00e9othermique",
+        "Chaudi\u00e8re condensation ou micro-cog\u00e9n\u00e9ration gaz ou fioul",
+        "Ventilation m\u00e9canique",
+    ],
+    # Solaire + PAC seuls, si on veut resserrer.
+    "coeur": [
+        "Pompe \u00e0 chaleur : chauffage",
+        "Chauffe-Eau Thermodynamique",
+        "Panneaux solaires photovolta\u00efques",
+        "Chauffage et/ou eau chaude solaire",
+    ],
+    # Bureaux d'etudes ENR : ils ne posent pas, a prendre a part.
+    "etudes": [
+        "Etude solaire photovolta\u00efque",
+        "Etude solaire thermique",
+        "Etude forage g\u00e9othermique",
+        "Etude bois \u00e9nergie",
+    ],
 }
 
-class BlocageReseau(RuntimeError):
-    """Hote non autorise par la politique reseau de l'environnement."""
+# `site_internet` porte tres souvent le site de l'organisme certificateur et
+# non celui de l'entreprise : qualit-enr.org represente a lui seul 80% des
+# valeurs renseignees. Sans ce filtre le taux de "site" est faux de 4x.
+SITES_NON_ENTREPRISE = {
+    "qualit-enr.org", "qualitenr.org", "quali-sol.org", "quali-pac.org",
+    "quali-bois.org", "quali-pv.org", "qualifelec.fr", "qualibat.com",
+    "certibat.fr", "cequami.fr", "opqibi.com", "lcie.fr", "afnor.org",
+    "cnoa.com", "capeb.fr", "ffbatiment.fr", "eco-artisan.net",
+    "rge-eco-artisan.fr", "facebook.com", "fr-fr.facebook.com",
+    "m.facebook.com", "linkedin.com", "instagram.com", "pagesjaunes.fr",
+    "google.com", "sites.google.com", "pro.orange.fr",
+}
+
+# data-fair refuse au-dela de 10 000 lignes paginees (page * size).
+PLAFOND_PAGINATION = 10000
+
+
+def qs_domaines(perimetre):
+    """Filtre Lucene sur le champ domaine. Le `/` doit etre echappe."""
+    vals = ['"%s"' % d.replace("/", "\\/") for d in DOMAINES[perimetre]]
+    return "domaine:(%s)" % " OR ".join(vals)
 
 
 PAUSE_ADEME = 0.15
@@ -168,21 +209,45 @@ def domaine_de(url):
 # --- Etape 1 : annuaire RGE --------------------------------------------------
 
 def charge_rge(perimetre, plafond, cache_dir, verbeux=True):
-    """Pagine l'annuaire RGE, filtre les domaines ENR, dedoublonne par SIREN.
+    """Lit l'annuaire RGE filtre sur le perimetre, dedoublonne par SIREN.
 
-    Le dedoublonnage se fait AVANT l'echantillonnage : une entreprise porte
-    souvent plusieurs certificats RGE, tirer au sort sur les lignes brutes
-    biaiserait l'echantillon vers les gros multi-certifies.
+    Le filtre domaine part en `qs` cote serveur, et `sort=_rand` rend les
+    lignes dans un ordre aleatoire fige a l'ingestion : prendre les N
+    premieres est donc un tirage non biaise, et reproductible.
+
+    Le dedoublonnage par SIREN passe AVANT tout echantillonnage : une
+    entreprise porte souvent plusieurs certificats, tirer sur les lignes
+    brutes pencherait vers les gros multi-certifies.
     """
-    mots = [sans_accents(m) for m in DOMAINES[perimetre]]
+    qs = qs_domaines(perimetre)
     par_siren, lignes_vues, page, taille = {}, 0, 1, 1000
+    total_annonce = None
     while True:
-        cache = cache_dir / f"rge_p{page}.json" if cache_dir else None
-        data = http(ADEME_URL, params={"size": taille, "page": page}, cache=cache)
+        cache = cache_dir / f"rge_{perimetre}_p{page}.json" if cache_dir else None
+        if page * taille > PLAFOND_PAGINATION:
+            if verbeux:
+                print("  plafond de pagination data-fair atteint (%d lignes)"
+                      % PLAFOND_PAGINATION, file=sys.stderr)
+            break
+        try:
+            data = http(ADEME_URL, cache=cache, params={
+                "size": taille, "page": page, "qs": qs, "sort": "_rand"})
+        except ValueError:
+            # au-dela du plafond data-fair repond en texte, pas en JSON
+            break
         res = data.get("results", [])
+        if total_annonce is None:
+            total_annonce = data.get("total")
+            if not total_annonce:
+                sys.exit("Le filtre domaine ne ramene rien (perimetre %s).\n"
+                         "Les libelles ADEME ont peut-etre bouge : relancer "
+                         "--probe et mettre DOMAINES a jour." % perimetre)
+            if verbeux:
+                print("  %d lignes RGE sur le perimetre %s"
+                      % (total_annonce, perimetre), file=sys.stderr)
         if not res:
             break
-        if page == 1 and res:
+        if page == 1:
             manquants = [c for c in ("siret", "nom", "domaine")
                          if champ(res[0], c) is None]
             if manquants:
@@ -192,9 +257,6 @@ def charge_rge(perimetre, plafond, cache_dir, verbeux=True):
                          % (manquants, sorted(res[0].keys())))
         for enr in res:
             lignes_vues += 1
-            dom = sans_accents(champ(enr, "domaine") or "")
-            if not any(m in dom for m in mots):
-                continue
             siret = str(champ(enr, "siret") or "")
             siren = re.sub(r"\D", "", siret)[:9]
             if len(siren) != 9:
@@ -202,14 +264,23 @@ def charge_rge(perimetre, plafond, cache_dir, verbeux=True):
             e = par_siren.setdefault(siren, {
                 "siren": siren, "siret": siret,
                 "nom": champ(enr, "nom"),
+                "adresse": enr.get("adresse"),
                 "cp": champ(enr, "cp"), "commune": champ(enr, "commune"),
-                "tel_rge": None, "site_rge": None, "domaines_rge": set(),
+                "tel_rge": None, "email_rge": None, "site_rge": None,
+                "domaines_rge": set(),
             })
             e["domaines_rge"].add(champ(enr, "domaine"))
-            e["tel_rge"] = e["tel_rge"] or normalise_tel(champ(enr, "tel"))
-            e["site_rge"] = e["site_rge"] or domaine_de(champ(enr, "site"))
+            # On garde le premier mobile rencontre, sinon le premier numero.
+            t = normalise_tel(champ(enr, "tel"))
+            if t and (e["tel_rge"] is None or
+                      (genre_tel(t) == "mobile" and genre_tel(e["tel_rge"]) != "mobile")):
+                e["tel_rge"] = t
+            e["email_rge"] = e["email_rge"] or (enr.get("email") or None)
+            d = domaine_de(champ(enr, "site"))
+            if d and d not in SITES_NON_ENTREPRISE and not e["site_rge"]:
+                e["site_rge"] = d
         if verbeux:
-            print("  RGE page %d : %d lignes lues, %d entreprises ENR uniques"
+            print("  page %d : %d lignes lues, %d entreprises uniques"
                   % (page, lignes_vues, len(par_siren)), file=sys.stderr)
         if plafond and len(par_siren) >= plafond:
             break
@@ -325,6 +396,11 @@ def mode_probe(cache_dir):
         print("\nmapping CHAMPS resolu :")
         for cle in CHAMPS:
             print("  %-8s -> %r" % (cle, champ(res[0], cle)))
+    print("\n=== volumes par perimetre ===")
+    for per in DOMAINES:
+        d = http(ADEME_URL, params={"size": 0, "qs": qs_domaines(per)})
+        print("  %-8s %7d lignes" % (per, d.get("total") or 0))
+
     print("\n=== recherche-entreprises ===")
     d2 = http(RECHERCHE_URL, params={"q": "pompe a chaleur", "per_page": 1})
     r2 = (d2.get("results") or [{}])[0]
@@ -422,7 +498,8 @@ def mode_mesure(n, perimetre, domaines_crm, cache_dir, graine, cle_places):
     return ech
 
 
-def mode_run(perimetre, domaines_crm, cache_dir, cle_places, sortie, plafond):
+def mode_run(perimetre, domaines_crm, cache_dir, cle_places, sortie, plafond,
+             exige_site=False):
     entreprises, lignes = charge_rge(perimetre, plafond, cache_dir)
     print("%d lignes RGE -> %d entreprises uniques" % (lignes, len(entreprises)),
           file=sys.stderr)
@@ -435,6 +512,8 @@ def mode_run(perimetre, domaines_crm, cache_dir, cle_places, sortie, plafond):
         if cle_places and genre_tel(e.get("tel_rge")) != "mobile":
             tel_via_places(e, cle_places, cache_dir)
             time.sleep(PAUSE_PLACES)
+        if exige_site and not e.get("site_rge"):
+            continue
         if domaines_crm and (e.get("site_rge") in domaines_crm
                              or e.get("site_places") in domaines_crm):
             continue
@@ -448,7 +527,7 @@ def mode_run(perimetre, domaines_crm, cache_dir, cle_places, sortie, plafond):
     colonnes = ["siren", "siret", "nom", "nom_legal", "cp", "commune", "naf",
                 "effectif", "domaines_rge", "dirigeant_prenom", "dirigeant_nom",
                 "dirigeant_qualite", "tel_mobile", "tel_autre", "site_rge",
-                "site_places"]
+                "site_places", "email_rge", "adresse"]
     with open(sortie, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=colonnes, extrasaction="ignore")
         w.writeheader()
@@ -467,8 +546,9 @@ def main():
     g.add_argument("--mesure", type=int, metavar="N",
                    help="taux de 06/07 sur un echantillon de N entreprises")
     g.add_argument("--run", action="store_true", help="pipeline complet")
-    ap.add_argument("--perimetre", choices=["coeur", "large"], default="coeur",
-                    help="coeur = solaire + PAC (defaut), large = toutes ENR")
+    ap.add_argument("--perimetre", choices=list(DOMAINES), default="enr",
+                    help="enr = perimetre de prospection (defaut), coeur = "
+                         "solaire + PAC seuls, etudes = bureaux d'etudes")
     ap.add_argument("--crm-domaines", metavar="FICHIER",
                     help="domaines deja en CRM, pour le dedoublonnage")
     ap.add_argument("--cache", default=".cache_rge",
@@ -477,6 +557,8 @@ def main():
     ap.add_argument("--plafond", type=int, default=0,
                     help="arret apres N entreprises (0 = tout l'annuaire)")
     ap.add_argument("--sortie", default="prospects_rge.csv")
+    ap.add_argument("--avec-site", action="store_true",
+                    help="ne garder que les entreprises ayant un vrai site")
     ap.add_argument("--sans-places", action="store_true",
                     help="ne pas appeler Google Places")
     a = ap.parse_args()
@@ -499,7 +581,7 @@ def main():
     elif a.mesure:
         mode_mesure(a.mesure, a.perimetre, crm, cache_dir, a.graine, cle)
     else:
-        mode_run(a.perimetre, crm, cache_dir, cle, a.sortie, a.plafond)
+        mode_run(a.perimetre, crm, cache_dir, cle, a.sortie, a.plafond, a.avec_site)
 
 
 if __name__ == "__main__":
