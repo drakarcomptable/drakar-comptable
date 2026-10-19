@@ -26,3 +26,7 @@ dist-ssr
 # Prospection : cache API et sorties data
 .cache_rge/
 prospects_rge*.csv
+
+# Python
+__pycache__/
+*.py[cod]
