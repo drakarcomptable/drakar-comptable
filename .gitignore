@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Prospection : cache API et sorties data
+.cache_rge/
+prospects_rge*.csv
