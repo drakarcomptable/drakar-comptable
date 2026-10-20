@@ -9,7 +9,9 @@ ressortent alors toutes, y compris celle de Perplexity qui s'y noierait sinon.
 import io, json, math, os, re, subprocess, sys
 
 ICI = os.path.dirname(os.path.abspath(__file__))
-SITE = '/tmp/claude-0/-home-user-drakar-comptable/053d6a3d-6ce3-51d7-a083-05ef634a21f1/scratchpad/nazar-geo.html'
+# la source du site est versionnee a la racine du depot ; l'ancien chemin
+# pointait vers un bac a sable efface depuis, et plus rien ne se regenerait
+SITE = os.environ.get('NAZAR_SITE') or os.path.join(ICI, '..', '..', 'nazar-geo.html')
 
 # --- recuperation des logos officiels deja embarques dans le site ------------
 src = io.open(SITE, encoding='utf-8').read()
