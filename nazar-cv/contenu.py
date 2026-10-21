@@ -106,7 +106,7 @@ CLEMENT = {
         u"<b>B2B &amp; SaaS :</b> Data4Job, Wess Soft, Mt Courtage, Kairntech, Leaneo.",
     ],
     'outils': [u'Ahrefs', u'Semrush', u'SEOObserver', u'Search Console', u'GA4',
-               u'Screaming Frog', u'HubSpot CRM', u'Looker Studio'],
+               u'Matomo', u'Screaming Frog', u'HubSpot CRM', u'Looker Studio'],
     'formation': [
         (u'Master 2 Digital Marketing &amp; Data Analytics', u'IIM Digital School'),
         (u'Baccalauréat Général ES (Mention AB)', u'Lycée Pierre Corneille'),
