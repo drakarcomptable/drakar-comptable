@@ -116,3 +116,139 @@ CLEMENT = {
         (u'Design Thinker', u'dthinking academy'),
     ],
 }
+
+
+FRANCOIS = {
+    'fichier': 'CV-Francois-Chauvin',
+    'nom': u'François Chauvin',
+    'titre': u'Consultant SEO &amp; GEO | Fondateur de Double Search',
+    'contact': [u'Paris / Île-de-France', u'linkedin.com/in/francoischauvin'],
+    'photo': u'../nazar-linkedin/NAZAR-photo-profil-8.jpg',
+    'profil': u"Consultant SEO &amp; GEO cumulant près de 20 ans d'expérience en acquisition "
+              u"de trafic (SEO, GEO, SMO, ASO, SEA). Parcours construit en e-commerce "
+              u"(Twenga, eBrand Commerce), en intermédiation et services à la personne "
+              u"(Quotatis, Stootie), en média et emploi (Welcome to the Jungle) et en "
+              u"création de site, où il a mené eTerritoire de zéro à plus d'un million de "
+              u"visiteurs uniques par mois en organique. Expert des 3 piliers du "
+              u"référencement naturel (Sémantique, Netlinking, Technique) et du "
+              u"positionnement sur les moteurs de recherche génératifs.",
+    'experiences': [
+        {
+            'poste': u'Consultant SEO &amp; GEO',
+            'dates': u'Sept. 2025 – Présent',
+            'societe': u"NAZAR SEO — Collectif d'experts SEO &amp; GEO",
+            'puces': [
+                u"<b>Comptes accompagnés :</b> <i>Aligneurs Français</i> (santé dentaire), "
+                u"<i>Adekwatts</i> (photovoltaïque), <i>Aventique</i>, <i>Junr</i>, "
+                u"<i>Le Bon Logiciel</i>. Audit technique et sémantique, plan d'actions "
+                u"priorisé, suivi mensuel.",
+                u"<b>Optimisations déployées :</b> refonte du maillage interne, "
+                u"structuration des pages de destination, balisage et stratégie éditoriale "
+                u"sur les requêtes principales de chaque secteur.",
+                u"<b>Résultats :</b> progression du trafic organique sur l'ensemble des "
+                u"projets accompagnés.",
+            ],
+        },
+        {
+            'poste': u'Fondateur — Expert SEO / GEO &amp; Acquisition',
+            'dates': u'Août 2024 – Présent',
+            'societe': u'DOUBLE SEARCH — Indépendant (Île-de-France)',
+            'puces': [
+                u"<b>Audits et accompagnement :</b> benchmark concurrentiel, audit de "
+                u"visibilité, analyse de la structure et du maillage, champs "
+                u"sémantiques et suivi des positions.",
+                u"<b>Acquisition complète :</b> optimisations GEO et ASO, création et "
+                u"gestion de campagnes SEA et SMA. Clients e-commerce, recrutement, "
+                u"médias et B2B.",
+            ],
+        },
+        {
+            'poste': u'Responsable SEO &amp; Acquisition de Trafic',
+            'dates': u'Sept. 2019 – Août 2024',
+            'societe': u'WELCOME TO THE JUNGLE — Média emploi (Paris)',
+            'puces': [
+                u"<b>Stratégie SEO d'un média en forte croissance :</b> audits sémantiques "
+                u"et techniques, stratégies de netlinking, création de contenus et "
+                u"gestion de projets web SEO.",
+                u"<b>Pilotage :</b> analyse de performances, suivi et reporting de "
+                u"positions, arbitrage des chantiers techniques avec les équipes produit.",
+            ],
+        },
+        {
+            'poste': u'Responsable SEO',
+            'dates': u'Nov. 2016 – Janv. 2019',
+            'societe': u'STOOTIE — Services de proximité (Paris)',
+            'puces': [
+                u"<b>De 10K à 300K visiteurs uniques mensuels</b> en organique : milliers "
+                u"de pages de destination, temps de chargement, adaptation mobile et "
+                u"analyse de crawl (40K pages par jour).",
+                u"<b>Netlinking, contenu et ASO :</b> partenariats thématiques, cocons "
+                u"sémantiques, optimisation des fiches stores. Management de "
+                u"freelances et de rédacteurs.",
+            ],
+        },
+        {
+            'poste': u'Responsable SEO &amp; SMO',
+            'dates': u'Juil. 2015 – Nov. 2016',
+            'societe': u'QUOTATIS — Travaux et services à domicile (Paris)',
+            'puces': [
+                u"<b>+20% de trafic SEO sur la période :</b> audit, arborescence, "
+                u"construction des URLs, vitesse de chargement, nettoyage et acquisition "
+                u"de liens légitimes.",
+                u"<b>Contenu et conversion :</b> création de landing pages, formation et "
+                u"management de rédacteurs web et A/B testing.",
+            ],
+        },
+        {
+            'poste': u'Co-fondateur',
+            'dates': u'Janv. 2013 – Juil. 2022',
+            'societe': u'ETERRITOIRE — Plateforme des communes françaises',
+            'puces': [
+                u"<b>De zéro à plus d'1M de visiteurs uniques par mois</b> en SEO, et "
+                u"1 500 communes adhérentes.",
+                u"<b>Acquisition et produit :</b> SEA (Google, Facebook, Bing, Waze), CRM "
+                u"et newsletters, management de développeurs freelances et de stagiaires.",
+            ],
+        },
+        {
+            'poste': u'Responsable du trafic international',
+            'dates': u'Oct. 2008 – Déc. 2012',
+            'societe': u'TWENGA — Comparateur e-commerce (Paris)',
+            'puces': [
+                u"<b>Management d'une équipe de 8 à 10 personnes</b> sur neuf pays (FR, UK, "
+                u"IT, ES, DE, RU, PL, NL, US) : partenariats SEO, analyse de logs et de "
+                u"crawl et ROI des actions.",
+            ],
+        },
+    ],
+    'competences': [
+        u"<b>SEO Technique :</b> analyse de logs et de crawl, arborescence, maillage, "
+        u"vitesse de chargement, indexabilité.",
+        u"<b>Netlinking &amp; Autorité :</b> partenariats, acquisition de liens, nettoyage "
+        u"de profil, Trust Flow.",
+        u"<b>GEO &amp; AI Search :</b> visibilité sur les moteurs génératifs et les "
+        u"assistants IA.",
+        u"<b>Acquisition payante &amp; ASO :</b> SEA et SMA (Google, Bing, Meta, Waze), "
+        u"optimisation des fiches stores.",
+    ],
+    'references': [
+        u"<b>Clients NAZAR :</b> Aligneurs Français, Adekwatts, Aventique, Junr, "
+        u"Le Bon Logiciel.",
+        u"<b>Parcours :</b> Welcome to the Jungle, Stootie, Quotatis, Twenga, eTerritoire.",
+    ],
+    'outils': [u'Botify', u'Semrush', u'Ahrefs', u'Majestic SEO', u'Yooda',
+               u'Search Console', u'SEObserver', u'Logmatic', u'AppTweak',
+               u'Screaming Frog', u'SEO Quartz', u'Xspin'],
+    'formation': [
+        (u'MBA International Management &amp; Marketing',
+         u'Franklin Hudson — The International School of Management'),
+        (u'MBA Marketing, Management &amp; Finance', u'ISEG'),
+        (u'Management', u'CSIM, San Diego, Californie'),
+        (u'Baccalauréat Scientifique, Maths', u'Lycée Les Feuillants, Poitiers'),
+    ],
+    'titre_certifications': u'ENGAGEMENTS',
+    'certifications': [
+        (u'Membre BNI Online EssenCiel', u'Réseau de recommandation professionnelle'),
+        (u'Associé', u'Team for the Planet'),
+    ],
+}

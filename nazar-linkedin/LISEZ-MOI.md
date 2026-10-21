@@ -199,3 +199,26 @@ Les cinquième et septième portraits, comme le quatrième, sont des images déj
 retouchées par quelqu'un d'autre, pas des photos. Le travail fait ici hérite
 de ce que ce détourage-là a raté, et le résultat ne peut pas être meilleur
 que sa source. Quand l'original existe, il vaut mieux le fournir.
+
+## Huitième portrait
+
+Photo prise devant la fresque murale de Welcome to the Jungle : un mur clair
+couvert de traits noirs. Le fond est donc estimé localement, comme pour le
+quatrième et le sixième.
+
+**Le détourage a dû être refait.** Les réglages des sept précédents, érosion
+de 8 et seuils écartés, mangeaient les mèches : sur cette photo les cheveux
+sont à 80 de clarté contre 201 pour le mur, un écart faible, et la
+compression a brouillé le bord. Avec une érosion de 4 et des seuils
+rapprochés (240 / 20), les mèches reviennent. Le ravalement appliqué au
+quatrième portrait a été retiré pour la même raison : il dentelait le
+contour, et le liseré clair du mur part déjà à la décontamination.
+
+**Le cadre est plus serré que les autres, et c'est voulu.** 2,52 largeurs de
+tête demanderaient 1051 px sur une photo qui n'en fait que 800 : il faudrait
+inventer un quart du buste, col ouvert et boutons compris. Un premier essai
+l'a fait au miroir : il repliait le col et dessinait des chevrons en plein
+milieu du torse. Le cadre est donc plafonné à 880 px, ce qui ne laisse que
+3 px à prolonger en bas et 11 à droite, par simple répétition du bord. La
+tête occupe 48 % de la largeur au lieu de 40 %. Avec l'original non recadré,
+le portrait retrouverait les proportions des autres.

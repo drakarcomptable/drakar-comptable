@@ -13,7 +13,7 @@ meme socle que les bannieres LinkedIn, donc a 290 points par pouce au lieu de
 import io, os, sys
 ICI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ICI)
-from contenu import CLEMENT
+import contenu
 
 # --- cotes relevees dans le PDF d'origine, en pixels CSS ---------------------
 PAGE_L, PAGE_H = 794, 1123          # A4 a 96 points par pouce
@@ -146,7 +146,7 @@ def page(d, bandeau='bandeau-cv.png'):
       <div class="pastilles">%(outils)s</div>
       <h2>FORMATION</h2>
       %(formation)s
-      <h2>CERTIFICATIONS</h2>
+      <h2>%(titre_certifs)s</h2>
       %(certifs)s
     </div>
   </div>
@@ -155,11 +155,13 @@ def page(d, bandeau='bandeau-cv.png'):
         'style': STYLE, 'bandeau': bandeau, 'nom': d['nom'], 'titre': d['titre'],
         'contact': contact, 'photo': d['photo'], 'profil': d['profil'],
         'gauche': gauche, 'comp': comp, 'refs': refs, 'outils': outils,
-        'formation': lot(d['formation']), 'certifs': lot(d['certifications'])}
+        'formation': lot(d['formation']), 'certifs': lot(d['certifications']),
+        'titre_certifs': d.get('titre_certifications', 'CERTIFICATIONS')}
 
 
 if __name__ == '__main__':
-    d = CLEMENT
+    qui = sys.argv[1].upper() if len(sys.argv) > 1 else 'CLEMENT'
+    d = getattr(contenu, qui)
     chemin = os.path.join(ICI, d['fichier'] + '.html')
     io.open(chemin, 'w', encoding='utf-8').write(page(d))
     print('ecrit', chemin)
