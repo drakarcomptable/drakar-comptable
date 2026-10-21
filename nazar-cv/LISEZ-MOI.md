@@ -109,20 +109,14 @@ python3 cv.py FRANCOIS
 PYTHONPATH=/tmp/pw python3 rend.py CV-Francois-Chauvin
 ```
 
-Trois différences tenant au contenu, pas à la mise en page :
+Deux différences tenant au contenu, pas à la mise en page :
 
-- sept expériences au lieu de quatre, donc des puces plus courtes. Le texte
-  descend à 795 points, pour un filet de pied à 805,5 : une page pleine ;
+- six expériences au lieu de quatre, donc des puces plus courtes. Le texte
+  descend à 798 points, pour un filet de pied à 805,5 : une page pleine ;
 - la dernière rubrique de la colonne de droite s'intitule **ENGAGEMENTS** et
-  non CERTIFICATIONS. La clé `titre_certifications` permet de la renommer ;
-- la ligne de contact ne porte que deux entrées, faute d'adresse e-mail
-  confirmée.
+  non CERTIFICATIONS. La clé `titre_certifications` permet de la renommer.
 
-**Les chiffres des comptes NAZAR manquent, et c'est délibéré.** La demande
-était d'ajouter des pourcentages d'augmentation comme sur le CV de Clément.
-Ceux de Clément viennent de son propre CV ; pour François, personne ne me les
-a donnés. Inventer un chiffre de performance sur le CV d'une vraie personne,
-qui part chez de vrais prospects, n'est pas une option. Les trois puces du
-bloc NAZAR disent donc ce qui est fait, pas combien ça a rapporté. Il y a cinq
-emplacements à remplir dès que les relevés Search Console sont disponibles :
-Aligneurs Français, Adekwatts, Aventique, Junr, Le Bon Logiciel.
+Le bloc NAZAR porte une puce par compte, avec son secteur, les optimisations
+déployées et le résultat chiffré. C'est le bloc le plus long du CV, et c'est
+voulu : c'est le travail en cours. Les chiffres viennent des relevés fournis
+par NAZAR, aucun n'est estimé.

@@ -121,8 +121,9 @@ CLEMENT = {
 FRANCOIS = {
     'fichier': 'CV-Francois-Chauvin',
     'nom': u'François Chauvin',
-    'titre': u'Consultant SEO &amp; GEO | Fondateur de Double Search',
-    'contact': [u'Paris / Île-de-France', u'linkedin.com/in/francoischauvin'],
+    'titre': u"Consultant SEO &amp; GEO | 20 ans d'acquisition de trafic",
+    'contact': [u'Paris / Île-de-France', u'francois@seo-nazar.fr',
+                u'linkedin.com/in/francoischauvin'],
     'photo': u'../nazar-linkedin/NAZAR-photo-profil-8.jpg',
     'profil': u"Consultant SEO &amp; GEO cumulant près de 20 ans d'expérience en acquisition "
               u"de trafic (SEO, GEO, SMO, ASO, SEA). Parcours construit en e-commerce "
@@ -138,28 +139,23 @@ FRANCOIS = {
             'dates': u'Sept. 2025 – Présent',
             'societe': u"NAZAR SEO — Collectif d'experts SEO &amp; GEO",
             'puces': [
-                u"<b>Comptes accompagnés :</b> <i>Aligneurs Français</i> (santé dentaire), "
-                u"<i>Adekwatts</i> (photovoltaïque), <i>Aventique</i>, <i>Junr</i>, "
-                u"<i>Le Bon Logiciel</i>. Audit technique et sémantique, plan d'actions "
-                u"priorisé, suivi mensuel.",
-                u"<b>Optimisations déployées :</b> refonte du maillage interne, "
-                u"structuration des pages de destination, balisage et stratégie éditoriale "
-                u"sur les requêtes principales de chaque secteur.",
-                u"<b>Résultats :</b> progression du trafic organique sur l'ensemble des "
-                u"projets accompagnés.",
-            ],
-        },
-        {
-            'poste': u'Fondateur — Expert SEO / GEO &amp; Acquisition',
-            'dates': u'Août 2024 – Présent',
-            'societe': u'DOUBLE SEARCH — Indépendant (Île-de-France)',
-            'puces': [
-                u"<b>Audits et accompagnement :</b> benchmark concurrentiel, audit de "
-                u"visibilité, analyse de la structure et du maillage, champs "
-                u"sémantiques et suivi des positions.",
-                u"<b>Acquisition complète :</b> optimisations GEO et ASO, création et "
-                u"gestion de campagnes SEA et SMA. Clients e-commerce, recrutement, "
-                u"médias et B2B.",
+                u"<b>Aligneurs Français</b> (santé dentaire) : 180+ erreurs "
+                u"d'indexation corrigées, balisage <i>MedicalProcedure</i>, cocon "
+                u"bucco-dentaire. <b>De 2 100 à 3 800 visites/mois (+80%)</b>, Top 3 "
+                u"sur « aligneur dentaire ».",
+                u"<b>Adekwatts</b> (photovoltaïque) : duplication de contenu résolue, "
+                u"TTFB sous 0,4 s, pages de services optimisées. <b>+48% de trafic</b>, "
+                u"2 000 visites qualifiées/mois sur « installateur panneaux solaires ».",
+                u"<b>Aventique</b> (agence web B2B) : 404 nettoyées, rendu JavaScript "
+                u"corrigé pour l'indexation des cas clients, données structurées "
+                u"<i>Service</i>. <b>De 450 à 920 visites/mois (+104%)</b>.",
+                u"<b>Junr Studio</b> (ingénierie logicielle) : rendu SSR/JS audité, "
+                u"maillage orphelin corrigé, contenus pour décideurs IT. <b>De 320 à "
+                u"680 visites/mois (+112%)</b>.",
+                u"<b>Le Bon Logiciel</b> (comparateur SaaS B2B) : 650+ URL orphelines "
+                u"traitées, canonicals nettoyés, SEO programmatique, "
+                u"<i>SoftwareApplication</i>. <b>De 3 800 à 6 500 visites/mois "
+                u"(+71%)</b>, Top 3-5 sur 50+ comparatifs.",
             ],
         },
         {
@@ -232,8 +228,8 @@ FRANCOIS = {
         u"optimisation des fiches stores.",
     ],
     'references': [
-        u"<b>Clients NAZAR :</b> Aligneurs Français, Adekwatts, Aventique, Junr, "
-        u"Le Bon Logiciel.",
+        u"<b>Clients NAZAR :</b> Aligneurs Français, Adekwatts, Aventique, "
+        u"Junr Studio, Le Bon Logiciel.",
         u"<b>Parcours :</b> Welcome to the Jungle, Stootie, Quotatis, Twenga, eTerritoire.",
     ],
     'outils': [u'Botify', u'Semrush', u'Ahrefs', u'Majestic SEO', u'Yooda',
