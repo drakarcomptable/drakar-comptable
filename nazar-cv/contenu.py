@@ -95,6 +95,10 @@ CLEMENT = {
         u"projets, pilotage du P&amp;L agency.",
         u"<b>GEO &amp; AI Search :</b> Optimization LLM (ChatGPT, Perplexity, Gemini, "
         u"Google SGE).",
+        u"<b>Analytics &amp; Mesure :</b> Mise en place de plans de marquage Matomo "
+        u"via Tag Manager, définition des objectifs de conversion et des tunnels, "
+        u"segmentation d'audiences et construction de tableaux de bord de suivi "
+        u"SEO et GEO.",
         u"<b>SEO Technique &amp; Audit :</b> Log Analysis, Crawl JS, Schema.org, "
         u"Core Web Vitals.",
         u"<b>Netlinking &amp; Autorité :</b> Stratégies de popularité, Trust Flow, "
