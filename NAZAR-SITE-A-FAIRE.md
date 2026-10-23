@@ -46,20 +46,41 @@ Soumets aussi `https://nazar-seo.fr/sitemap.xml`.
 
 ---
 
-## 2. Redirections des anciennes URL — le point qui coûte cher
+## 2. Redirections des anciennes URL — en partie fait
 
 L'ancien WordPress avait des pages indexées depuis des années. Elles
-renvoient maintenant une erreur 404. Il faut rediriger chacune vers la
-nouvelle page, sinon l'autorité accumulée est perdue.
+renvoyaient une erreur 404, et Google continuait de les afficher en liens
+annexes sous le résultat principal : « Notre Team », « Blog », « Contact ».
 
-**Ce qu'il faut récupérer** : la liste des anciennes adresses. Trois
-sources, de la plus simple à la plus lourde :
-1. Search Console, rubrique Indexation puis Pages
-2. l'ancien sitemap, souvent `/sitemap_index.xml`
-3. l'admin WordPress, Articles et Pages
+**Fait.** `nazar-site/vercel.json` porte 21 redirections 301 vers l'ancre
+correspondante de la page unique :
 
-Envoie la liste à Claude, le fichier de redirections se écrit en dix
-minutes.
+| Ancienne adresse | Destination |
+|---|---|
+| `/notre-team`, `/notre-equipe`, `/equipe`, `/team` | `/#consultant` |
+| `/contact`, `/nous-contacter` | `/#rdv` |
+| `/services`, `/nos-services`, `/prestations` | `/#surfaces` |
+| `/blog` et tout `/blog/...` | `/` |
+
+Chaque adresse est écrite avec et sans barre oblique finale. Les slugs
+au-delà des trois liens annexes observés sont des hypothèses : une
+redirection posée sur une adresse qui n'a jamais existé ne coûte rien, mais
+elle ne couvre pas non plus celles qu'on ne connaît pas.
+
+**Reste à faire.** Récupérer la liste exacte des anciennes adresses, par
+Search Console (Indexation puis Pages), par l'ancien sitemap
+`/sitemap_index.xml`, ou dans l'admin WordPress. Envoie la liste, le reste
+des redirections s'écrit en dix minutes.
+
+**Pour les faire disparaître tout de suite**, les redirections ne suffisent
+pas : elles n'agissent qu'au prochain passage du robot. Dans Search Console,
+rubrique **Suppressions**, demander la suppression temporaire de chacune des
+trois adresses masque le lien en quelques heures, pour six mois. La
+redirection, elle, fait le travail définitif pendant ce temps.
+
+À savoir : on ne peut plus rétrograder un lien annexe à la main. Google a
+retiré cet outil de Search Console en 2016. Le seul levier est l'adresse
+elle-même.
 
 **Garde le WordPress en vie quelques semaines.** C'est la sauvegarde et la
 source des contenus.

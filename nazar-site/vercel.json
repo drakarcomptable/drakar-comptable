@@ -1,5 +1,112 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/notre-team",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/notre-team/",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/notre-equipe",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/notre-equipe/",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/equipe",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/equipe/",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/team",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/team/",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#rdv",
+      "permanent": true
+    },
+    {
+      "source": "/contact/",
+      "destination": "/#rdv",
+      "permanent": true
+    },
+    {
+      "source": "/nous-contacter",
+      "destination": "/#rdv",
+      "permanent": true
+    },
+    {
+      "source": "/nous-contacter/",
+      "destination": "/#rdv",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/#surfaces",
+      "permanent": true
+    },
+    {
+      "source": "/services/",
+      "destination": "/#surfaces",
+      "permanent": true
+    },
+    {
+      "source": "/nos-services",
+      "destination": "/#surfaces",
+      "permanent": true
+    },
+    {
+      "source": "/nos-services/",
+      "destination": "/#surfaces",
+      "permanent": true
+    },
+    {
+      "source": "/prestations",
+      "destination": "/#surfaces",
+      "permanent": true
+    },
+    {
+      "source": "/prestations/",
+      "destination": "/#surfaces",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:chemin*",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/ref-(.*)",
