@@ -120,3 +120,23 @@ Le bloc NAZAR porte une puce par compte, avec son secteur, les optimisations
 déployées et le résultat chiffré. C'est le bloc le plus long du CV, et c'est
 voulu : c'est le travail en cours. Les chiffres viennent des relevés fournis
 par NAZAR, aucun n'est estimé.
+
+## Troisième CV : Maël Gallais
+
+`contenu.py` sous `MAEL`, photo `../nazar-linkedin/NAZAR-photo-profil-7.jpg`.
+
+```
+python3 cv.py MAEL
+PYTHONPATH=/tmp/pw python3 rend.py CV-Mael-Gallais
+```
+
+Six expériences et six comptes NAZAR tiennent sur la page sans rien raccourcir :
+le texte descend à 755 points à gauche et 785 à droite, pour un filet de pied à
+805,5. Les comptes NAZAR portent le nom du client en gras, comme sur le CV de
+François, et non en italique comme les marques simplement citées sur celui de
+Clément.
+
+**L'adresse LinkedIn n'y figure pas.** Celle fournie,
+`linkedin.com/in/florian-marinho/`, n'est pas la sienne : c'est un profil au nom
+de Florian Marinho. La troisième entrée de la ligne de contact porte « Permis B »
+en attendant la bonne adresse.

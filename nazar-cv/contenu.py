@@ -252,3 +252,125 @@ FRANCOIS = {
         (u'Associé', u'Team for the Planet'),
     ],
 }
+
+
+MAEL = {
+    'fichier': 'CV-Mael-Gallais',
+    'nom': u'Maël Gallais',
+    'titre': u'Consultant Senior SEO &amp; GEO | Co-fondateur NAZAR SEO',
+    'contact': [u'Paris / Île-de-France', u'mael@nazar-seo.fr', u'Permis B'],
+    'photo': u'../nazar-linkedin/NAZAR-photo-profil-7.jpg',
+    'profil': u"Consultant Senior SEO &amp; GEO cumulant 10 ans d'expérience stratégique "
+              u"et opérationnelle dans l'acquisition de trafic qualifié, le scaling "
+              u"e-commerce et la génération de leads B2B et B2C. Co-fondateur de NAZAR SEO "
+              u"(plus de 80 entreprises accompagnées). Spécialisé dans le SEO "
+              u"programmatique, l'ingénierie d'architecture web, le management d'équipes "
+              u"en agence et le positionnement sur les moteurs de recherche génératifs "
+              u"(Google SGE, Perplexity, SearchGPT).",
+    'experiences': [
+        {
+            'poste': u'Co-fondateur &amp; Consultant Senior SEO / GEO',
+            'dates': u'Janv. 2023 – Présent',
+            'societe': u"NAZAR SEO — Collectif d'experts SEO &amp; GEO",
+            'puces': [
+                u"<b>Co-fondation du collectif :</b> l'agilité du freelance et la force de "
+                u"frappe d'une agence, <b>plus de 80 entreprises accompagnées</b>. "
+                u"Stratégies GEO pour la visibilité sur les moteurs de réponse IA.",
+                u"<b>Welcome to the Jungle</b> : découvrabilité des offres d'emploi, "
+                u"maillage interne des fiches entreprises.",
+                u"<b>Acheter du Neuf</b> : maillage pSEO local sur les programmes "
+                u"immobiliers neufs et les pages géolocalisées.",
+                u"<b>Physio7</b> : SEO local et structuration des pages de soins pour un "
+                u"réseau de cabinets de physiothérapie.",
+                u"<b>Smart Fidelis</b> : repositionnement sémantique B2B et génération de "
+                u"leads sur la solution SaaS de fidélisation.",
+                u"<b>CDX Telecom</b> : contenu B2B et requêtes à fort CPC en télécom "
+                u"d'entreprise et fibre professionnelle.",
+                u"<b>IOT Business</b> : cocon sémantique sur la connectivité M2M, les "
+                u"capteurs et les objets connectés.",
+            ],
+        },
+        {
+            'poste': u'Manager SEO &amp; Pôle Acquisition',
+            'dates': u'Juil. 2020 – Déc. 2022',
+            'societe': u'YATEO — Agence Marketing Digital (Paris)',
+            'puces': [
+                u"<b>Management direct d'une équipe de 6 consultants</b> et chefs de "
+                u"projets SEO.",
+                u"<b>Plus de 35 comptes pilotés</b> en e-commerce, pure players et B2B "
+                u"grands comptes. Roadmaps techniques et netlinking, pour <b>+68% de "
+                u"trafic qualifié</b> en moyenne dès la première année.",
+            ],
+        },
+        {
+            'poste': u'Lead SEO France',
+            'dates': u'Juil. 2018 – Juin 2020',
+            'societe': u'SCOTCH &amp; SODA — Prêt-à-porter international',
+            'puces': [
+                u"<b>De 180 000 à 420 000 visites/mois</b> et <b>+2,4 M€ de chiffre "
+                u"d'affaires organique direct</b> sur le marché français.",
+                u"Restructuration de l'arborescence e-commerce et gestion de la "
+                u"saisonnalité des collections (cocons sémantiques mode).",
+            ],
+        },
+        {
+            'poste': u'Consultant SEO Freelance',
+            'dates': u'Févr. 2019 – Janv. 2021',
+            'societe': u'MALT — Missions pour comptes référents',
+            'puces': [
+                u"<b>Audits techniques et levées de pénalités algorithmiques</b> pour "
+                u"<i>Klarna France, Back Market, Ornikar</i>. Nettoyage de profils de "
+                u"liens, optimisation on-page et netlinking à fort Trust Flow.",
+            ],
+        },
+        {
+            'poste': u'Formateur SEO',
+            'dates': u'Mars 2018 – Juin 2019',
+            'societe': u"AD'S UP CONSULTING — Groupe EDG",
+            'puces': [
+                u"<b>Plus de 50 sessions de formation</b> au référencement technique et "
+                u"stratégique auprès de <b>plus de 300 professionnels</b> : pénalités "
+                u"algorithmiques, cocon sémantique.",
+            ],
+        },
+        {
+            'poste': u'Fondateur &amp; Gestionnaire e-commerce',
+            'dates': u'Févr. 2016 – Mai 2018',
+            'societe': u"SHOPIFY — Bijoux d'inspiration turque",
+            'puces': [
+                u"Première marque e-commerce française sur ce créneau, <b>plus de 20 000 "
+                u"visites/mois en acquisition 100% organique</b> sur des mots-clés de "
+                u"niche, avant cession de l'actif.",
+            ],
+        },
+    ],
+    'competences': [
+        u"<b>SEO Technique &amp; Performance :</b> audits de crawl, levée de pénalités "
+        u"algorithmiques, Core Web Vitals, SSR/CSR (Astro, Next.js, Shopify, WordPress).",
+        u"<b>GEO &amp; AI Search :</b> génération de leads sur les moteurs de réponse IA, "
+        u"maillage E-E-A-T, balisage Schema.org ciblé.",
+        u"<b>SEO programmatique :</b> arborescences pSEO à forte volumétrie, maillage "
+        u"interne algorithmique.",
+        u"<b>Management &amp; Stratégie :</b> encadrement de consultants, comptes grands "
+        u"groupes, formation professionnelle.",
+    ],
+    'references': [
+        u"<b>Clients NAZAR :</b> Welcome to the Jungle, Acheter du Neuf, Physio7, "
+        u"Smart Fidelis, CDX Telecom, IOT Business.",
+        u"<b>Parcours :</b> Scotch &amp; Soda, Klarna France, Back Market, Ornikar.",
+    ],
+    'outils': [u'Screaming Frog', u'Semrush', u'Ahrefs', u'Majestic SEO',
+               u'Search Console', u'GA4', u'Looker Studio'],
+    'formation': [
+        (u'Master 2 Grande École, Marketing Digital', u'EM Normandie'),
+        (u'Bachelor Management International', u'EM Normandie'),
+        (u'BTS Commerce International', u'Lycée Augustin Fresnel'),
+    ],
+    'certifications': [
+        (u'Réussir son référencement web', u'Abondance'),
+        (u'Fondamentaux SEO, On-Page &amp; Technical SEO', u'Semrush'),
+        (u'SEO Backlink Management', u'Semrush'),
+        (u'Google Analytics Individual Qualification', u'Google'),
+        (u'Google Ads Search Certification', u'Google'),
+    ],
+}
