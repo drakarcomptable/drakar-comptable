@@ -374,3 +374,121 @@ MAEL = {
         (u'Google Ads Search Certification', u'Google'),
     ],
 }
+
+
+FLORIAN = {
+    'fichier': 'CV-Florian-Marinho',
+    'nom': u'Florian Marinho',
+    'titre': u'Consultant SEO &amp; GEO',
+    'contact': [u'Paris / Île-de-France', u'florian@nazarseo.fr',
+                u'malt.fr/profile/florianmarinho'],
+    'photo': u'../nazar-linkedin/NAZAR-photo-profil-3.jpg',
+    'profil': u"Consultant SEO &amp; GEO disposant de 5 ans d'expérience éprouvée dans "
+              u"l'acquisition de trafic organique, l'optimisation e-commerce et le Growth "
+              u"Marketing. Spécialisé dans les 3 piliers du référencement (Sémantique, "
+              u"Technique, Netlinking) et précurseur du Generative Engine Optimization "
+              u"(GEO) pour maximiser la présence des marques sur les assistants IA "
+              u"(ChatGPT, Perplexity, Google AI Overviews). Maîtrise des CMS e-commerce "
+              u"complexes, des catalogues à fort volume et des stratégies de conversion "
+              u"ROIstes.",
+    'experiences': [
+        {
+            'poste': u'Consultant SEO &amp; GEO',
+            'dates': u'Sept. 2025 – Présent',
+            'societe': u"NAZAR SEO — Collectif d'experts SEO &amp; GEO (Paris)",
+            'puces': [
+                u"<b>Accompagnement multi-secteurs :</b> pilotage des stratégies SEO et "
+                u"GEO pour des comptes e-commerce, finance, santé et services locaux.",
+                u"<b>Pro-Épargne</b> (finance) : conquête du <b>Top 3 sur les requêtes "
+                u"d'épargne</b> et <b>+75% de leads qualifiés</b> en gestion de patrimoine.",
+                u"<b>Cryotera</b> (santé, cryothérapie) : SEO local multi-centres, "
+                u"<b>+80% de réservations en ligne</b>.",
+                u"<b>Meylly</b> (e-commerce) : restructuration des fiches produits et "
+                u"catégories, <b>+65% de chiffre d'affaires SEO</b>.",
+                u"<b>Conciergerie Les 2G Martigues</b> (immobilier) : domination du SEO "
+                u"local PACA et <b>1ère position sur la gestion locative</b>.",
+                u"<b>Stratégies GEO &amp; moteurs IA :</b> visibilité et citabilité sur "
+                u"ChatGPT, Perplexity et Google AI Overviews, <b>+35% de leads qualifiés "
+                u"additionnels</b>.",
+            ],
+        },
+        {
+            'poste': u'Co-fondateur &amp; Lead SEO Growth',
+            'dates': u'Mai 2024 – Sept. 2025',
+            'societe': u"NOVARICH — Stratégie d'acquisition &amp; e-commerce",
+            'puces': [
+                u"<b>Direction SEO &amp; acquisition :</b> plan d'acquisition organique "
+                u"global, ciblage sémantique haute conversion et maillage interne "
+                u"automatisé.",
+                u"<b>Campagnes &amp; netlinking :</b> cocon sémantique complet et "
+                u"<b>+150 backlinks de forte autorité</b>. <b>+85% de trafic qualifié</b> "
+                u"et <b>+40% du chiffre d'affaires</b> issu de l'organique.",
+            ],
+        },
+        {
+            'poste': u'Consultant SEO E-commerce &amp; Marketing Digital',
+            'dates': u'Sept. 2022 – Nov. 2024',
+            'societe': u"BORD D'ATTAQUE — E-commerce &amp; Digital",
+            'puces': [
+                u"<b>Optimisation e-commerce &amp; SKUs :</b> refonte de l'architecture "
+                u"SEO sur un catalogue de plus de 15 000 références.",
+                u"<b>SEO technique &amp; performance :</b> indexation des facettes, "
+                u"cannibalisation et gain sur les Core Web Vitals.",
+                u"<b>Impact business : +62% de chiffre d'affaires SEO</b> et conquête du "
+                u"Top 3 Google sur <b>40+ mots-clés stratégiques</b>.",
+            ],
+        },
+        {
+            'poste': u'Consultant SEO &amp; Acquisition Web',
+            'dates': u'Mars 2024 – Août 2024',
+            'societe': u'INDIE — Agence Digital &amp; Brand (Madrid)',
+            'puces': [
+                u"<b>SEO international &amp; ASO :</b> stratégies multi-langues et "
+                u"optimisation App Store. <b>+40% de téléchargements in-app</b> et "
+                u"<b>+45% de trafic web</b> en six mois.",
+            ],
+        },
+        {
+            'poste': u'Consultant SEO &amp; Analytics',
+            'dates': u'Mai 2022 – Oct. 2022',
+            'societe': u'SKISET — N°1 mondial de la location de ski',
+            'puces': [
+                u"<b>SEO local &amp; pages de destination :</b> optimisation des pages "
+                u"magasins et stations partenaires (800+ fiches).",
+                u"<b>Conversion &amp; reporting :</b> suivi des métriques clés GA4 et "
+                u"Search Console, <b>+35% de réservations en ligne SEO</b>.",
+            ],
+        },
+    ],
+    'competences': [
+        u"<b>3 piliers du référencement :</b> sémantique, technique et netlinking, sur "
+        u"des catalogues à fort volume.",
+        u"<b>GEO &amp; AI Search :</b> visibilité et citabilité des marques sur les "
+        u"assistants IA.",
+        u"<b>E-commerce &amp; Growth :</b> architecture de catalogue, fiches produits, "
+        u"stratégies de conversion ROIstes.",
+        u"<b>SEO local &amp; international :</b> multi-centres, multi-langues, ASO.",
+    ],
+    'references': [
+        u"<b>Finance &amp; B2B :</b> Pro-Épargne, Allance.",
+        u"<b>Santé &amp; Local :</b> Cryotera, Conciergerie Les 2G Martigues.",
+        u"<b>E-commerce :</b> Meylly, Bord d'Attaque.",
+        u"<b>Grands Comptes :</b> Skiset, Welcome Service.",
+    ],
+    'titre_outils': u'OUTILS SEO &amp; GEO',
+    'outils': [u'Ahrefs', u'SEMrush', u'SEOObserver', u'Screaming Frog', u'Botify',
+               u'Search Console', u'Bing Webmaster', u'GA4', u'Looker Studio',
+               u'Peec AI', u'Profound', u'Otterly.ai'],
+    'titre_outils_bis': u'CMS MAÎTRISÉS',
+    'outils_bis': [u'Shopify', u'WordPress', u'Webflow', u'PrestaShop', u'Magento'],
+    'formation': [
+        (u'Master Digital Marketing &amp; Data Analytics',
+         u'EMLV — École de Management Léonard de Vinci'),
+        (u'Erasmus Digital Business &amp; Marketing',
+         u'JAMK University of Applied Sciences (Finlande)'),
+    ],
+    'titre_certifications': u'ENGAGEMENTS',
+    'certifications': [
+        (u'Bénévole étudiant', u'Croix-Rouge française (aide humanitaire et dons)'),
+    ],
+}

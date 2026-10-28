@@ -140,3 +140,35 @@ Clément.
 `linkedin.com/in/florian-marinho/`, n'est pas la sienne : c'est un profil au nom
 de Florian Marinho. La troisième entrée de la ligne de contact porte « Permis B »
 en attendant la bonne adresse.
+
+## Quatrième CV : Florian Marinho
+
+`contenu.py` sous `FLORIAN`, photo `../nazar-linkedin/NAZAR-photo-profil-3.jpg`.
+
+```
+python3 cv.py FLORIAN
+PYTHONPATH=/tmp/pw python3 rend.py CV-Florian-Marinho
+```
+
+Celui-ci n'est pas parti d'un profil LinkedIn mais d'un CV déjà fait, dans une
+mise en page de la même famille mais sans bandeau ni photo. Le contenu a été
+repris tel quel, sauf trois changements demandés :
+
+- le titre sous le nom passe de « Consultant SEO & GEO | Growth & E-commerce »
+  à **« Consultant SEO & GEO »** seul ;
+- **ChatGPT et Perplexity sortent de la liste d'outils.** Ce sont des moteurs,
+  pas des outils de travail. Ils restent cités dans le paragraphe de profil et
+  dans la puce GEO, à leur juste place ;
+- trois plateformes GEO les remplacent, **Peec AI, Profound et Otterly.ai**,
+  aux côtés de **Bing Webmaster**.
+
+Deux ajouts au gabarit, sans effet sur les autres CV :
+
+| Clé | Effet |
+|---|---|
+| `titre_outils` | renomme le bloc de pastilles (ici « OUTILS SEO & GEO ») |
+| `outils_bis` + `titre_outils_bis` | un second bloc de pastilles (ici « CMS MAÎTRISÉS ») |
+
+La page est moins remplie que les trois autres, 703 points à gauche et 710 à
+droite pour un filet de pied à 805,5. C'est le reflet de cinq ans de carrière
+contre dix ou vingt. Rien n'a été ajouté pour combler le blanc.

@@ -117,6 +117,12 @@ def page(d, bandeau='bandeau-cv.png'):
     comp = u''.join(u'<li>%s</li>' % c for c in d['competences'])
     refs = u''.join(u'<li>%s</li>' % c for c in d['references'])
     outils = u''.join(u'<span>%s</span>' % o for o in d['outils'])
+    # second jeu de pastilles, facultatif : les CMS de Florian, par exemple
+    bis = u''
+    if d.get('outils_bis'):
+        bis = (u'<h2>%s</h2><div class="pastilles">%s</div>'
+               % (d.get('titre_outils_bis', u'AUTRES OUTILS'),
+                  u''.join(u'<span>%s</span>' % o for o in d['outils_bis'])))
     return u"""<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <title>%(nom)s — CV</title><style>%(style)s</style></head><body>
 <div class="page">
@@ -142,8 +148,9 @@ def page(d, bandeau='bandeau-cv.png'):
       <ul>%(comp)s</ul>
       <h2>PRINCIPALES RÉFÉRENCES</h2>
       <ul>%(refs)s</ul>
-      <h2>OUTILS &amp; STACK</h2>
+      <h2>%(titre_outils)s</h2>
       <div class="pastilles">%(outils)s</div>
+      %(outils_bis)s
       <h2>FORMATION</h2>
       %(formation)s
       <h2>%(titre_certifs)s</h2>
@@ -156,7 +163,9 @@ def page(d, bandeau='bandeau-cv.png'):
         'contact': contact, 'photo': d['photo'], 'profil': d['profil'],
         'gauche': gauche, 'comp': comp, 'refs': refs, 'outils': outils,
         'formation': lot(d['formation']), 'certifs': lot(d['certifications']),
-        'titre_certifs': d.get('titre_certifications', 'CERTIFICATIONS')}
+        'titre_certifs': d.get('titre_certifications', 'CERTIFICATIONS'),
+        'titre_outils': d.get('titre_outils', u'OUTILS &amp; STACK'),
+        'outils_bis': bis}
 
 
 if __name__ == '__main__':
