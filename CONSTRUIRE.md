@@ -3,8 +3,9 @@
 Le site est un fichier unique, assemblé par un script. Rien à installer.
 
 ```
-bash build.sh        # écrit nazar-site/index.html et nazar-site/sitemap.xml
-python3 gen_legal.py # écrit les deux pages légales
+bash build.sh             # écrit nazar-site/index.html et nazar-site/sitemap.xml
+python3 gen_legal.py      # écrit les deux pages légales
+python3 gen_passerelle.py # écrit la page d'atterrissage publicitaire
 ```
 
 | Fichier | Rôle |
@@ -12,6 +13,7 @@ python3 gen_legal.py # écrit les deux pages légales
 | `nazar-geo.html` | la source unique : structure, styles et scripts de la page |
 | `build.sh` | y ajoute l'en-tête (titre, métas, Open Graph) et le plan du site |
 | `gen_legal.py` | génère les mentions légales et la politique de confidentialité |
+| `gen_passerelle.py` | génère `audit-gratuit/`, la page d'atterrissage des publicités |
 | `nazar-site/` | la sortie, et la racine de déploiement déclarée dans Vercel |
 
 Ne pas modifier `nazar-site/index.html` à la main : il est réécrit au prochain
@@ -49,3 +51,39 @@ Trois garde-fous qui tiennent ensemble, à ne pas défaire séparément :
   redirigé : son trafic n'a rien à faire sur la page de rendez-vous ;
 - le panneau de confirmation porte le lien en clair, cliquable, au cas où la
   redirection ne partirait pas.
+
+## La passerelle publicitaire
+
+`nazar-seo.fr/audit-gratuit` est la page d'atterrissage des campagnes. Elle
+affiche l'offre, puis ouvre l'agenda HubSpot au bout de 2,5 secondes, le
+bouton restant cliquable avant.
+
+**Pourquoi ne pas envoyer la publicité directement sur l'agenda.** Un clic
+depuis une réponse de ChatGPT arrive froid : tomber sans transition sur une
+grille de créneaux d'un domaine inconnu fait repartir. Et le trafic payant
+passe ainsi par le domaine, donc il se mesure là où le reste se mesure.
+
+**Les paramètres de campagne suivent jusqu'à HubSpot.** Tout ce qui arrive
+dans l'URL (`utm_source`, `utm_medium`, `utm_campaign`…) est recopié sur le
+lien de rendez-vous, à l'exception d'un `uuid` parasite qui écraserait celui
+du lien. Sans cela, un rendez-vous venu de la publicité serait indiscernable
+d'un autre et le budget se piloterait à l'aveugle.
+
+**Le lien de rendez-vous n'est pas le même que celui du formulaire.** Deux
+liens, deux sources : `auditnazargeo` pour la publicité, `auditgeonazar` pour
+le formulaire du site. L'agenda dit alors de lui-même d'où vient chaque prise
+de rendez-vous. Les deux sont des constantes, `AGENDA` dans
+`gen_passerelle.py` et `AGENDA` dans `nazar-geo.html`.
+
+**Aucun script tiers sur la page.** Le module de prise de rendez-vous HubSpot
+n'y est pas embarqué : il poserait des cookies de suivi sur le domaine et
+imposerait une bannière de consentement à un site qui n'en a pas besoin. Le
+calendrier reste chez HubSpot, où sa propre information s'applique.
+
+La page est en `noindex` et absente du plan du site. Comme les visuels
+clients, elle ne doit pas être bloquée dans `robots.txt` : Google doit
+pouvoir la télécharger pour lire la balise.
+
+Pour en faire une vraie page d'atterrissage, sans ouverture automatique,
+mettre `DELAI = 0` dans `gen_passerelle.py`. C'est la version à tester si le
+taux de prise de rendez-vous déçoit.

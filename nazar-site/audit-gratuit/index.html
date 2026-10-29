@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit GEO gratuit | NAZAR</title>
+<meta name="description" content="Choisissez votre créneau de 9 minutes avec Maël. Nous regardons ce que les IA répondent sur votre marché et ce que ça vous coûte.">
+<!-- page d'atterrissage publicitaire : elle n'a rien a faire dans l'index,
+     et elle ne doit surtout pas etre bloquee dans robots.txt, sans quoi
+     Google ne lirait jamais cette balise. -->
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/logo.png">
+<link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://meetings-eu1.hubspot.com" crossorigin>
+<link rel="stylesheet" href="/nazar.css">
+<style>
+.pass{min-height:calc(100vh - 150px);display:flex;align-items:center;
+  background:var(--night);color:var(--on-night)}
+.pass .narrow{padding:3rem 0;text-align:center}
+.pass .kick{color:var(--acc);font-family:var(--mono);font-size:.82rem;
+  letter-spacing:.12em;text-transform:uppercase}
+.pass h1{color:#fff;font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.1;
+  letter-spacing:-.02em;margin:1.1rem 0 0}
+.pass h1 em{color:var(--acc);font-style:normal}
+.pass p{color:var(--on-night);opacity:.86;max-width:33rem;margin:1.1rem auto 0}
+.pass .pts{list-style:none;padding:0;margin:1.8rem auto 0;max-width:30rem;
+  text-align:left;display:grid;gap:.55rem}
+.pass .pts li{padding-left:1.4rem;position:relative;font-size:.95rem;
+  color:var(--on-night);opacity:.9}
+.pass .pts li:before{content:'';position:absolute;left:0;top:.52em;width:7px;
+  height:7px;border-radius:50%;background:var(--acc)}
+.pass .act{margin-top:2.1rem}
+.pass .att{margin-top:1.1rem;font-size:.82rem;color:var(--dim)}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="rail">
+    <a class="home" href="/"><img src="/logo.png" alt="NAZAR"></a>
+    <span class="sep"></span>
+    <a class="back" href="/">Voir le site</a>
+  </div>
+</header>
+
+<main class="pass">
+  <div class="rail">
+    <div class="narrow">
+      <div class="kick">Audit GEO gratuit</div>
+      <h1>Neuf minutes pour savoir ce que les IA<br>répondent <em>sur votre marché</em></h1>
+      <p>Maël regarde avec vous ce que ChatGPT, Perplexity et Google AI Overviews
+      disent de votre secteur, pourquoi vos concurrents y sont cités, et ce qu'un
+      référencement sur ces moteurs peut vous rapporter.</p>
+      <ul class="pts">
+        <li>Les requêtes de votre marché, testées en direct sur les assistants</li>
+        <li>Les concurrents que les IA citent à votre place, et pourquoi</li>
+        <li>Un chiffrage du potentiel, pas une présentation commerciale</li>
+      </ul>
+      <div class="act">
+        <a class="btn btn-dark" id="rdv" href="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb" style="background:var(--acc);color:var(--night)">Choisir mon créneau <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+      </div>
+      <p class="att" id="att"></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="rail">
+    <span>&copy; 2026 NAZAR</span>
+    <span class="sep"></span>
+    <a href="/">Accueil</a>
+    <a href="/mentions-legales.html">Mentions légales</a>
+    <a href="/confidentialite.html">Confidentialité</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var AGENDA = 'https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb', DELAI = 2500;
+  var lien = document.getElementById('rdv'), att = document.getElementById('att');
+
+  /* Les parametres de la campagne suivent jusqu'a HubSpot : sans cela, un
+     rendez-vous pris depuis la publicite est indiscernable d'un autre, et le
+     budget se pilote a l'aveugle. L'uuid du lien est deja dans AGENDA, on ne
+     recopie donc pas celui qui arriverait de l'URL. */
+  function destination(){
+    var q = location.search.replace(/^\?/, '');
+    if(!q) return AGENDA;
+    var gardes = q.split('&').filter(function(p){
+      return p && p.split('=')[0].toLowerCase() !== 'uuid';
+    });
+    return gardes.length ? AGENDA + '&' + gardes.join('&') : AGENDA;
+  }
+
+  var cible = destination();
+  lien.href = cible;
+
+  /* L'ouverture automatique laisse le temps de lire le titre. Le bouton
+     reste la pour qui clique avant, et pour qui a le JavaScript coupe. */
+  if(DELAI > 0){
+    att.textContent = "Nous ouvrons l'agenda dans un instant.";
+    var parti = false;
+    function partir(){ if(!parti){ parti = true; location.assign(cible); } }
+    var minuteur = setTimeout(partir, DELAI);
+    /* un clic sur le bouton doit partir tout de suite, sans que le minuteur
+       ne relance une seconde navigation derriere */
+    lien.addEventListener('click', function(){ clearTimeout(minuteur); parti = true; });
+  }
+})();
+</script>
+</body>
+</html>
