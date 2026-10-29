@@ -12,7 +12,6 @@
 <link rel="icon" type="image/png" href="logo.png" sizes="192x192">
 <link rel="preload" href="police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://meetings-eu1.hubspot.com" crossorigin>
-<link rel="preconnect" href="https://static.hubspot.com" crossorigin>
 <style>
 /* Jakarta est une police variable : un seul fichier couvre toutes les graisses
    de 200 a 800, la ou Google en servait cinq. La mono n'est appelee que sur de
@@ -599,57 +598,28 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 </style>
 <style>
 /* ---------- page d'atterrissage publicitaire ---------- */
-.lpbar{position:sticky;top:0;z-index:60;background:rgba(227,247,254,.86);
+.lpbar{position:sticky;top:0;z-index:60;background:rgba(227,247,254,.88);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(0,67,88,.07)}
 .lpbar .rail{display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding-block:12px}
-.lpbar img{width:42px;height:42px;display:block}
-.lpbar .btn{padding:.62rem .72rem .62rem 1.15rem;font-size:.92rem}
+  padding-block:11px}
+.lpbar img{width:40px;height:40px;display:block}
+.lpbar .btn{padding:.58rem .68rem .58rem 1.1rem;font-size:.9rem}
 
-.lph{padding-block:clamp(44px,6vw,86px) clamp(26px,3vw,40px);
-  background:linear-gradient(180deg,var(--ice) 0%,var(--paper) 100%)}
-.lph .rail{display:flex;flex-direction:column;align-items:center;text-align:center;
-  gap:clamp(14px,1.8vw,22px)}
-.lph h1{margin:0;max-width:19ch;font-weight:800;letter-spacing:-.035em;
-  font-size:clamp(2.05rem,5.6vw,3.9rem);line-height:1.04}
-.lph .sub{margin:0;max-width:62ch;color:var(--ink-2);
-  font-size:clamp(1rem,1.5vw,1.14rem);line-height:1.55}
-.lph .note{margin:0;font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--steel)}
+/* l'accroche du site est concue pour passer sous un en-tete flottant ;
+   ici la barre prend sa place dans le flux, le decalage n'a plus lieu d'etre */
+.lph-top .hero{padding-top:clamp(28px,4vw,56px)}
 
-/* un logo de moteur, dans sa couleur de marque, colle au nom du moteur */
-.mt{display:inline-flex;align-items:center;gap:.26em;white-space:nowrap}
-.mt i{display:inline-flex;align-items:center;justify-content:center;
-  width:1.04em;height:1.04em;border-radius:.26em;background:#fff;
-  box-shadow:0 3px 12px rgba(0,67,88,.14);flex:none}
-.mt i svg{width:.68em;height:.68em;display:block}
-.anim .mt i{animation:mtflot 3.8s ease-in-out infinite}
-.anim .mt:nth-of-type(2) i{animation-delay:.6s}
-.anim .mt:nth-of-type(3) i{animation-delay:1.2s}
-@keyframes mtflot{0%,100%{transform:translateY(0)}50%{transform:translateY(-.16em)}}
-
-#agenda{background:var(--paper);padding-block:clamp(10px,1.4vw,18px) clamp(54px,6vw,86px)}
-#agenda .ahead{display:flex;flex-direction:column;align-items:center;gap:12px;
-  text-align:center;margin-bottom:clamp(20px,2.6vw,34px)}
-#agenda h2{margin:0;font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:-.03em}
+#agenda{background:var(--paper);padding-block:clamp(48px,6vw,86px)}
+#agenda .ahead{display:flex;flex-direction:column;align-items:center;gap:13px;
+  text-align:center;margin-bottom:clamp(22px,2.8vw,36px)}
+#agenda h2{margin:0;max-width:22ch;font-size:clamp(1.55rem,3.2vw,2.35rem);
+  letter-spacing:-.032em}
 #agenda .ahead p{margin:0;max-width:52ch;color:var(--ink-2)}
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
-.meetings-iframe-container{min-height:702px}
-.meetings-iframe-container iframe{width:100%!important;border:0!important;min-height:702px}
-@media(max-width:720px){
-  .meetings-iframe-container,.meetings-iframe-container iframe{min-height:900px}
-}
-.agwait{display:flex;align-items:center;justify-content:center;gap:10px;
-  min-height:702px;color:var(--steel);font-family:var(--mono);font-size:.82rem}
-
-.lpfoot{background:var(--night);color:var(--on-night);padding-block:clamp(34px,4vw,54px)}
-.lpfoot .rail{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
-  gap:18px;font-size:.9rem}
-.lpfoot a{color:var(--on-night);text-decoration:none;opacity:.78}
-.lpfoot a:hover{opacity:1}
-.lpfoot .lk{display:flex;gap:18px;flex-wrap:wrap}
+#agframe{display:block;width:100%;border:0;height:720px}
+@media(max-width:720px){#agframe{height:1000px}}
 </style>
 <script src="/mesure.js" defer></script>
 </head>
@@ -657,23 +627,45 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 
 <header class="lpbar">
   <div class="rail">
-    <a href="/" aria-label="NAZAR"><img src="logo.png" width="42" height="42" alt="NAZAR"></a>
+    <a href="/" aria-label="NAZAR"><img src="logo.png" width="40" height="40" alt="NAZAR"></a>
     <a class="btn btn-dark" href="#agenda">Réserver mon audit <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
   </div>
 </header>
 
-<section class="lph">
-  <div class="rail">
-    <span class="pill9 rv"><i><img src="hote-mael.webp" width="200" height="200" decoding="async" alt="Maël, consultant NAZAR"></i>Premier échange de 9 minutes <span class="qui">avec Maël</span></span>
-    <h1 class="rv d1">Calculez le ROI d'être cité par
-      <span class="mt" data-eng="ChatGPT">ChatGPT</span>,
-      <span class="mt" data-eng="Perplexity">Perplexity</span> et
-      <span class="mt" data-eng="Gemini">Gemini</span></h1>
-    <p class="sub rv d1">Vos acheteurs posent leur question à une IA avant de vous appeler. Nous relevons ce que les moteurs répondent sur votre marché, les concurrents qu'ils citent à votre place, et nous chiffrons ce que vaudrait votre place dans ces réponses.</p>
-    <a class="btn btn-dark rv d2" href="#agenda">Choisir mon créneau <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
-    <p class="note rv d2">Gratuit, sans engagement</p>
+<div class="lph-top">
+<section class="hero">
+  <div class="sky" aria-hidden="true">
+    <div class="sunglow"></div>
+    <div class="cloud" style="left:-8%;top:8%;width:46vw;height:30vw;background:rgba(255,255,255,.92);--dx:70px;--dy:-26px;--dur:52s"></div>
+    <div class="cloud" style="left:52%;top:-6%;width:52vw;height:34vw;background:rgba(227,247,254,.95);--dx:-58px;--dy:30px;--dur:61s"></div>
+    <div class="cloud" style="left:18%;top:52%;width:58vw;height:32vw;background:rgba(171,218,236,.72);--dx:44px;--dy:-40px;--dur:47s"></div>
+    <div class="cloud" style="left:66%;top:48%;width:40vw;height:28vw;background:rgba(255,255,255,.8);--dx:-40px;--dy:-22px;--dur:56s"></div>
+  </div>
+  <div class="rail hgrid">
+    <div class="hcopy">
+      <h1 class="rv d1">Vos prochains clients<br class="bm"> vous cherchent<br class="bm"> <em>sur les IA</em>.</h1>
+      <p class="hlede rv d2">NAZAR accompagne <b>plus de 100 entreprises B2B</b> dans leur positionnement sur Google et sur les principales IA. Nous sommes un collectif de consultants aguerris : on relève ce que les moteurs répondent sur votre marché, et on fait entrer votre nom dans la réponse.</p>
+      <a class="btn btn-white rv d2" href="#agenda">Audit GEO gratuit
+        <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+    </div>
+    <div class="screen rv d2" id="screen">
+      <div class="scr-bar">
+        <span class="tl"><i></i><i></i><i></i></span>
+        <span class="url" id="scrUrl">recherche B2B</span>
+      </div>
+      <div class="rail-eng" id="railEng"></div>
+      <div class="scr-body">
+        <div class="msg me" id="qMsg">…</div>
+        <div class="msg ai" id="aiMsg" hidden>
+          <div class="ai-head" id="aiHead"></div>
+          <div class="ai-body" id="aiBody"></div>
+          <div class="srcs" id="srcs"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+</div>
 
 <section id="agenda">
   <div class="rail">
@@ -683,16 +675,9 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
       <p class="rv d1">Choisissez l'heure qui vous arrange. Vous recevez l'invitation par mail dans la foulée.</p>
     </div>
     <div class="agbox rv d1">
-      <div class="meetings-iframe-container" data-src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true">
-        <div class="agwait">Chargement de l'agenda…</div>
-      </div>
+      <iframe id="agframe" src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true" title="Choisir un créneau avec Maël" loading="lazy"></iframe>
     </div>
   </div>
-</section>
-
-<section class="clients">
-  <div class="rail"><p class="clabel">Ils nous ont fait confiance</p></div>
-  <div class="cmar"><div class="crow" id="crow"></div></div>
 </section>
 
 <section class="night sec" id="cas">
@@ -703,6 +688,11 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     </div>
     <div class="mcards" id="mcards"></div>
   </div>
+</section>
+
+<section class="clients">
+  <div class="rail"><p class="clabel">Ils nous ont fait confiance</p></div>
+  <div class="cmar"><div class="crow" id="crow"></div></div>
 </section>
 
 <section class="cream-s" id="consultant">
@@ -716,6 +706,23 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
       <p class="coll rv d2"><b>NAZAR est un collectif de consultants GEO et SEO.</b> Notre métier n'a pas changé : vous faire ressortir quand quelqu'un cherche ce que vous vendez. Sur Google, et désormais dans les réponses des IA.</p>
     </div>
   </div>
+</section>
+
+<section class="night flow" id="audit">
+  <div class="rail">
+    <h2 class="rv">Vous souhaitez savoir<br class="bm"> combien de leads vous<br class="bm"> pouvez générer<br class="bm"> <em>grâce au GEO</em> ?</h2>
+    <div class="flowtrack">
+      <div class="flowline"><i id="flowFill"></i></div>
+      <div class="fsteps" id="fsteps"></div>
+    </div>
+    <div class="flowcta rv">
+      <a class="btn btn-white" href="#agenda">Auditer ma société
+        <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="cream-s" id="avis-google">
   <div class="avis rv" id="avis" hidden>
     <div class="rail avis-head">
       <h3>Ce qu'ils en disent sur <img class="gword" src="logo-google.webp" width="480" height="158" alt="Google" decoding="async"></h3>
@@ -725,14 +732,76 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
 </section>
 
-<footer class="lpfoot">
+<section class="faq" id="faq">
   <div class="rail">
-    <span>&copy; 2026 NAZAR</span>
-    <div class="lk">
-      <a href="/">Le site</a>
-      <a href="mailto:contact@seo-nazar.fr">contact@seo-nazar.fr</a>
-      <a href="/mentions-legales.html">Mentions légales</a>
-      <a href="/confidentialite.html">Confidentialité</a>
+    <div class="head">
+      <h2 class="rv">FAQ</h2>
+    </div>
+    <div class="faqlist">
+      <details class="qa rv">
+        <summary>Qu'est-ce que le GEO ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Le GEO, pour <i>generative engine optimization</i>, consiste à faire en sorte qu'une entreprise soit citée dans les réponses des moteurs génératifs : ChatGPT, Perplexity, Gemini, Claude, Copilot, ou les AI Overviews de Google. Quand quelqu'un demande à une IA quel prestataire choisir sur votre marché, elle cite des noms. Le GEO, c'est le travail qui fait que le vôtre en fasse partie.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>En quoi est-ce différent du référencement classique ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Le référencement classique vise une position dans une liste de liens. Le visiteur voit dix résultats et choisit. Un moteur génératif, lui, ne propose pas de liste : il donne une réponse, et cite deux ou trois sources. Il n'y a pas de deuxième page, pas de dixième place. Vous êtes dans la réponse ou vous n'existez pas. Les leviers se recoupent en partie, la structure technique et l'autorité comptent dans les deux cas, mais ce que le modèle retient d'une page n'obéit pas aux mêmes règles qu'un classement.</div>
+      </details>
+      <details class="qa rv">
+        <summary>Le GEO a-t-il un intérêt réel en B2B ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">C'est même là qu'il est le plus rentable, pour une raison simple : en B2B, l'achat commence par une phase de recherche longue, et cette phase se déplace vers les IA. Un directeur qui cherche une ESN, un logiciel ou une agence pose aujourd'hui sa question à un modèle avant d'ouvrir Google. Avec des cycles longs et des paniers élevés, un seul rendez-vous gagné par ce canal peut couvrir plusieurs mois de prestation. C'est l'arithmétique qui rend le B2B particulièrement adapté.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>Et en B2C ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">L'intérêt est différent mais réel. En B2C, les volumes sont massifs et les décisions plus rapides, donc une citation dans une réponse pèse surtout sur la notoriété et sur la comparaison. Quand un particulier demande « quelle est la meilleure marque pour… », la réponse qu'il obtient oriente sa liste de candidats avant même qu'il n'arrive sur un site. Le travail porte alors moins sur quelques requêtes commerciales que sur la couverture d'un marché entier.</div>
+      </details>
+      <details class="qa rv">
+        <summary>Faut-il arrêter le référencement classique ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Non, et ce serait même contre-productif. Les moteurs génératifs s'appuient en grande partie sur ce qu'ils trouvent sur le web, et les pages bien positionnées dans Google ont statistiquement plus de chances d'être reprises dans une réponse. Un socle technique sain, des contenus structurés et une autorité établie servent les deux à la fois. Nous ne remplaçons pas votre référencement : nous l'étendons à des surfaces qu'il ne couvrait pas.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>Au bout de combien de temps voit-on quelque chose ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Les premiers déplacements se mesurent en semaines sur les moteurs génératifs, qui réévaluent leurs sources plus souvent qu'un index classique ne se réorganise. Mais une position stable se construit sur plusieurs mois. Méfiez-vous de quiconque vous promet une citation garantie sous trente jours : personne ne contrôle ce qu'un modèle décide de reprendre.</div>
+      </details>
+      <details class="qa rv">
+        <summary>Comment mesure-t-on le retour sur investissement ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">En relevant, chaque semaine, ce que les moteurs répondent sur un corpus de questions d'achat propres à votre marché, et en suivant trois choses : la fréquence à laquelle votre nom apparaît, les sources que le modèle reprend pour parler de vous, et les demandes entrantes qui en découlent. Une citation qui ne déclenche aucun contact n'a pas de valeur. C'est pourquoi nous raisonnons en rendez-vous et en montants, pas en positions.</div>
+      </details>
+      <details class="qa rv d1">
+        <summary>Que contient l'audit gratuit ?<span class="pm" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></summary>
+        <div class="ans">Un relevé de ce que les principaux moteurs répondent aujourd'hui aux questions d'achat de votre secteur, la liste des concurrents qu'ils citent à votre place, les sources sur lesquelles ils s'appuient pour le faire, et une estimation chiffrée de ce que représenterait une place dans ces réponses. L'échange dure une trentaine de minutes et se fait directement avec le consultant qui suivrait votre dossier.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="rail">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand"><img src="logo.png" width="48" height="48" alt="Nazar"></div>
+        <p style="margin-top:12px;max-width:28ch">Collectif de consultants en référencement sur Google et sur les IA génératives.</p>
+          <!-- Forme publique de l'adresse de la page. Celle que donne le
+               navigateur d'un administrateur porte en plus /home/ et
+               ?viewAsMember=true, deux reliquats de la vue "en tant que
+               membre" qui n'ont rien a faire dans un lien public. -->
+          <a class="rs" href="https://www.linkedin.com/company/nazar-seo/"
+             target="_blank" rel="noopener" aria-label="NAZAR sur LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+      </div>
+      <div><h4>L'agence</h4><a href="#consultant">Vos consultants</a><a href="/#plateforme">Notre outil</a><a href="#faq">Questions fréquentes</a></div>
+      <div><h4>L'audit</h4><a href="/#surfaces">Les moteurs couverts</a><a href="#audit">Comment ça marche</a><a href="#cas">Nos résultats</a><a href="#agenda">Demander l'audit</a></div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:contact@seo-nazar.fr">contact@seo-nazar.fr</a>
+        <a href="tel:+33743392574">+33 7 43 39 25 74</a>
+        <a href="#agenda">Demander l'audit</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Nazar</span>
+      <div class="lk"><a href="/mentions-legales.html" style="text-decoration:none">Mentions légales</a><a href="/confidentialite.html" style="text-decoration:none">Confidentialité</a></div>
     </div>
   </div>
 </footer>
@@ -1547,27 +1616,36 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
 <script>
 (function(){
   'use strict';
-
-  /* les logos de moteurs du titre viennent du meme dessin que le site,
-     expose par nazar-geo.html sous window.NZico */
-  if(window.NZico){
-    document.querySelectorAll('.mt[data-eng]').forEach(function(el){
-      el.insertAdjacentHTML('afterbegin', '<i>' + window.NZico(el.getAttribute('data-eng')) + '</i>');
-    });
-  }
-
-  /* Conversion : HubSpot previent la page qui l'heberge quand un creneau est
-     pris. Le nom exact du message n'etant pas publiquement documente, on en
-     reconnait plusieurs formulations, et le mode diagnostic journalise tout ce
-     qui vient de HubSpot pour pouvoir ajuster sans tatonner. */
   var diag = /[?&]pixeldebug=1/.test(location.search);
+  var cadre = document.getElementById('agframe');
   var parti = false;
+
+  /* HubSpot parle a la page qui l'heberge par messages. On en attend deux
+     choses : la hauteur du calendrier, pour que l'iframe ne coupe rien et ne
+     laisse pas de vide, et l'annonce d'une reservation, qui est la conversion.
+
+     Le nom exact du message de reservation n'est pas publiquement documente :
+     on en reconnait plusieurs formulations, et le mode diagnostic journalise
+     tout ce qui vient de HubSpot, de quoi ajuster sur une vraie reservation
+     plutot que de deviner. */
   window.addEventListener('message', function(ev){
     var hote = '';
     try { hote = new URL(ev.origin).hostname; } catch(e){ return; }
     if(!/(^|\.)hubspot\.com$/.test(hote)) return;
-    var brut = typeof ev.data === 'string' ? ev.data : JSON.stringify(ev.data || '');
+
+    var d = ev.data;
+    var brut = typeof d === 'string' ? d : JSON.stringify(d || '');
     if(diag) console.log('[NAZAR] message HubSpot :', brut);
+
+    if(cadre && d && typeof d === 'object'){
+      var h = d.height;
+      if(h == null && d.meetingsPayload) h = d.meetingsPayload.height;
+      h = parseInt(h, 10);
+      /* bornes larges : on suit HubSpot sans le laisser produire une page de
+         dix mille pixels si un message aberrant passe */
+      if(h > 420 && h < 3000) cadre.style.height = h + 'px';
+    }
+
     if(parti) return;
     if(/meetings?BookSucceeded|bookingSucceeded|meetingBooked/i.test(brut)){
       parti = true;
@@ -1575,9 +1653,15 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       if(diag) console.log('[NAZAR] conversion appointment_scheduled envoyee');
     }
   }, false);
+
+  /* Les avis Google ne sont affiches que lorsqu'ils sont fournis : tant qu'il
+     n'y en a pas, le bloc reste masque et sa section n'afficherait qu'une
+     bande vide. On la retire plutot que de laisser un trou dans la page. */
+  var av = document.getElementById('avis');
+  var sec = document.getElementById('avis-google');
+  if(sec && (!av || av.hidden)) sec.parentNode.removeChild(sec);
 })();
 </script>
-<script src="https://static.hubspot.com/cos-static/meetings-embed/static-1.1/embed/MeetingsEmbedCode.js" defer></script>
 
 </body>
 </html>
