@@ -109,10 +109,10 @@ HERO = re.sub(r'\s*<a class="btn btn-white rv d2" href="#agenda">.*?</a>',
 H1_SITE = ('<h1 class="rv d1">Vos prochains clients<br class="bm"> vous cherchent'
            '<br class="bm"> <em>sur les IA</em>.</h1>')
 FLECHE_BAS = ('<a class="vers-bas" href="#agenda" aria-label="Aller à l\'agenda">'
-              '<svg viewBox="0 0 132 86" fill="none" stroke="currentColor" stroke-width="3.2" '
+              '<svg viewBox="0 0 150 100" fill="none" stroke="currentColor" stroke-width="7" '
               'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              '<path d="M8 13c26-11 68-9 92 7 18 12 20 32 6 46"/>'
-              '<path d="M92 52l14 16 15-13"/></svg></a>')
+              '<path d="M10 16c30-12 78-9 105 10 20 14 22 36 6 52"/>'
+              '<path d="M103 60l18 20 20-13"/></svg></a>')
 
 H1_PAGE = ('<h1 class="rv d1">Combien de leads peut générer<br class="bm"> '
            '<em>votre entreprise sur les IA</em> ?' + FLECHE_BAS + '</h1>')
@@ -151,7 +151,7 @@ STYLE_PAGE = u"""
    Cliquable, pour qui prefere appuyer que faire defiler. */
 .vers-bas{display:inline-block;color:var(--steel);text-decoration:none;
   margin-left:.26em;vertical-align:-.52em}
-.vers-bas svg{width:clamp(88px,8.4vw,126px);height:auto;display:block;overflow:visible}
+.vers-bas svg{width:clamp(106px,9.8vw,152px);height:auto;display:block;overflow:visible}
 .anim .vers-bas{animation:versbas 2.6s ease-in-out infinite}
 @keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 .vers-bas:hover{color:var(--ink-2)}
