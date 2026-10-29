@@ -91,11 +91,14 @@
     b.id = 'consentement';
     b.setAttribute('role', 'dialog');
     b.setAttribute('aria-label', 'Cookies');
+    /* Le bandeau annonce la finalite, pas la mecanique : decrire ce que le
+       cookie mesure exactement alourdissait la lecture sans rien apporter.
+       Il ne peut pas pour autant se reduire a « ce site utilise des cookies » :
+       la regle demande que la finalite soit annoncee avant le consentement, et
+       « des cookies » n'en est pas une. Le reste est dans la page liee. */
     var p = document.createElement('p');
-    p.innerHTML = 'Un seul cookie, et seulement si vous l’acceptez : il nous dit ' +
-      'si une de nos publicités a mené à une demande d’audit. Pas de mesure ' +
-      'd’audience, pas de profilage, pas de revente. ' +
-      '<a href="/confidentialite.html">Le détail ici</a>.';
+    p.innerHTML = 'Nous utilisons un cookie pour mesurer l’efficacité de nos ' +
+      'campagnes publicitaires. <a href="/confidentialite.html">En savoir plus</a>.';
     var z = document.createElement('div');
     z.className = 'boutons';
     var oui = document.createElement('button');
