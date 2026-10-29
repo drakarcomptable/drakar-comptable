@@ -102,6 +102,26 @@ HERO, FLOW, PIED = vers_agenda(HERO), vers_agenda(FLOW), vers_agenda(PIED)
 HERO = re.sub(r'\s*<a class="btn btn-white rv d2" href="#agenda">.*?</a>',
               '', HERO, flags=re.S)
 
+# L'accroche du site presente l'agence. Celle d'une page publicitaire doit
+# poser la question qui amene a reserver, et rien d'autre : la phrase est
+# remplacee, le paragraphe de presentation cede la place a une fleche qui
+# designe le calendrier.
+H1_SITE = ('<h1 class="rv d1">Vos prochains clients<br class="bm"> vous cherchent'
+           '<br class="bm"> <em>sur les IA</em>.</h1>')
+H1_PAGE = ('<h1 class="rv d1">Vous souhaitez savoir<br class="bm"> combien de leads '
+           'peut générer<br class="bm"> <em>votre entreprise sur les IA</em> ?</h1>')
+if HERO.count(H1_SITE) != 1:
+    raise ValueError("l'accroche du site a change, le titre n'est plus reconnu")
+HERO = HERO.replace(H1_SITE, H1_PAGE)
+
+FLECHE_BAS = ('<a class="vers-bas rv d2" href="#agenda" aria-label="Aller à l\'agenda">'
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+              'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              '<path d="M12 4.6v13.2M5.8 12l6.2 6.2 6.2-6.2"/></svg></a>')
+HERO, n = re.subn(r'<p class="hlede rv d2">.*?</p>', FLECHE_BAS, HERO, flags=re.S)
+if n != 1:
+    raise ValueError("le paragraphe de presentation de l'accroche est introuvable")
+
 # le pied de page renvoie vers des sections absentes d'ici : on les fait
 # pointer sur l'accueil plutot que vers une ancre qui n'existe pas.
 for ancre in ('plateforme', 'surfaces', 'ecosysteme'):
@@ -120,11 +140,19 @@ STYLE_PAGE = u"""
    temps que la phrase qui l'annonce. */
 .lph-top .hero{padding-top:clamp(26px,3.4vw,46px);padding-bottom:0}
 
-#agenda{background:var(--paper);padding-block:clamp(26px,3.2vw,44px) clamp(48px,6vw,86px)}
-#agenda .ahead{display:flex;flex-direction:column;align-items:center;
-  text-align:center;margin-bottom:clamp(18px,2.2vw,30px)}
-#agenda h2{margin:0;max-width:20ch;font-weight:800;letter-spacing:-.035em;
-  font-size:clamp(1.85rem,4.4vw,3.15rem);line-height:1.06}
+#agenda{background:var(--paper);padding-block:clamp(14px,1.8vw,26px) clamp(48px,6vw,86px)}
+
+/* La fleche remplace le paragraphe de presentation : elle designe le
+   calendrier plutot que de le decrire, et son balancement dit qu'il y a
+   quelque chose juste en dessous. Cliquable, pour qui prefere un bouton. */
+.vers-bas{display:inline-flex;align-items:center;justify-content:center;
+  width:60px;height:60px;border-radius:50%;background:var(--night);color:var(--acc);
+  box-shadow:0 16px 34px -16px rgba(0,33,44,.9);text-decoration:none;flex:none}
+.vers-bas svg{width:27px;height:27px;display:block}
+.anim .vers-bas{animation:versbas 2.2s ease-in-out infinite}
+@keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
+.vers-bas:hover{background:var(--night-3)}
+.vers-bas:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:720px}
@@ -138,9 +166,6 @@ __HERO__
 
 <section id="agenda">
   <div class="rail">
-    <div class="ahead">
-      <h2 class="rv">Bookez un créneau pour recevoir<br class="bm"> votre <em>audit GEO gratuit</em></h2>
-    </div>
     <div class="agbox rv d1">
       <iframe id="agframe" src="__AGENDA__&amp;embed=true" title="Choisir un créneau avec Maël" loading="lazy"></iframe>
     </div>
