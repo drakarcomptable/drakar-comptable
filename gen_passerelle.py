@@ -143,6 +143,17 @@ STYLE_PAGE = u"""
 .clients{padding-block:clamp(16px,1.7vw,24px) clamp(22px,2.4vw,34px)}
 .clients .clabel{margin-bottom:clamp(12px,1.3vw,18px)}
 
+/* Le logo prend place sur la meme ligne que le badge, a sa gauche : c'est le
+   coin superieur gauche de la page, et cela ne coute pas un pixel de hauteur,
+   alors qu'une barre au-dessus aurait repousse le bandeau de logos clients
+   hors du premier ecran. Il renvoie sur le site. */
+.hautg{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.lplogo{display:flex;flex:none;border-radius:14px;
+  transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.lplogo img{width:46px;height:46px;display:block}
+.lplogo:hover{transform:translateY(-2px)}
+.lplogo:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+
 .badge1{display:inline-flex;align-items:center;gap:9px;background:var(--night);color:var(--ice);
   border-radius:999px;padding:.46rem 1.05rem .46rem .5rem;font-weight:600;
   font-size:clamp(.84rem,1.05vw,.97rem);letter-spacing:-.005em;
@@ -167,7 +178,10 @@ CORPS = u"""
 <section class="duo" id="agenda">
   <div class="rail">
     <div class="dcol">
-      <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
+      <div class="hautg rv">
+        <a class="lplogo" href="/" aria-label="Aller sur le site NAZAR"><img src="logo.png" width="46" height="46" alt="NAZAR"></a>
+        <span class="badge1" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
+      </div>
       <h1 class="rv d1">Prenez rendez-vous avec un <em>expert GEO</em></h1>
       <p class="lpsub rv d1">Il audite votre site <b>gratuitement</b> et vous remet un <b>audit GEO</b>, avec une feuille de route d'actions concrètes, propres à votre site et à votre secteur.</p>
       <ul class="lplist rv d1">
