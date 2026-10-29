@@ -153,5 +153,15 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/audit-gratuit",
+      "destination": "/audit-gratuit.html"
+    },
+    {
+      "source": "/audit-gratuit/",
+      "destination": "/audit-gratuit.html"
+    }
   ]
 }
