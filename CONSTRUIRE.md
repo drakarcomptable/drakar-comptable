@@ -54,20 +54,16 @@ Trois garde-fous qui tiennent ensemble, à ne pas défaire séparément :
 
 ## La passerelle publicitaire
 
-`nazar-seo.fr/audit-gratuit` est la page d'atterrissage des campagnes.
-
-**Deux variantes sont en comparaison**, le temps de trancher :
-
-| Adresse | Ce qu'elle montre | Délai |
-|---|---|---|
-| `/audit-gratuit/a` | le logo et une ligne, rien à lire | 1,2 s |
-| `/audit-gratuit/b` | le logo, « Préparation de votre audit » et trois points qui pulsent | 2 s |
+`nazar-seo.fr/audit-gratuit` est la page d'atterrissage des campagnes : le
+logo, « Recevoir mon audit GEO gratuit » et trois points qui pulsent, puis
+l'agenda au bout de 2 secondes.
 
 La première version portait un titre, un paragraphe et trois arguments. C'était
 une faute : dans une fenêtre de deux secondes, du texte qu'on n'a pas le temps
 de lire donne l'impression de rater quelque chose. Une passerelle ne doit rien
-demander. Elle reste en place à `/audit-gratuit` jusqu'au choix, après quoi la
-variante retenue prend sa place et les deux autres disparaissent.
+demander. Deux variantes ont ensuite été comparées en ligne, l'écran de marque
+muet et celle-ci ; celle-ci l'emporte, parce que l'animation annonce qu'il se
+passe quelque chose et que l'attente est donc comprise au lieu d'être subie.
 
 **Pourquoi ne pas envoyer la publicité directement sur l'agenda.** Un clic
 depuis une réponse de ChatGPT arrive froid : tomber sans transition sur une

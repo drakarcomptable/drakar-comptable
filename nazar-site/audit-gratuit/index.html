@@ -4,84 +4,65 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Audit GEO gratuit | NAZAR</title>
-<meta name="description" content="Choisissez votre créneau de 9 minutes avec Maël. Nous regardons ce que les IA répondent sur votre marché et ce que ça vous coûte.">
-<!-- page d'atterrissage publicitaire : elle n'a rien a faire dans l'index,
-     et elle ne doit surtout pas etre bloquee dans robots.txt, sans quoi
-     Google ne lirait jamais cette balise. -->
+<!-- passerelle publicitaire : elle n'a rien a faire dans l'index, et elle ne
+     doit surtout pas etre bloquee dans robots.txt, sans quoi Google ne lirait
+     jamais cette balise. -->
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="/logo.png">
-<link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://meetings-eu1.hubspot.com" crossorigin>
-<link rel="stylesheet" href="/nazar.css">
 <style>
-.pass{min-height:calc(100vh - 150px);display:flex;align-items:center;
-  background:var(--night);color:var(--on-night)}
-.pass .narrow{padding:3rem 0;text-align:center}
-.pass .kick{color:var(--acc);font-family:var(--mono);font-size:.82rem;
-  letter-spacing:.12em;text-transform:uppercase}
-.pass h1{color:#fff;font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.1;
-  letter-spacing:-.02em;margin:1.1rem 0 0}
-.pass h1 em{color:var(--acc);font-style:normal}
-.pass p{color:var(--on-night);opacity:.86;max-width:33rem;margin:1.1rem auto 0}
-.pass .pts{list-style:none;padding:0;margin:1.8rem auto 0;max-width:30rem;
-  text-align:left;display:grid;gap:.55rem}
-.pass .pts li{padding-left:1.4rem;position:relative;font-size:.95rem;
-  color:var(--on-night);opacity:.9}
-.pass .pts li:before{content:'';position:absolute;left:0;top:.52em;width:7px;
-  height:7px;border-radius:50%;background:var(--acc)}
-.pass .act{margin-top:2.1rem}
-.pass .att{margin-top:1.1rem;font-size:.82rem;color:var(--dim)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{display:flex;align-items:center;justify-content:center;
+  background:#00212c;
+  background-image:radial-gradient(130% 150% at 88% 12%,#0a4a60 0%,#00303f 42%,#00212c 100%);
+  font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  color:#dff2f9;text-align:center;padding:2rem}
+@font-face{font-family:'Plus Jakarta Sans';src:url(/police-jakarta.woff2) format('woff2');
+  font-weight:200 800;font-style:normal;font-display:swap}
+/* meme traitement que dans la barre du site : le blob du logo est un bleu
+   nuit a peine plus clair que le fond, il disparait pose a meme le fond. Sur
+   sa pastille glace, il se lit instantanement. */
+.marque{width:128px;height:128px;display:block;margin:0 auto;object-fit:contain;
+  background:#e3f7fe;border-radius:32px;padding:12px}
+/* La ligne se lit comme un bouton, elle se comporte donc comme un bouton :
+   qui ne veut pas attendre les deux secondes clique dessus. Sans soulignement
+   ni couleur de lien, pour rester l'annonce qu'elle est. */
+.ligne{display:inline-block;margin-top:1.6rem;font-size:clamp(1.3rem,4.5vw,1.85rem);
+  font-weight:700;letter-spacing:-.015em;line-height:1.2;color:#fff;
+  text-decoration:none}
+.pts{margin-top:1.6rem;display:flex;gap:.5rem;justify-content:center}
+.pts span{width:9px;height:9px;border-radius:50%;background:#7fd8ee;
+  animation:pulse 1.1s ease-in-out infinite}
+.pts span:nth-child(2){animation-delay:.16s}
+.pts span:nth-child(3){animation-delay:.32s}
+@keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(.8)}
+  40%{opacity:1;transform:scale(1)}}
+/* qui a demande moins d'animations n'en recoit pas : les points restent
+   visibles, fixes, et la redirection part de la meme facon */
+@media (prefers-reduced-motion:reduce){.pts span{animation:none;opacity:.8}}
+.secours{margin-top:2.2rem;font-size:.85rem}
+.secours a{color:#7fd8ee}
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="rail">
-    <a class="home" href="/"><img src="/logo.png" alt="NAZAR"></a>
-    <span class="sep"></span>
-    <a class="back" href="/">Voir le site</a>
-  </div>
-</header>
-
-<main class="pass">
-  <div class="rail">
-    <div class="narrow">
-      <div class="kick">Audit GEO gratuit</div>
-      <h1>Neuf minutes pour savoir ce que les IA<br>répondent <em>sur votre marché</em></h1>
-      <p>Maël regarde avec vous ce que ChatGPT, Perplexity et Google AI Overviews
-      disent de votre secteur, pourquoi vos concurrents y sont cités, et ce qu'un
-      référencement sur ces moteurs peut vous rapporter.</p>
-      <ul class="pts">
-        <li>Les requêtes de votre marché, testées en direct sur les assistants</li>
-        <li>Les concurrents que les IA citent à votre place, et pourquoi</li>
-        <li>Un chiffrage du potentiel, pas une présentation commerciale</li>
-      </ul>
-      <div class="act">
-        <a class="btn btn-dark" id="rdv" href="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb" style="background:var(--acc);color:var(--night)">Choisir mon créneau <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
-      </div>
-      <p class="att" id="att"></p>
-    </div>
-  </div>
+<main>
+  <img class="marque" src="/logo.png" alt="NAZAR" width="128" height="128">
+  <a class="ligne" id="titre" href="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb">Recevoir mon audit GEO gratuit</a>
+  <div class="pts" aria-hidden="true"><span></span><span></span><span></span></div>
+  <p class="secours" id="secours" hidden><a id="rdv" href="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb">Ouvrir l'agenda</a></p>
 </main>
-
-<footer>
-  <div class="rail">
-    <span>&copy; 2026 NAZAR</span>
-    <span class="sep"></span>
-    <a href="/">Accueil</a>
-    <a href="/mentions-legales.html">Mentions légales</a>
-    <a href="/confidentialite.html">Confidentialité</a>
-  </div>
-</footer>
-
 <script>
 (function(){
-  var AGENDA = 'https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb', DELAI = 2500;
-  var lien = document.getElementById('rdv'), att = document.getElementById('att');
+  var AGENDA = 'https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb', DELAI = 2000;
+  var titre = document.getElementById('titre'),
+      lien = document.getElementById('rdv'),
+      secours = document.getElementById('secours');
 
   /* Les parametres de la campagne suivent jusqu'a HubSpot : sans cela, un
-     rendez-vous pris depuis la publicite est indiscernable d'un autre, et le
-     budget se pilote a l'aveugle. L'uuid du lien est deja dans AGENDA, on ne
-     recopie donc pas celui qui arriverait de l'URL. */
+     rendez-vous venu de la publicite est indiscernable d'un autre, et le
+     budget se pilote a l'aveugle. L'uuid est deja dans AGENDA, on ne recopie
+     donc pas celui qui arriverait de l'URL. */
   function destination(){
     var q = location.search.replace(/^\?/, '');
     if(!q) return AGENDA;
@@ -92,19 +73,17 @@
   }
 
   var cible = destination();
+  titre.href = cible;
   lien.href = cible;
 
-  /* L'ouverture automatique laisse le temps de lire le titre. Le bouton
-     reste la pour qui clique avant, et pour qui a le JavaScript coupe. */
-  if(DELAI > 0){
-    att.textContent = "Nous ouvrons l'agenda dans un instant.";
-    var parti = false;
-    function partir(){ if(!parti){ parti = true; location.assign(cible); } }
-    var minuteur = setTimeout(partir, DELAI);
-    /* un clic sur le bouton doit partir tout de suite, sans que le minuteur
-       ne relance une seconde navigation derriere */
-    lien.addEventListener('click', function(){ clearTimeout(minuteur); parti = true; });
-  }
+  /* Le lien de secours n'apparait que si la redirection n'a pas eu lieu au
+     bout de quatre secondes : invisible dans le parcours normal, present
+     quand le JavaScript est coupe ou que la navigation echoue. */
+  setTimeout(function(){ secours.hidden = false; }, 4000);
+  /* location.replace et non assign : la passerelle ne s'inscrit pas dans
+     l'historique, sinon le bouton Retour depuis l'agenda y ramene et relance
+     la redirection en boucle. */
+  setTimeout(function(){ location.replace(cible); }, DELAI);
 })();
 </script>
 </body>
