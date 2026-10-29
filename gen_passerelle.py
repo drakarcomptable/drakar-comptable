@@ -142,13 +142,13 @@ STYLE_PAGE = u"""
    presque au contact de la section bleue, et son intitule se resserre */
 /* Le blanc se prolonge sous les logos : a l'ouverture, on ne doit pas voir
    depasser un liseré de la section sombre en bas de l'ecran. */
-.clients{padding-block:clamp(12px,1.3vw,18px) clamp(54px,7.6vw,122px)}
+.clients{padding-block:clamp(30px,3.9vw,60px) clamp(34px,4.5vw,68px)}
 
 /* Et la section sombre commence tout de suite par son titre : son retrait
    d'origine est fait pour une lecture au fil de la page, pas pour un ecran
    ou l'on arrive dessus au premier defilement. */
 #cas{padding-top:clamp(26px,3vw,44px)}
-.clients .clabel{margin-bottom:clamp(9px,1vw,14px)}
+.clients .clabel{margin-bottom:clamp(20px,2.3vw,34px)}
 
 /* Le logo prend place sur la meme ligne que le badge, a sa gauche : c'est le
    coin superieur gauche de la page, et cela ne coute pas un pixel de hauteur,
