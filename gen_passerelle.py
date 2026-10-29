@@ -96,6 +96,12 @@ def vers_agenda(html):
 
 HERO, FLOW, PIED = vers_agenda(HERO), vers_agenda(FLOW), vers_agenda(PIED)
 
+# L'accroche porte un bouton vers l'agenda sur le site. Ici l'agenda est juste
+# en dessous, a portee de regard : un bouton pour descendre de trois cents
+# pixels n'apporte rien et retarde la vue du calendrier.
+HERO = re.sub(r'\s*<a class="btn btn-white rv d2" href="#agenda">.*?</a>',
+              '', HERO, flags=re.S)
+
 # le pied de page renvoie vers des sections absentes d'ici : on les fait
 # pointer sur l'accueil plutot que vers une ancre qui n'existe pas.
 for ancre in ('plateforme', 'surfaces', 'ecosysteme'):
@@ -108,24 +114,17 @@ FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="curr
 
 STYLE_PAGE = u"""
 /* ---------- page d'atterrissage publicitaire ---------- */
-.lpbar{position:sticky;top:0;z-index:60;background:rgba(227,247,254,.88);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(0,67,88,.07)}
-.lpbar .rail{display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding-block:11px}
-.lpbar img{width:40px;height:40px;display:block}
-.lpbar .btn{padding:.58rem .68rem .58rem 1.1rem;font-size:.9rem}
+/* L'accroche du site reserve la place d'un en-tete flottant qui n'existe pas
+   ici, et se termine sur une marge faite pour une section suivante lointaine.
+   On resserre des deux cotes : l'agenda doit entrer dans le champ en meme
+   temps que la phrase qui l'annonce. */
+.lph-top .hero{padding-top:clamp(26px,3.4vw,46px);padding-bottom:0}
 
-/* l'accroche du site est concue pour passer sous un en-tete flottant ;
-   ici la barre prend sa place dans le flux, le decalage n'a plus lieu d'etre */
-.lph-top .hero{padding-top:clamp(28px,4vw,56px)}
-
-#agenda{background:var(--paper);padding-block:clamp(48px,6vw,86px)}
-#agenda .ahead{display:flex;flex-direction:column;align-items:center;gap:13px;
-  text-align:center;margin-bottom:clamp(22px,2.8vw,36px)}
-#agenda h2{margin:0;max-width:22ch;font-size:clamp(1.55rem,3.2vw,2.35rem);
-  letter-spacing:-.032em}
-#agenda .ahead p{margin:0;max-width:52ch;color:var(--ink-2)}
+#agenda{background:var(--paper);padding-block:clamp(26px,3.2vw,44px) clamp(48px,6vw,86px)}
+#agenda .ahead{display:flex;flex-direction:column;align-items:center;
+  text-align:center;margin-bottom:clamp(18px,2.2vw,30px)}
+#agenda h2{margin:0;max-width:20ch;font-weight:800;letter-spacing:-.035em;
+  font-size:clamp(1.85rem,4.4vw,3.15rem);line-height:1.06}
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:720px}
@@ -133,13 +132,6 @@ STYLE_PAGE = u"""
 """
 
 CORPS = u"""
-<header class="lpbar">
-  <div class="rail">
-    <a href="/" aria-label="NAZAR"><img src="logo.png" width="40" height="40" alt="NAZAR"></a>
-    <a class="btn btn-dark" href="#agenda">Réserver mon audit __FLECHE__</a>
-  </div>
-</header>
-
 <div class="lph-top">
 __HERO__
 </div>
@@ -147,9 +139,7 @@ __HERO__
 <section id="agenda">
   <div class="rail">
     <div class="ahead">
-      <span class="kick rv" data-ic="report">Votre créneau</span>
-      <h2 class="rv d1">Trente minutes avec le consultant qui suivrait votre dossier</h2>
-      <p class="rv d1">Choisissez l'heure qui vous arrange. Vous recevez l'invitation par mail dans la foulée.</p>
+      <h2 class="rv">Bookez un créneau pour recevoir<br class="bm"> votre <em>audit GEO gratuit</em></h2>
     </div>
     <div class="agbox rv d1">
       <iframe id="agframe" src="__AGENDA__&amp;embed=true" title="Choisir un créneau avec Maël" loading="lazy"></iframe>
