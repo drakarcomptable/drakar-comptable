@@ -1699,6 +1699,40 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
        meme ses coordonnees derriere elle. */
     var BOITE = 'https://formsubmit.co/ajax/d5d15b905cf31ea75f7400ffafcf0f52';
 
+    /* La demande cree aussi le contact dans HubSpot, sans attendre qu'un
+       creneau soit pris : une personne qui renonce au rendez-vous est quand
+       meme dans le CRM, avec ses coordonnees et la date de sa demande.
+       Le point d'entree des soumissions de formulaire est public et prevu
+       pour etre appele depuis un navigateur : aucune cle n'est exposee ici,
+       et il n'accepte que le formulaire designe par son identifiant. */
+    var HUBSPOT = 'https://api.hsforms.com/submissions/v3/integration/submit' +
+                  '/139506748/81a83a93-bb6a-4609-96fe-d9a8ac806c8d';
+    function versHubspot(){
+      if(!window.fetch) return;
+      var mots = val('fnom').split(/\s+/);
+      var prenom = mots.shift() || '';
+      var nom = mots.join(' ');
+      var champs = [{name:'email', value: val('fmail')}];
+      if(prenom) champs.push({name:'firstname', value: prenom});
+      if(nom)    champs.push({name:'lastname',  value: nom});
+      if(val('fsoc')) champs.push({name:'company', value: val('fsoc')});
+      if(val('ftel')) champs.push({name:'phone',   value: val('ftel')});
+      if(val('fsite')) champs.push({name:'website', value: val('fsite')});
+      fetch(HUBSPOT, {
+        method: 'POST', keepalive: true,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({fields: champs, context: {
+          pageUri: location.href, pageName: document.title }})
+      }).then(function(r){
+        /* un refus est silencieux pour le visiteur : la demande part de toute
+           facon par mail, et le rendez-vous n'a pas a attendre le CRM. Le
+           detail n'apparait qu'en mode diagnostic. */
+        if(!r.ok && /[?&]pixeldebug=1/.test(location.search)){
+          r.text().then(function(t){ console.log('[NAZAR] HubSpot a refuse :', r.status, t); });
+        }
+      }, function(){});
+    }
+
     /* Les champs deja saisis sont repasses a HubSpot en parametres, pour que
        le visiteur n'ait rien a retaper. Le formulaire ne demande qu'un seul
        champ de nom, prenom en tete : le premier mot part donc en prenom, le
@@ -1786,6 +1820,8 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
                     _captcha: 'false', _template: 'table',
                     _honey: (document.getElementById('fpiege') || {}).value || ''};
       CHAMPS.forEach(function(c){ charge[c[1]] = val(c[0]) || '—'; });
+
+      versHubspot();
 
       if(!window.fetch){ partir(); return; }
       /* keepalive : la requete arrive a destination meme si le document est
