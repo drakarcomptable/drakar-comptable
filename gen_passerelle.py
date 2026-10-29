@@ -116,7 +116,7 @@ STYLE_PAGE = u"""
    l'agenda. Rien entre les deux, rien au-dessus. Sous 900 pixels les
    colonnes s'empilent, le texte d'abord. */
 .duo{background:linear-gradient(180deg,var(--ice) 0%,var(--paper) 100%);
-  padding-block:clamp(24px,2.8vw,42px)}
+  padding-block:clamp(14px,1.6vw,24px) clamp(16px,1.8vw,28px)}
 .duo .rail{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);
   gap:clamp(24px,3.2vw,48px);align-items:start}
 .duo .dcol{display:flex;flex-direction:column;align-items:flex-start;
@@ -140,8 +140,8 @@ STYLE_PAGE = u"""
 
 /* le bandeau de logos doit entrer dans le champ des l'ouverture : il remonte
    presque au contact de la section bleue, et son intitule se resserre */
-.clients{padding-block:clamp(16px,1.7vw,24px) clamp(22px,2.4vw,34px)}
-.clients .clabel{margin-bottom:clamp(12px,1.3vw,18px)}
+.clients{padding-block:clamp(12px,1.3vw,18px) clamp(22px,2.4vw,34px)}
+.clients .clabel{margin-bottom:clamp(9px,1vw,14px)}
 
 /* Le logo prend place sur la meme ligne que le badge, a sa gauche : c'est le
    coin superieur gauche de la page, et cela ne coute pas un pixel de hauteur,
@@ -150,7 +150,7 @@ STYLE_PAGE = u"""
 .hautg{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .lplogo{display:flex;flex:none;border-radius:14px;
   transition:transform .3s cubic-bezier(.22,1,.36,1)}
-.lplogo img{width:46px;height:46px;display:block}
+.lplogo img{width:clamp(56px,4.6vw,68px);height:auto;display:block}
 .lplogo:hover{transform:translateY(-2px)}
 .lplogo:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
 
@@ -167,7 +167,7 @@ STYLE_PAGE = u"""
 
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
-#agframe{display:block;width:100%;border:0;height:620px}
+#agframe{display:block;width:100%;border:0;height:584px}
 @media(max-width:720px){#agframe{height:940px}}
 """
 
@@ -179,7 +179,7 @@ CORPS = u"""
   <div class="rail">
     <div class="dcol">
       <div class="hautg rv">
-        <a class="lplogo" href="/" aria-label="Aller sur le site NAZAR"><img src="logo.png" width="46" height="46" alt="NAZAR"></a>
+        <a class="lplogo" href="/" aria-label="Aller sur le site NAZAR"><img src="logo.png" width="68" height="68" alt="NAZAR"></a>
         <span class="badge1" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
       </div>
       <h1 class="rv d1">Prenez rendez-vous avec un <em>expert GEO</em></h1>
@@ -261,7 +261,7 @@ SCRIPT_PAGE = u"""
       /* plafonnee : le bandeau de logos clients doit rester visible des
          l'ouverture de la page, l'agenda ne peut donc pas s'etendre a sa
          guise. Il defile de lui-meme au-dela. */
-      if(h > 420) cadre.style.height = Math.min(h, 660) + 'px';
+      if(h > 420) cadre.style.height = Math.min(h, 620) + 'px';
     }
 
     if(parti) return;
