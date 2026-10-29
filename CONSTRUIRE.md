@@ -62,6 +62,46 @@ Trois garde-fous qui tiennent ensemble, à ne pas défaire séparément :
   rien ne nous est transmis : lui répondre une erreur l'inciterait à
   recommencer.
 
+## Le pixel de mesure publicitaire
+
+`nazar-site/mesure.js` est chargé dans l'en-tête des quatre pages. Il porte le
+bandeau de consentement et le pixel de mesure d'OpenAI, et rien d'autre.
+
+**Le SDK n'est téléchargé qu'après acceptation.** La documentation d'OpenAI
+propose une autre voie, `oaiq("consent", false)` avant l'initialisation puis
+`oaiq("consent", true)` après accord : le pixel est alors chargé mais muet.
+Nous avons retenu la voie plus stricte, aucune requête vers openai.com tant que
+le visiteur n'a pas répondu. Un refus est conservé aussi longtemps qu'un
+accord, sans quoi le bandeau reviendrait à chaque page et le refus ne vaudrait
+rien.
+
+**Le SDK ne compte pas les pages vues de lui-même.** C'est le piège de
+l'intégration : installer le script et s'arrêter là ne produit aucun
+événement, le flux d'Ads Manager reste vide et la vérification de
+l'intégration ne passe jamais. D'où l'appel `page_viewed` à chaque chargement.
+
+Les deux événements envoyés :
+
+| Événement | Déclencheur | Conversion côté Ads Manager |
+|---|---|---|
+| `page_viewed` | chaque chargement de page | aucune, sert de preuve de vie |
+| `lead_created` | clic sur « Recevoir mon audit » | Demande d'audit |
+
+`appointment_scheduled` est le nom à utiliser le jour où une page de
+remerciement mesurera les rendez-vous réellement pris. Il attend que HubSpot
+redirige vers une page du domaine après réservation.
+
+Pour diagnostiquer, ajouter `?pixeldebug=1` à l'adresse : le SDK écrit alors
+son activité dans la console. L'option reste éteinte pour les visiteurs.
+
+Le trafic publicitaire n'est pas mesuré par ce pixel, et c'est voulu : la
+passerelle repart sur HubSpot au bout de deux secondes, personne n'accepte des
+cookies dans ce laps de temps, et la réservation a lieu sur un domaine que nous
+ne contrôlons pas. Les rendez-vous venus des annonces se comptent dans HubSpot,
+grâce aux UTM que la passerelle transmet. Le correctif propre, le jour où le
+budget le justifiera, est d'intégrer le calendrier HubSpot directement dans
+`/audit-gratuit` au lieu de rediriger.
+
 ## La passerelle publicitaire
 
 `nazar-seo.fr/audit-gratuit` est la page d'atterrissage des campagnes : le
