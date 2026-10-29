@@ -32,13 +32,13 @@
   /* Amorce recopiee telle quelle depuis Ads Manager. Elle installe une file
      d'attente sur window.oaiq, puis charge le SDK : les appels passes avant
      la fin du telechargement ne sont donc pas perdus.
-     debug:true ecrit le detail dans la console, le temps de verifier que le
-     flux remonte. A retirer une fois la premiere conversion constatee. */
+     L'option debug a servi a verifier la premiere remontee le 29 octobre
+     2026 ; elle ecrivait dans la console des visiteurs, d'ou son retrait. */
   function chargePixel(){
     if(charge) return;
     charge = true;
     !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script",SDK);
-    oaiq("init", {pixelId: PIXEL, debug: true});
+    oaiq("init", {pixelId: PIXEL});
     while(attente.length){
       var e = attente.shift();
       oaiq("measure", e[0], e[1]);
