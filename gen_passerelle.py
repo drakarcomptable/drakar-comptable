@@ -72,7 +72,6 @@ HERO     = section(src, '<section class="hero">')
 CLIENTS  = section(src, '<section class="clients">')
 CAS      = section(src, '<section class="night sec" id="cas">')
 CONSULT  = section(src, '<section class="cream-s" id="consultant">')
-FLOW     = section(src, '<section class="night flow" id="audit">')
 FAQ      = section(src, '<section class="faq" id="faq">')
 PIED     = entre(src, '<footer>', '</footer>')
 
@@ -94,7 +93,7 @@ def vers_agenda(html):
     return html
 
 
-HERO, FLOW, PIED = vers_agenda(HERO), vers_agenda(FLOW), vers_agenda(PIED)
+HERO, PIED = vers_agenda(HERO), vers_agenda(PIED)
 
 # L'accroche porte un bouton vers l'agenda sur le site. Ici l'agenda est juste
 # en dessous, a portee de regard : un bouton pour descendre de trois cents
@@ -114,13 +113,20 @@ FLECHE_BAS = ('<a class="vers-bas" href="#agenda" aria-label="Aller à l\'agenda
               '<path d="M10 16c30-12 78-9 105 10 20 14 22 36 6 52"/>'
               '<path d="M103 60l18 20 20-13"/></svg></a>')
 
-H1_PAGE = ('<h1 class="rv d1">Combien de leads peut générer<br class="bm"> '
-           '<em>votre entreprise sur les IA</em> ?' + FLECHE_BAS + '</h1>')
+BADGE = ('<span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur '
+         '<i></i>ChatGPT</span>')
+
+H1_PAGE = ('<h1 class="rv d1">Ce que les IA répondent<br class="bm"> à vos acheteurs, '
+           '<em>relevé et daté</em>.</h1>')
+
+SOUS_TITRE = ('<p class="lpsub rv d2">Cinquante questions d\'achat de votre secteur, passées '
+              'sur dix moteurs. Vous repartez avec le relevé, les concurrents cités à votre '
+              'place, et les sources qui les y mettent.</p>' + FLECHE_BAS)
 if HERO.count(H1_SITE) != 1:
     raise ValueError("l'accroche du site a change, le titre n'est plus reconnu")
-HERO = HERO.replace(H1_SITE, H1_PAGE)
+HERO = HERO.replace(H1_SITE, BADGE + H1_PAGE)
 
-HERO, n = re.subn(r'\s*<p class="hlede rv d2">.*?</p>', '', HERO, flags=re.S)
+HERO, n = re.subn(r'<p class="hlede rv d2">.*?</p>', SOUS_TITRE, HERO, flags=re.S)
 if n != 1:
     raise ValueError("le paragraphe de presentation de l'accroche est introuvable")
 
@@ -136,6 +142,44 @@ FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="curr
 
 STYLE_PAGE = u"""
 /* ---------- page d'atterrissage publicitaire ---------- */
+/* ---------- badge, accroche, methode, livrable ---------- */
+.badge1{display:inline-flex;align-items:center;gap:9px;background:var(--night);color:var(--ice);
+  border-radius:999px;padding:.46rem 1.05rem .46rem .5rem;font-weight:600;
+  font-size:clamp(.84rem,1.05vw,.97rem);letter-spacing:-.005em;
+  box-shadow:0 16px 32px -20px rgba(0,33,44,.95);align-self:flex-start}
+.badge1 b{color:var(--acc);font-weight:800}
+.badge1 i{display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;background:#fff;flex:none;margin-right:-3px}
+.badge1 i svg{width:18px;height:18px;display:block}
+
+.lpsub{margin:0;max-width:56ch;color:var(--ink-2);line-height:1.58;
+  font-size:clamp(1rem,1.3vw,1.09rem)}
+
+.mhead{display:flex;flex-direction:column;align-items:center;gap:15px;text-align:center}
+.mhead h2{margin:0;max-width:22ch;letter-spacing:-.034em;
+  font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.08}
+
+.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.5vw,20px);
+  margin-top:clamp(30px,3.8vw,50px)}
+.etape{background:var(--night-2);border:1px solid rgba(127,216,238,.14);border-radius:18px;
+  padding:clamp(18px,1.8vw,24px)}
+.etape .num{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--acc);
+  letter-spacing:.1em}
+.etape h3{margin:10px 0 8px;font-size:clamp(1.02rem,1.3vw,1.16rem);color:#fff;
+  letter-spacing:-.02em}
+.etape p{margin:0;font-size:.93rem;line-height:1.56;color:var(--on-night);opacity:.84}
+@media(max-width:1060px){.etapes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.etapes{grid-template-columns:1fr}}
+
+.livre{list-style:none;margin:clamp(28px,3.4vw,46px) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.4vw,18px)}
+.livre li{background:var(--white);border-radius:18px;padding:clamp(18px,1.8vw,24px);
+  display:flex;flex-direction:column;gap:7px;
+  box-shadow:0 18px 46px -34px rgba(0,67,88,.65)}
+.livre b{font-size:clamp(1rem,1.25vw,1.12rem);letter-spacing:-.02em;color:var(--ink)}
+.livre span{font-size:.93rem;line-height:1.56;color:var(--ink-2)}
+@media(max-width:720px){.livre{grid-template-columns:1fr}}
+
 /* L'accroche du site reserve la place d'un en-tete flottant qui n'existe pas
    ici, et se termine sur une marge faite pour une section suivante lointaine.
    On resserre des deux cotes : l'agenda doit entrer dans le champ en meme
@@ -150,7 +194,7 @@ STYLE_PAGE = u"""
    a l'air ajoutee sur la page, donc elle attire l'oeil la ou on veut.
    Cliquable, pour qui prefere appuyer que faire defiler. */
 .vers-bas{display:inline-block;color:var(--steel);text-decoration:none;
-  margin-left:.26em;vertical-align:-.52em}
+  margin-left:clamp(18px,7vw,108px);margin-top:-6px}
 .vers-bas svg{width:clamp(106px,9.8vw,152px);height:auto;display:block;overflow:visible}
 .anim .vers-bas{animation:versbas 2.6s ease-in-out infinite}
 @keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
@@ -160,6 +204,48 @@ STYLE_PAGE = u"""
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:720px}
 @media(max-width:720px){#agframe{height:1000px}}
+"""
+
+METHODE = u"""
+<section class="night sec" id="methode">
+  <div class="rail">
+    <div class="mhead">
+      <span class="kick on-night rv" data-ic="radar">La méthode</span>
+      <h2 class="rv d1">Ce qu'on fait pendant <em>les trente minutes</em></h2>
+    </div>
+    <div class="etapes">
+      <article class="etape rv"><span class="num">01</span>
+        <h3>On cadre votre marché</h3>
+        <p>Votre cible, votre panier moyen, votre zone, et les concurrents que vous citez vous-même. On part de vos chiffres, pas d'un modèle sectoriel.</p></article>
+      <article class="etape rv d1"><span class="num">02</span>
+        <h3>On interroge les moteurs</h3>
+        <p>Cinquante questions d'achat réellement posées dans votre secteur, passées sur dix moteurs : ChatGPT, Perplexity, Gemini, Claude, Copilot, Mistral, Grok, DeepSeek, et les AI Overviews de Google.</p></article>
+      <article class="etape rv d2"><span class="num">03</span>
+        <h3>On lit les réponses</h3>
+        <p>Qui est cité, à quelle place, et surtout d'où vient l'information : les sources que les moteurs reprennent, page par page. C'est là que se joue le travail.</p></article>
+      <article class="etape rv d2"><span class="num">04</span>
+        <h3>On chiffre</h3>
+        <p>Le volume de ces questions, votre taux de citation actuel, et ce que vaudrait une place dans ces réponses, appliqué à votre panier moyen.</p></article>
+    </div>
+  </div>
+</section>
+"""
+
+LIVRABLE = u"""
+<section class="light sec" id="livrable">
+  <div class="rail">
+    <div class="mhead">
+      <span class="kick rv" data-ic="report">Le livrable</span>
+      <h2 class="rv d1">Ce que vous repartez <em>avec</em></h2>
+    </div>
+    <ul class="livre">
+      <li class="rv"><b>Le relevé daté</b><span>Les réponses des dix moteurs à vos cinquante questions, à la date de l'audit. Un point de départ opposable, pas une impression.</span></li>
+      <li class="rv d1"><b>Les concurrents cités à votre place</b><span>Nommés, avec leur fréquence d'apparition et les questions sur lesquelles ils sortent devant vous.</span></li>
+      <li class="rv d1"><b>Les sources qui les y mettent</b><span>Les pages, annuaires et articles sur lesquels les moteurs s'appuient pour répondre. C'est la liste de travail.</span></li>
+      <li class="rv d2"><b>Le potentiel chiffré et trois priorités</b><span>Ce que vaudrait une place dans ces réponses avec votre panier moyen, et par quoi commencer.</span></li>
+    </ul>
+  </div>
+</section>
 """
 
 CORPS = u"""
@@ -175,13 +261,15 @@ __HERO__
   </div>
 </section>
 
+__METHODE__
+
+__LIVRABLE__
+
 __CAS__
 
 __CLIENTS__
 
 __EQUIPE__
-
-__FLOW__
 
 __AVIS__
 
@@ -194,6 +282,13 @@ SCRIPT_PAGE = u"""
 <script>
 (function(){
   'use strict';
+  /* le logo du badge vient du meme dessin que le site, expose en window.NZico */
+  if(window.NZico){
+    document.querySelectorAll('.badge1[data-eng] i').forEach(function(el){
+      el.innerHTML = window.NZico(el.parentNode.getAttribute('data-eng'));
+    });
+  }
+
   var diag = /[?&]pixeldebug=1/.test(location.search);
   var cadre = document.getElementById('agframe');
   var parti = false;
@@ -272,10 +367,11 @@ __SCRIPT_PAGE__
 corps = (CORPS.replace('__FLECHE__', FLECHE)
               .replace('__AGENDA__', AGENDA)
               .replace('__HERO__', HERO)
+              .replace('__METHODE__', METHODE)
+              .replace('__LIVRABLE__', LIVRABLE)
               .replace('__CAS__', CAS)
               .replace('__CLIENTS__', CLIENTS)
               .replace('__EQUIPE__', EQUIPE)
-              .replace('__FLOW__', FLOW)
               .replace('__AVIS__', AVIS)
               .replace('__FAQ__', FAQ)
               .replace('__PIED__', PIED))

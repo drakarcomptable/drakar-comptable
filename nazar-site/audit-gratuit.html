@@ -598,6 +598,44 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 </style>
 <style>
 /* ---------- page d'atterrissage publicitaire ---------- */
+/* ---------- badge, accroche, methode, livrable ---------- */
+.badge1{display:inline-flex;align-items:center;gap:9px;background:var(--night);color:var(--ice);
+  border-radius:999px;padding:.46rem 1.05rem .46rem .5rem;font-weight:600;
+  font-size:clamp(.84rem,1.05vw,.97rem);letter-spacing:-.005em;
+  box-shadow:0 16px 32px -20px rgba(0,33,44,.95);align-self:flex-start}
+.badge1 b{color:var(--acc);font-weight:800}
+.badge1 i{display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;background:#fff;flex:none;margin-right:-3px}
+.badge1 i svg{width:18px;height:18px;display:block}
+
+.lpsub{margin:0;max-width:56ch;color:var(--ink-2);line-height:1.58;
+  font-size:clamp(1rem,1.3vw,1.09rem)}
+
+.mhead{display:flex;flex-direction:column;align-items:center;gap:15px;text-align:center}
+.mhead h2{margin:0;max-width:22ch;letter-spacing:-.034em;
+  font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.08}
+
+.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.5vw,20px);
+  margin-top:clamp(30px,3.8vw,50px)}
+.etape{background:var(--night-2);border:1px solid rgba(127,216,238,.14);border-radius:18px;
+  padding:clamp(18px,1.8vw,24px)}
+.etape .num{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--acc);
+  letter-spacing:.1em}
+.etape h3{margin:10px 0 8px;font-size:clamp(1.02rem,1.3vw,1.16rem);color:#fff;
+  letter-spacing:-.02em}
+.etape p{margin:0;font-size:.93rem;line-height:1.56;color:var(--on-night);opacity:.84}
+@media(max-width:1060px){.etapes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.etapes{grid-template-columns:1fr}}
+
+.livre{list-style:none;margin:clamp(28px,3.4vw,46px) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.4vw,18px)}
+.livre li{background:var(--white);border-radius:18px;padding:clamp(18px,1.8vw,24px);
+  display:flex;flex-direction:column;gap:7px;
+  box-shadow:0 18px 46px -34px rgba(0,67,88,.65)}
+.livre b{font-size:clamp(1rem,1.25vw,1.12rem);letter-spacing:-.02em;color:var(--ink)}
+.livre span{font-size:.93rem;line-height:1.56;color:var(--ink-2)}
+@media(max-width:720px){.livre{grid-template-columns:1fr}}
+
 /* L'accroche du site reserve la place d'un en-tete flottant qui n'existe pas
    ici, et se termine sur une marge faite pour une section suivante lointaine.
    On resserre des deux cotes : l'agenda doit entrer dans le champ en meme
@@ -612,7 +650,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
    a l'air ajoutee sur la page, donc elle attire l'oeil la ou on veut.
    Cliquable, pour qui prefere appuyer que faire defiler. */
 .vers-bas{display:inline-block;color:var(--steel);text-decoration:none;
-  margin-left:.26em;vertical-align:-.52em}
+  margin-left:clamp(18px,7vw,108px);margin-top:-6px}
 .vers-bas svg{width:clamp(106px,9.8vw,152px);height:auto;display:block;overflow:visible}
 .anim .vers-bas{animation:versbas 2.6s ease-in-out infinite}
 @keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
@@ -638,7 +676,8 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
   <div class="rail hgrid">
     <div class="hcopy">
-      <h1 class="rv d1">Combien de leads peut générer<br class="bm"> <em>votre entreprise sur les IA</em> ?<a class="vers-bas" href="#agenda" aria-label="Aller à l'agenda"><svg viewBox="0 0 150 100" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16c30-12 78-9 105 10 20 14 22 36 6 52"/><path d="M103 60l18 20 20-13"/></svg></a></h1>
+      <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur <i></i>ChatGPT</span><h1 class="rv d1">Ce que les IA répondent<br class="bm"> à vos acheteurs, <em>relevé et daté</em>.</h1>
+      <p class="lpsub rv d2">Cinquante questions d'achat de votre secteur, passées sur dix moteurs. Vous repartez avec le relevé, les concurrents cités à votre place, et les sources qui les y mettent.</p><a class="vers-bas" href="#agenda" aria-label="Aller à l'agenda"><svg viewBox="0 0 150 100" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16c30-12 78-9 105 10 20 14 22 36 6 52"/><path d="M103 60l18 20 20-13"/></svg></a>
     </div>
     <div class="screen rv d2" id="screen">
       <div class="scr-bar">
@@ -667,6 +706,48 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
 </section>
 
+
+<section class="night sec" id="methode">
+  <div class="rail">
+    <div class="mhead">
+      <span class="kick on-night rv" data-ic="radar">La méthode</span>
+      <h2 class="rv d1">Ce qu'on fait pendant <em>les trente minutes</em></h2>
+    </div>
+    <div class="etapes">
+      <article class="etape rv"><span class="num">01</span>
+        <h3>On cadre votre marché</h3>
+        <p>Votre cible, votre panier moyen, votre zone, et les concurrents que vous citez vous-même. On part de vos chiffres, pas d'un modèle sectoriel.</p></article>
+      <article class="etape rv d1"><span class="num">02</span>
+        <h3>On interroge les moteurs</h3>
+        <p>Cinquante questions d'achat réellement posées dans votre secteur, passées sur dix moteurs : ChatGPT, Perplexity, Gemini, Claude, Copilot, Mistral, Grok, DeepSeek, et les AI Overviews de Google.</p></article>
+      <article class="etape rv d2"><span class="num">03</span>
+        <h3>On lit les réponses</h3>
+        <p>Qui est cité, à quelle place, et surtout d'où vient l'information : les sources que les moteurs reprennent, page par page. C'est là que se joue le travail.</p></article>
+      <article class="etape rv d2"><span class="num">04</span>
+        <h3>On chiffre</h3>
+        <p>Le volume de ces questions, votre taux de citation actuel, et ce que vaudrait une place dans ces réponses, appliqué à votre panier moyen.</p></article>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="light sec" id="livrable">
+  <div class="rail">
+    <div class="mhead">
+      <span class="kick rv" data-ic="report">Le livrable</span>
+      <h2 class="rv d1">Ce que vous repartez <em>avec</em></h2>
+    </div>
+    <ul class="livre">
+      <li class="rv"><b>Le relevé daté</b><span>Les réponses des dix moteurs à vos cinquante questions, à la date de l'audit. Un point de départ opposable, pas une impression.</span></li>
+      <li class="rv d1"><b>Les concurrents cités à votre place</b><span>Nommés, avec leur fréquence d'apparition et les questions sur lesquelles ils sortent devant vous.</span></li>
+      <li class="rv d1"><b>Les sources qui les y mettent</b><span>Les pages, annuaires et articles sur lesquels les moteurs s'appuient pour répondre. C'est la liste de travail.</span></li>
+      <li class="rv d2"><b>Le potentiel chiffré et trois priorités</b><span>Ce que vaudrait une place dans ces réponses avec votre panier moyen, et par quoi commencer.</span></li>
+    </ul>
+  </div>
+</section>
+
+
 <section class="night sec" id="cas">
   <div class="rail">
     <div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
@@ -691,20 +772,6 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
       <h2 class="rv d1" style="margin-top:18px">Un consultant<br class="bm"> <em>dédié à votre projet</em></h2>
       <p class="bd rv d1">Vous ne parlez pas à un compte, vous parlez à quelqu'un. La même personne relève vos moteurs chaque semaine, rédige vos contenus, corrige votre socle technique et présente vos résultats. Pas de sous-traitance, pas de passage de dossier, pas de rapport automatique envoyé sans lecture.</p>
       <p class="coll rv d2"><b>NAZAR est un collectif de consultants GEO et SEO.</b> Notre métier n'a pas changé : vous faire ressortir quand quelqu'un cherche ce que vous vendez. Sur Google, et désormais dans les réponses des IA.</p>
-    </div>
-  </div>
-</section>
-
-<section class="night flow" id="audit">
-  <div class="rail">
-    <h2 class="rv">Vous souhaitez savoir<br class="bm"> combien de leads vous<br class="bm"> pouvez générer<br class="bm"> <em>grâce au GEO</em> ?</h2>
-    <div class="flowtrack">
-      <div class="flowline"><i id="flowFill"></i></div>
-      <div class="fsteps" id="fsteps"></div>
-    </div>
-    <div class="flowcta rv">
-      <a class="btn btn-white" href="#agenda">Auditer ma société
-        <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
     </div>
   </div>
 </section>
@@ -1603,6 +1670,13 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
 <script>
 (function(){
   'use strict';
+  /* le logo du badge vient du meme dessin que le site, expose en window.NZico */
+  if(window.NZico){
+    document.querySelectorAll('.badge1[data-eng] i').forEach(function(el){
+      el.innerHTML = window.NZico(el.parentNode.getAttribute('data-eng'));
+    });
+  }
+
   var diag = /[?&]pixeldebug=1/.test(location.search);
   var cadre = document.getElementById('agframe');
   var parti = false;
