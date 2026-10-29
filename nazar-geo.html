@@ -1740,6 +1740,12 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
 
       if(robot()){ partir(); return; }
 
+      /* conversion annoncee a la regie publicitaire. Elle part avant la
+         redirection : une fois la page quittee, plus rien ne s'execute ici.
+         Le pixel n'existe que si le visiteur a accepte le bandeau, sinon
+         l'appel est mis de cote par mesure.js, ou ignore s'il a refuse. */
+      if(window.mesure) window.mesure('lead_created');
+
       var charge = {_subject: 'Audit GEO — ' + (val('fsoc') || val('fnom')),
                     _captcha: 'false', _template: 'table',
                     _honey: (document.getElementById('fpiege') || {}).value || ''};

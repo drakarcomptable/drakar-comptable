@@ -28,6 +28,9 @@ cat > "$OUT/index.html" <<'HEAD'
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" href="logo.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+<!-- mesure publicitaire : le pixel n'est charge qu'apres
+     acceptation du bandeau, voir nazar-site/mesure.js -->
+<script src="/mesure.js" defer></script>
 HEAD
 python3 - "$SP/nazar-geo.html" "$OUT/index.html" <<'TITRE'
 import io, sys

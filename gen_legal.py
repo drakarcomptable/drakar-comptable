@@ -15,6 +15,9 @@ def doc(fichier, titre, desc, corps):
 <link rel="icon" href="logo.png">
 <link rel="preload" href="police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="nazar.css">
+<!-- mesure publicitaire : le pixel n'est charge qu'apres
+     acceptation du bandeau, voir nazar-site/mesure.js -->
+<script src="/mesure.js" defer></script>
 </head>
 <body>
 <header class="topbar">
@@ -128,8 +131,15 @@ CONF = u"""    <p class="maj">Dernière mise à jour : 5 octobre 2026</p>
     </dl>
     <p>Nous ne vendons ni ne louons vos données à qui que ce soit.</p>
 
-    <h2>Cookies et mesure d'audience</h2>
-    <p>Ce site ne dépose aucun cookie publicitaire, ni aucun traceur de mesure d'audience. Aucune bannière de consentement n'est donc nécessaire.</p>
+    <h2>Cookies</h2>
+    <p>Ce site ne pratique aucune mesure d'audience et ne vous profile pas. Un seul cookie peut être déposé sur votre navigateur, et uniquement si vous l'acceptez au bandeau : celui du pixel de mesure d'OpenAI, qui nous permet de savoir si une publicité diffusée dans ChatGPT a abouti à une demande d'audit. Il ne sert qu'à ce rapprochement. Si vous refusez, il n'est pas déposé et rien n'est transmis.</p>
+    <dl>
+      <dt>Finalité</dt><dd>Mesurer si nos campagnes publicitaires aboutissent à une demande d'audit</dd>
+      <dt>Base légale</dt><dd>Votre consentement, recueilli au bandeau et révocable</dd>
+      <dt>Destinataire</dt><dd>OpenAI, établi aux États-Unis</dd>
+      <dt>Ce qu'il ne fait pas</dt><dd>Aucune mesure d'audience, aucun profilage publicitaire, aucune revente de données</dd>
+    </dl>
+    <p>Votre réponse au bandeau, acceptation comme refus, est conservée dans le stockage local de votre navigateur pour ne pas vous la redemander à chaque page. Ce n'est pas un cookie et rien n'en sort de votre appareil. Pour revenir sur votre choix, effacez les données de site de votre navigateur pour nazar-seo.fr : le bandeau réapparaîtra.</p>
     <p>Les polices de caractères utilisées pour l'affichage sont hébergées sur ce site. Leur chargement ne transmet aucune donnée à un service tiers.</p>
 
     <h2>Vos droits</h2>
