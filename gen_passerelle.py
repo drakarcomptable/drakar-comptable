@@ -108,16 +108,17 @@ HERO = re.sub(r'\s*<a class="btn btn-white rv d2" href="#agenda">.*?</a>',
 # designe le calendrier.
 H1_SITE = ('<h1 class="rv d1">Vos prochains clients<br class="bm"> vous cherchent'
            '<br class="bm"> <em>sur les IA</em>.</h1>')
-H1_PAGE = ('<h1 class="rv d1">Vous souhaitez savoir<br class="bm"> combien de leads '
-           'peut générer<br class="bm"> <em>votre entreprise sur les IA</em> ?</h1>')
+H1_PAGE = ('<h1 class="rv d1">Combien de leads peut générer<br class="bm"> '
+           '<em>votre entreprise sur les IA</em> ?</h1>')
 if HERO.count(H1_SITE) != 1:
     raise ValueError("l'accroche du site a change, le titre n'est plus reconnu")
 HERO = HERO.replace(H1_SITE, H1_PAGE)
 
 FLECHE_BAS = ('<a class="vers-bas rv d2" href="#agenda" aria-label="Aller à l\'agenda">'
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+              '<svg viewBox="0 0 132 86" fill="none" stroke="currentColor" stroke-width="3.2" '
               'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              '<path d="M12 4.6v13.2M5.8 12l6.2 6.2 6.2-6.2"/></svg></a>')
+              '<path d="M8 13c26-11 68-9 92 7 18 12 20 32 6 46"/>'
+              '<path d="M92 52l14 16 15-13"/></svg></a>')
 HERO, n = re.subn(r'<p class="hlede rv d2">.*?</p>', FLECHE_BAS, HERO, flags=re.S)
 if n != 1:
     raise ValueError("le paragraphe de presentation de l'accroche est introuvable")
@@ -143,16 +144,17 @@ STYLE_PAGE = u"""
 #agenda{background:var(--paper);padding-block:clamp(14px,1.8vw,26px) clamp(48px,6vw,86px)}
 
 /* La fleche remplace le paragraphe de presentation : elle designe le
-   calendrier plutot que de le decrire, et son balancement dit qu'il y a
-   quelque chose juste en dessous. Cliquable, pour qui prefere un bouton. */
-.vers-bas{display:inline-flex;align-items:center;justify-content:center;
-  width:60px;height:60px;border-radius:50%;background:var(--night);color:var(--acc);
-  box-shadow:0 16px 34px -16px rgba(0,33,44,.9);text-decoration:none;flex:none}
-.vers-bas svg{width:27px;height:27px;display:block}
-.anim .vers-bas{animation:versbas 2.2s ease-in-out infinite}
-@keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
-.vers-bas:hover{background:var(--night-3)}
-.vers-bas:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+   calendrier plutot que de le decrire. Une courbe tracee a main levee, qui
+   part vers la droite et revient vers le bas, plutot qu'un pictogramme : elle
+   a l'air ajoutee sur la page, donc elle attire l'oeil la ou on veut.
+   Cliquable, pour qui prefere appuyer que faire defiler. */
+.vers-bas{display:inline-block;color:var(--steel);text-decoration:none;
+  margin-left:clamp(4px,2vw,34px)}
+.vers-bas svg{width:clamp(96px,9vw,132px);height:auto;display:block;overflow:visible}
+.anim .vers-bas{animation:versbas 2.6s ease-in-out infinite}
+@keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.vers-bas:hover{color:var(--ink-2)}
+.vers-bas:focus-visible{outline:2px solid var(--acc);outline-offset:6px;border-radius:8px}
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:720px}
