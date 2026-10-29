@@ -66,6 +66,16 @@ STYLE   = entre(src, '<style>', '</style>')
 MOTEURS = entre(src, '<script>window.NZ =', '</script>')
 SCRIPT  = src[src.rindex('<script>'):src.rindex('</script>') + len('</script>')]
 
+# Un logo client est retire du bandeau sur cette page, et sur celle-ci
+# seulement : la page porte sa propre copie du script, la liste y est donc
+# modifiee a la generation plutot que sur le site.
+SANS = ["ref-14.webp"]
+for fichier in SANS:
+    avant = SCRIPT
+    SCRIPT = re.sub(r"\n\s*\{f:'" + re.escape(fichier) + r"'[^}]*\},?", '', SCRIPT)
+    if SCRIPT == avant:
+        raise ValueError('logo introuvable dans le bandeau : ' + fichier)
+
 CLIENTS = section(src, '<section class="clients">')
 CAS     = section(src, '<section class="night sec" id="cas">')
 CONSULT = section(src, '<section class="cream-s" id="consultant">')
@@ -99,20 +109,32 @@ PIED = (PIED.replace('href="mentions-legales.html"', 'href="/mentions-legales.ht
             .replace('href="confidentialite.html"', 'href="/confidentialite.html"'))
 
 STYLE_PAGE = u"""
+:root{--coche:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.2 8.4l4 4 7.6-9' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+
 /* ---------- page d'atterrissage publicitaire ---------- */
 /* Deux colonnes : a gauche la raison de prendre rendez-vous, a droite
    l'agenda. Rien entre les deux, rien au-dessus. Sous 900 pixels les
    colonnes s'empilent, le texte d'abord. */
 .duo{background:linear-gradient(180deg,var(--ice) 0%,var(--paper) 100%);
-  padding-block:clamp(32px,4.2vw,66px)}
-.duo .rail{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
-  gap:clamp(26px,3.6vw,56px);align-items:center}
+  padding-block:clamp(24px,2.8vw,42px)}
+.duo .rail{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);
+  gap:clamp(24px,3.2vw,48px);align-items:start}
 .duo .dcol{display:flex;flex-direction:column;align-items:flex-start;
   gap:clamp(15px,1.9vw,23px)}
 .duo h1{margin:0;font-weight:800;letter-spacing:-.038em;line-height:1.04;
   font-size:clamp(2rem,3.9vw,3.1rem);max-width:15ch}
-.lpsub{margin:0;max-width:44ch;color:var(--ink-2);line-height:1.58;
-  font-size:clamp(1rem,1.3vw,1.1rem)}
+.lpsub{margin:0;max-width:46ch;color:var(--ink-2);line-height:1.56;
+  font-size:clamp(.98rem,1.2vw,1.06rem)}
+.lplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;
+  max-width:46ch}
+.lplist li{display:flex;gap:11px;align-items:flex-start;color:var(--ink-2);
+  font-size:clamp(.94rem,1.1vw,1rem);line-height:1.5}
+.lplist li::before{content:'';flex:none;width:19px;height:19px;margin-top:2px;
+  border-radius:50%;background:var(--acc);
+  box-shadow:inset 0 0 0 1px rgba(0,67,88,.16);
+  -webkit-mask:var(--coche) center/11px 11px no-repeat;mask:var(--coche) center/11px 11px no-repeat;
+  background-color:var(--ink)}
+.lplist b{color:var(--ink);font-weight:700}
 @media(max-width:900px){.duo .rail{grid-template-columns:1fr}}
 
 .badge1{display:inline-flex;align-items:center;gap:9px;background:var(--night);color:var(--ice);
@@ -123,11 +145,13 @@ STYLE_PAGE = u"""
 .badge1 i{display:inline-flex;align-items:center;justify-content:center;
   width:28px;height:28px;border-radius:50%;background:#fff;flex:none;margin-right:-3px}
 .badge1 i svg{width:18px;height:18px;display:block}
+.badge1 i{transition:opacity .23s ease, transform .23s ease}
+.badge1 i.mue{opacity:0;transform:scale(.72)}
 
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
-#agframe{display:block;width:100%;border:0;height:720px}
-@media(max-width:720px){#agframe{height:1000px}}
+#agframe{display:block;width:100%;border:0;height:620px}
+@media(max-width:720px){#agframe{height:940px}}
 """
 
 FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
@@ -137,9 +161,15 @@ CORPS = u"""
 <section class="duo" id="agenda">
   <div class="rail">
     <div class="dcol">
-      <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur <i></i>ChatGPT</span>
-      <h1 class="rv d1">Prenez 9 minutes avec un <em>expert GEO</em></h1>
-      <p class="lpsub rv d1">Il audite votre site, vous remet un audit GEO gratuit et une feuille de route pour vous référencer n°1 sur les IA.</p>
+      <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
+      <h1 class="rv d1">Prenez rendez-vous avec un <em>expert GEO</em></h1>
+      <p class="lpsub rv d1">Il audite votre site gratuitement et vous remet un audit GEO, avec une feuille de route d'actions concrètes, propres à votre site et à votre secteur.</p>
+      <ul class="lplist rv d1">
+        <li><span><b>Les requêtes de niche qualifiées</b> sur lesquelles vous n'apparaissez pas encore, et que vos acheteurs posent déjà aux IA.</span></li>
+        <li><span><b>Pourquoi votre site ne ressort pas</b> dans les réponses : ce qui manque sur vos pages, et ce que les moteurs n'y trouvent pas.</span></li>
+        <li><span><b>Comment vos concurrents s'y positionnent</b>, sur quelles sources ils s'appuient, et par où les dépasser sur votre marché.</span></li>
+        <li><span><b>Les actions à mener, dans l'ordre</b>, avec ce que chacune peut rapporter.</span></li>
+      </ul>
     </div>
     <div class="agbox rv d1">
       <iframe id="agframe" src="__AGENDA__&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
@@ -147,9 +177,9 @@ CORPS = u"""
   </div>
 </section>
 
-__CAS__
-
 __CLIENTS__
+
+__CAS__
 
 __AVIS__
 
@@ -162,10 +192,22 @@ SCRIPT_PAGE = u"""
 <script>
 (function(){
   'use strict';
-  /* le logo du badge vient du meme dessin que le site, expose en window.NZico */
+  /* Le logo du badge vient du meme dessin que le site, expose en window.NZico,
+     et il passe d'un moteur a l'autre : le badge dit « les IA », il faut donc
+     qu'il en montre plusieurs plutot qu'un seul. Un fondu court suffit, une
+     rotation trop appuyee detournerait du titre.
+     Un visiteur qui a demande moins d'animation garde un logo fixe. */
+  var MOTEURS = ['ChatGPT', 'Gemini', 'Perplexity', 'Grok', 'Claude', 'Copilot'];
   if(window.NZico){
-    document.querySelectorAll('.badge1[data-eng] i').forEach(function(el){
-      el.innerHTML = window.NZico(el.parentNode.getAttribute('data-eng'));
+    document.querySelectorAll('.badge1 i').forEach(function(el){
+      var k = 0;
+      function pose(){ el.innerHTML = window.NZico(MOTEURS[k % MOTEURS.length]); }
+      pose();
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      setInterval(function(){
+        el.classList.add('mue');
+        setTimeout(function(){ k++; pose(); el.classList.remove('mue'); }, 230);
+      }, 2100);
     });
   }
 
@@ -196,7 +238,10 @@ SCRIPT_PAGE = u"""
       h = parseInt(h, 10);
       /* bornes larges : on suit HubSpot sans le laisser produire une page de
          dix mille pixels si un message aberrant passe */
-      if(h > 420 && h < 3000) cadre.style.height = h + 'px';
+      /* plafonnee : le bandeau de logos clients doit rester visible des
+         l'ouverture de la page, l'agenda ne peut donc pas s'etendre a sa
+         guise. Il defile de lui-meme au-dela. */
+      if(h > 420) cadre.style.height = Math.min(h, 660) + 'px';
     }
 
     if(parti) return;
