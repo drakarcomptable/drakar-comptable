@@ -176,6 +176,45 @@ STYLE_PAGE = u"""
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:584px}
 @media(max-width:720px){#agframe{height:940px}}
+
+/* Sur un ecran court, le calendrier se tasse pour que le bandeau de logos
+   reste dans le premier ecran. C'est lui qui rassure au premier coup d'oeil ;
+   le calendrier, lui, reste atteignable d'un coup de molette, et defile dans
+   son cadre si HubSpot en demande davantage.
+   La regle vise la hauteur de la fenetre, pas sa largeur : un grand ecran peu
+   haut, ou un navigateur avec beaucoup de barres, tombent dans le meme cas
+   qu'un petit portable. */
+@media(min-width:901px) and (max-height:860px){
+  #agframe{height:min(584px,calc(100vh - 235px))}
+  .duo{padding-block:14px 16px}
+  .duo .dcol{gap:17px}
+  .clients{padding-block:34px 72px}
+  .clients .clabel{margin-bottom:20px}
+}
+/* Plus court encore : on resserre aussi le titre, le logo et les
+   interlignes de la liste. Rien ne disparait, tout se tasse. */
+@media(min-width:901px) and (max-height:760px){
+  #agframe{height:min(584px,calc(100vh - 211px))}
+  .duo{padding-block:10px 12px}
+  .duo .dcol{gap:13px}
+  .duo h1{font-size:clamp(1.72rem,3.1vw,2.3rem)}
+  .lplogo img{width:52px}
+  .lplist{gap:8px}
+  .lplist li{line-height:1.45}
+  .clients{padding-block:24px 64px}
+  .clients .clabel{margin-bottom:16px}
+  #cas{padding-top:24px}
+}
+@media(min-width:901px) and (max-height:660px){
+  .duo h1{font-size:clamp(1.6rem,2.8vw,2.05rem)}
+  .clients{padding-block:18px 70px}
+}
+/* Et a l'inverse, sur un ecran tres haut la page est plus courte que la
+   fenetre : le blanc se prolonge jusqu'au bas de l'ecran pour qu'aucun
+   liseré sombre ne depasse a l'ouverture. */
+@media(min-width:901px) and (min-height:861px){
+  .clients{padding-bottom:min(max(68px,calc(100vh - 745px)),360px)}
+}
 """
 
 FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
@@ -240,6 +279,10 @@ SCRIPT_PAGE = u"""
 
   var diag = /[?&]pixeldebug=1/.test(location.search);
   var cadre = document.getElementById('agframe');
+  /* le plafond suit la hauteur posee par la feuille de style, donc les regles
+     ci-dessus : HubSpot ne peut pas rendre a l'agenda ce que l'ecran court lui
+     a retire. */
+  var plafond = (cadre && cadre.offsetHeight) || 584;
   var parti = false;
 
   /* HubSpot parle a la page qui l'heberge par messages. On en attend deux
@@ -268,7 +311,7 @@ SCRIPT_PAGE = u"""
       /* plafonnee : le bandeau de logos clients doit rester visible des
          l'ouverture de la page, l'agenda ne peut donc pas s'etendre a sa
          guise. Il defile de lui-meme au-dela. */
-      if(h > 420) cadre.style.height = Math.min(h, 620) + 'px';
+      if(h > 420) cadre.style.height = Math.min(h, plafond) + 'px';
     }
 
     if(parti) return;
