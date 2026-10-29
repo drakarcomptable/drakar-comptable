@@ -125,6 +125,7 @@ STYLE_PAGE = u"""
   font-size:clamp(2rem,3.9vw,3.1rem);max-width:15ch}
 .lpsub{margin:0;max-width:46ch;color:var(--ink-2);line-height:1.56;
   font-size:clamp(.98rem,1.2vw,1.06rem)}
+.lpsub b{color:var(--ink);font-weight:700}
 .lplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;
   max-width:46ch}
 .lplist li{display:flex;gap:11px;align-items:flex-start;color:var(--ink-2);
@@ -136,6 +137,11 @@ STYLE_PAGE = u"""
   background-color:var(--ink)}
 .lplist b{color:var(--ink);font-weight:700}
 @media(max-width:900px){.duo .rail{grid-template-columns:1fr}}
+
+/* le bandeau de logos doit entrer dans le champ des l'ouverture : il remonte
+   presque au contact de la section bleue, et son intitule se resserre */
+.clients{padding-block:clamp(16px,1.7vw,24px) clamp(22px,2.4vw,34px)}
+.clients .clabel{margin-bottom:clamp(12px,1.3vw,18px)}
 
 .badge1{display:inline-flex;align-items:center;gap:9px;background:var(--night);color:var(--ice);
   border-radius:999px;padding:.46rem 1.05rem .46rem .5rem;font-weight:600;
@@ -163,7 +169,7 @@ CORPS = u"""
     <div class="dcol">
       <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
       <h1 class="rv d1">Prenez rendez-vous avec un <em>expert GEO</em></h1>
-      <p class="lpsub rv d1">Il audite votre site gratuitement et vous remet un audit GEO, avec une feuille de route d'actions concrètes, propres à votre site et à votre secteur.</p>
+      <p class="lpsub rv d1">Il audite votre site <b>gratuitement</b> et vous remet un <b>audit GEO</b>, avec une feuille de route d'actions concrètes, propres à votre site et à votre secteur.</p>
       <ul class="lplist rv d1">
         <li><span><b>Les requêtes de niche qualifiées</b> sur lesquelles vous n'apparaissez pas encore, et que vos acheteurs posent déjà aux IA.</span></li>
         <li><span><b>Pourquoi votre site ne ressort pas</b> dans les réponses : ce qui manque sur vos pages, et ce que les moteurs n'y trouvent pas.</span></li>
@@ -207,7 +213,7 @@ SCRIPT_PAGE = u"""
       setInterval(function(){
         el.classList.add('mue');
         setTimeout(function(){ k++; pose(); el.classList.remove('mue'); }, 230);
-      }, 2100);
+      }, 1250);
     });
   }
 

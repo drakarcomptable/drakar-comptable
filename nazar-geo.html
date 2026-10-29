@@ -178,7 +178,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
    ceux dont les lettres remplissent toute la boite en demandent moins */
 .crow img.tall{height:clamp(48px,5.6vw,74px)}
 .crow img.small{height:clamp(30px,3.5vw,46px)}
-@keyframes slide{to{transform:translateX(-50%)}}
+@keyframes slide{to{transform:translateX(calc(-1 * var(--dec,50%)))}}
 
 .night{background:var(--night);color:var(--on-night)}
 .night h1,.night h2,.night h3{color:#fff}
@@ -1040,6 +1040,28 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
      poignee pour eviter d'en recopier une seconde version. */
   window.NZico = ico;
 
+  /* Defilement en boucle d'une piste doublee.
+
+     La piste contient deux fois la meme serie, et le defilement la translatait
+     de la moitie de sa largeur. Avec un ecart regulier entre les elements,
+     cette moitie tombe une demi-gouttiere trop court : la piste sautait donc
+     de vingt a quarante pixels a chaque boucle, un a-coup visible sur les
+     bandeaux de logos comme sur celui des avis.
+
+     Soient A la somme des largeurs d'une serie, N son nombre d'elements et g
+     l'ecart. La largeur totale vaut 2A + (2N-1)g, alors que la periode
+     cherchee, d'un element au meme element de la serie suivante, vaut A + Ng.
+     La moitie de la largeur est donc courte de g/2. La periode exacte vaut
+     (largeur + g) / 2, ce que pose cette fonction. */
+  function periode(piste){
+    if(!piste) return 0;
+    var st = getComputedStyle(piste);
+    var ec = parseFloat(st.columnGap || st.gap || 0) || 0;
+    var p = (piste.scrollWidth + ec) / 2;
+    piste.style.setProperty('--dec', p + 'px');
+    return p;
+  }
+
   /* reveals */
   function watch(nodes){
     if(!reduce && 'IntersectionObserver' in window){
@@ -1149,7 +1171,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         reps++; row.innerHTML = one.repeat(reps);
       }
       row.innerHTML = one.repeat(reps) + one.repeat(reps);
-      row.style.animationDuration = Math.max(18, Math.round((row.scrollWidth/2)/VITESSE)) + 's';
+      row.style.animationDuration = Math.max(18, Math.round(periode(row)/VITESSE)) + 's';
     }
 
     function quandCharges(fn){
@@ -1261,13 +1283,15 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     var row = document.getElementById('arow');
     var une = AVIS.map(carte).join('');
     row.innerHTML = une;
-    // on repete la serie jusqu'a couvrir largement l'ecran, puis on la double :
-    // le defilement de -50 % reboucle alors sans saut visible.
+    // on repete la serie jusqu'a couvrir largement l'ecran, puis on la double,
+    // et periode() cale le decalage de la boucle sur la vraie longueur d'une
+    // serie, ecart compris.
     var reps = 1;
     for(var i=0;i<8 && row.scrollWidth < window.innerWidth*1.35; i++){
       reps++; row.innerHTML = une.repeat(reps);
     }
     row.innerHTML = une.repeat(reps) + une.repeat(reps);
+    periode(row);
   })();
 
   /* ---------- orbite ---------- */
