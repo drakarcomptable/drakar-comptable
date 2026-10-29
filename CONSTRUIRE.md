@@ -37,20 +37,30 @@ l'ancienne version.
 Le formulaire passe par FormSubmit, avec la clé qui désigne la boîte de Maël.
 L'adresse elle-même ne figure pas dans le code.
 
-**Le parcours du formulaire se termine sur l'agenda HubSpot.** Une fois la
-demande partie, le visiteur est redirigé vers le lien de prise de rendez-vous,
-avec ses nom, prénom, e-mail, société et téléphone repassés en paramètres pour
-qu'il n'ait pas à les retaper. Le lien est la constante `AGENDA` dans
-`nazar-geo.html` : c'est là qu'il faut le changer si Maël en régénère un.
+**Le parcours du formulaire se termine sur l'agenda HubSpot.** « Recevoir mon
+audit » envoie la demande et emmène le visiteur sur le lien de prise de
+rendez-vous dans le même geste, avec ses prénom, nom, e-mail, société et
+téléphone repassés en paramètres pour qu'il n'ait rien à retaper. Aucun écran
+intermédiaire : un panneau de confirmation entre les deux coûtait des
+rendez-vous. Le lien est la constante `AGENDA` dans `nazar-geo.html` : c'est là
+qu'il faut le changer si Maël en régénère un.
+
+Le champ de nom demande « Prénom et nom » dans cet ordre, et pas l'inverse :
+le premier mot saisi part en `firstName`, le reste en `lastName`. Changer le
+libellé sans changer la découpe inverserait les deux chez HubSpot.
 
 Trois garde-fous qui tiennent ensemble, à ne pas défaire séparément :
 
-- la redirection ne part **que** si l'envoi a abouti. Sinon le récapitulatif à
-  recopier reste à l'écran, sans quoi une demande déjà saisie serait perdue ;
-- un robot reconnu voit la même confirmation qu'un visiteur mais n'est pas
-  redirigé : son trafic n'a rien à faire sur la page de rendez-vous ;
-- le panneau de confirmation porte le lien en clair, cliquable, au cas où la
-  redirection ne partirait pas.
+- l'envoi et la redirection sont **indépendants**. L'envoi porte
+  `keepalive: true`, donc il arrive à destination même si la page est déjà en
+  train de se décharger : une personne qui renonce au créneau laisse quand
+  même ses coordonnées. C'est tout l'intérêt du dispositif, et ça se perdrait
+  en attendant la réponse de FormSubmit avant de rediriger ;
+- un minuteur de 600 ms borne cette attente, pour qu'un réseau lent ou un
+  bloqueur de publicité ne retienne personne devant un bouton grisé ;
+- un robot reconnu est envoyé sur l'agenda comme n'importe quel visiteur, mais
+  rien ne nous est transmis : lui répondre une erreur l'inciterait à
+  recommencer.
 
 ## La passerelle publicitaire
 

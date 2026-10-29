@@ -583,10 +583,6 @@ form{display:flex;flex-direction:column;gap:12px}
   font-family:var(--sans);font-size:.98rem;width:100%}
 .inp input::placeholder{color:#8fb7c4}
 .inp input:focus{outline:3px solid var(--acc)}
-.sent{background:var(--paper);border-radius:16px;padding:20px;text-align:left}
-.recap{font-family:var(--mono);font-size:.82rem;color:var(--ink-2);margin-top:10px;white-space:pre-wrap;word-break:break-word}
-.mailrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
-.mailrow code{font-family:var(--mono);font-size:.88rem;font-weight:600;background:#fff;border-radius:10px;padding:.5rem .75rem;user-select:all}
 @media(max-width:560px){.f2{grid-template-columns:1fr}}
 
 footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);font-size:.9rem}
@@ -827,7 +823,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     <div class="formwrap">
       <form id="auditForm" novalidate>
         <div class="f2">
-          <div class="inp"><label for="fnom">Nom et prénom <span class="req">*</span></label>
+          <div class="inp"><label for="fnom">Prénom et nom <span class="req">*</span></label>
             <input id="fnom" placeholder="Camille Réaux" autocomplete="name">
             <span class="err">Indiquez votre nom.</span></div>
           <div class="inp"><label for="fsoc">Société <span class="req">*</span></label>
@@ -869,17 +865,6 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         <button class="btn btn-dark" type="submit" style="align-self:flex-start">Recevoir mon audit
           <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
       </form>
-      <div class="sent" id="sent" hidden>
-        <h3 id="sentTi" style="font-size:1.15rem">Demande envoyée.</h3>
-        <p class="smallnote" id="sentTx" style="margin-top:10px">Nous ouvrons l'agenda de Maël pour que vous choisissiez votre créneau.</p>
-        <p class="smallnote" id="sentLien" style="margin-top:10px" hidden>Si rien ne s'ouvre, <a id="sentRdv" href="#">choisissez votre créneau ici</a>.</p>
-        <div class="recap" id="recap" hidden></div>
-        <div class="mailrow">
-          <code id="dest" hidden></code>
-          <button class="btn btn-dark" type="button" id="copyBtn" hidden style="padding:.5rem 1rem;font-size:.88rem">Copier</button>
-          <button class="btn btn-white" type="button" id="againBtn" style="padding:.5rem 1rem;font-size:.88rem">Nouvelle demande</button>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1692,42 +1677,19 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   /* formulaire */
   (function(){
     var form = document.getElementById('auditForm'),
-        sent = document.getElementById('sent'),
-        recap = document.getElementById('recap'),
-        sentTi = document.getElementById('sentTi'),
-        sentTx = document.getElementById('sentTx'),
-        dest = document.getElementById('dest'),
-        copyBtn = document.getElementById('copyBtn'),
         envoi = form.querySelector('button[type="submit"]');
-    var envoiTexte = envoi.innerHTML;
 
-    /* la demande part par mail chez Mael, qui recontacte pour caler le creneau.
-       Si l'envoi echoue, on retombe sur le recapitulatif a copier, pour ne jamais
-       perdre une demande deja saisie. */
+    /* La demande part par mail chez Mael et le visiteur enchaine aussitot sur
+       l'agenda : c'est la que le rendez-vous se prend, et chaque ecran
+       intermediaire en perd en route. Les deux sont volontairement
+       independants, pour qu'une personne qui renonce au creneau laisse quand
+       meme ses coordonnees derriere elle. */
     var BOITE = 'https://formsubmit.co/ajax/d5d15b905cf31ea75f7400ffafcf0f52';
-    /* l'adresse de repli est recomposee a l'affichage plutot qu'ecrite en
-       clair dans la page : les collecteurs d'adresses les plus simples n'y
-       trouvent rien. Qui lit le script la retrouvera, c'est la limite de
-       l'exercice cote navigateur. */
-    if(dest) dest.textContent = ['mael', 'nazar-seo.fr'].join('@');
 
-    /* Deux filtres avant l'envoi, parce que le formulaire a recu du
-       demarchage automatise des son ouverture.
-
-       Le premier lit le champ piege : un visiteur ne peut pas l'avoir rempli,
-       il est hors de sa portee. Le second mesure le temps passe sur la page :
-       personne ne renseigne huit champs en moins de trois secondes.
-
-       La meme valeur `_honey` part aussi vers FormSubmit, qui applique son
-       propre filtre : deux barrages valent mieux qu'un, et celui-ci ne depend
-       pas de nous. Dans les deux cas le robot voit un message de reussite et
-       ne reessaie pas : lui repondre une erreur l'inciterait a recommencer. */
-    /* Une fois la demande partie, le visiteur passe directement a l'agenda :
-       c'est la que le rendez-vous se prend, et chaque ecran intermediaire en
-       perd en route. Les champs deja saisis sont repasses a HubSpot en
-       parametres, pour qu'il n'ait pas a les retaper. Le formulaire ne demande
-       qu'un seul champ de nom : le premier mot part en prenom, le reste en
-       nom, ce qui couvre la quasi-totalite des saisies. */
+    /* Les champs deja saisis sont repasses a HubSpot en parametres, pour que
+       le visiteur n'ait rien a retaper. Le formulaire ne demande qu'un seul
+       champ de nom, prenom en tete : le premier mot part donc en prenom, le
+       reste en nom, ce qui couvre la quasi-totalite des saisies. */
     var AGENDA = 'https://meetings-eu1.hubspot.com/mael-gallais/auditgeonazar?uuid=35289a56-0d65-4dc5-8725-29da4834660a';
     function lienAgenda(){
       var mots = val('fnom').split(/\s+/);
@@ -1738,6 +1700,18 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       return AGENDA + (sup.length ? '&' + sup.join('&') : '');
     }
 
+    /* Deux filtres avant l'envoi, parce que le formulaire a recu du
+       demarchage automatise des son ouverture.
+
+       Le premier lit le champ piege : un visiteur ne peut pas l'avoir rempli,
+       il est hors de sa portee. Le second mesure le temps passe sur la page :
+       personne ne renseigne huit champs en moins de trois secondes.
+
+       La meme valeur `_honey` part aussi vers FormSubmit, qui applique son
+       propre filtre : deux barrages valent mieux qu'un, et celui-ci ne depend
+       pas de nous. Le robot reconnu est envoye sur l'agenda comme n'importe
+       quel visiteur, mais rien ne nous est transmis : lui repondre une erreur
+       l'inciterait a recommencer. */
     var OUVERTURE = Date.now();
     var DELAI_MINI = 3000;
     function robot(){
@@ -1748,7 +1722,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     }
 
     var CHAMPS = [
-      ['fnom','Nom et prénom'], ['fsoc','Société'], ['fmail','Email professionnel'],
+      ['fnom','Prénom et nom'], ['fsoc','Société'], ['fmail','Email professionnel'],
       ['ftel','Téléphone'], ['fsite','Site web'], ['fsect','Secteur'],
       ['fconc','Concurrents'], ['fmsg','Attentes']
     ];
@@ -1756,26 +1730,6 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     function mark(id, bad){
       var w = document.getElementById(id).closest('.inp');
       if(w) w.classList.toggle('bad', bad);
-    }
-    function resume(){
-      return "Demande d'audit GEO gratuit\n\n" + CHAMPS.map(function(c){
-        return c[1] + ' : ' + (val(c[0]) || '—');
-      }).join('\n');
-    }
-    function reussi(){
-      sentTi.textContent = 'Demande envoyée.';
-      sentTx.textContent = "Nous ouvrons l'agenda de Maël pour que vous choisissiez votre créneau.";
-      recap.hidden = true; dest.hidden = true; copyBtn.hidden = true;
-      /* filet : si la redirection ne part pas, le lien reste cliquable sous
-         les yeux du visiteur plutot que de le laisser devant une impasse. */
-      var a = document.getElementById('sentRdv'), l = document.getElementById('sentLien');
-      if(a && l){ a.href = lienAgenda(); l.hidden = false; }
-    }
-    function echoue(){
-      sentTi.textContent = 'Votre demande est prête.';
-      sentTx.textContent = "L'envoi automatique n'a pas abouti. Copiez ce récapitulatif et envoyez-le à l'adresse ci-dessous, nous le traiterons de la même façon.";
-      recap.textContent = resume();
-      recap.hidden = false; dest.hidden = false; copyBtn.hidden = false;
     }
 
     form.addEventListener('submit', function(e){
@@ -1798,58 +1752,34 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         return;
       }
 
-      envoi.disabled = true; envoi.textContent = 'Envoi…';
+      envoi.disabled = true; envoi.textContent = 'Un instant…';
 
-      function fini(bon){
-        envoi.disabled = false; envoi.innerHTML = envoiTexte;
-        (bon ? reussi : echoue)();
-        form.hidden = true; sent.hidden = false;
-      }
+      /* l'adresse est calculee maintenant : une fois la page quittee, les
+         champs ne sont plus lisibles. `assign` et non `replace`, pour qu'un
+         retour en arriere ramene sur le site. */
+      var cible = lienAgenda();
+      var parti = false;
+      function partir(){ if(!parti){ parti = true; location.assign(cible); } }
 
-      /* Le controle vient apres la validation des champs et avant l'envoi :
-         un robot recoit donc la meme confirmation qu'un visiteur, sans que
-         rien ne parte. */
-      var suspect = robot();
-      if(suspect){
-        fini(true);
-        return;
-      }
+      if(robot()){ partir(); return; }
 
       var charge = {_subject: 'Audit GEO — ' + (val('fsoc') || val('fnom')),
                     _captcha: 'false', _template: 'table',
                     _honey: (document.getElementById('fpiege') || {}).value || ''};
       CHAMPS.forEach(function(c){ charge[c[1]] = val(c[0]) || '—'; });
 
-      if(!window.fetch){ fini(false); return; }
+      if(!window.fetch){ partir(); return; }
+      /* keepalive : la requete arrive a destination meme si le document est
+         deja en train de se decharger. Le minuteur borne l'attente, pour
+         qu'un reseau lent ne retienne personne devant un bouton grise : au
+         pire la redirection prend le pas sur l'envoi, que keepalive mene
+         malgre tout a son terme. */
       fetch(BOITE, {
-        method: 'POST',
+        method: 'POST', keepalive: true,
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify(charge)
-      }).then(function(r){
-        fini(r.ok);
-        /* elle ne part que si l'envoi a reussi : sinon le recapitulatif a
-           recopier doit rester a l'ecran, sans quoi la demande est perdue. */
-        if(r.ok) location.assign(lienAgenda());
-      }, function(){ fini(false); });
-    });
-
-    document.getElementById('againBtn').addEventListener('click', function(){
-      sent.hidden = true; form.hidden = false;
-      document.getElementById('fnom').focus();
-    });
-    copyBtn.addEventListener('click', function(){
-      var btn = this;
-      function fb(){
-        var r = document.createRange(); r.selectNodeContents(recap);
-        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
-        btn.textContent = 'Sélectionné';
-      }
-      try {
-        navigator.clipboard.writeText(recap.textContent).then(function(){
-          btn.textContent = 'Copié';
-          setTimeout(function(){ btn.textContent = 'Copier'; }, 1800);
-        }, fb);
-      } catch(err){ fb(); }
+      }).then(partir, partir);
+      setTimeout(partir, 600);
     });
   })();
 })();
