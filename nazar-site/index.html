@@ -1061,6 +1061,10 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     }
     return '<svg viewBox="0 0 24 24"><path d="'+e.d+'" fill="'+fill+'"/></svg>';
   }
+  /* la page d'atterrissage publicitaire reutilise ce script et a besoin des
+     memes logos dans son titre : ico reste interne, mais on en expose une
+     poignee pour eviter d'en recopier une seconde version. */
+  window.NZico = ico;
 
   /* reveals */
   function watch(nodes){
@@ -1214,7 +1218,9 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       ['Mistral','Mistral','Le moteur français, de plus en plus cité.'],
       ['DeepSeek','DeepSeek','Monte sur les requêtes techniques.',1]
     ];
-    document.getElementById('grid9').innerHTML = SF.map(function(s,i){
+    var grille = document.getElementById('grid9');
+    if(!grille) return;
+    grille.innerHTML = SF.map(function(s,i){
       return '<article class="sf rv'+(i%3?' d'+(i%3):'')+(s[3]?' nomob':'')+'"><div class="top"><span class="lg">'+ico(s[0])+
         '</span></div><h3>'+s[1]+'</h3><p>'+s[2]+'</p></article>';
     }).join('');
@@ -1293,6 +1299,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   /* ---------- orbite ---------- */
   (function(){
     var host = document.getElementById('orbit');
+    if(!host) return;
     var R1 = ['ChatGPT','Claude','Gemini','Perplexity'];
     var R2 = ['Grok','Copilot','Mistral','Google','DeepSeek'];
     function ringHtml(list, cls, sp){
@@ -1330,6 +1337,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         a:"Sur le référencement génératif en France :", s:["NAZAR","Studio Halden","Agence Orveo"], you:0 }
     ];
     var railHost = document.getElementById('railEng');
+    if(!railHost || !document.getElementById('screen')) return;
     railHost.innerHTML = ENGINES.map(function(e){ return '<span class="eg">'+ico(e)+e+'</span>'; }).join('');
     var egs = [].slice.call(railHost.children);
     var qMsg = document.getElementById('qMsg'), aiMsg = document.getElementById('aiMsg'),
@@ -1568,6 +1576,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       ['04','Vous recevez votre audit','Potentiel chiffré et priorités.','Votre plan d’action']
     ];
     var host = document.getElementById('fsteps');
+    if(!host) return;
     host.innerHTML = STEPS.map(function(s){
       return '<div class="fstep"><div class="dot">'+s[0]+'</div><h3>'+s[1]+'</h3><p>'+s[2]+'</p></div>';
     }).join('');
@@ -1679,8 +1688,9 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
 
   /* formulaire */
   (function(){
-    var form = document.getElementById('auditForm'),
-        envoi = form.querySelector('button[type="submit"]');
+    var form = document.getElementById('auditForm');
+    if(!form) return;
+    var envoi = form.querySelector('button[type="submit"]');
 
     /* La demande part par mail chez Mael et le visiteur enchaine aussitot sur
        l'agenda : c'est la que le rendez-vous se prend, et chaque ecran
