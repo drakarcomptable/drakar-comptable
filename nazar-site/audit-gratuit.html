@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Audit GEO gratuit : ce que les IA disent de votre marché | NAZAR</title>
-<meta name="description" content="Trente minutes avec un consultant NAZAR : ce que ChatGPT, Perplexity et Gemini répondent sur votre marché, et ce que vaudrait votre place dans ces réponses.">
+<title>Audit GEO gratuit en 9 minutes | NAZAR</title>
+<meta name="description" content="Neuf minutes avec un consultant NAZAR : il audite votre site et vous remet un audit GEO gratuit, avec une feuille de route pour vous référencer dans les réponses des IA.">
 <!-- page d'atterrissage publicitaire : elle reprend des blocs de l'accueil,
      il n'y a donc rien a indexer ici, et tout a suivre vers le site -->
 <meta name="robots" content="noindex,follow">
@@ -598,64 +598,30 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 </style>
 <style>
 /* ---------- page d'atterrissage publicitaire ---------- */
-/* ---------- badge, accroche, methode, livrable ---------- */
+/* Deux colonnes : a gauche la raison de prendre rendez-vous, a droite
+   l'agenda. Rien entre les deux, rien au-dessus. Sous 900 pixels les
+   colonnes s'empilent, le texte d'abord. */
+.duo{background:linear-gradient(180deg,var(--ice) 0%,var(--paper) 100%);
+  padding-block:clamp(32px,4.2vw,66px)}
+.duo .rail{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+  gap:clamp(26px,3.6vw,56px);align-items:center}
+.duo .dcol{display:flex;flex-direction:column;align-items:flex-start;
+  gap:clamp(15px,1.9vw,23px)}
+.duo h1{margin:0;font-weight:800;letter-spacing:-.038em;line-height:1.04;
+  font-size:clamp(2rem,3.9vw,3.1rem);max-width:15ch}
+.lpsub{margin:0;max-width:44ch;color:var(--ink-2);line-height:1.58;
+  font-size:clamp(1rem,1.3vw,1.1rem)}
+@media(max-width:900px){.duo .rail{grid-template-columns:1fr}}
+
 .badge1{display:inline-flex;align-items:center;gap:9px;background:var(--night);color:var(--ice);
   border-radius:999px;padding:.46rem 1.05rem .46rem .5rem;font-weight:600;
   font-size:clamp(.84rem,1.05vw,.97rem);letter-spacing:-.005em;
-  box-shadow:0 16px 32px -20px rgba(0,33,44,.95);align-self:flex-start}
+  box-shadow:0 16px 32px -20px rgba(0,33,44,.95)}
 .badge1 b{color:var(--acc);font-weight:800}
 .badge1 i{display:inline-flex;align-items:center;justify-content:center;
   width:28px;height:28px;border-radius:50%;background:#fff;flex:none;margin-right:-3px}
 .badge1 i svg{width:18px;height:18px;display:block}
 
-.lpsub{margin:0;max-width:56ch;color:var(--ink-2);line-height:1.58;
-  font-size:clamp(1rem,1.3vw,1.09rem)}
-
-.mhead{display:flex;flex-direction:column;align-items:center;gap:15px;text-align:center}
-.mhead h2{margin:0;max-width:22ch;letter-spacing:-.034em;
-  font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.08}
-
-.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.5vw,20px);
-  margin-top:clamp(30px,3.8vw,50px)}
-.etape{background:var(--night-2);border:1px solid rgba(127,216,238,.14);border-radius:18px;
-  padding:clamp(18px,1.8vw,24px)}
-.etape .num{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--acc);
-  letter-spacing:.1em}
-.etape h3{margin:10px 0 8px;font-size:clamp(1.02rem,1.3vw,1.16rem);color:#fff;
-  letter-spacing:-.02em}
-.etape p{margin:0;font-size:.93rem;line-height:1.56;color:var(--on-night);opacity:.84}
-@media(max-width:1060px){.etapes{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.etapes{grid-template-columns:1fr}}
-
-.livre{list-style:none;margin:clamp(28px,3.4vw,46px) 0 0;padding:0;
-  display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.4vw,18px)}
-.livre li{background:var(--white);border-radius:18px;padding:clamp(18px,1.8vw,24px);
-  display:flex;flex-direction:column;gap:7px;
-  box-shadow:0 18px 46px -34px rgba(0,67,88,.65)}
-.livre b{font-size:clamp(1rem,1.25vw,1.12rem);letter-spacing:-.02em;color:var(--ink)}
-.livre span{font-size:.93rem;line-height:1.56;color:var(--ink-2)}
-@media(max-width:720px){.livre{grid-template-columns:1fr}}
-
-/* L'accroche du site reserve la place d'un en-tete flottant qui n'existe pas
-   ici, et se termine sur une marge faite pour une section suivante lointaine.
-   On resserre des deux cotes : l'agenda doit entrer dans le champ en meme
-   temps que la phrase qui l'annonce. */
-.lph-top .hero{padding-top:clamp(26px,3.4vw,46px);padding-bottom:0}
-
-#agenda{background:var(--paper);padding-block:clamp(14px,1.8vw,26px) clamp(48px,6vw,86px)}
-
-/* La fleche remplace le paragraphe de presentation : elle designe le
-   calendrier plutot que de le decrire. Une courbe tracee a main levee, qui
-   part vers la droite et revient vers le bas, plutot qu'un pictogramme : elle
-   a l'air ajoutee sur la page, donc elle attire l'oeil la ou on veut.
-   Cliquable, pour qui prefere appuyer que faire defiler. */
-.vers-bas{display:inline-block;color:var(--steel);text-decoration:none;
-  margin-left:clamp(18px,7vw,108px);margin-top:-6px}
-.vers-bas svg{width:clamp(106px,9.8vw,152px);height:auto;display:block;overflow:visible}
-.anim .vers-bas{animation:versbas 2.6s ease-in-out infinite}
-@keyframes versbas{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
-.vers-bas:hover{color:var(--ink-2)}
-.vers-bas:focus-visible{outline:2px solid var(--acc);outline-offset:6px;border-radius:8px}
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:720px}
@@ -665,88 +631,18 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 </head>
 <body>
 
-<div class="lph-top">
-<section class="hero">
-  <div class="sky" aria-hidden="true">
-    <div class="sunglow"></div>
-    <div class="cloud" style="left:-8%;top:8%;width:46vw;height:30vw;background:rgba(255,255,255,.92);--dx:70px;--dy:-26px;--dur:52s"></div>
-    <div class="cloud" style="left:52%;top:-6%;width:52vw;height:34vw;background:rgba(227,247,254,.95);--dx:-58px;--dy:30px;--dur:61s"></div>
-    <div class="cloud" style="left:18%;top:52%;width:58vw;height:32vw;background:rgba(171,218,236,.72);--dx:44px;--dy:-40px;--dur:47s"></div>
-    <div class="cloud" style="left:66%;top:48%;width:40vw;height:28vw;background:rgba(255,255,255,.8);--dx:-40px;--dy:-22px;--dur:56s"></div>
-  </div>
-  <div class="rail hgrid">
-    <div class="hcopy">
-      <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur <i></i>ChatGPT</span><h1 class="rv d1">Ce que les IA répondent<br class="bm"> à vos acheteurs, <em>relevé et daté</em>.</h1>
-      <p class="lpsub rv d2">Cinquante questions d'achat de votre secteur, passées sur dix moteurs. Vous repartez avec le relevé, les concurrents cités à votre place, et les sources qui les y mettent.</p><a class="vers-bas" href="#agenda" aria-label="Aller à l'agenda"><svg viewBox="0 0 150 100" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16c30-12 78-9 105 10 20 14 22 36 6 52"/><path d="M103 60l18 20 20-13"/></svg></a>
-    </div>
-    <div class="screen rv d2" id="screen">
-      <div class="scr-bar">
-        <span class="tl"><i></i><i></i><i></i></span>
-        <span class="url" id="scrUrl">recherche B2B</span>
-      </div>
-      <div class="rail-eng" id="railEng"></div>
-      <div class="scr-body">
-        <div class="msg me" id="qMsg">…</div>
-        <div class="msg ai" id="aiMsg" hidden>
-          <div class="ai-head" id="aiHead"></div>
-          <div class="ai-body" id="aiBody"></div>
-          <div class="srcs" id="srcs"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-
-<section id="agenda">
+<section class="duo" id="agenda">
   <div class="rail">
+    <div class="dcol">
+      <span class="badge1 rv" data-eng="ChatGPT">Devenez <b>n°1</b> sur <i></i>ChatGPT</span>
+      <h1 class="rv d1">Prenez 9 minutes avec un <em>expert GEO</em></h1>
+      <p class="lpsub rv d1">Il audite votre site, vous remet un audit GEO gratuit et une feuille de route pour vous référencer n°1 sur les IA.</p>
+    </div>
     <div class="agbox rv d1">
-      <iframe id="agframe" src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true" title="Choisir un créneau avec Maël" loading="lazy"></iframe>
+      <iframe id="agframe" src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
     </div>
   </div>
 </section>
-
-
-<section class="night sec" id="methode">
-  <div class="rail">
-    <div class="mhead">
-      <span class="kick on-night rv" data-ic="radar">La méthode</span>
-      <h2 class="rv d1">Ce qu'on fait pendant <em>les trente minutes</em></h2>
-    </div>
-    <div class="etapes">
-      <article class="etape rv"><span class="num">01</span>
-        <h3>On cadre votre marché</h3>
-        <p>Votre cible, votre panier moyen, votre zone, et les concurrents que vous citez vous-même. On part de vos chiffres, pas d'un modèle sectoriel.</p></article>
-      <article class="etape rv d1"><span class="num">02</span>
-        <h3>On interroge les moteurs</h3>
-        <p>Cinquante questions d'achat réellement posées dans votre secteur, passées sur dix moteurs : ChatGPT, Perplexity, Gemini, Claude, Copilot, Mistral, Grok, DeepSeek, et les AI Overviews de Google.</p></article>
-      <article class="etape rv d2"><span class="num">03</span>
-        <h3>On lit les réponses</h3>
-        <p>Qui est cité, à quelle place, et surtout d'où vient l'information : les sources que les moteurs reprennent, page par page. C'est là que se joue le travail.</p></article>
-      <article class="etape rv d2"><span class="num">04</span>
-        <h3>On chiffre</h3>
-        <p>Le volume de ces questions, votre taux de citation actuel, et ce que vaudrait une place dans ces réponses, appliqué à votre panier moyen.</p></article>
-    </div>
-  </div>
-</section>
-
-
-
-<section class="light sec" id="livrable">
-  <div class="rail">
-    <div class="mhead">
-      <span class="kick rv" data-ic="report">Le livrable</span>
-      <h2 class="rv d1">Ce que vous repartez <em>avec</em></h2>
-    </div>
-    <ul class="livre">
-      <li class="rv"><b>Le relevé daté</b><span>Les réponses des dix moteurs à vos cinquante questions, à la date de l'audit. Un point de départ opposable, pas une impression.</span></li>
-      <li class="rv d1"><b>Les concurrents cités à votre place</b><span>Nommés, avec leur fréquence d'apparition et les questions sur lesquelles ils sortent devant vous.</span></li>
-      <li class="rv d1"><b>Les sources qui les y mettent</b><span>Les pages, annuaires et articles sur lesquels les moteurs s'appuient pour répondre. C'est la liste de travail.</span></li>
-      <li class="rv d2"><b>Le potentiel chiffré et trois priorités</b><span>Ce que vaudrait une place dans ces réponses avec votre panier moyen, et par quoi commencer.</span></li>
-    </ul>
-  </div>
-</section>
-
 
 <section class="night sec" id="cas">
   <div class="rail">
@@ -761,19 +657,6 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <section class="clients">
   <div class="rail"><p class="clabel">Ils nous ont fait confiance</p></div>
   <div class="cmar"><div class="crow" id="crow"></div></div>
-</section>
-
-<section class="cream-s" id="consultant">
-  <div class="rail team">
-    <div class="frame rv"><img src="consultant-seo-nazar.jpg" width="896" height="1120" loading="lazy"
-      alt="Consultant SEO NAZAR au travail sur le positionnement d'un client"
-      title="Consultant SEO NAZAR"></div>
-    <div class="tcopy">
-      <h2 class="rv d1" style="margin-top:18px">Un consultant<br class="bm"> <em>dédié à votre projet</em></h2>
-      <p class="bd rv d1">Vous ne parlez pas à un compte, vous parlez à quelqu'un. La même personne relève vos moteurs chaque semaine, rédige vos contenus, corrige votre socle technique et présente vos résultats. Pas de sous-traitance, pas de passage de dossier, pas de rapport automatique envoyé sans lecture.</p>
-      <p class="coll rv d2"><b>NAZAR est un collectif de consultants GEO et SEO.</b> Notre métier n'a pas changé : vous faire ressortir quand quelqu'un cherche ce que vous vendez. Sur Google, et désormais dans les réponses des IA.</p>
-    </div>
-  </div>
 </section>
 
 <section class="cream-s" id="avis-google">
@@ -844,8 +727,8 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
             <span>LinkedIn</span>
           </a>
       </div>
-      <div><h4>L'agence</h4><a href="#consultant">Vos consultants</a><a href="/#plateforme">Notre outil</a><a href="#faq">Questions fréquentes</a></div>
-      <div><h4>L'audit</h4><a href="/#surfaces">Les moteurs couverts</a><a href="#audit">Comment ça marche</a><a href="#cas">Nos résultats</a><a href="#agenda">Demander l'audit</a></div>
+      <div><h4>L'agence</h4><a href="/#consultant">Vos consultants</a><a href="/#plateforme">Notre outil</a><a href="#faq">Questions fréquentes</a></div>
+      <div><h4>L'audit</h4><a href="/#surfaces">Les moteurs couverts</a><a href="/#audit">Comment ça marche</a><a href="#cas">Nos résultats</a><a href="#agenda">Demander l'audit</a></div>
       <div>
         <h4>Contact</h4>
         <a href="mailto:contact@seo-nazar.fr">contact@seo-nazar.fr</a>
