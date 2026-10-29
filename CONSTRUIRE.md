@@ -54,9 +54,20 @@ Trois garde-fous qui tiennent ensemble, à ne pas défaire séparément :
 
 ## La passerelle publicitaire
 
-`nazar-seo.fr/audit-gratuit` est la page d'atterrissage des campagnes. Elle
-affiche l'offre, puis ouvre l'agenda HubSpot au bout de 2,5 secondes, le
-bouton restant cliquable avant.
+`nazar-seo.fr/audit-gratuit` est la page d'atterrissage des campagnes.
+
+**Deux variantes sont en comparaison**, le temps de trancher :
+
+| Adresse | Ce qu'elle montre | Délai |
+|---|---|---|
+| `/audit-gratuit/a` | le logo et une ligne, rien à lire | 1,2 s |
+| `/audit-gratuit/b` | le logo, « Préparation de votre audit » et trois points qui pulsent | 2 s |
+
+La première version portait un titre, un paragraphe et trois arguments. C'était
+une faute : dans une fenêtre de deux secondes, du texte qu'on n'a pas le temps
+de lire donne l'impression de rater quelque chose. Une passerelle ne doit rien
+demander. Elle reste en place à `/audit-gratuit` jusqu'au choix, après quoi la
+variante retenue prend sa place et les deux autres disparaissent.
 
 **Pourquoi ne pas envoyer la publicité directement sur l'agenda.** Un clic
 depuis une réponse de ChatGPT arrive froid : tomber sans transition sur une

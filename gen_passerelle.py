@@ -1,127 +1,78 @@
 # -*- coding: utf-8 -*-
-"""Page passerelle pour les campagnes publicitaires.
+"""Pages passerelles pour les campagnes publicitaires.
 
-La publicite envoie sur nazar-seo.fr/audit-gratuit plutot que directement sur
-l'agenda HubSpot. Trois raisons :
+La publicite envoie sur nazar-seo.fr plutot que directement sur l'agenda
+HubSpot, pour deux raisons : le prospect voit la marque avant le calendrier,
+et le trafic paye passe par le domaine, donc il se mesure la ou le reste se
+mesure. Les parametres de campagne sont transmis a HubSpot, qui sait alors
+d'ou vient le rendez-vous.
 
-1. le prospect voit la marque avant le calendrier. Un clic depuis une reponse
-   de ChatGPT arrive froid : tomber sans transition sur une grille de creneaux
-   d'un domaine inconnu fait repartir ;
-2. le trafic publicitaire passe par le domaine, donc il est mesurable la ou le
-   reste l'est ;
-3. les parametres de campagne sont transmis a HubSpot, qui sait alors d'ou
-   vient le rendez-vous.
+Une premiere version portait un titre, un paragraphe et trois arguments. A
+l'usage, c'etait une faute : dans une fenetre de deux secondes, du texte qu'on
+n'a pas le temps de lire donne l'impression de rater quelque chose. Une
+passerelle ne doit rien demander. D'ou les deux variantes ci-dessous, a
+comparer en vrai avant de trancher.
 
-La page ne porte aucun script tiers, et notamment pas le module de prise de
-rendez-vous HubSpot : l'embarquer poserait des cookies de suivi sur le domaine
-et imposerait une banniere de consentement a un site qui n'en a pas besoin.
-Le calendrier reste donc chez HubSpot, ou sa propre information s'applique.
+Aucun script tiers : le module de prise de rendez-vous HubSpot n'est pas
+embarque, il poserait des cookies de suivi sur le domaine et imposerait une
+banniere de consentement a un site qui n'en a pas besoin.
 """
 import io, os
 
-# Lien de prise de rendez-vous propre a la publicite. Il est volontairement
-# different de celui du formulaire du site : deux liens, deux sources, et
-# l'agenda dit de lui-meme d'ou vient chaque rendez-vous.
+# Lien propre a la publicite, distinct de celui du formulaire du site
+# (auditgeonazar) : deux liens, deux sources, et l'agenda dit de lui-meme d'ou
+# vient chaque rendez-vous.
 AGENDA = ('https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo'
           '?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb')
 
-# Delai avant l'ouverture automatique du calendrier. Assez long pour lire le
-# titre et reconnaitre la marque, assez court pour ne pas donner l'impression
-# d'une page qui ne sert a rien. Mettre 0 desactive l'ouverture automatique :
-# la page devient alors une vraie page d'atterrissage, ou le prospect clique
-# lui-meme. C'est la version a tester si le taux de prise de rendez-vous decoit.
-DELAI = 2500
-
-FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
-          'stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>')
-
-# Les jetons __AGENDA__, __FLECHE__ et __DELAI__ sont remplaces a l'ecriture.
-# Pas de formatage par % : le CSS en contient (50%, 4.6vw), et chacun serait
-# pris pour un marqueur.
-PAGE = u"""<!doctype html>
+SOCLE = u"""<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Audit GEO gratuit | NAZAR</title>
-<meta name="description" content="Choisissez votre créneau de 9 minutes avec Maël. Nous regardons ce que les IA répondent sur votre marché et ce que ça vous coûte.">
-<!-- page d'atterrissage publicitaire : elle n'a rien a faire dans l'index,
-     et elle ne doit surtout pas etre bloquee dans robots.txt, sans quoi
-     Google ne lirait jamais cette balise. -->
+<!-- passerelle publicitaire : elle n'a rien a faire dans l'index, et elle ne
+     doit surtout pas etre bloquee dans robots.txt, sans quoi Google ne lirait
+     jamais cette balise. -->
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="/logo.png">
-<link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://meetings-eu1.hubspot.com" crossorigin>
-<link rel="stylesheet" href="/nazar.css">
 <style>
-.pass{min-height:calc(100vh - 150px);display:flex;align-items:center;
-  background:var(--night);color:var(--on-night)}
-.pass .narrow{padding:3rem 0;text-align:center}
-.pass .kick{color:var(--acc);font-family:var(--mono);font-size:.82rem;
-  letter-spacing:.12em;text-transform:uppercase}
-.pass h1{color:#fff;font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.1;
-  letter-spacing:-.02em;margin:1.1rem 0 0}
-.pass h1 em{color:var(--acc);font-style:normal}
-.pass p{color:var(--on-night);opacity:.86;max-width:33rem;margin:1.1rem auto 0}
-.pass .pts{list-style:none;padding:0;margin:1.8rem auto 0;max-width:30rem;
-  text-align:left;display:grid;gap:.55rem}
-.pass .pts li{padding-left:1.4rem;position:relative;font-size:.95rem;
-  color:var(--on-night);opacity:.9}
-.pass .pts li:before{content:'';position:absolute;left:0;top:.52em;width:7px;
-  height:7px;border-radius:50%;background:var(--acc)}
-.pass .act{margin-top:2.1rem}
-.pass .att{margin-top:1.1rem;font-size:.82rem;color:var(--dim)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{display:flex;align-items:center;justify-content:center;
+  background:#00212c;
+  background-image:radial-gradient(130% 150% at 88% 12%,#0a4a60 0%,#00303f 42%,#00212c 100%);
+  font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  color:#dff2f9;text-align:center;padding:2rem}
+@font-face{font-family:'Plus Jakarta Sans';src:url(/police-jakarta.woff2) format('woff2');
+  font-weight:200 800;font-style:normal;font-display:swap}
+/* meme traitement que dans la barre du site : le blob du logo est un bleu
+   nuit a peine plus clair que le fond, il disparait pose a meme le fond. Sur
+   sa pastille glace, il se lit instantanement. */
+.marque{width:84px;height:84px;display:block;margin:0 auto;object-fit:contain;
+  background:#e3f7fe;border-radius:22px;padding:8px}
+.ligne{margin-top:1.4rem;font-size:.95rem;letter-spacing:.02em;color:#9ec6d4}
+.secours{margin-top:2.2rem;font-size:.85rem}
+.secours a{color:#7fd8ee}
+__STYLE__
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="rail">
-    <a class="home" href="/"><img src="/logo.png" alt="NAZAR"></a>
-    <span class="sep"></span>
-    <a class="back" href="/">Voir le site</a>
-  </div>
-</header>
-
-<main class="pass">
-  <div class="rail">
-    <div class="narrow">
-      <div class="kick">Audit GEO gratuit</div>
-      <h1>Neuf minutes pour savoir ce que les IA<br>répondent <em>sur votre marché</em></h1>
-      <p>Maël regarde avec vous ce que ChatGPT, Perplexity et Google AI Overviews
-      disent de votre secteur, pourquoi vos concurrents y sont cités, et ce qu'un
-      référencement sur ces moteurs peut vous rapporter.</p>
-      <ul class="pts">
-        <li>Les requêtes de votre marché, testées en direct sur les assistants</li>
-        <li>Les concurrents que les IA citent à votre place, et pourquoi</li>
-        <li>Un chiffrage du potentiel, pas une présentation commerciale</li>
-      </ul>
-      <div class="act">
-        <a class="btn btn-dark" id="rdv" href="__AGENDA__" style="background:var(--acc);color:var(--night)">Choisir mon créneau __FLECHE__</a>
-      </div>
-      <p class="att" id="att"></p>
-    </div>
-  </div>
+<main>
+  <img class="marque" src="/logo.png" alt="NAZAR" width="84" height="84">
+__CORPS__
+  <p class="secours" id="secours" hidden><a id="rdv" href="__AGENDA__">Ouvrir l'agenda</a></p>
 </main>
-
-<footer>
-  <div class="rail">
-    <span>&copy; 2026 NAZAR</span>
-    <span class="sep"></span>
-    <a href="/">Accueil</a>
-    <a href="/mentions-legales.html">Mentions légales</a>
-    <a href="/confidentialite.html">Confidentialité</a>
-  </div>
-</footer>
-
 <script>
 (function(){
   var AGENDA = '__AGENDA__', DELAI = __DELAI__;
-  var lien = document.getElementById('rdv'), att = document.getElementById('att');
+  var lien = document.getElementById('rdv'), secours = document.getElementById('secours');
 
   /* Les parametres de la campagne suivent jusqu'a HubSpot : sans cela, un
-     rendez-vous pris depuis la publicite est indiscernable d'un autre, et le
-     budget se pilote a l'aveugle. L'uuid du lien est deja dans AGENDA, on ne
-     recopie donc pas celui qui arriverait de l'URL. */
+     rendez-vous venu de la publicite est indiscernable d'un autre, et le
+     budget se pilote a l'aveugle. L'uuid est deja dans AGENDA, on ne recopie
+     donc pas celui qui arriverait de l'URL. */
   function destination(){
     var q = location.search.replace(/^\?/, '');
     if(!q) return AGENDA;
@@ -133,32 +84,62 @@ PAGE = u"""<!doctype html>
 
   var cible = destination();
   lien.href = cible;
-
-  /* L'ouverture automatique laisse le temps de lire le titre. Le bouton
-     reste la pour qui clique avant, et pour qui a le JavaScript coupe. */
-  if(DELAI > 0){
-    att.textContent = "Nous ouvrons l'agenda dans un instant.";
-    var parti = false;
-    function partir(){ if(!parti){ parti = true; location.assign(cible); } }
-    var minuteur = setTimeout(partir, DELAI);
-    /* un clic sur le bouton doit partir tout de suite, sans que le minuteur
-       ne relance une seconde navigation derriere */
-    lien.addEventListener('click', function(){ clearTimeout(minuteur); parti = true; });
-  }
+  location.replace(cible) && 0;   /* jamais atteint, voir plus bas */
 })();
 </script>
 </body>
 </html>
 """
 
+# Variante A : l'ecran de marque. Le logo, une ligne, rien a lire. C'est le
+# temps d'un battement de cils, juste assez pour que le prospect sache chez
+# qui il a atterri.
+A_STYLE = u""".ligne{font-size:1.05rem;color:#dff2f9}"""
+A_CORPS = u"""  <p class="ligne">Audit GEO gratuit</p>"""
+
+# Variante B : le chargement. Trois points qui pulsent annoncent qu'il se
+# passe quelque chose, donc l'attente est comprise au lieu d'etre subie. Un
+# peu plus longue que la A, le temps que l'animation ait un sens.
+B_STYLE = u""".pts{margin-top:1.5rem;display:flex;gap:.45rem;justify-content:center}
+.pts span{width:8px;height:8px;border-radius:50%;background:#7fd8ee;
+  animation:pulse 1.1s ease-in-out infinite}
+.pts span:nth-child(2){animation-delay:.16s}
+.pts span:nth-child(3){animation-delay:.32s}
+@keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(.8)}
+  40%{opacity:1;transform:scale(1)}}
+/* qui a demande moins d'animations n'en recoit pas : les points restent
+   visibles, fixes, et la redirection part de la meme facon */
+@media (prefers-reduced-motion:reduce){.pts span{animation:none;opacity:.8}}"""
+B_CORPS = u"""  <p class="ligne">Préparation de votre audit</p>
+  <div class="pts" aria-hidden="true"><span></span><span></span><span></span></div>"""
+
+# La redirection n'utilise pas location.assign mais location.replace : la
+# passerelle ne doit pas s'inscrire dans l'historique, sinon le bouton Retour
+# depuis l'agenda y ramene et relance la redirection en boucle.
+SCRIPT = u"""
+  /* Le lien de secours n'apparait que si la redirection n'a pas eu lieu au
+     bout de quatre secondes : invisible dans le parcours normal, present
+     quand le JavaScript est coupe ou que la navigation echoue. */
+  setTimeout(function(){ secours.hidden = false; }, 4000);
+  setTimeout(function(){ location.replace(cible); }, DELAI);
+"""
+
+VARIANTES = [
+    ('a', A_STYLE, A_CORPS, 1200),
+    ('b', B_STYLE, B_CORPS, 2000),
+]
+
 if __name__ == '__main__':
     ici = os.path.dirname(os.path.abspath(__file__))
-    dossier = os.path.join(ici, 'nazar-site', 'audit-gratuit')
-    if not os.path.isdir(dossier):
-        os.makedirs(dossier)
-    chemin = os.path.join(dossier, 'index.html')
-    page = (PAGE.replace('__AGENDA__', AGENDA)
-                .replace('__FLECHE__', FLECHE)
-                .replace('__DELAI__', str(DELAI)))
-    io.open(chemin, 'w', encoding='utf-8').write(page)
-    print('ecrit audit-gratuit/index.html (delai %d ms)' % DELAI)
+    for nom, style, corps, delai in VARIANTES:
+        page = (SOCLE.replace('__STYLE__', style)
+                     .replace('__CORPS__', corps)
+                     .replace('__AGENDA__', AGENDA)
+                     .replace('__DELAI__', str(delai))
+                     .replace('  location.replace(cible) && 0;   /* jamais atteint, voir plus bas */',
+                              SCRIPT.rstrip()))
+        dossier = os.path.join(ici, 'nazar-site', 'audit-gratuit', nom)
+        if not os.path.isdir(dossier):
+            os.makedirs(dossier)
+        io.open(os.path.join(dossier, 'index.html'), 'w', encoding='utf-8').write(page)
+        print('ecrit audit-gratuit/%s/ (%d ms)' % (nom, delai))
