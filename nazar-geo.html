@@ -815,8 +815,9 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
           <div class="inp"><label for="fmail">Email professionnel <span class="req">*</span></label>
             <input id="fmail" type="email" placeholder="camille@entreprise.fr" autocomplete="email">
             <span class="err">Indiquez un email valide.</span></div>
-          <div class="inp"><label for="ftel">Téléphone</label>
-            <input id="ftel" type="tel" placeholder="06 12 34 56 78" autocomplete="tel"></div>
+          <div class="inp"><label for="ftel">Téléphone <span class="req">*</span></label>
+            <input id="ftel" type="tel" placeholder="06 12 34 56 78" autocomplete="tel">
+            <span class="err">Indiquez un numéro joignable.</span></div>
         </div>
         <div class="f2">
           <div class="inp"><label for="fsite">Site web</label>
@@ -842,12 +843,13 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   </div>
   <div class="inp"><label for="fmsg">Ce que vous attendez de l'audit</label>
           <textarea id="fmsg" placeholder="Générer des demandes entrantes qualifiées, comprendre pourquoi l'IA cite mes concurrents…"></textarea></div>
-        <button class="btn btn-dark" type="submit" style="align-self:flex-start">Envoyer ma demande
+        <button class="btn btn-dark" type="submit" style="align-self:flex-start">Recevoir mon audit
           <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></button>
       </form>
       <div class="sent" id="sent" hidden>
         <h3 id="sentTi" style="font-size:1.15rem">Demande envoyée.</h3>
-        <p class="smallnote" id="sentTx" style="margin-top:10px">Maël vous répond par mail sous 24 h ouvrées pour caler le créneau.</p>
+        <p class="smallnote" id="sentTx" style="margin-top:10px">Nous ouvrons l'agenda de Maël pour que vous choisissiez votre créneau.</p>
+        <p class="smallnote" id="sentLien" style="margin-top:10px" hidden>Si rien ne s'ouvre, <a id="sentRdv" href="#">choisissez votre créneau ici</a>.</p>
         <div class="recap" id="recap" hidden></div>
         <div class="mailrow">
           <code id="dest" hidden></code>
@@ -1697,6 +1699,22 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
        propre filtre : deux barrages valent mieux qu'un, et celui-ci ne depend
        pas de nous. Dans les deux cas le robot voit un message de reussite et
        ne reessaie pas : lui repondre une erreur l'inciterait a recommencer. */
+    /* Une fois la demande partie, le visiteur passe directement a l'agenda :
+       c'est la que le rendez-vous se prend, et chaque ecran intermediaire en
+       perd en route. Les champs deja saisis sont repasses a HubSpot en
+       parametres, pour qu'il n'ait pas a les retaper. Le formulaire ne demande
+       qu'un seul champ de nom : le premier mot part en prenom, le reste en
+       nom, ce qui couvre la quasi-totalite des saisies. */
+    var AGENDA = 'https://meetings-eu1.hubspot.com/mael-gallais/auditgeonazar?uuid=35289a56-0d65-4dc5-8725-29da4834660a';
+    function lienAgenda(){
+      var mots = val('fnom').split(/\s+/);
+      var q = {firstName: mots.shift() || '', lastName: mots.join(' '),
+               email: val('fmail'), company: val('fsoc'), phone: val('ftel')};
+      var sup = [];
+      for(var k in q){ if(q[k]) sup.push(k + '=' + encodeURIComponent(q[k])); }
+      return AGENDA + (sup.length ? '&' + sup.join('&') : '');
+    }
+
     var OUVERTURE = Date.now();
     var DELAI_MINI = 3000;
     function robot(){
@@ -1723,8 +1741,12 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     }
     function reussi(){
       sentTi.textContent = 'Demande envoyée.';
-      sentTx.textContent = 'Maël vous répond par mail sous 24 h ouvrées pour caler le créneau. Si vous préférez choisir vous-même, le lien de prise de rendez-vous reste en haut de page.';
+      sentTx.textContent = "Nous ouvrons l'agenda de Maël pour que vous choisissiez votre créneau.";
       recap.hidden = true; dest.hidden = true; copyBtn.hidden = true;
+      /* filet : si la redirection ne part pas, le lien reste cliquable sous
+         les yeux du visiteur plutot que de le laisser devant une impasse. */
+      var a = document.getElementById('sentRdv'), l = document.getElementById('sentLien');
+      if(a && l){ a.href = lienAgenda(); l.hidden = false; }
     }
     function echoue(){
       sentTi.textContent = 'Votre demande est prête.';
@@ -1741,6 +1763,12 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       });
       var badMail = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val('fmail'));
       mark('fmail', badMail); if(badMail) ok = false;
+      /* le rendez-vous se cale au telephone : le numero est donc requis au
+         meme titre que le reste. Neuf chiffres au minimum, ce qui accepte un
+         numero francais a dix chiffres comme un numero international ecrit
+         avec son indicatif, sans imposer de format a la saisie. */
+      var badTel = val('ftel').replace(/\D/g, '').length < 9;
+      mark('ftel', badTel); if(badTel) ok = false;
       if(!ok){
         var first = form.querySelector('.inp.bad input');
         if(first) first.focus();
@@ -1774,7 +1802,12 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify(charge)
-      }).then(function(r){ fini(r.ok); }, function(){ fini(false); });
+      }).then(function(r){
+        fini(r.ok);
+        /* elle ne part que si l'envoi a reussi : sinon le recapitulatif a
+           recopier doit rester a l'ecran, sans quoi la demande est perdue. */
+        if(r.ok) location.assign(lienAgenda());
+      }, function(){ fini(false); });
     });
 
     document.getElementById('againBtn').addEventListener('click', function(){

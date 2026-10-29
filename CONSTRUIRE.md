@@ -34,3 +34,18 @@ l'ancienne version.
 
 Le formulaire passe par FormSubmit, avec la clé qui désigne la boîte de Maël.
 L'adresse elle-même ne figure pas dans le code.
+
+**Le parcours du formulaire se termine sur l'agenda HubSpot.** Une fois la
+demande partie, le visiteur est redirigé vers le lien de prise de rendez-vous,
+avec ses nom, prénom, e-mail, société et téléphone repassés en paramètres pour
+qu'il n'ait pas à les retaper. Le lien est la constante `AGENDA` dans
+`nazar-geo.html` : c'est là qu'il faut le changer si Maël en régénère un.
+
+Trois garde-fous qui tiennent ensemble, à ne pas défaire séparément :
+
+- la redirection ne part **que** si l'envoi a abouti. Sinon le récapitulatif à
+  recopier reste à l'écran, sans quoi une demande déjà saisie serait perdue ;
+- un robot reconnu voit la même confirmation qu'un visiteur mais n'est pas
+  redirigé : son trafic n'a rien à faire sur la page de rendez-vous ;
+- le panneau de confirmation porte le lien en clair, cliquable, au cas où la
+  redirection ne partirait pas.
