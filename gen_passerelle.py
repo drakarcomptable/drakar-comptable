@@ -28,6 +28,7 @@ import io, os, re
 RACINE = os.path.dirname(os.path.abspath(__file__))
 SOURCE = os.path.join(RACINE, 'nazar-geo.html')
 SORTIE = os.path.join(RACINE, 'nazar-site', 'audit-gratuit.html')
+SORTIE_JS = os.path.join(RACINE, 'nazar-site', 'audit-gratuit.js')
 
 # lien de rendez-vous propre aux campagnes, distinct de celui du formulaire :
 # les reservations venues de la publicite restent ainsi identifiables.
@@ -346,15 +347,24 @@ PAGE = u"""<!doctype html>
 <link rel="icon" type="image/png" href="logo.png" sizes="192x192">
 <link rel="preload" href="police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://meetings-eu1.hubspot.com" crossorigin>
+<!-- Les logos du bandeau sont poses par le script, donc demandes tard. Sur
+     un ecran large ils sont dans le premier ecran : on les demande des la
+     tete, en meme temps que le reste. Sur telephone les colonnes s'empilent,
+     le bandeau passe sous la ligne de flottaison et ces images prendraient de
+     la bande passante au texte : le media les reserve au grand ecran. -->
+<link rel="preload" href="ref-01.webp" as="image" media="(min-width:721px)">
+<link rel="preload" href="ref-08.webp" as="image" media="(min-width:721px)">
+<link rel="preload" href="ref-13.webp" as="image" media="(min-width:721px)">
+<link rel="preload" href="ref-02.webp" as="image" media="(min-width:721px)">
+<link rel="preload" href="ref-11.webp" as="image" media="(min-width:721px)">
+<link rel="preload" href="ref-03.webp" as="image" media="(min-width:721px)">
 __STYLE__
 <style>__STYLE_PAGE__</style>
 <script src="/mesure.js" defer></script>
 </head>
 <body>
 __CORPS__
-__MOTEURS__
-__SCRIPT__
-__SCRIPT_PAGE__
+<script src="/audit-gratuit.js" defer></script>
 </body>
 </html>
 """
@@ -368,10 +378,23 @@ corps = (CORPS.replace('__AGENDA__', AGENDA)
 
 page = (PAGE.replace('__STYLE_PAGE__', STYLE_PAGE)
             .replace('__STYLE__', STYLE)
-            .replace('__CORPS__', corps)
-            .replace('__MOTEURS__', MOTEURS)
-            .replace('__SCRIPT_PAGE__', SCRIPT_PAGE)
-            .replace('__SCRIPT__', SCRIPT))
+            .replace('__CORPS__', corps))
+
+
+def sans_balises(bloc):
+    """Retire les balises <script> autour d'un bloc, pour le mettre en fichier."""
+    return bloc[bloc.index('>') + 1:bloc.rindex('</script>')]
+
+
+# Les trois blocs de script partent dans un fichier a part, dans l'ordre :
+# les donnees des moteurs, le script du site, puis celui propre a la page.
+# Charge en defer, il n'empeche plus le premier affichage.
+js = ('/* Genere par gen_passerelle.py, ne pas modifier a la main. */\n'
+      + sans_balises(MOTEURS) + '\n'
+      + sans_balises(SCRIPT) + '\n'
+      + sans_balises(SCRIPT_PAGE))
 
 io.open(SORTIE, 'w', encoding='utf-8').write(page)
+io.open(SORTIE_JS, 'w', encoding='utf-8').write(js)
 print('ecrit audit-gratuit.html, %d octets' % len(page))
+print('ecrit audit-gratuit.js, %d octets' % len(js))
