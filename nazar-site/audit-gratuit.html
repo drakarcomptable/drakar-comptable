@@ -897,10 +897,14 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   .hautg{order:1}
   /* Deux lignes voulues, centrees, et aucun mot coupe : les deux moities du
      titre prennent chacune leur ligne au lieu de laisser le navigateur casser
-     « rendez-vous » au trait d'union. Le corps est taille pour que la plus
-     longue des deux tienne d'un seul tenant jusqu'a 320 pixels de large. */
+     « rendez-vous » au trait d'union.
+     Le corps n'a surtout pas de plancher : un clamp() avec un minimum en rem
+     cesse de retrecir sous une certaine largeur, et c'est ce qui cassait les
+     deux moities en quatre lignes sur un ecran etroit ou sur une page
+     agrandie par le navigateur. Avec min(), il retrecit toujours, et la plus
+     longue des deux moities garde partout un cinquieme de marge. */
   .duo h1{order:2;max-width:none;text-align:center;
-    font-size:clamp(1.75rem,8vw,2.6rem)}
+    font-size:min(7.6vw,2.5rem)}
   .duo h1 .tl{display:block}
   .agbox{order:3}
   .lpsub{order:4;max-width:none}
