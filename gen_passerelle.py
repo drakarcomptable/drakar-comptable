@@ -121,7 +121,7 @@ STYLE_PAGE = u"""
 .duo .rail{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);
   gap:clamp(24px,3.2vw,48px);align-items:start}
 .duo .dcol{display:flex;flex-direction:column;align-items:flex-start;
-  gap:clamp(15px,1.9vw,23px)}
+  gap:clamp(12px,1.2vw,14px)}
 .duo h1{margin:0;font-weight:800;letter-spacing:-.038em;line-height:1.04;
   font-size:clamp(2rem,3.9vw,3.1rem);max-width:15ch}
 .lpsub{margin:0;max-width:46ch;color:var(--ink-2);line-height:1.56;
@@ -143,13 +143,13 @@ STYLE_PAGE = u"""
    presque au contact de la section bleue, et son intitule se resserre */
 /* Le blanc se prolonge sous les logos : a l'ouverture, on ne doit pas voir
    depasser un liseré de la section sombre en bas de l'ecran. */
-.clients{padding-block:clamp(30px,3.9vw,60px) clamp(34px,4.5vw,68px)}
+.clients{padding-block:clamp(24px,2.6vw,38px) clamp(34px,4.5vw,68px)}
 
 /* Et la section sombre commence tout de suite par son titre : son retrait
    d'origine est fait pour une lecture au fil de la page, pas pour un ecran
    ou l'on arrive dessus au premier defilement. */
 #cas{padding-top:clamp(26px,3vw,44px)}
-.clients .clabel{margin-bottom:clamp(20px,2.3vw,34px)}
+.clients .clabel{margin-bottom:clamp(14px,1.4vw,20px)}
 
 /* Le logo prend place sur la meme ligne que le badge, a sa gauche : c'est le
    coin superieur gauche de la page, et cela ne coute pas un pixel de hauteur,
@@ -176,7 +176,11 @@ STYLE_PAGE = u"""
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:584px}
-@media(max-width:720px){#agframe{height:940px}}
+/* Sur telephone la hauteur est tenue courte : HubSpot n'occupe pas les
+   940 pixels qu'on lui donnait et le reste s'affichait en blanc. S'il lui
+   en faut davantage, il le dit par message et le cadre suit, sans jamais
+   depasser ce plafond. */
+@media(max-width:720px){#agframe{height:740px}}
 
 /* Sur un ecran court, le calendrier se tasse pour que le bandeau de logos
    reste dans le premier ecran. C'est lui qui rassure au premier coup d'oeil ;
@@ -187,10 +191,16 @@ STYLE_PAGE = u"""
    qu'un petit portable. */
 @media(min-width:901px) and (max-height:860px){
   #agframe{height:min(584px,calc(100vh - 235px))}
-  .duo{padding-block:14px 16px}
-  .duo .dcol{gap:17px}
-  .clients{padding-block:34px 72px}
-  .clients .clabel{margin-bottom:20px}
+  .duo{padding-block:12px 14px}
+  .duo .dcol{gap:12px}
+  .duo h1{font-size:clamp(1.9rem,3.3vw,2.4rem)}
+  .lplist{gap:7px}
+  .lplist li{line-height:1.46}
+  .tel{padding:11px 14px;gap:13px}
+  .tel img{width:50px;height:50px}
+  .telbt{padding:.54rem .9rem}
+  .clients{padding-block:16px 72px}
+  .clients .clabel{margin-bottom:14px}
 }
 /* Plus court encore : on resserre aussi le titre, le logo et les
    interlignes de la liste. Rien ne disparait, tout se tasse. */
@@ -208,7 +218,14 @@ STYLE_PAGE = u"""
 }
 @media(min-width:901px) and (max-height:660px){
   .duo h1{font-size:clamp(1.6rem,2.8vw,2.05rem)}
-  .clients{padding-block:18px 70px}
+  .duo .dcol{gap:9px}
+  .lplist{gap:6px}
+  /* a cette hauteur la phrase sous le titre de la carte saute : le numero et
+     la question suffisent, et c'est le bandeau de logos qui compte le plus */
+  .tel .dit span{display:none}
+  .tel img{width:44px;height:44px}
+  .clients{padding-block:8px 70px}
+  .clients .clabel{margin-bottom:10px}
 }
 /* Et a l'inverse, sur un ecran tres haut la page est plus courte que la
    fenetre : le blanc se prolonge jusqu'au bas de l'ecran pour qu'aucun
@@ -250,8 +267,9 @@ STYLE_PAGE = u"""
 }
 /* Sur un ecran court la carte se resserre comme le reste du bloc. */
 @media(min-width:901px) and (max-height:760px){
-  .tel{padding:10px 14px}
-  .tel img{width:52px;height:52px}
+  .tel{padding:9px 12px;gap:11px}
+  .tel img{width:46px;height:46px}
+  .telbt{padding:.5rem .85rem;font-size:.95rem}
 }
 
 /* ---------- la discussion ----------
@@ -339,18 +357,46 @@ STYLE_PAGE = u"""
    reste pour ceux qui ne la connaissent pas. */
 @media(max-width:620px){
   .caus{right:9px;left:9px;bottom:9px;width:auto;max-width:none;
-    max-height:min(62vh,440px);max-height:min(62dvh,440px);border-radius:20px}
+    max-height:min(54vh,380px);max-height:min(54dvh,380px);border-radius:20px}
   .bulle{right:12px;bottom:12px}
-  .caushaut{padding:12px 14px}
-  .causfil{padding:14px}
-  .causbas{flex-direction:column;padding:11px 12px}
-  .causbas textarea{flex:1 1 auto;width:100%;font-size:16px}
-  .causbas button{width:100%;padding:.7rem}
-  .causpied{padding:0 12px 11px}
+  .caushaut{padding:10px 12px}
+  .caushaut img{width:36px;height:36px}
+  .causfil{padding:12px}
+  .causbas{flex-direction:column;padding:9px 11px;gap:7px}
+  .causbas textarea{flex:1 1 auto;width:100%;font-size:16px;padding:.54rem .7rem}
+  .causbas button{width:100%;padding:.62rem}
+  .causpied{padding:0 11px 9px;font-size:.72rem}
 }
 @media(prefers-reduced-motion:reduce){
   .bulle{transition:none}
   .caus.entre{animation:none}
+}
+
+/* ---------- l'ordre propre au telephone ----------
+   Sur un ecran etroit on ne lit pas deux colonnes, on descend. L'ordre change
+   donc : la preuve d'abord, les logos clients tout en haut, puis le titre en
+   pleine largeur, puis le calendrier, puis le detail de l'audit et la ligne
+   directe. Le visiteur voit a qui il a affaire, ce qu'on lui propose, et il
+   peut reserver sans avoir rien lu ; le detail vient apres, pour celui qui
+   veut comprendre avant de cliquer.
+   Techniquement : le corps devient une colonne, ce qui permet de faire
+   remonter la section des logos ; et dans l'en-tete, .dcol s'efface au profit
+   de ses enfants, qui deviennent donc reordonnables un a un avec le
+   calendrier. */
+@media(max-width:900px){
+  body{display:flex;flex-direction:column}
+  .clients{order:-1;padding-block:16px 20px}
+  .clients .clabel{margin-bottom:14px}
+
+  .duo{padding-block:6px 20px}
+  .duo .rail{row-gap:16px}
+  .duo .dcol{display:contents}
+  .hautg{order:1}
+  .duo h1{order:2;max-width:none;font-size:clamp(1.85rem,8.2vw,2.5rem)}
+  .agbox{order:3}
+  .lpsub{order:4;max-width:none}
+  .lplist{order:5;max-width:none}
+  .tel{order:6}
 }
 """
 
@@ -579,14 +625,44 @@ SCRIPT_PAGE = u"""
       })();
     }
 
+    function declencher(){
+      if(dejaVu() || !pan.hidden) return;
+      marquer();
+      ouvrir(true);
+    }
+
     if(!dejaVu()){
-      var etroit = window.matchMedia('(max-width:620px)').matches;
+      var etroit = window.matchMedia('(max-width:720px)').matches;
       quandLibre(function(){
-        setTimeout(function(){
-          if(dejaVu() || !pan.hidden) return;
-          marquer();
-          ouvrir(true);
-        }, etroit ? 3400 : 2600);
+        if(!etroit){
+          setTimeout(declencher, 2600);
+          return;
+        }
+        /* Sur telephone la fenetre attendrait sinon devant le calendrier, qui
+           est justement ce qu'on veut laisser voir. Elle s'ouvre donc une fois
+           le calendrier passe, c'est-a-dire quand le visiteur a choisi de
+           continuer sans reserver ; et a defaut, au bout de dix secondes de
+           lecture. Le premier des deux l'emporte. */
+        var fait = false;
+        function uneFois(){
+          if(fait) return;
+          fait = true;
+          declencher();
+        }
+        var cal = document.querySelector('.agbox');
+        if(cal && typeof IntersectionObserver === 'function'){
+          var guet = new IntersectionObserver(function(vues){
+            for(var i = 0; i < vues.length; i++){
+              var v = vues[i];
+              if(!v.isIntersecting && v.boundingClientRect.bottom < 0){
+                guet.disconnect();
+                uneFois();
+              }
+            }
+          }, {threshold: 0});
+          guet.observe(cal);
+        }
+        setTimeout(uneFois, 10000);
       });
     }
     document.addEventListener('keydown', function(e){

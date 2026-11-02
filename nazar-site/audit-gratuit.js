@@ -975,14 +975,44 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       })();
     }
 
+    function declencher(){
+      if(dejaVu() || !pan.hidden) return;
+      marquer();
+      ouvrir(true);
+    }
+
     if(!dejaVu()){
-      var etroit = window.matchMedia('(max-width:620px)').matches;
+      var etroit = window.matchMedia('(max-width:720px)').matches;
       quandLibre(function(){
-        setTimeout(function(){
-          if(dejaVu() || !pan.hidden) return;
-          marquer();
-          ouvrir(true);
-        }, etroit ? 3400 : 2600);
+        if(!etroit){
+          setTimeout(declencher, 2600);
+          return;
+        }
+        /* Sur telephone la fenetre attendrait sinon devant le calendrier, qui
+           est justement ce qu'on veut laisser voir. Elle s'ouvre donc une fois
+           le calendrier passe, c'est-a-dire quand le visiteur a choisi de
+           continuer sans reserver ; et a defaut, au bout de dix secondes de
+           lecture. Le premier des deux l'emporte. */
+        var fait = false;
+        function uneFois(){
+          if(fait) return;
+          fait = true;
+          declencher();
+        }
+        var cal = document.querySelector('.agbox');
+        if(cal && typeof IntersectionObserver === 'function'){
+          var guet = new IntersectionObserver(function(vues){
+            for(var i = 0; i < vues.length; i++){
+              var v = vues[i];
+              if(!v.isIntersecting && v.boundingClientRect.bottom < 0){
+                guet.disconnect();
+                uneFois();
+              }
+            }
+          }, {threshold: 0});
+          guet.observe(cal);
+        }
+        setTimeout(uneFois, 10000);
       });
     }
     document.addEventListener('keydown', function(e){
