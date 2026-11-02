@@ -216,7 +216,51 @@ STYLE_PAGE = u"""
 @media(min-width:901px) and (min-height:861px){
   .clients{padding-bottom:min(max(68px,calc(100vh - 745px)),360px)}
 }
+
+/* ---------- la ligne directe ----------
+   Sous la liste de ce que contient l'audit, une carte qui donne le numero.
+   Elle reprend la grammaire des autres cartes de la page, blanche et arrondie,
+   pour se voir sans entrer en concurrence avec l'agenda. Le numero est ecrit
+   en clair : beaucoup le composeront sur un autre appareil plutot que de
+   cliquer, et sur ordinateur un lien telephonique ne fait souvent rien. */
+.tel{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px);
+  background:var(--white);border-radius:18px;
+  padding:clamp(12px,1.3vw,17px) clamp(14px,1.5vw,20px);
+  box-shadow:0 18px 44px -28px rgba(0,67,88,.5), inset 0 0 0 1px rgba(0,67,88,.08);
+  width:100%;box-sizing:border-box}
+.tel img{flex:none;width:60px;height:60px;border-radius:50%;object-fit:cover;display:block;
+  box-shadow:0 0 0 3px var(--ice)}
+.tel .dit{flex:1 1 auto;min-width:0}
+.tel .dit b{display:block;color:var(--ink);font-weight:700;
+  font-size:clamp(.95rem,1.1vw,1.02rem);letter-spacing:-.012em}
+.tel .dit span{display:block;color:var(--ink-2);font-size:clamp(.86rem,1vw,.93rem);margin-top:2px}
+.telbt{flex:none;display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+  background:var(--night);color:#fff;border-radius:999px;
+  padding:.6rem 1rem;font-weight:800;letter-spacing:-.01em;
+  font-size:clamp(.95rem,1.15vw,1.06rem);white-space:nowrap;
+  box-shadow:0 16px 30px -18px rgba(0,33,44,.95);
+  transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease}
+.telbt svg{width:17px;height:17px;color:var(--acc)}
+.telbt:hover{transform:translateY(-2px);box-shadow:0 20px 36px -16px rgba(0,33,44,.95)}
+.telbt:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+@media(max-width:620px){
+  .tel{flex-wrap:wrap}
+  .tel .dit{flex:1 1 140px}
+  .telbt{width:100%;justify-content:center;margin-top:4px}
+}
+/* Sur un ecran court la carte se resserre comme le reste du bloc. */
+@media(min-width:901px) and (max-height:760px){
+  .tel{padding:10px 14px}
+  .tel img{width:52px;height:52px}
+}
 """
+
+TELICO = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+          '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6'
+          'A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81'
+          'a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45'
+          'c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>')
 
 FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
           'stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>')
@@ -237,6 +281,12 @@ CORPS = u"""
         <li><span><b>Comment vos concurrents s'y positionnent</b>, sur quelles sources ils s'appuient, et par où les dépasser sur votre marché.</span></li>
         <li><span><b>Les actions à mener, dans l'ordre</b>, avec ce que chacune peut rapporter.</span></li>
       </ul>
+      <div class="tel rv d1">
+        <img src="hote-charles.webp" width="60" height="60" alt="" decoding="async">
+        <span class="dit"><b>Une question avant de réserver ?</b>
+          <span>On vous répond tout de suite.</span></span>
+        <a class="telbt" href="tel:+590590212021">__TELICO__ 0590 21 20 21</a>
+      </div>
     </div>
     <div class="agbox rv d1">
       <iframe id="agframe" src="__AGENDA__&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
@@ -369,7 +419,8 @@ __CORPS__
 </html>
 """
 
-corps = (CORPS.replace('__AGENDA__', AGENDA)
+corps = (CORPS.replace('__TELICO__', TELICO)
+              .replace('__AGENDA__', AGENDA)
               .replace('__CAS__', CAS)
               .replace('__CLIENTS__', CLIENTS)
               .replace('__AVIS__', AVIS)
