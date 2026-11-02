@@ -301,7 +301,8 @@ STYLE_PAGE = u"""
   width:26px;height:26px;border-radius:50%;background:#49d39a;color:#fff;font-weight:800;
   font-size:.86rem;margin-top:-1px}
 .causbas[hidden]{display:none}
-.causbas{flex:none;display:flex;gap:8px;padding:12px 14px;background:var(--white);
+.causbas{flex:none;display:flex;flex-direction:row;align-items:flex-end;gap:8px;
+  padding:12px 14px;background:var(--white);
   border-top:1px solid rgba(0,67,88,.1)}
 .causlab{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
   clip-path:inset(50%);white-space:nowrap}
@@ -315,12 +316,38 @@ STYLE_PAGE = u"""
 .causbas button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .causpied{flex:none;margin:0;padding:0 14px 12px;font-size:.76rem;color:var(--ink-2);
   background:var(--white)}
-@media(max-width:560px){
-  .caus{right:10px;left:10px;bottom:10px;width:auto;max-width:none;
-    max-height:calc(100vh - 20px)}
-  .bulle{right:12px;bottom:12px}
+/* Le panneau s'ouvre de lui-meme au bout de quelques secondes. L'arrivee est
+   donc une animation : il monte et se deplie depuis le coin, assez pour
+   accrocher l'oeil, assez court pour ne pas se faire remarquer comme un
+   effet. */
+@keyframes causentre{
+  from{opacity:0;transform:translateY(18px) scale(.96)}
+  to{opacity:1;transform:none}
 }
-@media(prefers-reduced-motion:reduce){.bulle{transition:none}}
+.caus{transform-origin:100% 100%}
+.caus.entre{animation:causentre .44s cubic-bezier(.22,1,.36,1) both}
+
+/* Sur telephone le panneau est pose en bas et ne prend qu'une partie de la
+   hauteur : le titre et le calendrier restent visibles derriere, sinon
+   l'ouverture automatique masquerait la page entiere. La zone de saisie
+   passe sur deux lignes, le bouton en pleine largeur, plus facile au pouce.
+   100dvh suit la barre d'adresse des navigateurs mobiles ; la regle en vh
+   reste pour ceux qui ne la connaissent pas. */
+@media(max-width:620px){
+  .caus{right:9px;left:9px;bottom:9px;width:auto;max-width:none;
+    max-height:min(62vh,440px);max-height:min(62dvh,440px);border-radius:20px}
+  .bulle{right:12px;bottom:12px}
+  .caushaut{padding:12px 14px}
+  .causfil{padding:14px}
+  .causbas{flex-direction:column;padding:11px 12px}
+  .causbas textarea{flex:1 1 auto;width:100%;font-size:16px}
+  .causbas button{width:100%;padding:.7rem}
+  .causpied{padding:0 12px 11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .bulle{transition:none}
+  .caus.entre{animation:none}
+}
 """
 
 TELICO = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
@@ -383,7 +410,7 @@ __PIED__
 <section class="caus" id="caus" hidden aria-labelledby="caustitre">
   <div class="caushaut">
     <img src="hote-mael.webp" width="40" height="40" alt="" decoding="async">
-    <span class="causqui"><b id="caustitre">Maël, consultant GEO</b>
+    <span class="causqui"><b id="caustitre">Maël, Consultant GEO</b>
       <em>Je vous réponds par e-mail</em></span>
     <button class="causx" id="causx" type="button" aria-label="Fermer la discussion">&times;</button>
   </div>
@@ -499,18 +526,65 @@ SCRIPT_PAGE = u"""
     var etape = 'question';
     var question = '';
 
-    function ouvrir(){
+    var CLE = 'nz-caus-vu';
+    function dejaVu(){
+      try{ return sessionStorage.getItem(CLE) === '1'; }catch(e){ return false; }
+    }
+    function marquer(){
+      try{ sessionStorage.setItem(CLE, '1'); }catch(e){}
+    }
+
+    function ouvrir(auto){
+      if(!pan.hidden) return;
       pan.hidden = false; bulle.hidden = true;
       bulle.setAttribute('aria-expanded', 'true');
-      setTimeout(function(){ try{ champ.focus(); }catch(e){} }, 60);
+      pan.classList.remove('entre');
+      void pan.offsetWidth;
+      pan.classList.add('entre');
+      /* une ouverture automatique n'attrape pas le curseur : sur telephone
+         cela ferait surgir le clavier sans que personne l'ait demande. */
+      if(!auto) setTimeout(function(){ try{ champ.focus(); }catch(e){} }, 60);
     }
     function fermer(){
       pan.hidden = true; bulle.hidden = false;
       bulle.setAttribute('aria-expanded', 'false');
+      marquer();
       try{ bulle.focus(); }catch(e){}
     }
-    bulle.addEventListener('click', ouvrir);
+    bulle.addEventListener('click', function(){ marquer(); ouvrir(false); });
     croix.addEventListener('click', fermer);
+
+    /* ---- l'ouverture automatique ----
+       Elle n'a lieu qu'une fois par session : un visiteur qui a ferme la
+       fenetre, ou qui l'a deja vue s'ouvrir, n'y a plus droit.
+       Elle attend aussi que le bandeau de consentement ait ete traite, sinon
+       les deux se disputent le bas de l'ecran. Si le visiteur ne repond pas au
+       bandeau, la fenetre ne s'ouvre pas d'elle-meme ; la pastille reste. */
+    function quandLibre(suite){
+      var debut = Date.now();
+      (function regarde(){
+        if(document.hidden){
+          document.addEventListener('visibilitychange', function u(){
+            document.removeEventListener('visibilitychange', u); regarde();
+          });
+          return;
+        }
+        if(!document.getElementById('consentement')){ suite(); return; }
+        if(Date.now() - debut > 20000) return;
+        setTimeout(regarde, 400);
+      })();
+    }
+
+    if(!dejaVu()){
+      var etroit = window.matchMedia('(max-width:620px)').matches;
+      quandLibre(function(){
+        setTimeout(function(){
+          if(dejaVu() || !pan.hidden) return;
+          marquer();
+          ouvrir(true);
+        }, etroit ? 3400 : 2600);
+      });
+    }
     document.addEventListener('keydown', function(e){
       if((e.key === 'Escape' || e.keyCode === 27) && !pan.hidden) fermer();
     });

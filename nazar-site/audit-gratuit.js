@@ -926,18 +926,65 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     var etape = 'question';
     var question = '';
 
-    function ouvrir(){
+    var CLE = 'nz-caus-vu';
+    function dejaVu(){
+      try{ return sessionStorage.getItem(CLE) === '1'; }catch(e){ return false; }
+    }
+    function marquer(){
+      try{ sessionStorage.setItem(CLE, '1'); }catch(e){}
+    }
+
+    function ouvrir(auto){
+      if(!pan.hidden) return;
       pan.hidden = false; bulle.hidden = true;
       bulle.setAttribute('aria-expanded', 'true');
-      setTimeout(function(){ try{ champ.focus(); }catch(e){} }, 60);
+      pan.classList.remove('entre');
+      void pan.offsetWidth;
+      pan.classList.add('entre');
+      /* une ouverture automatique n'attrape pas le curseur : sur telephone
+         cela ferait surgir le clavier sans que personne l'ait demande. */
+      if(!auto) setTimeout(function(){ try{ champ.focus(); }catch(e){} }, 60);
     }
     function fermer(){
       pan.hidden = true; bulle.hidden = false;
       bulle.setAttribute('aria-expanded', 'false');
+      marquer();
       try{ bulle.focus(); }catch(e){}
     }
-    bulle.addEventListener('click', ouvrir);
+    bulle.addEventListener('click', function(){ marquer(); ouvrir(false); });
     croix.addEventListener('click', fermer);
+
+    /* ---- l'ouverture automatique ----
+       Elle n'a lieu qu'une fois par session : un visiteur qui a ferme la
+       fenetre, ou qui l'a deja vue s'ouvrir, n'y a plus droit.
+       Elle attend aussi que le bandeau de consentement ait ete traite, sinon
+       les deux se disputent le bas de l'ecran. Si le visiteur ne repond pas au
+       bandeau, la fenetre ne s'ouvre pas d'elle-meme ; la pastille reste. */
+    function quandLibre(suite){
+      var debut = Date.now();
+      (function regarde(){
+        if(document.hidden){
+          document.addEventListener('visibilitychange', function u(){
+            document.removeEventListener('visibilitychange', u); regarde();
+          });
+          return;
+        }
+        if(!document.getElementById('consentement')){ suite(); return; }
+        if(Date.now() - debut > 20000) return;
+        setTimeout(regarde, 400);
+      })();
+    }
+
+    if(!dejaVu()){
+      var etroit = window.matchMedia('(max-width:620px)').matches;
+      quandLibre(function(){
+        setTimeout(function(){
+          if(dejaVu() || !pan.hidden) return;
+          marquer();
+          ouvrir(true);
+        }, etroit ? 3400 : 2600);
+      });
+    }
     document.addEventListener('keydown', function(e){
       if((e.key === 'Escape' || e.keyCode === 27) && !pan.hidden) fermer();
     });
