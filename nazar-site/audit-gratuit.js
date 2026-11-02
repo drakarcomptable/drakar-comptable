@@ -1037,11 +1037,20 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(a);
     }
 
-    /* Le message de fin porte un lien vers le calendrier de la page. Il ne
-       part pas sur un nouvel onglet : la prise de rendez-vous doit rester
-       dans ce cadre, sinon la conversion echappe a la mesure. On referme donc
-       la fenetre et on ramene le calendrier sous les yeux, ce qui est aussi
-       plus clair sur telephone, ou le panneau le recouvrait. */
+    /* L'adresse du calendrier est relue sur l'iframe plutot que recopiee :
+       une seule source, et elle suit si le lien de prise de rendez-vous
+       change un jour. On retire le parametre d'integration, qui ne sert qu'a
+       l'affichage en cadre. */
+    var lienRdv = (function(){
+      var f = document.getElementById('agframe');
+      var u = f && f.getAttribute('src');
+      return u ? u.replace(/[?&]embed=true/, '') : '';
+    })();
+
+    /* Le message de fin porte un lien vers la page de prise de rendez-vous,
+       ouverte dans un nouvel onglet. A defaut d'adresse, on se rabat sur le
+       calendrier de la page : la fenetre se referme et le calendrier revient
+       sous les yeux. */
     function fini(){
       var p = document.createElement('p');
       p.className = 'msg ok';
@@ -1051,16 +1060,22 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         'En attendant, vous pouvez réserver un créneau '));
       var a = document.createElement('a');
       a.className = 'causlien';
-      a.href = '#agenda';
-      a.textContent = 'ici';
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        fermer();
-        var cible = document.getElementById('agenda');
-        if(!cible) return;
-        try{ cible.scrollIntoView({behavior: 'smooth', block: 'start'}); }
-        catch(err){ cible.scrollIntoView(); }
-      });
+      a.textContent = 'ICI';
+      if(lienRdv){
+        a.href = lienRdv;
+        a.target = '_blank';
+        a.rel = 'noopener';
+      } else {
+        a.href = '#agenda';
+        a.addEventListener('click', function(e){
+          e.preventDefault();
+          fermer();
+          var cible = document.getElementById('agenda');
+          if(!cible) return;
+          try{ cible.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+          catch(err){ cible.scrollIntoView(); }
+        });
+      }
       t.appendChild(a);
       t.appendChild(document.createTextNode('.'));
       p.appendChild(t);
