@@ -901,4 +901,138 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   var av = document.getElementById('avis');
   var sec = document.getElementById('avis-google');
   if(sec && (!av || av.hidden)) sec.parentNode.removeChild(sec);
+
+  /* ---------- la discussion ----------
+     Deux temps : la question, puis l'adresse. On demande l'adresse apres la
+     question et pas avant, parce qu'un peage a l'entree fait fermer la
+     fenetre. Rien n'est envoye tant que les deux ne sont pas la.
+     L'envoi part a deux endroits, comme le formulaire du site : la boite de
+     Mael pour qu'il reponde, et HubSpot pour que le contact existe. */
+  (function(){
+    var bulle = document.getElementById('bulle');
+    var pan = document.getElementById('caus');
+    if(!bulle || !pan) return;
+    var fil = document.getElementById('causfil');
+    var form = document.getElementById('causform');
+    var champ = document.getElementById('causin');
+    var lab = document.getElementById('causlab');
+    var envoi = document.getElementById('causok');
+    var croix = document.getElementById('causx');
+
+    var BOITE = 'https://formsubmit.co/ajax/mael@nazar-seo.fr';
+    var HUBSPOT = 'https://api.hsforms.com/submissions/v3/integration/submit' +
+                  '/139506748/81a83a93-bb6a-4609-96fe-d9a8ac806c8d';
+
+    var etape = 'question';
+    var question = '';
+
+    function ouvrir(){
+      pan.hidden = false; bulle.hidden = true;
+      bulle.setAttribute('aria-expanded', 'true');
+      setTimeout(function(){ try{ champ.focus(); }catch(e){} }, 60);
+    }
+    function fermer(){
+      pan.hidden = true; bulle.hidden = false;
+      bulle.setAttribute('aria-expanded', 'false');
+      try{ bulle.focus(); }catch(e){}
+    }
+    bulle.addEventListener('click', ouvrir);
+    croix.addEventListener('click', fermer);
+    document.addEventListener('keydown', function(e){
+      if((e.key === 'Escape' || e.keyCode === 27) && !pan.hidden) fermer();
+    });
+
+    function dire(texte, qui){
+      var p = document.createElement('p');
+      p.className = 'msg ' + (qui || 'eux');
+      p.textContent = texte;
+      fil.appendChild(p);
+      fil.scrollTop = fil.scrollHeight;
+      return p;
+    }
+    function adresseOk(a){
+      return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(a);
+    }
+
+    /* la zone de saisie grandit avec le texte, jusqu'a la limite posee en CSS */
+    champ.addEventListener('input', function(){
+      champ.style.height = 'auto';
+      champ.style.height = Math.min(champ.scrollHeight, 120) + 'px';
+    });
+    /* Entree envoie, Maj+Entree passe a la ligne */
+    champ.addEventListener('keydown', function(e){
+      if((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey){
+        e.preventDefault();
+        form.dispatchEvent(new Event('submit', {cancelable: true}));
+      }
+    });
+
+    function versBoite(adresse){
+      if(!window.fetch) return;
+      fetch(BOITE, {
+        method: 'POST', keepalive: true,
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({
+          _subject: 'Question depuis la page audit : ' + adresse,
+          'Adresse': adresse,
+          'Question': question,
+          'Page': location.href,
+          _template: 'table'
+        })
+      }).then(function(r){
+        if(!r.ok && diag) r.text().then(function(t){ console.log('[NAZAR] courriel refuse :', r.status, t); });
+      }, function(){});
+    }
+
+    function versHubspot(adresse){
+      if(!window.fetch) return;
+      fetch(HUBSPOT, {
+        method: 'POST', keepalive: true,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          fields: [{name: 'email', value: adresse}],
+          context: {pageUri: location.href, pageName: document.title}
+        })
+      }).then(function(r){
+        if(!r.ok && diag) r.text().then(function(t){ console.log('[NAZAR] HubSpot a refuse :', r.status, t); });
+      }, function(){});
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var val = (champ.value || '').trim();
+      if(!val) return;
+
+      if(etape === 'question'){
+        question = val;
+        dire(val, 'moi');
+        champ.value = ''; champ.style.height = 'auto';
+        etape = 'adresse';
+        lab.textContent = 'Votre adresse e-mail';
+        champ.setAttribute('placeholder', 'votre@email.fr');
+        champ.setAttribute('inputmode', 'email');
+        champ.setAttribute('autocomplete', 'email');
+        setTimeout(function(){
+          dire("Merci. Laissez-moi une adresse e-mail et je vous réponds personnellement.");
+          try{ champ.focus(); }catch(e2){}
+        }, 420);
+        return;
+      }
+
+      if(!adresseOk(val)){
+        dire("Il manque quelque chose dans cette adresse, pouvez-vous la vérifier ?");
+        return;
+      }
+
+      dire(val, 'moi');
+      champ.value = ''; champ.disabled = true; envoi.disabled = true;
+      versBoite(val);
+      versHubspot(val);
+      if(window.mesure) window.mesure('lead_created', {type: 'customer_action'});
+      setTimeout(function(){
+        dire("C’est noté. Vous avez une réponse dans la journée, et le créneau reste ouvert à côté si vous préférez en parler de vive voix.", "ok");
+        form.hidden = true;
+      }, 420);
+    });
+  })();
 })();

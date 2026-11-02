@@ -253,6 +253,74 @@ STYLE_PAGE = u"""
   .tel{padding:10px 14px}
   .tel img{width:52px;height:52px}
 }
+
+/* ---------- la discussion ----------
+   Une pastille en bas a droite, un panneau qui s'ouvre a sa place. Ce n'est
+   pas une messagerie instantanee : le visiteur pose sa question, laisse son
+   adresse, et la reponse part par courriel. L'entete le dit, pour ne pas
+   laisser croire a un echange en direct. */
+.bulle{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:10px;
+  background:var(--night);color:#fff;border:0;cursor:pointer;
+  border-radius:999px;padding:.66rem 1.1rem .66rem .66rem;
+  font:inherit;font-weight:700;font-size:.96rem;letter-spacing:-.01em;
+  box-shadow:0 22px 44px -20px rgba(0,33,44,.95);
+  transition:transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s ease}
+.bulle[hidden]{display:none}
+.bulle i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;flex:none;
+  background:var(--acc);color:var(--night)}
+.bulle i svg{width:18px;height:18px}
+.bulle:hover{transform:translateY(-2px);box-shadow:0 26px 50px -18px rgba(0,33,44,.95)}
+.bulle:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+.caus{position:fixed;right:20px;bottom:20px;z-index:61;width:372px;
+  max-width:calc(100vw - 32px);max-height:min(620px,calc(100vh - 40px));
+  display:flex;flex-direction:column;background:var(--white);border-radius:22px;overflow:hidden;
+  box-shadow:0 40px 90px -34px rgba(0,33,44,.6), inset 0 0 0 1px rgba(0,67,88,.08)}
+.caus[hidden]{display:none}
+.caushaut{flex:none;display:flex;align-items:center;gap:11px;background:var(--night);color:#fff;
+  padding:14px 16px}
+.caushaut img{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none}
+.causqui b{display:block;font-size:.98rem;letter-spacing:-.01em}
+.causqui em{display:block;font-style:normal;font-size:.82rem;color:#9fd4e4;margin-top:1px}
+.causx{margin-left:auto;background:transparent;border:0;color:#9fd4e4;cursor:pointer;
+  font-size:1.4rem;line-height:1;padding:0 3px;font-family:inherit}
+.causx:hover{color:#fff}
+.causx:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.causfil{flex:1 1 auto;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;
+  background:linear-gradient(180deg,var(--ice) 0%,var(--white) 70%)}
+.causfil .msg{margin:0;max-width:86%;padding:.66rem .85rem;border-radius:16px;
+  font-size:.93rem;line-height:1.5}
+.causfil .msg.eux{background:var(--white);color:var(--ink);border-bottom-left-radius:6px;
+  box-shadow:0 10px 24px -18px rgba(0,67,88,.5), inset 0 0 0 1px rgba(0,67,88,.07)}
+.causfil .msg.moi{background:var(--night);color:#fff;align-self:flex-end;
+  border-bottom-right-radius:6px;white-space:pre-wrap}
+.causfil .msg.ok{display:flex;gap:10px;align-items:flex-start;max-width:100%;
+  background:var(--white);color:var(--ink);
+  box-shadow:inset 0 0 0 1px rgba(0,67,88,.07)}
+.causfil .msg.ok::before{content:'✓';flex:none;display:grid;place-items:center;
+  width:26px;height:26px;border-radius:50%;background:#49d39a;color:#fff;font-weight:800;
+  font-size:.86rem;margin-top:-1px}
+.causbas[hidden]{display:none}
+.causbas{flex:none;display:flex;gap:8px;padding:12px 14px;background:var(--white);
+  border-top:1px solid rgba(0,67,88,.1)}
+.causlab{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+  clip-path:inset(50%);white-space:nowrap}
+.causbas textarea{flex:1;min-width:0;border:1px solid rgba(0,67,88,.22);border-radius:12px;
+  padding:.62rem .8rem;font:inherit;font-size:.93rem;line-height:1.45;color:var(--ink);
+  background:#fff;resize:none;max-height:120px}
+.causbas textarea:focus{outline:2px solid var(--acc);outline-offset:0;border-color:transparent}
+.causbas button{flex:none;background:var(--night);color:#fff;border:0;border-radius:12px;
+  padding:.62rem .95rem;font:inherit;font-weight:700;cursor:pointer}
+.causbas button[disabled]{background:#c3d6dd;cursor:default}
+.causbas button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.causpied{flex:none;margin:0;padding:0 14px 12px;font-size:.76rem;color:var(--ink-2);
+  background:var(--white)}
+@media(max-width:560px){
+  .caus{right:10px;left:10px;bottom:10px;width:auto;max-width:none;
+    max-height:calc(100vh - 20px)}
+  .bulle{right:12px;bottom:12px}
+}
+@media(prefers-reduced-motion:reduce){.bulle{transition:none}}
 """
 
 TELICO = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
@@ -261,6 +329,11 @@ TELICO = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wid
           'A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81'
           'a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45'
           'c.9.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>')
+
+BULICO = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+          '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-4.1'
+          'A8.4 8.4 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/></svg>')
 
 FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
           'stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>')
@@ -282,10 +355,10 @@ CORPS = u"""
         <li><span><b>Les actions à mener, dans l'ordre</b>, avec ce que chacune peut rapporter.</span></li>
       </ul>
       <div class="tel rv d1">
-        <img src="hote-charles.webp" width="60" height="60" alt="" decoding="async">
+        <img src="hote-mael.webp" width="60" height="60" alt="Maël Gallais" decoding="async">
         <span class="dit"><b>Une question avant de réserver ?</b>
-          <span>On vous répond tout de suite.</span></span>
-        <a class="telbt" href="tel:+590590212021">__TELICO__ 0590 21 20 21</a>
+          <span>Je vous réponds tout de suite.</span></span>
+        <a class="telbt" href="tel:+33644608071">__TELICO__ 06 44 60 80 71</a>
       </div>
     </div>
     <div class="agbox rv d1">
@@ -303,6 +376,28 @@ __AVIS__
 __FAQ__
 
 __PIED__
+
+<button class="bulle" id="bulle" type="button" aria-expanded="false" aria-controls="caus">
+  <i>__BULICO__</i><span>Une question ?</span>
+</button>
+<section class="caus" id="caus" hidden aria-labelledby="caustitre">
+  <div class="caushaut">
+    <img src="hote-mael.webp" width="40" height="40" alt="" decoding="async">
+    <span class="causqui"><b id="caustitre">Maël, consultant GEO</b>
+      <em>Je vous réponds par e-mail</em></span>
+    <button class="causx" id="causx" type="button" aria-label="Fermer la discussion">&times;</button>
+  </div>
+  <div class="causfil" id="causfil" role="log" aria-live="polite">
+    <p class="msg eux">Bonjour, je suis Maël. Posez votre question ici, laissez-moi votre e-mail, et je vous réponds personnellement.</p>
+  </div>
+  <form class="causbas" id="causform" novalidate>
+    <label class="causlab" for="causin" id="causlab">Votre question</label>
+    <textarea id="causin" rows="1" placeholder="Écrivez votre question…"
+      autocomplete="off" maxlength="900"></textarea>
+    <button type="submit" id="causok">Envoyer</button>
+  </form>
+  <p class="causpied">Vos réponses nous servent à préparer l'échange, rien d'autre.</p>
+</section>
 """
 
 SCRIPT_PAGE = u"""
@@ -379,6 +474,140 @@ SCRIPT_PAGE = u"""
   var av = document.getElementById('avis');
   var sec = document.getElementById('avis-google');
   if(sec && (!av || av.hidden)) sec.parentNode.removeChild(sec);
+
+  /* ---------- la discussion ----------
+     Deux temps : la question, puis l'adresse. On demande l'adresse apres la
+     question et pas avant, parce qu'un peage a l'entree fait fermer la
+     fenetre. Rien n'est envoye tant que les deux ne sont pas la.
+     L'envoi part a deux endroits, comme le formulaire du site : la boite de
+     Mael pour qu'il reponde, et HubSpot pour que le contact existe. */
+  (function(){
+    var bulle = document.getElementById('bulle');
+    var pan = document.getElementById('caus');
+    if(!bulle || !pan) return;
+    var fil = document.getElementById('causfil');
+    var form = document.getElementById('causform');
+    var champ = document.getElementById('causin');
+    var lab = document.getElementById('causlab');
+    var envoi = document.getElementById('causok');
+    var croix = document.getElementById('causx');
+
+    var BOITE = 'https://formsubmit.co/ajax/mael@nazar-seo.fr';
+    var HUBSPOT = 'https://api.hsforms.com/submissions/v3/integration/submit' +
+                  '/139506748/81a83a93-bb6a-4609-96fe-d9a8ac806c8d';
+
+    var etape = 'question';
+    var question = '';
+
+    function ouvrir(){
+      pan.hidden = false; bulle.hidden = true;
+      bulle.setAttribute('aria-expanded', 'true');
+      setTimeout(function(){ try{ champ.focus(); }catch(e){} }, 60);
+    }
+    function fermer(){
+      pan.hidden = true; bulle.hidden = false;
+      bulle.setAttribute('aria-expanded', 'false');
+      try{ bulle.focus(); }catch(e){}
+    }
+    bulle.addEventListener('click', ouvrir);
+    croix.addEventListener('click', fermer);
+    document.addEventListener('keydown', function(e){
+      if((e.key === 'Escape' || e.keyCode === 27) && !pan.hidden) fermer();
+    });
+
+    function dire(texte, qui){
+      var p = document.createElement('p');
+      p.className = 'msg ' + (qui || 'eux');
+      p.textContent = texte;
+      fil.appendChild(p);
+      fil.scrollTop = fil.scrollHeight;
+      return p;
+    }
+    function adresseOk(a){
+      return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(a);
+    }
+
+    /* la zone de saisie grandit avec le texte, jusqu'a la limite posee en CSS */
+    champ.addEventListener('input', function(){
+      champ.style.height = 'auto';
+      champ.style.height = Math.min(champ.scrollHeight, 120) + 'px';
+    });
+    /* Entree envoie, Maj+Entree passe a la ligne */
+    champ.addEventListener('keydown', function(e){
+      if((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey){
+        e.preventDefault();
+        form.dispatchEvent(new Event('submit', {cancelable: true}));
+      }
+    });
+
+    function versBoite(adresse){
+      if(!window.fetch) return;
+      fetch(BOITE, {
+        method: 'POST', keepalive: true,
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({
+          _subject: 'Question depuis la page audit : ' + adresse,
+          'Adresse': adresse,
+          'Question': question,
+          'Page': location.href,
+          _template: 'table'
+        })
+      }).then(function(r){
+        if(!r.ok && diag) r.text().then(function(t){ console.log('[NAZAR] courriel refuse :', r.status, t); });
+      }, function(){});
+    }
+
+    function versHubspot(adresse){
+      if(!window.fetch) return;
+      fetch(HUBSPOT, {
+        method: 'POST', keepalive: true,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          fields: [{name: 'email', value: adresse}],
+          context: {pageUri: location.href, pageName: document.title}
+        })
+      }).then(function(r){
+        if(!r.ok && diag) r.text().then(function(t){ console.log('[NAZAR] HubSpot a refuse :', r.status, t); });
+      }, function(){});
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var val = (champ.value || '').trim();
+      if(!val) return;
+
+      if(etape === 'question'){
+        question = val;
+        dire(val, 'moi');
+        champ.value = ''; champ.style.height = 'auto';
+        etape = 'adresse';
+        lab.textContent = 'Votre adresse e-mail';
+        champ.setAttribute('placeholder', 'votre@email.fr');
+        champ.setAttribute('inputmode', 'email');
+        champ.setAttribute('autocomplete', 'email');
+        setTimeout(function(){
+          dire("Merci. Laissez-moi une adresse e-mail et je vous réponds personnellement.");
+          try{ champ.focus(); }catch(e2){}
+        }, 420);
+        return;
+      }
+
+      if(!adresseOk(val)){
+        dire("Il manque quelque chose dans cette adresse, pouvez-vous la vérifier ?");
+        return;
+      }
+
+      dire(val, 'moi');
+      champ.value = ''; champ.disabled = true; envoi.disabled = true;
+      versBoite(val);
+      versHubspot(val);
+      if(window.mesure) window.mesure('lead_created', {type: 'customer_action'});
+      setTimeout(function(){
+        dire("C’est noté. Vous avez une réponse dans la journée, et le créneau reste ouvert à côté si vous préférez en parler de vive voix.", "ok");
+        form.hidden = true;
+      }, 420);
+    });
+  })();
 })();
 </script>
 """
@@ -420,6 +649,7 @@ __CORPS__
 """
 
 corps = (CORPS.replace('__TELICO__', TELICO)
+              .replace('__BULICO__', BULICO)
               .replace('__AGENDA__', AGENDA)
               .replace('__CAS__', CAS)
               .replace('__CLIENTS__', CLIENTS)
