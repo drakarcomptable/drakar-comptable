@@ -895,7 +895,12 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
   .duo .rail{row-gap:16px}
   .duo .dcol{display:contents}
   .hautg{order:1}
-  .duo h1{order:2;max-width:none;font-size:clamp(1.85rem,8.2vw,2.5rem)}
+  /* Trois lignes voulues, centrees, et aucun mot coupe : chaque morceau du
+     titre prend sa ligne au lieu de laisser le navigateur casser
+     « rendez-vous » au trait d'union. */
+  .duo h1{order:2;max-width:none;text-align:center;
+    font-size:clamp(1.7rem,7.4vw,2.3rem)}
+  .duo h1 .tl, .duo h1 em{display:block}
   .agbox{order:3}
   .lpsub{order:4;max-width:none}
   .lplist{order:5;max-width:none}
@@ -922,7 +927,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
         <a class="lplogo" href="/" aria-label="Aller sur le site NAZAR"><img src="logo.png" width="68" height="68" alt="NAZAR"></a>
         <span class="badge1" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
       </div>
-      <h1 class="rv d1">Prenez rendez-vous avec un <em>expert GEO</em></h1>
+      <h1 class="rv d1"><span class="tl">Prenez rendez-vous</span> <span class="tl">avec un</span> <em>expert GEO</em></h1>
       <p class="lpsub rv d1">Il audite votre site <b>gratuitement</b> et vous remet un <b>audit GEO</b>, avec une feuille de route d'actions concrètes, propres à votre site et à votre secteur.</p>
       <ul class="lplist rv d1">
         <li><span><b>Les requêtes de niche qualifiées</b> sur lesquelles vous n'apparaissez pas encore, et que vos acheteurs posent déjà aux IA.</span></li>
