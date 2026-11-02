@@ -180,7 +180,7 @@ STYLE_PAGE = u"""
    940 pixels qu'on lui donnait et le reste s'affichait en blanc. S'il lui
    en faut davantage, il le dit par message et le cadre suit, sans jamais
    depasser ce plafond. */
-@media(max-width:720px){#agframe{height:740px}}
+@media(max-width:720px){#agframe{height:640px}}
 
 /* Sur un ecran court, le calendrier se tasse pour que le bandeau de logos
    reste dans le premier ecran. C'est lui qui rassure au premier coup d'oeil ;
@@ -383,9 +383,14 @@ STYLE_PAGE = u"""
    remonter la section des logos ; et dans l'en-tete, .dcol s'efface au profit
    de ses enfants, qui deviennent donc reordonnables un a un avec le
    calendrier. */
+.hautm{display:none}
+
 @media(max-width:900px){
   body{display:flex;flex-direction:column}
-  .clients{order:-1;padding-block:16px 20px}
+  /* le logo et le badge d'abord, le bandeau de logos clients ensuite */
+  .hautm{display:block;order:-2;background:var(--ice);padding-block:14px 12px}
+  .duo .hautg{display:none}
+  .clients{order:-1;padding-block:14px 18px}
   .clients .clabel{margin-bottom:14px}
 
   .duo{padding-block:6px 20px}
@@ -416,6 +421,15 @@ FLECHE = ('<span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="curr
           'stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>')
 
 CORPS = u"""
+<section class="hautm">
+  <div class="rail">
+    <div class="hautg">
+      <a class="lplogo" href="/" aria-label="Aller sur le site NAZAR"><img src="logo.png" width="68" height="68" alt="NAZAR" decoding="async"></a>
+      <span class="badge1" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
+    </div>
+  </div>
+</section>
+
 <section class="duo" id="agenda">
   <div class="rail">
     <div class="dcol">
@@ -505,7 +519,13 @@ SCRIPT_PAGE = u"""
   /* le plafond suit la hauteur posee par la feuille de style, donc les regles
      ci-dessus : HubSpot ne peut pas rendre a l'agenda ce que l'ecran court lui
      a retire. */
-  var plafond = (cadre && cadre.offsetHeight) || 584;
+  /* Sur grand ecran le calendrier ne doit pas repousser le bandeau de logos
+     hors du premier ecran : sa hauteur est donc plafonnee a celle que pose la
+     feuille de style. Sous 900 pixels le bandeau est passe tout en haut, ce
+     souci n'existe plus, et on laisse HubSpot dire la hauteur qu'il lui faut :
+     c'est ainsi qu'on evite le blanc sous le calendrier. */
+  var etroite = window.matchMedia('(max-width:900px)').matches;
+  var plafond = etroite ? 2000 : ((cadre && cadre.offsetHeight) || 584);
   var parti = false;
 
   /* HubSpot parle a la page qui l'heberge par messages. On en attend deux

@@ -678,7 +678,7 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
    940 pixels qu'on lui donnait et le reste s'affichait en blanc. S'il lui
    en faut davantage, il le dit par message et le cadre suit, sans jamais
    depasser ce plafond. */
-@media(max-width:720px){#agframe{height:740px}}
+@media(max-width:720px){#agframe{height:640px}}
 
 /* Sur un ecran court, le calendrier se tasse pour que le bandeau de logos
    reste dans le premier ecran. C'est lui qui rassure au premier coup d'oeil ;
@@ -881,9 +881,14 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
    remonter la section des logos ; et dans l'en-tete, .dcol s'efface au profit
    de ses enfants, qui deviennent donc reordonnables un a un avec le
    calendrier. */
+.hautm{display:none}
+
 @media(max-width:900px){
   body{display:flex;flex-direction:column}
-  .clients{order:-1;padding-block:16px 20px}
+  /* le logo et le badge d'abord, le bandeau de logos clients ensuite */
+  .hautm{display:block;order:-2;background:var(--ice);padding-block:14px 12px}
+  .duo .hautg{display:none}
+  .clients{order:-1;padding-block:14px 18px}
   .clients .clabel{margin-bottom:14px}
 
   .duo{padding-block:6px 20px}
@@ -900,6 +905,15 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
 <script src="/mesure.js" defer></script>
 </head>
 <body>
+
+<section class="hautm">
+  <div class="rail">
+    <div class="hautg">
+      <a class="lplogo" href="/" aria-label="Aller sur le site NAZAR"><img src="logo.png" width="68" height="68" alt="NAZAR" decoding="async"></a>
+      <span class="badge1" data-eng="ChatGPT">Devenez <b>n°1</b> sur les IA <i></i></span>
+    </div>
+  </div>
+</section>
 
 <section class="duo" id="agenda">
   <div class="rail">

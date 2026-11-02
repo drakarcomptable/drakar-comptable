@@ -855,7 +855,13 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   /* le plafond suit la hauteur posee par la feuille de style, donc les regles
      ci-dessus : HubSpot ne peut pas rendre a l'agenda ce que l'ecran court lui
      a retire. */
-  var plafond = (cadre && cadre.offsetHeight) || 584;
+  /* Sur grand ecran le calendrier ne doit pas repousser le bandeau de logos
+     hors du premier ecran : sa hauteur est donc plafonnee a celle que pose la
+     feuille de style. Sous 900 pixels le bandeau est passe tout en haut, ce
+     souci n'existe plus, et on laisse HubSpot dire la hauteur qu'il lui faut :
+     c'est ainsi qu'on evite le blanc sous le calendrier. */
+  var etroite = window.matchMedia('(max-width:900px)').matches;
+  var plafond = etroite ? 2000 : ((cadre && cadre.offsetHeight) || 584);
   var parti = false;
 
   /* HubSpot parle a la page qui l'heberge par messages. On en attend deux
