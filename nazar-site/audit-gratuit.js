@@ -1001,6 +1001,37 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(a);
     }
 
+    /* Le message de fin porte un lien vers le calendrier de la page. Il ne
+       part pas sur un nouvel onglet : la prise de rendez-vous doit rester
+       dans ce cadre, sinon la conversion echappe a la mesure. On referme donc
+       la fenetre et on ramene le calendrier sous les yeux, ce qui est aussi
+       plus clair sur telephone, ou le panneau le recouvrait. */
+    function fini(){
+      var p = document.createElement('p');
+      p.className = 'msg ok';
+      var t = document.createElement('span');
+      t.appendChild(document.createTextNode(
+        'C’est noté, vous avez une réponse dans la journée. ' +
+        'En attendant, vous pouvez réserver un créneau '));
+      var a = document.createElement('a');
+      a.className = 'causlien';
+      a.href = '#agenda';
+      a.textContent = 'ici';
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        fermer();
+        var cible = document.getElementById('agenda');
+        if(!cible) return;
+        try{ cible.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        catch(err){ cible.scrollIntoView(); }
+      });
+      t.appendChild(a);
+      t.appendChild(document.createTextNode('.'));
+      p.appendChild(t);
+      fil.appendChild(p);
+      fil.scrollTop = fil.scrollHeight;
+    }
+
     /* la zone de saisie grandit avec le texte, jusqu'a la limite posee en CSS */
     champ.addEventListener('input', function(){
       champ.style.height = 'auto';
@@ -1031,18 +1062,33 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       }, function(){});
     }
 
-    function versHubspot(adresse){
+    /* HubSpot n'accepte que les champs poses sur le formulaire. On tente donc
+       d'y joindre la question, et si le champ n'y est pas encore, on renvoie
+       l'adresse seule : mieux vaut un contact sans la question qu'aucun
+       contact. Le jour ou le champ est ajoute, la question passe d'elle-meme,
+       sans rien changer ici. */
+    function versHubspot(adresse, avecQuestion){
       if(!window.fetch) return;
+      var champs = [{name: 'email', value: adresse}];
+      if(avecQuestion && question) champs.push({name: 'message', value: question});
+      function repli(){
+        if(avecQuestion) versHubspot(adresse, false);
+      }
       fetch(HUBSPOT, {
         method: 'POST', keepalive: true,
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          fields: [{name: 'email', value: adresse}],
+          fields: champs,
           context: {pageUri: location.href, pageName: document.title}
         })
       }).then(function(r){
-        if(!r.ok && diag) r.text().then(function(t){ console.log('[NAZAR] HubSpot a refuse :', r.status, t); });
-      }, function(){});
+        if(r.ok){
+          if(diag) console.log('[NAZAR] contact HubSpot cree', avecQuestion ? 'avec la question' : 'sans la question');
+          return;
+        }
+        if(diag) r.text().then(function(t){ console.log('[NAZAR] HubSpot a refuse :', r.status, t); });
+        repli();
+      }, repli);
     }
 
     form.addEventListener('submit', function(e){
@@ -1074,10 +1120,10 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       dire(val, 'moi');
       champ.value = ''; champ.disabled = true; envoi.disabled = true;
       versBoite(val);
-      versHubspot(val);
+      versHubspot(val, true);
       if(window.mesure) window.mesure('lead_created', {type: 'customer_action'});
       setTimeout(function(){
-        dire("C’est noté. Vous avez une réponse dans la journée, et le créneau reste ouvert à côté si vous préférez en parler de vive voix.", "ok");
+        fini();
         form.hidden = true;
       }, 420);
     });
