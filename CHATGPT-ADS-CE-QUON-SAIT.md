@@ -20,6 +20,7 @@ Une campagne, un groupe d'annonces, une annonce.
 | Période | 29 oct. 06 h 03 CET au 3 nov. |
 | Budget | quotidien, 30 € puis 50 € |
 | Enchère | automatique, optimisée sur les clics |
+| | renommé « enchères intelligentes » le 9 nov. 2026 |
 | Dépensé | 115,03 € |
 | Impressions | 12 845 |
 | Clics | 73 |
@@ -162,6 +163,57 @@ nouveau visuel servi, alors que l'interface l'affichait déjà.
 Les contrôles sont indépendants : vérification du compte, approbation du
 compte, revue de l'annonce, diffusion. Une annonce approuvée peut ne pas
 diffuser pour une raison de facturation ou de réglage.
+
+### Les stratégies d'enchères, et la bascule du 9 novembre 2026
+
+| Stratégie | Type de campagne | Statut |
+|---|---|---|
+| Maximiser les résultats (autobid), renommé « enchères intelligentes » | clics et conversions | maintenue, c'est la nôtre |
+| Max CPC | clics | retirée le 1er janvier 2027 |
+| Max Bid | conversions | retirée le 1er janvier 2027 |
+| Target CPC | clics | nouvelle, disponible le 9 novembre 2026 |
+| Target CPA | conversions | nouvelle, disponible le 9 novembre 2026 |
+
+Calendrier annoncé par OpenAI le 6 novembre 2026 :
+
+- **9 novembre 2026** : les cibles de coût deviennent disponibles à la création
+  et à la modification d'une campagne. Target CPC remplace Max CPC pour les
+  nouvelles campagnes de clics, Target CPA remplace Max Bid pour les nouvelles
+  campagnes de conversions.
+- **1er janvier 2027** : Max CPC et Max Bid sont retirés. Les campagnes
+  existantes qui les utilisent encore basculent d'office.
+
+L'autobid, qui est notre réglage, n'est pas concerné par le retrait. Il change
+seulement de nom.
+
+**La différence qui compte : une cible n'est pas un plafond.** Max CPC
+plafonnait chaque enchère individuelle. Target CPC laisse le système enchérir
+au-dessus ou en dessous de la cible à chaque enchère, et ne vise la cible qu'en
+moyenne. On perd donc le contrôle du pire cas, ce qui est exactement ce qu'un
+plafond servait à garantir.
+
+**La conséquence pour un compte limité par l'inventaire.** Nous dépensons 19 €
+par jour contre un plafond à 50. Ce n'est pas le coût qui limite, c'est le
+volume d'enchères disponibles. Dans cette situation, poser une cible de coût ne
+peut que réduire la diffusion. OpenAI le dit explicitement : « Restrictive
+targets or weak conversion signals can reduce ad delivery and leave budget
+unspent. » Donc, contre-intuitivement : sur un compte limité par l'inventaire,
+une cible doit être posée **au-dessus** du coût constaté, pas à son niveau.
+
+**Le volume de conversions nécessaire.** Target CPA a besoin d'un historique
+pour apprendre. Nous avons trois rendez-vous en six jours, dont deux seulement
+mesurés par le pixel. La convention du métier sur les autres régies est de
+trente conversions par mois au minimum. À 0,5 rendez-vous par jour, nous sommes
+à quinze par mois. Target CPA n'est donc pas exploitable avant d'avoir triplé
+le volume.
+
+**Le coût caché d'une décision de page.** Retirer le formulaire et le chat de
+la page d'atterrissage a amélioré la qualité des leads, puisque seul un
+rendez-vous réellement posé compte. Mais cela a aussi supprimé l'événement de
+conversion à faible friction qui aurait nourri l'algorithme. Un compte qui ne
+mesure que des rendez-vous pris ne produira jamais assez de signal pour les
+enchères par cible. Arbitrage à poser consciemment : qualité du signal contre
+volume du signal.
 
 ### Facturation
 
@@ -375,10 +427,21 @@ d'atterrissage ne bloque pas OAI-AdsBot, que la réservation reste sur le
 domaine. Un audit technique automatisé, répété chaque jour. La plupart des
 pannes qu'on a vécues auraient été détectées par cinq règles.
 
+*Mise à jour du 6 novembre 2026 : c'est désormais la fonction la plus forte des
+six, pas la cinquième.* En passant aux enchères par cible, OpenAI demande
+lui-même aux annonceurs de vérifier que le pixel envoie bien l'événement
+sélectionné et de traiter les alertes de score de qualité d'événement. Quand
+l'enchère devient automatique, la qualité du signal devient le dernier levier
+que l'annonceur contrôle encore. Le gardien de la mesure cesse d'être un
+utilitaire pour devenir le coeur du produit.
+
 **6. Le conseiller d'enchère et de budget.**
-Le moins différenciant, parce que l'enchère est automatique et que le budget
-n'est pas le facteur limitant. À ne pas mettre en avant : ce serait vendre
-un levier qui n'en est pas un.
+Le moins différenciant, et l'annonce du 6 novembre 2026 le confirme : OpenAI
+retire les enchères manuelles au 1er janvier 2027 et pilote lui-même l'enchère
+vers une cible. Vendre un outil qui dit « combien miser » revient donc à vendre
+une fonction que la régie vient d'absorber. Ce qui reste à l'annonceur, c'est le
+choix de la cible et la qualité du signal qui la nourrit, ce qui renvoie à la
+fonction 5. À ne pas mettre en avant comme telle.
 
 ### Ce qui fait la défense
 
@@ -399,6 +462,10 @@ produit.
   Tout ce qui est purement « pilotage de campagne » sera probablement absorbé.
   Ce qui restera dehors, c'est la réconciliation avec le CRM et la
   connaissance métier.
+  **Confirmé le 6 novembre 2026** : deux jours après la rédaction de cette
+  note, OpenAI annonce le retrait des enchères manuelles et le passage aux
+  cibles de coût. La prédiction s'est réalisée sur le premier levier tactique.
+  Il faut supposer qu'elle se réalisera sur les autres.
 - **Le volume du canal.** Sur une niche B2B française, 10 765 personnes
   uniques touchées en trois jours, et un plafond de dépense jamais atteint. Si
   le marché adressable par compte est de cet ordre, le panier moyen d'un SaaS
