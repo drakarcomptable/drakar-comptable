@@ -1191,12 +1191,16 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
     var VITESSE = 100;   // pixels par seconde, la cadence constatee sur grand ecran
 
     function cale(){
-      var reps = 1;
+      /* On mesure une seule serie, puis on deduit le nombre de repetitions au
+         lieu de les essayer une par une : neuf ecritures successives dans le
+         DOM, c'etaient neuf occasions de voir le bandeau se vider. */
       row.innerHTML = one;
-      for(var i=0;i<8 && row.scrollWidth < window.innerWidth*1.35; i++){
-        reps++; row.innerHTML = one.repeat(reps);
+      var largeurUne = row.scrollWidth;
+      var reps = 1;
+      if(largeurUne > 0){
+        reps = Math.min(8, Math.max(1, Math.ceil(window.innerWidth * 1.35 / largeurUne)));
       }
-      row.innerHTML = one.repeat(reps) + one.repeat(reps);
+      row.innerHTML = one.repeat(reps * 2);
       row.style.animationDuration = Math.max(18, Math.round(periode(row)/VITESSE)) + 's';
     }
 
@@ -1220,8 +1224,16 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
 
     row.innerHTML = one;
     quandCharges(cale);
+    /* Safari sur iPhone emet un resize a chaque fois que la barre d'adresse
+       se retracte ou reapparait au defilement : seule la hauteur change, pas
+       la largeur. Reconstruire la piste a ce moment-la vidait le bandeau puis
+       le refabriquait, ce qui se voyait comme un clignotement a chaque scroll.
+       On ne recalcule donc que sur un vrai changement de largeur. */
+    var largeurVue = window.innerWidth;
     var minuteurBande;
     addEventListener('resize', function(){
+      if(window.innerWidth === largeurVue) return;
+      largeurVue = window.innerWidth;
       clearTimeout(minuteurBande); minuteurBande = setTimeout(cale, 220);
     });
   })();
