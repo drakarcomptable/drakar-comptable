@@ -680,6 +680,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .badge1 i{transition:opacity .23s ease, transform .23s ease}
 .badge1 i.mue{opacity:0;transform:scale(.72)}
 
+.resam{display:none}
 .agbox{background:var(--white);border-radius:24px;padding:clamp(6px,.8vw,12px);
   box-shadow:0 24px 70px -30px rgba(0,67,88,.45);overflow:hidden}
 #agframe{display:block;width:100%;border:0;height:584px}
@@ -822,6 +823,53 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
      pire cas, soit la police de secours, plus large de 2 pour cent. */
   .duo h1 .tl{display:block;white-space:nowrap}
   .agbox{order:3}
+
+  /* L'agenda HubSpot disparait du telephone. Son iframe est sur un autre
+     domaine : la regle d'origine identique nous interdit d'agir sur son
+     defilement interne, et ce defilement capturait le geste du pouce. La
+     page entiere paraissait donc se resumer au calendrier. On le remplace
+     par notre propre bloc, qui renvoie sur la page HubSpot en plein ecran. */
+  #agframe{display:none}
+  /* min-width:0 est indispensable : un element de grille vaut min-width:auto
+     par defaut, donc il refuse de descendre sous la largeur de son contenu
+     et la bande de jours, large de 1373 pixels, etirait tout le bloc au lieu
+     de defiler. Il faut le poser sur toute la chaine. */
+  .agbox{background:none;padding:0;box-shadow:none;border-radius:0;overflow:visible;min-width:0}
+  .resam{display:block;background:var(--night);border-radius:20px;padding:18px 16px;
+    color:#fff;box-shadow:0 20px 44px -26px rgba(0,33,44,.9)}
+  .rtete{display:flex;align-items:center;gap:12px}
+  .rtete img{width:52px;height:52px;border-radius:50%;flex:none;object-fit:cover}
+  .rtete b{display:block;font-size:1.02rem;font-weight:700;letter-spacing:-.02em}
+  .rtete i{display:block;font-style:normal;font-size:.83rem;color:var(--acc);
+    margin-top:2px;font-weight:600}
+  .rmois{margin:14px 0 8px;font-size:.78rem;font-weight:700;color:var(--acc);
+    text-transform:uppercase;letter-spacing:.05em}
+  .resam{min-width:0}
+  .rbande{position:relative;margin-bottom:14px;min-width:0}
+  /* La bande ne defile qu'en horizontal : overflow-y reste cache, donc un
+     geste vertical traverse et fait defiler la page. C'est toute la
+     difference avec l'iframe qu'elle remplace. */
+  .rjours{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;
+    scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;padding-right:40px;min-width:0;max-width:100%}
+  .rjours::-webkit-scrollbar{display:none}
+  .rj{flex:0 0 auto;width:60px;scroll-snap-align:start;background:var(--night-3);
+    border:1.5px solid transparent;border-radius:13px;padding:9px 2px;text-align:center;
+    color:#fff;font-family:inherit;cursor:pointer}
+  .rj i{display:block;font-style:normal;font-size:.66rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;opacity:.72}
+  .rj b{display:block;font-size:1.18rem;font-weight:800;margin-top:1px;letter-spacing:-.03em}
+  .rj[aria-pressed="true"]{background:var(--acc);color:var(--night);border-color:#fff}
+  .rj[aria-pressed="true"] i{opacity:.8}
+  .rfl{position:absolute;right:0;top:50%;transform:translateY(-50%);width:34px;height:34px;
+    border-radius:50%;border:0;background:var(--night-2);color:var(--acc);
+    display:grid;place-items:center;cursor:pointer;
+    box-shadow:-9px 0 11px 5px var(--night)}
+  .rfl svg{width:15px;height:15px}
+  .rcta{display:block;background:var(--acc);color:var(--night);border-radius:14px;
+    padding:14px;font-size:1.02rem;font-weight:800;letter-spacing:-.02em;
+    text-align:center;text-decoration:none}
+  .rsous{text-align:center;font-size:.78rem;color:#9fc4d2;margin:10px 0 0;font-weight:600}
   .lpsub{order:4;max-width:none}
   .lplist{order:5;max-width:none}
   .tel{order:6}
@@ -863,6 +911,19 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       </div>
     </div>
     <div class="agbox rv d1">
+      <div class="resam">
+        <div class="rtete">
+          <img src="hote-mael.webp" width="52" height="52" alt="Maël Gallais" decoding="async">
+          <span><b>Maël Gallais</b><i>9 minutes en visio</i></span>
+        </div>
+        <p class="rmois" id="rmois"></p>
+        <div class="rbande">
+          <div class="rjours" id="rjours" role="group" aria-label="Choisir un jour"></div>
+          <button class="rfl" id="rfl" type="button" aria-label="Voir les jours suivants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <a class="rcta" id="rcta" href="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb">Réserver mon créneau</a>
+        <p class="rsous">Gratuit, sans engagement</p>
+      </div>
       <iframe id="agframe" src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
     </div>
   </div>

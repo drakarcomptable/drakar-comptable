@@ -909,3 +909,73 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   if(sec && (!av || av.hidden)) sec.parentNode.removeChild(sec);
 
 })();
+
+/* ---------- bande de jours, telephone ----------
+   Les dates sont fabriquees a l'ouverture de la page, jamais a la
+   generation : la page est statique et peut rester des semaines en ligne
+   sans etre redeployee. Des dates figees seraient donc passees. */
+(function(){
+  'use strict';
+  var zone = document.getElementById('rjours');
+  var cta  = document.getElementById('rcta');
+  var mois = document.getElementById('rmois');
+  if(!zone || !cta) return;
+
+  var SOCLE = cta.getAttribute('href');
+  var NB = 20;            /* jours proposes dans la bande */
+  var OUVRES = true;      /* du lundi au vendredi seulement */
+  var JOUR = ["dim","lun","mar","mer","jeu","ven","sam"];
+  var MOIS = ["janvier","fevrier","mars","avril","mai","juin","juillet",
+              "aout","septembre","octobre","novembre","decembre"];
+
+  function deux(n){ return (n < 10 ? "0" : "") + n; }
+  function iso(d){
+    return d.getFullYear() + "-" + deux(d.getMonth() + 1) + "-" + deux(d.getDate());
+  }
+
+  /* On part de demain : HubSpot impose un delai de prevenance, et proposer
+     le jour meme risquerait d'ouvrir sur une journee deja pleine. */
+  var liste = [], d = new Date();
+  d.setDate(d.getDate() + 1);
+  while(liste.length < NB){
+    var j = d.getDay();
+    if(!OUVRES || (j !== 0 && j !== 6)) liste.push(new Date(d.getTime()));
+    d.setDate(d.getDate() + 1);
+  }
+
+  function choisit(bouton, date){
+    var tous = zone.getElementsByTagName("button");
+    for(var i = 0; i < tous.length; i++) tous[i].setAttribute("aria-pressed", "false");
+    bouton.setAttribute("aria-pressed", "true");
+    /* La date part dans l'adresse. Si HubSpot ne la lit pas, le visiteur
+       arrive simplement sur le calendrier normal : on ne casse rien. */
+    cta.href = SOCLE + (SOCLE.indexOf("?") < 0 ? "?" : "&") + "date=" + iso(date);
+    if(mois) mois.textContent = MOIS[date.getMonth()] + " " + date.getFullYear();
+  }
+
+  for(var k = 0; k < liste.length; k++){
+    (function(date){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "rj";
+      b.setAttribute("aria-pressed", "false");
+      b.innerHTML = "<i>" + JOUR[date.getDay()] + "</i><b>" + date.getDate() + "</b>";
+      b.addEventListener("click", function(){ choisit(b, date); });
+      zone.appendChild(b);
+      if(zone.children.length === 1) choisit(b, date);
+    })(liste[k]);
+  }
+
+  var fl = document.getElementById("rfl");
+  if(fl) fl.addEventListener("click", function(){
+    zone.scrollLeft += Math.max(zone.clientWidth - 80, 134);
+  });
+
+  /* Sur telephone la reservation se termine chez HubSpot, hors de notre
+     page : le message qui declenchait appointment_scheduled ne nous
+     parvient plus. On mesure donc le depart vers l'agenda, qui est une
+     intention, pas une reservation. Le compte vrai reste dans HubSpot. */
+  cta.addEventListener("click", function(){
+    if(window.mesure) window.mesure("initiate_checkout", {type: "customer_action"});
+  });
+})();
