@@ -78,13 +78,25 @@ module.exports = async function (req, res) {
     email: email,
     timezone: FUSEAU
   };
-  /* Le telephone et la question sont demandes par la configuration du lien.
-     Leur forme exacte dans le corps n'est pas documentee : si HubSpot les
-     refuse, on renvoie la reservation sans eux plutot que de la perdre. */
-  const enrichi = Object.assign({}, base, {
-    phone: tel,
-    formFields: mot ? [{ name: QUESTION, value: mot }] : []
-  });
+
+  /* Le telephone est un champ de formulaire du lien, pas un champ racine.
+     Envoye a la racine, HubSpot repond :
+       "required form field phone does not have a corresponding value"
+     La forme exacte de la structure n'est pas documentee. On essaie les deux
+     plausibles, l'une apres l'autre : un refus ne cree rien, seul un succes
+     reserve, donc la seule consequence d'une mauvaise forme est un aller-
+     retour de plus. Une fois la bonne connue, il n'en restera qu'une. */
+  const champs = [['phone', tel]];
+  if (mot) champs.push([QUESTION, mot]);
+
+  const FORMES = [
+    ['liste', Object.assign({}, base, {
+      formFields: champs.map(function (c) { return { name: c[0], value: c[1] }; })
+    })],
+    ['objet', Object.assign({}, base, {
+      formFields: champs.reduce(function (o, c) { o[c[0]] = c[1]; return o; }, {})
+    })]
+  ];
 
   async function envoie(charge) {
     const r = await fetch(BOOK + '?timezone=' + encodeURIComponent(FUSEAU), {
@@ -96,25 +108,25 @@ module.exports = async function (req, res) {
       },
       body: JSON.stringify(charge)
     });
-    const t = await r.text();
-    let c; try { c = JSON.parse(t); } catch (e) { c = t.slice(0, 800); }
-    return { statut: r.status, corps: c };
+    const brut = await r.text();
+    let corps;
+    try { corps = JSON.parse(brut); } catch (e) { corps = brut.slice(0, 800); }
+    return { statut: r.status, corps: corps };
   }
 
   try {
-    let rep = await envoie(enrichi);
-    if (rep.statut >= 400) {
-      const second = await envoie(base);
-      if (second.statut < 400) rep = second;
-      else {
-        /* On ne renvoie jamais le detail de HubSpot au navigateur : il peut
-           contenir des informations de compte. Le code suffit au support. */
-        console.error('reservation refusee', rep.statut, JSON.stringify(rep.corps).slice(0, 500));
-        res.status(502).json({ erreur: 'refus_hubspot' });
+    for (const [nom_forme, charge] of FORMES) {
+      const rep = await envoie(charge);
+      if (rep.statut < 400) {
+        res.status(200).json({ ok: true, dureeMinutes: Math.round(duree / 60000) });
         return;
       }
+      /* On ne renvoie jamais le detail de HubSpot au navigateur : il peut
+         contenir des informations de compte. Le journal suffit. */
+      console.error('reservation refusee, forme ' + nom_forme, rep.statut,
+                    JSON.stringify(rep.corps).slice(0, 500));
     }
-    res.status(200).json({ ok: true, dureeMinutes: Math.round(duree / 60000) });
+    res.status(502).json({ erreur: 'refus_hubspot' });
   } catch (e) {
     res.status(502).json({ erreur: 'envoi_impossible' });
   }
