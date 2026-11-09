@@ -168,3 +168,69 @@ remplir son agenda commercial
 trouver des clients B2B
 prospection entrante B2B
 ```
+
+## AXE C. Registre conversationnel (36)
+
+Le registre qui manquait. Les autres blocs sont ecrits en groupes nominaux,
+comme une requete Google. Sur ChatGPT les gens ne tapent pas des mots-cles,
+ils donnent des instructions. Celui qui demande « fais moi un audit SEO de
+mon site » demande le livrable que nous vendons, a l'instant meme : c'est
+l'intention la plus haute de toute la liste.
+
+A placer en tete du groupe d'annonces.
+
+### C1. Demande directe du livrable  (16)
+
+```
+analyse mon site
+analyse mon site web
+analyse le referencement de mon site
+audite mon site
+fais un audit de mon site
+fais moi un audit SEO
+fais moi un audit SEO de mon site
+fais moi un audit GEO
+fais moi un rapport SEO
+fais moi un rapport GEO
+fais moi un diagnostic SEO
+peux-tu analyser mon site
+regarde mon site
+check mon site
+evalue mon referencement
+note le SEO de mon site
+```
+
+### C2. Doute et verification  (7)
+
+```
+est-ce que mon site est bien reference
+est-ce que mon site est optimise pour le SEO
+mon site est-il visible sur Google
+dis moi ce qui ne va pas sur mon site
+verifie le referencement de mon site
+pourquoi mon site ne ressort pas
+qu'est-ce qui bloque mon referencement
+```
+
+### C3. Demande directe, version IA  (7)
+
+```
+analyse ma visibilite sur ChatGPT
+verifie si je suis cite par ChatGPT
+fais moi un audit de visibilite IA
+analyse ma presence dans les IA
+evalue ma visibilite sur les moteurs IA
+est-ce que ChatGPT parle de mon entreprise
+regarde si les IA citent mon site
+```
+
+### C4. Demande d'aide et de prestataire  (6)
+
+```
+aide moi a referencer mon site
+aide moi a etre visible sur ChatGPT
+qui peut analyser mon site
+a qui confier l'audit de mon site
+je veux un audit de mon site
+je cherche quelqu'un pour mon referencement
+```
