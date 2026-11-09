@@ -110,6 +110,15 @@ PIED = (PIED.replace('href="mentions-legales.html"', 'href="/mentions-legales.ht
             .replace('href="confidentialite.html"', 'href="/confidentialite.html"'))
 
 STYLE_PAGE = u"""
+/* iOS Safari agrandit le texte de son propre chef quand le lecteur a choisi
+   « Texte plus grand » dans ses reglages, ou quand il juge un bloc trop
+   etroit. Le facteur n'est pas borne et il s'applique APRES nos vw, donc un
+   titre calcule pour tenir sur deux lignes repartait en quatre sur l'iPhone
+   de Brice alors qu'il tenait partout en laboratoire. On rend la decision a
+   la feuille de style. Le lecteur garde le zoom de la page, qui lui est bien
+   proportionnel. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
 :root{--coche:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.2 8.4l4 4 7.6-9' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 
 /* ---------- page d'atterrissage publicitaire ---------- */
@@ -306,8 +315,14 @@ STYLE_PAGE = u"""
      agrandie par le navigateur. Avec min(), il retrecit toujours, et la plus
      longue des deux moities garde partout un cinquieme de marge. */
   .duo h1{order:2;max-width:none;text-align:center;
-    font-size:min(7.6vw,2.5rem)}
-  .duo h1 .tl{display:block}
+    font-size:min(7.3vw,2.5rem)}
+  /* Chaque moitie prend sa ligne ET devient insecable : le navigateur n'a
+     plus le droit de couper « rendez-vous » au trait d'union ni de detacher
+     « GEO ». Deux moities, donc deux lignes, sur tout appareil, quelle que
+     soit la police qui a eu le temps de se charger. La taille passe de 7,6 a
+     7,3 pour cent de la largeur : avec l'insecable, la marge doit couvrir le
+     pire cas, soit la police de secours, plus large de 2 pour cent. */
+  .duo h1 .tl{display:block;white-space:nowrap}
   .agbox{order:3}
   .lpsub{order:4;max-width:none}
   .lplist{order:5;max-width:none}
