@@ -24,6 +24,10 @@ const APPELS = [
    'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/availability-page/23881028?timezone=Europe%2FParis'],
   ['availability-page, mois +1',
    'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/availability-page/23881028?timezone=Europe%2FParis&monthOffset=1'],
+  ['booking info v3, par id',
+   'https://api.hubapi.com/scheduler/v3/meetings/meeting-links/book/23881028?timezone=Europe%2FParis'],
+  ['availability-page v3, par id',
+   'https://api.hubapi.com/scheduler/v3/meetings/meeting-links/book/availability-page/23881028?timezone=Europe%2FParis'],
 ];
 
 module.exports = async function (req, res) {
