@@ -870,6 +870,33 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
     padding:14px;font-size:1.02rem;font-weight:800;letter-spacing:-.02em;
     text-align:center;text-decoration:none}
   .rsous{text-align:center;font-size:.78rem;color:#9fc4d2;margin:10px 0 0;font-weight:600}
+  .rheures{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));
+    gap:7px;margin-bottom:14px}
+  .rh{background:var(--night-3);border:1.5px solid transparent;border-radius:11px;
+    padding:10px 4px;text-align:center;color:#fff;font-family:inherit;font-weight:700;
+    font-size:.95rem;cursor:pointer}
+  .rh[aria-pressed="true"]{background:var(--acc);color:var(--night);border-color:#fff}
+  .rvide{font-size:.86rem;color:#9fc4d2;font-weight:600;margin:0 0 12px}
+  .rform{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
+  .rform input,.rform textarea{width:100%;background:var(--night-3);
+    border:1.5px solid rgba(127,216,238,.25);border-radius:11px;padding:11px 12px;
+    color:#fff;font-family:inherit;font-size:.97rem}
+  .rform textarea{min-height:62px;resize:vertical;line-height:1.45}
+  .rform input::placeholder,.rform textarea::placeholder{color:#7fa3b2}
+  .rform input:focus,.rform textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+  .rduo{display:flex;gap:9px}
+  .rduo input{min-width:0;flex:1}
+  .rchoisi{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin:0 0 3px;font-size:.86rem;font-weight:700;color:var(--acc)}
+  .rchoisi button{background:none;border:0;color:#9fc4d2;font-family:inherit;
+    font-size:.8rem;text-decoration:underline;cursor:pointer;padding:0;flex:none}
+  .rerr{margin:0;font-size:.84rem;color:#ffc2c2;font-weight:600}
+  .rok{text-align:center;padding:4px 0 2px}
+  .rok b{display:block;font-size:1.08rem;font-weight:800;margin-bottom:6px}
+  .rok span{display:block;font-size:.89rem;color:#9fc4d2;line-height:1.5}
+  /* hidden doit l'emporter sur les display poses au-dessus */
+  .rform[hidden],.rok[hidden],.rfl[hidden],.rvide[hidden],.rerr[hidden],
+  #retape1[hidden]{display:none}
   .lpsub{order:4;max-width:none}
   .lplist{order:5;max-width:none}
   .tel{order:6}
@@ -914,17 +941,41 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       <div class="resam">
         <div class="rtete">
           <img src="hote-mael.webp" width="52" height="52" alt="Maël Gallais" decoding="async">
-          <span><b>Maël Gallais</b><i>9 minutes en visio</i></span>
+          <span><b>Maël Gallais</b><i id="rduree">30 minutes en visio</i></span>
         </div>
-        <p class="rmois" id="rmois"></p>
-        <div class="rbande">
-          <div class="rjours" id="rjours" role="group" aria-label="Choisir un jour"></div>
-          <button class="rfl" id="rfl" type="button" aria-label="Voir les jours suivants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+
+        <div id="retape1">
+          <p class="rmois" id="rmois">Chargement des créneaux…</p>
+          <div class="rbande">
+            <div class="rjours" id="rjours" role="group" aria-label="Choisir un jour"></div>
+            <button class="rfl" id="rfl" type="button" aria-label="Voir les jours suivants" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+          <div class="rheures" id="rheures" role="group" aria-label="Choisir une heure"></div>
+          <p class="rvide" id="rvide" hidden>Aucun créneau ce jour-là.</p>
         </div>
-        <a class="rcta" id="rcta" href="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb">Réserver mon créneau</a>
-        <p class="rsous">Gratuit, sans engagement</p>
+
+        <form class="rform" id="rform" hidden>
+          <p class="rchoisi"><span id="rchoisi"></span>
+            <button type="button" id="rchange">changer</button></p>
+          <div class="rduo">
+            <input id="rprenom" type="text" placeholder="Prénom" autocomplete="given-name" required>
+            <input id="rnom" type="text" placeholder="Nom" autocomplete="family-name" required>
+          </div>
+          <input id="remail" type="email" placeholder="Email professionnel" autocomplete="email" required>
+          <input id="rtel" type="tel" placeholder="Téléphone" autocomplete="tel" required>
+          <textarea id="rmot" placeholder="Avez-vous un projet en cours ? Si oui, pouvez-vous m'en dire un peu plus ?"></textarea>
+          <p class="rerr" id="rerr" hidden></p>
+          <button class="rcta" id="rvalide" type="submit">Confirmer mon rendez-vous</button>
+        </form>
+
+        <div class="rok" id="rok" hidden>
+          <b>C'est réservé.</b>
+          <span id="roktexte"></span>
+        </div>
+
+        <p class="rsous" id="rsous">Gratuit, sans engagement</p>
       </div>
-      <iframe id="agframe" src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
+      <iframe id="agframe" data-src="https://meetings-eu1.hubspot.com/mael-gallais/auditnazargeo?uuid=a0d8d83c-fb50-40d7-bb86-985a8633a7eb&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
     </div>
   </div>
 </section>

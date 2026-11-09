@@ -372,6 +372,33 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
     padding:14px;font-size:1.02rem;font-weight:800;letter-spacing:-.02em;
     text-align:center;text-decoration:none}
   .rsous{text-align:center;font-size:.78rem;color:#9fc4d2;margin:10px 0 0;font-weight:600}
+  .rheures{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));
+    gap:7px;margin-bottom:14px}
+  .rh{background:var(--night-3);border:1.5px solid transparent;border-radius:11px;
+    padding:10px 4px;text-align:center;color:#fff;font-family:inherit;font-weight:700;
+    font-size:.95rem;cursor:pointer}
+  .rh[aria-pressed="true"]{background:var(--acc);color:var(--night);border-color:#fff}
+  .rvide{font-size:.86rem;color:#9fc4d2;font-weight:600;margin:0 0 12px}
+  .rform{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
+  .rform input,.rform textarea{width:100%;background:var(--night-3);
+    border:1.5px solid rgba(127,216,238,.25);border-radius:11px;padding:11px 12px;
+    color:#fff;font-family:inherit;font-size:.97rem}
+  .rform textarea{min-height:62px;resize:vertical;line-height:1.45}
+  .rform input::placeholder,.rform textarea::placeholder{color:#7fa3b2}
+  .rform input:focus,.rform textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+  .rduo{display:flex;gap:9px}
+  .rduo input{min-width:0;flex:1}
+  .rchoisi{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin:0 0 3px;font-size:.86rem;font-weight:700;color:var(--acc)}
+  .rchoisi button{background:none;border:0;color:#9fc4d2;font-family:inherit;
+    font-size:.8rem;text-decoration:underline;cursor:pointer;padding:0;flex:none}
+  .rerr{margin:0;font-size:.84rem;color:#ffc2c2;font-weight:600}
+  .rok{text-align:center;padding:4px 0 2px}
+  .rok b{display:block;font-size:1.08rem;font-weight:800;margin-bottom:6px}
+  .rok span{display:block;font-size:.89rem;color:#9fc4d2;line-height:1.5}
+  /* hidden doit l'emporter sur les display poses au-dessus */
+  .rform[hidden],.rok[hidden],.rfl[hidden],.rvide[hidden],.rerr[hidden],
+  #retape1[hidden]{display:none}
   .lpsub{order:4;max-width:none}
   .lplist{order:5;max-width:none}
   .tel{order:6}
@@ -424,17 +451,41 @@ CORPS = u"""
       <div class="resam">
         <div class="rtete">
           <img src="hote-mael.webp" width="52" height="52" alt="Maël Gallais" decoding="async">
-          <span><b>Maël Gallais</b><i>9 minutes en visio</i></span>
+          <span><b>Maël Gallais</b><i id="rduree">30 minutes en visio</i></span>
         </div>
-        <p class="rmois" id="rmois"></p>
-        <div class="rbande">
-          <div class="rjours" id="rjours" role="group" aria-label="Choisir un jour"></div>
-          <button class="rfl" id="rfl" type="button" aria-label="Voir les jours suivants"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+
+        <div id="retape1">
+          <p class="rmois" id="rmois">Chargement des créneaux…</p>
+          <div class="rbande">
+            <div class="rjours" id="rjours" role="group" aria-label="Choisir un jour"></div>
+            <button class="rfl" id="rfl" type="button" aria-label="Voir les jours suivants" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+          <div class="rheures" id="rheures" role="group" aria-label="Choisir une heure"></div>
+          <p class="rvide" id="rvide" hidden>Aucun créneau ce jour-là.</p>
         </div>
-        <a class="rcta" id="rcta" href="__AGENDA__">Réserver mon créneau</a>
-        <p class="rsous">Gratuit, sans engagement</p>
+
+        <form class="rform" id="rform" hidden>
+          <p class="rchoisi"><span id="rchoisi"></span>
+            <button type="button" id="rchange">changer</button></p>
+          <div class="rduo">
+            <input id="rprenom" type="text" placeholder="Prénom" autocomplete="given-name" required>
+            <input id="rnom" type="text" placeholder="Nom" autocomplete="family-name" required>
+          </div>
+          <input id="remail" type="email" placeholder="Email professionnel" autocomplete="email" required>
+          <input id="rtel" type="tel" placeholder="Téléphone" autocomplete="tel" required>
+          <textarea id="rmot" placeholder="Avez-vous un projet en cours ? Si oui, pouvez-vous m'en dire un peu plus ?"></textarea>
+          <p class="rerr" id="rerr" hidden></p>
+          <button class="rcta" id="rvalide" type="submit">Confirmer mon rendez-vous</button>
+        </form>
+
+        <div class="rok" id="rok" hidden>
+          <b>C'est réservé.</b>
+          <span id="roktexte"></span>
+        </div>
+
+        <p class="rsous" id="rsous">Gratuit, sans engagement</p>
       </div>
-      <iframe id="agframe" src="__AGENDA__&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
+      <iframe id="agframe" data-src="__AGENDA__&amp;embed=true" title="Choisir un créneau avec Maël" loading="eager"></iframe>
     </div>
   </div>
 </section>
@@ -533,73 +584,165 @@ SCRIPT_PAGE = u"""
 
 })();
 
-/* ---------- bande de jours, telephone ----------
-   Les dates sont fabriquees a l'ouverture de la page, jamais a la
-   generation : la page est statique et peut rester des semaines en ligne
-   sans etre redeployee. Des dates figees seraient donc passees. */
+/* ---------- prise de rendez-vous, telephone ----------
+   Le parcours entier se deroule ici : jour, heure, coordonnees, confirmation.
+   L'agenda HubSpot n'est plus encastre sous 900 pixels, parce que son iframe,
+   servie par un autre domaine, capturait le geste du pouce et empechait de
+   faire defiler la page.
+   Deux consequences heureuses : la conversion se termine sur notre page, donc
+   la mesure repart, et la liste des creneaux vient de l'agenda reel au lieu
+   d'etre devinee. */
 (function(){
-  'use strict';
-  var zone = document.getElementById('rjours');
-  var cta  = document.getElementById('rcta');
-  var mois = document.getElementById('rmois');
-  if(!zone || !cta) return;
+  "use strict";
 
-  var SOCLE = cta.getAttribute('href');
-  var NB = 20;            /* jours proposes dans la bande */
-  var OUVRES = true;      /* du lundi au vendredi seulement */
-  var JOUR = ["dim","lun","mar","mer","jeu","ven","sam"];
-  var MOIS = ["janvier","fevrier","mars","avril","mai","juin","juillet",
-              "aout","septembre","octobre","novembre","decembre"];
-
-  function deux(n){ return (n < 10 ? "0" : "") + n; }
-  function iso(d){
-    return d.getFullYear() + "-" + deux(d.getMonth() + 1) + "-" + deux(d.getDate());
+  /* L'agenda HubSpot ne recoit son adresse que sur grand ecran. Masque en
+     feuille de style, il etait tout de meme telecharge sur telephone : une
+     page entiere de HubSpot chargee pour rien, invisible, sur le reseau du
+     visiteur. */
+  var cadre = document.getElementById("agframe");
+  if(cadre && !window.matchMedia("(max-width:900px)").matches){
+    var adr = cadre.getAttribute("data-src");
+    if(adr) cadre.setAttribute("src", adr);
   }
 
-  /* On part de demain : HubSpot impose un delai de prevenance, et proposer
-     le jour meme risquerait d'ouvrir sur une journee deja pleine. */
-  var liste = [], d = new Date();
-  d.setDate(d.getDate() + 1);
-  while(liste.length < NB){
-    var j = d.getDay();
-    if(!OUVRES || (j !== 0 && j !== 6)) liste.push(new Date(d.getTime()));
-    d.setDate(d.getDate() + 1);
+  var zone = document.getElementById("rjours");
+  if(!zone) return;
+
+  var heures = document.getElementById("rheures");
+  var mois   = document.getElementById("rmois");
+  var vide   = document.getElementById("rvide");
+  var fl     = document.getElementById("rfl");
+  var etape1 = document.getElementById("retape1");
+  var form   = document.getElementById("rform");
+  var dit    = document.getElementById("rchoisi");
+  var ok     = document.getElementById("rok");
+  var okTxt  = document.getElementById("roktexte");
+  var err    = document.getElementById("rerr");
+  var valide = document.getElementById("rvalide");
+  var sous   = document.getElementById("rsous");
+  var duree  = document.getElementById("rduree");
+
+  var LONG = {lun:"lundi", mar:"mardi", mer:"mercredi", jeu:"jeudi",
+              ven:"vendredi", sam:"samedi", dim:"dimanche"};
+  var creneau = null;
+
+  function vider(e){ while(e.firstChild) e.removeChild(e.firstChild); }
+  function dis(m){ err.textContent = m; err.hidden = false; }
+
+  function charge(){
+    return fetch("/api/creneaux", {headers:{Accept:"application/json"}})
+      .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); });
   }
 
-  function choisit(bouton, date){
-    var tous = zone.getElementsByTagName("button");
-    for(var i = 0; i < tous.length; i++) tous[i].setAttribute("aria-pressed", "false");
-    bouton.setAttribute("aria-pressed", "true");
-    /* La date part dans l'adresse. Si HubSpot ne la lit pas, le visiteur
-       arrive simplement sur le calendrier normal : on ne casse rien. */
-    cta.href = SOCLE + (SOCLE.indexOf("?") < 0 ? "?" : "&") + "date=" + iso(date);
-    if(mois) mois.textContent = MOIS[date.getMonth()] + " " + date.getFullYear();
-  }
-
-  for(var k = 0; k < liste.length; k++){
-    (function(date){
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "rj";
-      b.setAttribute("aria-pressed", "false");
-      b.innerHTML = "<i>" + JOUR[date.getDay()] + "</i><b>" + date.getDate() + "</b>";
-      b.addEventListener("click", function(){ choisit(b, date); });
-      zone.appendChild(b);
-      if(zone.children.length === 1) choisit(b, date);
-    })(liste[k]);
-  }
-
-  var fl = document.getElementById("rfl");
-  if(fl) fl.addEventListener("click", function(){
-    zone.scrollLeft += Math.max(zone.clientWidth - 80, 134);
+  charge().then(demarre).catch(function(){
+    mois.textContent = "Agenda momentanement indisponible.";
   });
 
-  /* Sur telephone la reservation se termine chez HubSpot, hors de notre
-     page : le message qui declenchait appointment_scheduled ne nous
-     parvient plus. On mesure donc le depart vers l'agenda, qui est une
-     intention, pas une reservation. Le compte vrai reste dans HubSpot. */
-  cta.addEventListener("click", function(){
-    if(window.mesure) window.mesure("initiate_checkout", {type: "customer_action"});
+  function demarre(d){
+    if(duree && d.dureeMinutes) duree.textContent = d.dureeMinutes + " minutes en visio";
+    if(!d.jours || !d.jours.length){ mois.textContent = "Aucun creneau disponible."; return; }
+    vider(zone); vider(heures);
+    d.jours.forEach(function(j, i){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "rj";
+      b.setAttribute("aria-pressed", "false");
+      b.innerHTML = "<i>" + j.jour + "</i><b>" + j.num + "</b>";
+      b.addEventListener("click", function(){ prendJour(j, b); });
+      zone.appendChild(b);
+      if(i === 0) prendJour(j, b);
+    });
+    if(fl) fl.hidden = !(zone.scrollWidth > zone.clientWidth + 4);
+  }
+
+  function prendJour(j, b){
+    creneau = null;
+    var tous = zone.getElementsByTagName("button");
+    for(var i = 0; i < tous.length; i++) tous[i].setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-pressed", "true");
+    mois.textContent = j.mois + " " + j.date.slice(0, 4);
+    vider(heures);
+    var liste = j.creneaux || [];
+    vide.hidden = liste.length > 0;
+    liste.forEach(function(c){
+      var h = document.createElement("button");
+      h.type = "button"; h.className = "rh";
+      h.setAttribute("aria-pressed", "false");
+      h.textContent = c.h;
+      h.addEventListener("click", function(){ prendHeure(j, c); });
+      heures.appendChild(h);
+    });
+  }
+
+  function prendHeure(j, c){
+    creneau = c;
+    dit.textContent = LONG[j.jour] + " " + j.num + " " + j.mois + ", " + c.h;
+    etape1.hidden = true;
+    form.hidden = false;
+    var p = document.getElementById("rprenom");
+    if(p) p.focus();
+  }
+
+  var change = document.getElementById("rchange");
+  if(change) change.addEventListener("click", function(){
+    form.hidden = true; etape1.hidden = false; err.hidden = true;
+  });
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    if(!creneau) return;
+    err.hidden = true;
+    var avant = valide.textContent;
+    valide.disabled = true;
+    valide.textContent = "Envoi\u2026";
+
+    function fini(){ valide.disabled = false; valide.textContent = avant; }
+
+    fetch("/api/reserver", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        prenom:    document.getElementById("rprenom").value,
+        nom:       document.getElementById("rnom").value,
+        email:     document.getElementById("remail").value,
+        telephone: document.getElementById("rtel").value,
+        message:   document.getElementById("rmot").value,
+        debut:     creneau.debut
+      })
+    }).then(function(r){
+      return r.json().then(function(j){ return {s: r.status, j: j}; },
+                           function(){ return {s: r.status, j: {}}; });
+    }).then(function(rep){
+      fini();
+      if(rep.s === 200 && rep.j && rep.j.ok){ reussi(); return; }
+      if(rep.s === 409){
+        dis("Ce creneau vient d'etre pris. Choisissez-en un autre.");
+        form.hidden = true; etape1.hidden = false;
+        charge().then(demarre).catch(function(){});
+        return;
+      }
+      if(rep.s === 400 && rep.j && rep.j.champs){
+        dis("Merci de completer : " + rep.j.champs.join(", ") + ".");
+        return;
+      }
+      dis("La reservation n'a pas abouti. Reessayez, ou appelez-nous.");
+    }).catch(function(){
+      fini();
+      dis("Connexion interrompue. Reessayez.");
+    });
+  });
+
+  function reussi(){
+    var quand = dit.textContent;
+    form.hidden = true; etape1.hidden = true; ok.hidden = false;
+    if(sous) sous.hidden = true;
+    okTxt.textContent = quand + ". Vous recevez le lien de visioconference par email.";
+    /* La conversion repart d'ici : sans l'iframe, le message de HubSpot qui la
+       declenchait ne nous parvenait plus. */
+    if(window.mesure) window.mesure("appointment_scheduled", {type: "customer_action"});
+  }
+
+  if(fl) fl.addEventListener("click", function(){
+    zone.scrollLeft += Math.max(zone.clientWidth - 80, 134);
   });
 })();
 </script>
