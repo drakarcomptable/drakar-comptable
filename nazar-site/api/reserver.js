@@ -2,24 +2,39 @@
  *
  * Le visiteur choisit son jour, son heure et laisse ses coordonnees sur notre
  * page : la reservation se termine donc chez nous, et non plus sur la page de
- * HubSpot. Cela nous rend deux choses que l'iframe avait emportees : la
- * mesure de la conversion, et la maitrise du parcours.
+ * HubSpot. Cela nous rend la mesure de la conversion et la maitrise du
+ * parcours, que l'iframe avait emportees.
  *
- * Champs exiges par HubSpot, releves sur sa propre reponse de validation :
- * slug, startTime, duration, firstName, lastName, email. Le telephone et la
- * question libre viennent de la configuration du lien.
+ * Chaque appel a HubSpot est borne dans le temps. Sans cela, la fonction
+ * restait pendue jusqu'a ce que la plateforme la tue, et le visiteur voyait
+ * « Connexion interrompue » apres une longue attente, sans rien apprendre.
  */
 
-const LIEN   = 'mael-gallais/auditnazargeo';
-const FUSEAU = 'Europe/Paris';
-const BOOK   = 'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book';
-const INFO   = 'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/'
-             + encodeURIComponent(LIEN) + '?timezone=' + encodeURIComponent(FUSEAU);
-
+const LIEN     = 'mael-gallais/auditnazargeo';
+const FUSEAU   = 'Europe/Paris';
+const BOOK     = 'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book';
+const INFO     = BOOK + '/' + encodeURIComponent(LIEN) + '?timezone=' + encodeURIComponent(FUSEAU);
 const QUESTION = "Avez-vous un projet en cours ? Si oui, pouvez-vous m'en dire un peu plus ?";
+const DUREE_DEFAUT = 1800000;
 
 function texte(v, max) {
   return typeof v === 'string' ? v.trim().slice(0, max) : '';
+}
+
+/* fetch borne : au-dela du delai on abandonne et on le dit, plutot que de
+   laisser la plateforme couper la fonction sans explication. */
+async function appel(url, options, msMax) {
+  const arret = new AbortController();
+  const minuteur = setTimeout(function () { arret.abort(); }, msMax);
+  try {
+    const r = await fetch(url, Object.assign({}, options, { signal: arret.signal }));
+    const brut = await r.text();
+    let corps;
+    try { corps = JSON.parse(brut); } catch (e) { corps = brut.slice(0, 800); }
+    return { statut: r.status, corps: corps };
+  } finally {
+    clearTimeout(minuteur);
+  }
 }
 
 module.exports = async function (req, res) {
@@ -47,26 +62,33 @@ module.exports = async function (req, res) {
   if (!Number.isFinite(debut) || debut < Date.now()) manque.push('creneau');
   if (manque.length) { res.status(400).json({ erreur: 'champs', champs: manque }); return; }
 
-  /* On revalide le creneau contre l'agenda avant d'envoyer : entre l'affichage
-     et le clic, quelqu'un d'autre a pu le prendre, et cela evite aussi qu'une
-     requete fabriquee a la main reserve n'importe quelle heure. */
-  let duree = 1800000;
+  const entete = {
+    Authorization: 'Bearer ' + jeton,
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  };
+
+  /* Relecture de l'agenda, pour la duree du lien et pour verifier que le
+     creneau est toujours libre. Elle echoue ouvert : si HubSpot tarde, on
+     tente la reservation quand meme, c'est lui qui tranchera. Mieux vaut un
+     refus clair de sa part qu'une attente qui n'aboutit pas. */
+  let duree = DUREE_DEFAUT;
   try {
-    const r = await fetch(INFO, { headers: { Authorization: 'Bearer ' + jeton, Accept: 'application/json' } });
-    if (!r.ok) { res.status(502).json({ erreur: 'agenda indisponible' }); return; }
-    const info = await r.json();
-    const reg = (info && info.customParams) || {};
-    duree = (reg.durations && reg.durations[0]) || duree;
-    const parDuree = (info.linkAvailability && info.linkAvailability.linkAvailabilityByDuration) || {};
-    const bloc = parDuree[String(duree)] || parDuree[Object.keys(parDuree)[0]] || {};
-    const libres = bloc.availabilities || [];
-    if (!libres.some(function (c) { return c.startMillisUtc === debut; })) {
-      res.status(409).json({ erreur: 'creneau_pris' });
-      return;
+    const info = await appel(INFO, { headers: entete }, 5000);
+    if (info.statut < 400 && info.corps && typeof info.corps === 'object') {
+      const reg = info.corps.customParams || {};
+      duree = (reg.durations && reg.durations[0]) || duree;
+      const parDuree = (info.corps.linkAvailability
+                     && info.corps.linkAvailability.linkAvailabilityByDuration) || {};
+      const bloc = parDuree[String(duree)] || parDuree[Object.keys(parDuree)[0]] || {};
+      const libres = bloc.availabilities || [];
+      if (libres.length && !libres.some(function (c) { return c.startMillisUtc === debut; })) {
+        res.status(409).json({ erreur: 'creneau_pris' });
+        return;
+      }
     }
   } catch (e) {
-    res.status(502).json({ erreur: 'agenda injoignable' });
-    return;
+    console.error('relecture agenda ignoree :', String((e && e.name) || e));
   }
 
   const base = {
@@ -79,55 +101,40 @@ module.exports = async function (req, res) {
     timezone: FUSEAU
   };
 
-  /* Le telephone est un champ de formulaire du lien, pas un champ racine.
-     Envoye a la racine, HubSpot repond :
-       "required form field phone does not have a corresponding value"
-     La forme exacte de la structure n'est pas documentee. On essaie les deux
-     plausibles, l'une apres l'autre : un refus ne cree rien, seul un succes
-     reserve, donc la seule consequence d'une mauvaise forme est un aller-
-     retour de plus. Une fois la bonne connue, il n'en restera qu'une. */
+  /* Le telephone est un champ de formulaire du lien, pas un champ racine :
+     envoye a la racine, HubSpot repond « required form field phone does not
+     have a corresponding value ». La forme de cette structure n'est pas
+     documentee, on essaie les deux plausibles. Un refus ne cree rien, seul
+     un succes reserve. */
   const champs = [['phone', tel]];
   if (mot) champs.push([QUESTION, mot]);
 
   const FORMES = [
-    ['liste', Object.assign({}, base, {
-      formFields: champs.map(function (c) { return { name: c[0], value: c[1] }; })
-    })],
-    ['objet', Object.assign({}, base, {
-      formFields: champs.reduce(function (o, c) { o[c[0]] = c[1]; return o; }, {})
-    })]
+    ['liste', champs.map(function (c) { return { name: c[0], value: c[1] }; })],
+    ['objet', champs.reduce(function (o, c) { o[c[0]] = c[1]; return o; }, {})]
   ];
 
-  async function envoie(charge) {
-    const r = await fetch(BOOK + '?timezone=' + encodeURIComponent(FUSEAU), {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + jeton,
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify(charge)
-    });
-    const brut = await r.text();
-    let corps;
-    try { corps = JSON.parse(brut); } catch (e) { corps = brut.slice(0, 800); }
-    return { statut: r.status, corps: corps };
-  }
-
-  try {
-    for (const [nom_forme, charge] of FORMES) {
-      const rep = await envoie(charge);
+  let dernier = null;
+  for (const [etiquette, valeur] of FORMES) {
+    const charge = Object.assign({}, base, { formFields: valeur });
+    try {
+      const rep = await appel(BOOK + '?timezone=' + encodeURIComponent(FUSEAU),
+                              { method: 'POST', headers: entete, body: JSON.stringify(charge) },
+                              9000);
       if (rep.statut < 400) {
         res.status(200).json({ ok: true, dureeMinutes: Math.round(duree / 60000) });
         return;
       }
-      /* On ne renvoie jamais le detail de HubSpot au navigateur : il peut
+      dernier = rep.statut;
+      /* Le detail de HubSpot ne part jamais vers le navigateur : il peut
          contenir des informations de compte. Le journal suffit. */
-      console.error('reservation refusee, forme ' + nom_forme, rep.statut,
+      console.error('refus HubSpot, forme ' + etiquette, rep.statut,
                     JSON.stringify(rep.corps).slice(0, 500));
+    } catch (e) {
+      dernier = 'delai';
+      console.error('envoi interrompu, forme ' + etiquette, String((e && e.name) || e));
     }
-    res.status(502).json({ erreur: 'refus_hubspot' });
-  } catch (e) {
-    res.status(502).json({ erreur: 'envoi_impossible' });
   }
+
+  res.status(502).json({ erreur: dernier === 'delai' ? 'hubspot_lent' : 'refus_hubspot' });
 };

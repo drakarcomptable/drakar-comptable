@@ -163,5 +163,10 @@
       "source": "/audit-gratuit/",
       "destination": "/audit-gratuit.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  }
 }
