@@ -878,9 +878,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .rh[aria-pressed="true"]{background:var(--acc);color:var(--night);border-color:#fff}
   .rvide{font-size:.86rem;color:#9fc4d2;font-weight:600;margin:0 0 12px}
   .rform{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
+  /* 16 pixels, pas un de moins : sous ce seuil, Safari sur iOS agrandit la
+     page des que le doigt entre dans un champ. L'agrandissement rend la page
+     plus large que l'ecran, et tout glisse vers la droite. Chromium ne
+     reproduit pas ce comportement, le defaut ne se voyait donc qu'en vrai. */
   .rform input,.rform textarea{width:100%;background:var(--night-3);
     border:1.5px solid rgba(127,216,238,.25);border-radius:11px;padding:11px 12px;
-    color:#fff;font-family:inherit;font-size:.97rem}
+    color:#fff;font-family:inherit;font-size:16px}
   .rform textarea{min-height:62px;resize:vertical;line-height:1.45}
   .rform input::placeholder,.rform textarea::placeholder{color:#7fa3b2}
   .rform input:focus,.rform textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
