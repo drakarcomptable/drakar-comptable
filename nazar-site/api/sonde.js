@@ -16,10 +16,24 @@
  */
 
 const APPELS = [
-  ['liste des liens de rendez-vous',
-   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links'],
-  ['liste, version v3',
-   'https://api.hubapi.com/scheduler/v3/meetings/meeting-links'],
+  ['detail du lien par id',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/23881028'],
+  ['booking info par slug',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/mael-gallais/auditnazargeo'],
+  ['booking info, slug encode',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/mael-gallais%2Fauditnazargeo'],
+  ['booking info en parametre',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book?slug=mael-gallais/auditnazargeo'],
+  ['page de disponibilite',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/availability-page/mael-gallais/auditnazargeo'],
+  ['page de dispo, v3',
+   'https://api.hubapi.com/scheduler/v3/meetings/meeting-links/book/availability-page/mael-gallais/auditnazargeo?timezone=Europe%2FParis'],
+  ['disponibilite par id',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/23881028/availability'],
+  ['booking info par id',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/23881028'],
+  ['availability-page par id',
+   'https://api.hubapi.com/scheduler/2026-03/meetings/meeting-links/book/availability-page/23881028'],
 ];
 
 module.exports = async function (req, res) {
