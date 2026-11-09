@@ -103,38 +103,27 @@ module.exports = async function (req, res) {
 
   /* Le telephone est un champ de formulaire du lien, pas un champ racine :
      envoye a la racine, HubSpot repond « required form field phone does not
-     have a corresponding value ». La forme de cette structure n'est pas
-     documentee, on essaie les deux plausibles. Un refus ne cree rien, seul
-     un succes reserve. */
-  const champs = [['phone', tel]];
-  if (mot) champs.push([QUESTION, mot]);
+     have a corresponding value ». La forme attendue, etablie par la premiere
+     reservation reelle, est une liste de paires nom/valeur. La question libre
+     voyage dans la meme liste, sous son intitule complet. */
+  const formFields = [{ name: 'phone', value: tel }];
+  if (mot) formFields.push({ name: QUESTION, value: mot });
 
-  const FORMES = [
-    ['liste', champs.map(function (c) { return { name: c[0], value: c[1] }; })],
-    ['objet', champs.reduce(function (o, c) { o[c[0]] = c[1]; return o; }, {})]
-  ];
-
-  let dernier = null;
-  for (const [etiquette, valeur] of FORMES) {
-    const charge = Object.assign({}, base, { formFields: valeur });
-    try {
-      const rep = await appel(BOOK + '?timezone=' + encodeURIComponent(FUSEAU),
-                              { method: 'POST', headers: entete, body: JSON.stringify(charge) },
-                              9000);
-      if (rep.statut < 400) {
-        res.status(200).json({ ok: true, dureeMinutes: Math.round(duree / 60000) });
-        return;
-      }
-      dernier = rep.statut;
-      /* Le detail de HubSpot ne part jamais vers le navigateur : il peut
-         contenir des informations de compte. Le journal suffit. */
-      console.error('refus HubSpot, forme ' + etiquette, rep.statut,
-                    JSON.stringify(rep.corps).slice(0, 500));
-    } catch (e) {
-      dernier = 'delai';
-      console.error('envoi interrompu, forme ' + etiquette, String((e && e.name) || e));
+  try {
+    const rep = await appel(BOOK + '?timezone=' + encodeURIComponent(FUSEAU),
+      { method: 'POST', headers: entete,
+        body: JSON.stringify(Object.assign({}, base, { formFields: formFields })) },
+      9000);
+    if (rep.statut < 400) {
+      res.status(200).json({ ok: true, dureeMinutes: Math.round(duree / 60000) });
+      return;
     }
+    /* Le detail de HubSpot ne part jamais vers le navigateur : il peut
+       contenir des informations de compte. Le journal suffit au diagnostic. */
+    console.error('refus HubSpot', rep.statut, JSON.stringify(rep.corps).slice(0, 500));
+    res.status(502).json({ erreur: 'refus_hubspot' });
+  } catch (e) {
+    console.error('envoi interrompu', String((e && e.name) || e));
+    res.status(502).json({ erreur: 'hubspot_lent' });
   }
-
-  res.status(502).json({ erreur: dernier === 'delai' ? 'hubspot_lent' : 'refus_hubspot' });
 };
