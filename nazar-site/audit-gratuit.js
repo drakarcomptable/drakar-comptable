@@ -967,6 +967,23 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
   function vider(e){ while(e.firstChild) e.removeChild(e.firstChild); }
   function dis(m){ err.textContent = m; err.hidden = false; }
 
+  /* Jalons de l'entonnoir. Entre le clic et la reservation il n'y avait rien :
+     impossible de distinguer un visiteur qui ne trouve pas son bonheur d'une
+     page qui ne convertit pas. On pose donc trois reperes, qui remontent dans
+     Ads Manager au meme titre que la conversion finale. */
+  var vus = {};
+  function jalon(nom, id, libelle, forme){
+    if(!window.mesure || vus[nom]) return;
+    vus[nom] = true;
+    if(forme === "custom"){
+      window.mesure("custom", {type:"custom", custom_event_name: nom});
+      return;
+    }
+    window.mesure(nom, {type:"contents", contents:[{
+      id: id, name: libelle, content_type: "rendez-vous"
+    }]});
+  }
+
   function charge(){
     return fetch("/api/creneaux", {headers:{Accept:"application/json"}})
       .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); });
@@ -990,6 +1007,8 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
       if(i === 0) prendJour(j, b);
     });
     if(fl) fl.hidden = !(zone.scrollWidth > zone.clientWidth + 4);
+    jalon("contents_viewed", "creneaux",
+          d.jours.length + " jours proposes");
   }
 
   function prendJour(j, b){
@@ -1013,6 +1032,7 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
 
   function prendHeure(j, c){
     creneau = c;
+    jalon("checkout_started", j.date + " " + c.h, "creneau choisi");
     dit.textContent = LONG[j.jour] + " " + j.num + " " + j.mois + ", " + c.h;
     etape1.hidden = true;
     form.hidden = false;
@@ -1062,9 +1082,11 @@ window.NZ.Copilot.hue = "<path d=\"M17.533 1.829A2.528 2.528 0 0015.11 0h-.737a2
         dis("Merci de completer : " + rep.j.champs.join(", ") + ".");
         return;
       }
+      jalon("reservation_refusee", "", "", "custom");
       dis("La reservation n'a pas abouti. Reessayez, ou appelez-nous.");
     }).catch(function(){
       fini();
+      jalon("reservation_interrompue", "", "", "custom");
       dis("Connexion interrompue. Reessayez.");
     });
   });
