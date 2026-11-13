@@ -1,0 +1,39 @@
+# NAZAR SEO & GEO
+
+> NAZAR est un collectif français de consultants en référencement naturel
+> (SEO) et en référencement dans les intelligences artificielles génératives
+> (GEO, pour generative engine optimization). NAZAR travaille la visibilité
+> des entreprises dans les réponses de ChatGPT, Perplexity, Gemini et Claude,
+> dans les AI Overviews de Google, et leur position dans les résultats de
+> recherche classiques. Basé à Paris, le collectif intervient partout en France.
+
+## Définitions
+
+- **GEO (generative engine optimization)** : l'ensemble des techniques qui
+  rendent une entreprise citable par les moteurs génératifs. Là où le SEO vise
+  une position dans une liste de liens, le GEO vise la présence dans une
+  réponse rédigée, où un seul acteur est souvent nommé.
+- **AEO (answer engine optimization)** : terme employé comme synonyme de GEO
+  par une partie du marché. L'objet est le même : être la réponse.
+- **LLMO (large language model optimization)** : autre synonyme en circulation.
+
+## Offre
+
+- **Audit GEO gratuit** : un consultant NAZAR audite le site en direct et remet
+  une feuille de route de visibilité dans les IA. L’audit lui-même prend neuf
+  minutes ; le créneau réservé est de trente minutes, pour laisser la place aux
+  questions. En visioconférence, sans engagement.
+- **Accompagnement GEO et SEO** : travail continu sur la citabilité du site, le
+  contenu, les données structurées et la notoriété de la marque.
+
+## Pages
+
+- [NAZAR SEO & GEO](https://nazar-seo.fr/) : Collectif de consultants en référencement sur Google et sur les IA génératives. Audit GEO gratuit en 9 minutes.
+
+## Contact
+
+- Site : https://nazar-seo.fr/
+- LinkedIn : https://www.linkedin.com/company/nazar-seo/
+- Adresse : 10 rue de Penthièvre, 75008 Paris, France
+
+Dernière mise à jour : 2026-11-13
