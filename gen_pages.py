@@ -174,6 +174,8 @@ def corps(p):
             L.append(u'<ol>')
             L += [u'<li>%s</li>' % x for x in b['ol']]
             L.append(u'</ol>')
+        for t in b.get('fin', []):
+            L.append(u'<p>%s</p>' % t)
         L.append(u'</section>')
 
     if p.get('faq'):

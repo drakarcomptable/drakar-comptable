@@ -284,7 +284,7 @@ PAGES += [
       '<b>Arbitrer sur des chiffres plutôt que sur des impressions.</b> '
       'Chaque décision s’appuie sur un relevé daté, opposable, pas sur '
       'l’intuition d’un consultant.'],
-    'corps': [
+    'fin': [
       'Le périmètre se décide après l’audit, jamais avant. Un marché où trois '
       'acteurs sont déjà cités partout ne demande pas le même travail qu’un '
       'marché où les modèles hésitent encore, et personne ne peut en juger '
@@ -473,7 +473,7 @@ PAGES += [
        'd': 'Deux ou trois sources sont nommées. Les autres n’existent pas '
             'pour la personne qui a posé la question.',
        'part': '9%'}],
-    'corps': [
+    'fin': [
       'Deux conséquences suivent de cet enchaînement. La première est qu’une '
       'page excellente mais lente à répondre perd au troisième filtre contre '
       'une page plus faible qui répond dès sa première phrase. La seconde est '
@@ -520,7 +520,7 @@ PAGES += [
          'Jours à semaines, dans les deux sens'],
         ['Mesure', 'Position et trafic',
          'Fréquence de citation et sources reprises']]},
-    'corps': [
+    'fin': [
       'Ces différences n’en font pas des disciplines concurrentes. Un site '
       'bien référencé dans Google a plus de chances d’être lu par un modèle, '
       'simplement parce que les moteurs génératifs s’appuient en partie sur '
