@@ -194,7 +194,8 @@ PAGES += [
  'bouton': 'Demander un audit gratuit',
  'prio': '0.9',
  'llms': 'Agence GEO : ce que fait une agence de generative engine '
-         'optimization, comment en choisir une, et comment se structure le prix.',
+         'optimization, comment en choisir une, et ce que couvre un '
+         'accompagnement.',
  'service': 'Accompagnement GEO',
  'blocs': [
    {'note': 'Définition',
@@ -260,26 +261,35 @@ PAGES += [
       'questions, à quelle fréquence, et comment vous y accédez. Sans mesure '
       'définie à l’avance, il n’y a pas de résultat opposable.']},
 
-   {'note': 'Budget',
-    'h2': 'Combien coûte une agence GEO ?',
-    'tete': 'Trois formes de facturation coexistent sur le marché : la mission '
-            'ponctuelle, l’accompagnement au forfait mensuel, et le projet à '
-            'périmètre fermé.',
+   {'note': 'Accompagnement',
+    'h2': 'Ce que l’accompagnement NAZAR vous permet',
+    'tete': 'Un accompagnement GEO ne se juge pas à une liste de livrables '
+            'mais à trois capacités : savoir ce que les moteurs disent de '
+            'vous, pouvoir le changer, et le vérifier. NAZAR couvre les trois, '
+            'en continu.',
+    'pts': [
+      '<b>Savoir où vous en êtes, chaque semaine.</b> Le même corpus de '
+      'questions d’achat, relevé à intervalle fixe. Vous voyez votre '
+      'fréquence de citation évoluer, et celle de vos concurrents avec.',
+      '<b>Corriger ce qui vous retire du jeu.</b> Accès des robots des IA, '
+      'structure des pages, données structurées, temps de réponse. Des '
+      'correctifs précis, que votre équipe applique ou que nous appliquons.',
+      '<b>Produire les réponses que les modèles reprennent.</b> Les questions '
+      'de votre marché, traitées sous la forme qu’un modèle sait extraire : '
+      'la réponse en tête de section, les entités nommées, des faits datés.',
+      '<b>Exister là où les modèles vont lire.</b> Annuaires professionnels, '
+      'comparatifs sectoriels, publications spécialisées. C’est le chantier '
+      'que la plupart des offres laissent de côté, et souvent celui qui '
+      'décide.',
+      '<b>Arbitrer sur des chiffres plutôt que sur des impressions.</b> '
+      'Chaque décision s’appuie sur un relevé daté, opposable, pas sur '
+      'l’intuition d’un consultant.'],
     'corps': [
-      'La mission ponctuelle couvre un diagnostic et une feuille de route. '
-      'Elle convient quand une équipe interne exécutera ensuite. '
-      'L’accompagnement mensuel couvre la production de contenu et le travail '
-      'des sources dans la durée : c’est la forme la plus courante, parce que '
-      'la citabilité se construit par accumulation. Le projet à périmètre '
-      'fermé convient à une refonte, quand la structure du site est elle-même '
-      'en cause.',
-      'Le facteur de prix principal n’est pas la taille du site mais le niveau '
-      'de concurrence sur vos questions d’achat. Un marché où trois acteurs '
-      'sont déjà cités partout demande plus de travail qu’un marché où les '
-      'modèles hésitent encore.',
-      'NAZAR commence toujours par l’audit gratuit, avant toute proposition '
-      'chiffrée. Tant que le relevé n’est pas fait, personne ne peut dire '
-      'honnêtement ce que le travail représente.']},
+      'Le périmètre se décide après l’audit, jamais avant. Un marché où trois '
+      'acteurs sont déjà cités partout ne demande pas le même travail qu’un '
+      'marché où les modèles hésitent encore, et personne ne peut en juger '
+      'sans avoir regardé. C’est précisément ce que l’audit gratuit sert à '
+      'établir.']},
  ],
  'faq': [
    ('Quelle différence entre une agence SEO et une agence GEO ?',

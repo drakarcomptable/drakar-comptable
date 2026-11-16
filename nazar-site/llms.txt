@@ -30,7 +30,7 @@
 
 - [NAZAR SEO & GEO](https://nazar-seo.fr/) : Collectif de consultants en référencement sur Google et sur les IA génératives. Audit GEO gratuit en 9 minutes.
 - [Audit GEO](https://nazar-seo.fr/audit-geo) : Audit GEO gratuit : relevé de ce que les moteurs génératifs répondent sur votre marché, concurrents cités, sources reprises.
-- [Agence GEO](https://nazar-seo.fr/agence-geo) : Agence GEO : ce que fait une agence de generative engine optimization, comment en choisir une, et comment se structure le prix.
+- [Agence GEO](https://nazar-seo.fr/agence-geo) : Agence GEO : ce que fait une agence de generative engine optimization, comment en choisir une, et ce que couvre un accompagnement.
 - [Consultant GEO](https://nazar-seo.fr/consultant-geo) : Consultant GEO : définition du métier, livrables concrets, différence avec un consultant SEO, et choix entre consultant et agence.
 - [Référencement IA](https://nazar-seo.fr/referencement-ia) : Référencement IA : le mécanisme de sélection des sources par les moteurs génératifs, et les leviers qui agissent dessus.
 - [Référencement ChatGPT](https://nazar-seo.fr/referencement-chatgpt) : Référencement ChatGPT : d’où viennent les sources citées, ce qui augmente les chances d’être nommé, et les fausses pistes.
