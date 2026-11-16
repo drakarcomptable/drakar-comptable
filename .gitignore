@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Python met en cache les modules importes : ce sont des artefacts de
+# construction, ils ne doivent pas vivre dans le depot.
+__pycache__/
+*.pyc
