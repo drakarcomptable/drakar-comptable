@@ -1,0 +1,57 @@
+﻿verdict,action,entreprise,prenom,nom,fonction_crm,poste_actuel_reel,mobile,secteur,contact_id
+PARTI,SORTIR,Powerapi,Edouard,Thimon,Co-Founder & COO,Founder @ ETH Group Invest (quitte PowerAPI sept 2024),+33674908563,TECH-SAAS,9441754341
+PARTI,SORTIR,Tabsters,Amelie,Guicheney,Co-founder,Co-founder & CEO @ GAYA,+33749652537,INDUSTRIE-ENERGIE,12288037874
+PARTI,SORTIR,Crossgolf App,Morgan,Brossa,Founder Ceo,Elite Golf Coach @ Swiss Golf,+41764633302,TECH-SAAS,9446316220
+PARTI,SORTIR,Gyfti,Paul,Fourçans,Co-founder,Senior Manager @ Deloitte Digital,+33780962261,TECH-SAAS,12287833321
+PARTI,SORTIR,Orange Luxembourg,Corinne,Lozé,CEO,Director Traffic & Analytics @ Orange France,+352661888100,TECH-SAAS,9446315755
+PARTI,SORTIR,Societeinfo.Com,Alexandre,Conraud,Ceo - Co-fondateur,Gerant @ La Bastide Bleue,+33686209955,TECH-SAAS,12296173517
+PARTI,SORTIR,Wemoms,Antoine,Cardoso,Ceo And Founder,Co-fondateur @ Polygone (WeMoms rachete par Voodoo),+33626464232,TECH-SAAS,12287833336
+PARTI,SORTIR,Dodow,Gui,Perrier,Co-founder,Co-founder @ Nord Est Studio / LIVLAB,+33662155314,INDUSTRIE-ENERGIE,12288037877
+PARTI,SORTIR,Startup Inside,Lorenzo,Croati,Co-Founder (Acquired by Artefact in 2022),Founder @ AI for Sport - Grand Palais,+33628411957,FORMATION,12300166357
+PARTI,SORTIR,Workelo,Marie-Christine,Levet,Partner And Cofounder,Founder & Partner @ Educapital (fonds VC),+33640115809,FORMATION,12294994153
+PARTI,SORTIR (+ concurrent: agence),Nivada Grenchen,Guillaume,Laidet,"Co ""Re""Founder and CEO",President @ Erealprod - agence audiovisuelle,+41786143009,A CLASSER,17137877225
+PARTI,SORTIR,Weembi Indoor Skydiving,Thomas,Perrin-Gachadoat,Associé fondateur et responable SI,Enterprise System Deployment @ Infinite Orbits,+33674141912,A CLASSER,17139762919
+PARTI,SORTIR,Mg - Oone,Germain,Thomine,Creative Director / Footwear Designer / Founder,Senior Footwear design consultant @ Simond,+33635667277,INDUSTRIE-ENERGIE,20412415692
+ORGANISATION,SORTIR (regle organismes),Time For The Planet,Guillaume,Veniard,Associé,fonds citoyen / association,+33680405880,FINANCE-FINTECH,20419000776
+ORGANISATION,SORTIR (requalifiable sur BeYs Cloud),Volcampio,Christophe,Prugnaud,Co-Founder,Volcamp = conference associative ; lui = President @ BeYs Cloud,+33618990909,FORMATION,9444135908
+ORGANISATION,SORTIR (regle organismes),Réseau Résilians,Alexandre,Lavoisier,CEO,reseau associatif,+33662702749,A CLASSER,9445224901
+ORGANISATION,SORTIR (regle organismes),Université Du Nous,Lydia,She,Co-fondatrice,association,+33617500964,FORMATION,20418002920
+DONNEE CASSEE,SORTIR,Vaspp Technologies,Youssef,Hammou,Directeur Général / Business Partner / Expert SAP,numero corrompu +33688+337375,+33688+337375,TECH-SAAS,9445228003
+A ARBITRER,probablement OK,Delfox,Alice,Memang,Co Founder - Coo,headline Co-Founder COO Delfox ; current Aerospace Valley (mandat cluster),+33618746045,TECH-SAAS,12287833315
+A ARBITRER,probablement OK,Dnd Agency,Hadrien,Gravet,Cybersecurity Expert Co-founder,headline CEO DND Agency ; current Cybersecurity Advisor @ Light Eyes,+33658192140,TECH-SAAS,9446314940
+A ARBITRER,RISQUE,Backbone Consulting,Victor,Boury,Directeur Général - Co-fondateur,headline DG Backbone ; current Investor @ Bolero,+33681208870,SERVICES-ENTREPRISES,12299896784
+A ARBITRER,probablement OK,Testamento,Virgile,Delporte,Co-founder And Ceo,headline Co-founder CEO Testamento ; current Volunteer @ Team for the Planet,+33634552034,FINANCE-FINTECH,9445928926
+NON CONCLUANT,,Mybeezbox,Franck,Lefeuvre,Founder Ceo - Accompagne Les Hôtels Et Restaurants À Générer Des Revenus Complémentaires En Direct,profil introuvable (homonymes),+33619080047,TECH-SAAS,196728667356
+NON CONCLUANT,,Neurochain Tech,Frederic,Goujon,CEO,profil introuvable - startup blockchain probablement morte,+33623316862,TECH-SAAS,9445094586
+NON CONCLUANT,,Dc Pilot France,Guillaume,Lannoy,Dirigeant associé,profil introuvable,+33616093590,SERVICES-ENTREPRISES,161363435741
+NON CONCLUANT,,Wechooz,Guillaume,Azéma,Associé Fondateur Et Président,profil introuvable,+33611436418,SERVICES-ENTREPRISES,12296173508
+NON CONCLUANT,,Blast.club,Samuel,Guez,Co-founder,profil introuvable,+33623511238,FINANCE-FINTECH,9445928936
+NON CONCLUANT,,Lunu,Vadim,Grigoryan,Partner And Chief Marketing Officer,profil introuvable - societe etrangere,+33680216065,B2C-COMMERCE,12287833577
+NON CONCLUANT,,Sml Import,Cong,Nguyen,Gérant principal,profil introuvable,+33646571991,INDUSTRIE-ENERGIE,20417928657
+NON CONCLUANT,,Ré/Active Voyage,Marine,Ragot,Co-Founder,profil introuvable,+33671708265,B2C-COMMERCE,17142160370
+NON CONCLUANT,,Vivelesrondes,Nicolas,Gaspard,Associé gérant,profil introuvable,+33632310602,B2C-COMMERCE,20412414915
+NON CONCLUANT,,Oxbridge English Language School,Natacha,Fodor,Founder,profil introuvable,+33613809164,FORMATION,36209086689
+NON CONCLUANT,,Newdeal France,Thomas,SPANIER,Co-fondateur @NewDeal_FR,profil introuvable,+33641802241,A CLASSER,20412415460
+NON CONCLUANT,,Thearsenale,Patrice,Meignan,CEO / Founder,profil introuvable,+33699315133,A CLASSER,17137796851
+NON CONCLUANT,,Timothys - Le Brasseur Du Pape,Timothy,Todd,Founder | Head Brewer | Captain of the Ship,profil introuvable,+33638995924,A CLASSER,20418348490
+EN POSTE,GARDER,Cityviz,Bruno,Abramatic,CEO,Founder and CEO @ Cityviz,+33651631364,TECH-SAAS,12287833569
+EN POSTE,GARDER (non dirigeant - SCOP),Entrouvert,Brice,Mallet,"Gérant, Coopérateur","Chef de projet, cooperateur @ Entr'ouvert",+33608918271,TECH-SAAS,12294994381
+EN POSTE,GARDER,Hellocse,Laurent,Lefebvre,CEO,PDG co-fondateur @ HelloCSE,+33783363021,TECH-SAAS,12299896766
+EN POSTE,GARDER,Inex One,Mehdi,Rejraji,CEO,Co-founder & CTO @ Inex One,+33604187674,TECH-SAAS,12294994143
+EN POSTE,GARDER,Medecom,Yann,Cotton,"Sales Manager, Co Owner","Sales Manager, co-owner @ Medecom",+33616096718,TECH-SAAS,196559372491
+EN POSTE,GARDER,Nightborn,Maxime,Denuit,CEO & Co-Founder,Co-Founder & CEO @ Nightborn (BE),+32494903665,TECH-SAAS,9445923005
+EN POSTE,GARDER,Unit Solutions Ag,Thierry,Moebel,CEO,CEO @ Unit Solutions AG (CH),+41793027177,TECH-SAAS,17139798203
+EN POSTE,GARDER,Vertical Expense,Reginald,Thardin,Associé,Associe @ Vertical Expense,+33660624860,TECH-SAAS,12287833305
+EN POSTE,GARDER,Webpublication,Laurent,Morin,Fondateur Associé,Fondateur associe @ Webpublication,+33664129727,TECH-SAAS,196725739744
+EN POSTE,GARDER - ATTENTION cabinet comptable,Carina Consulting,Benjamin,Gohory,CEO,PDG @ Fred de la compta + DG Carina Consulting,+33650357227,SERVICES-ENTREPRISES,9445928939
+EN POSTE,GARDER,My Ibs Group,Samy,Melloul,Gerant Associé,Gerant associe @ MY IBS GROUP,+33619620539,SERVICES-ENTREPRISES,12287833578
+EN POSTE,GARDER,Leed Consulting France,Frederic,Benacin,Associé,Associe @ Leed Consulting,+33672889931,SERVICES-ENTREPRISES,12300166131
+EN POSTE,GARDER - ATTENTION pas C-level,Maximum Value,Vasiliki,Vourgioti,CEO,Key Account Manager & Exec Assistant to CEO,+41796764393,FINANCE-FINTECH,9445924087
+EN POSTE,GARDER - ATTENTION cabinet comptable,Mon-Comptable,Elias,Tazir,CEO,CEO @ Mon-Comptable,+33651368850,FINANCE-FINTECH,20419000800
+EN POSTE,GARDER,Siko Mobility,Tristan,D. Halluin Siko Mobility,Co-Fondateur,Co-fondateur @ Siko Mobility,+33608714648,FINANCE-FINTECH,9446315724
+EN POSTE,GARDER,Yves Carton Portes Automatiques,Richard,Carton,Pdg,PDG @ Carton,+33626307365,INDUSTRIE-ENERGIE,196728800477
+EN POSTE,GARDER,Hector Saxe Paris,Patricia,Koubbachian,Président Directeur Général,PDG @ Hector Saxe Paris,+33628912355,B2C-COMMERCE,196728800482
+EN POSTE,GARDER,One Lease,Olivier,Maitre-Jean,President and CEO,President and CEO @ One Lease,+33607244373,B2C-COMMERCE,20418004215
+EN POSTE,GARDER (evenementiel),Rose Festival Sud De France,Samuel,Capus,Associé et Directeur général,Associe et DG @ Rose Festival,+33603205729,B2C-COMMERCE,17139926972
+EN POSTE,GARDER,TF Corporate Coaching Lyon,Farah,Clerc,Co-Fondatrice de T&F Corporate Coaching,Co-Fondatrice @ T&F Corporate Coaching,+33638508333,FORMATION,20418059720
+EN POSTE,GARDER,Luthiers,Christophe,Laroche,Founder,Founder @ Luthiers,+33667268950,A CLASSER,17140549346

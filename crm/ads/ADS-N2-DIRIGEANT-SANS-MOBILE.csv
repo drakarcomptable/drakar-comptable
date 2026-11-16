@@ -1,0 +1,24 @@
+﻿contact_id,prenom,nom,fonction,entreprise_hubspot,entreprise_google,match,effectif,mobile,fixe,email,decideur,en_sequence,mauvais_numero,nb_ads,premiere_ads,derniere_ads,formats_ads,fiabilite_mobile,dernier_contact,nb_contacts,company_id
+38095700181,Pierre,Tisseau,PDG,Renoval Groupe,RENOVAL SAS,EXACT,250,,+33555522323,ptisseau@renoval-veranda.com,DIRIGEANT,NON,NON,2235,2023-03-01,2026-11-04,"VIDEO,IMAGE,TEXT",,,0,15622869705
+20401119988,Olivier,Simon,Directeur général,Isolation By Tryba,ISOLATION BY TRYBA,EXACT,31,,,osimon@isolationbytryba.fr,DIRIGEANT,NON,NON,460,2024-12-11,2026-11-04,"VIDEO,TEXT,IMAGE",,,0,12491133882
+20407871418,Alexandre,Portier,Directeur général,Euro Energies,EURO ENERGIES SAS,EXACT,41,,,a.portier@woodstock-bois.fr,DIRIGEANT,NON,NON,225,2023-03-01,2026-11-04,"IMAGE,TEXT,VIDEO",,,0,12491159754
+20414857411,Augustin,Couette,Directeur général,La Bellenergie,LA BELLENERGIE,EXACT,33,,,augustin.couette@labellenergie.fr,DIRIGEANT,NON,NON,210,2023-03-01,2026-11-04,"TEXT,IMAGE,VIDEO",,,0,12491412465
+20419001545,Enes,Arti,Directeur général,Ihe Énergies,IHE ENERGIES,EXACT,29,,,enes.arti@fake-linkedin.com,DIRIGEANT,NON,NON,175,2023-07-08,2026-11-04,"IMAGE,TEXT,VIDEO",,,0,12491520992
+20407032788,Alexandre,Beaufils,Directeur général délégué,Alliance Des Énergies,ALLIANCE DES ENERGIES,EXACT,95,,,alexandre.beaufils@alliancedesenergies.fr,DIRIGEANT,NON,NON,112,2023-03-01,2026-11-04,"VIDEO,IMAGE,TEXT",,,0,12490394305
+196559371474,Mariana,Kobayashi,Digital & Innovation Lead,Totalenergies,TotalEnergies,EXACT,74501,,,mariana.kobayashi@totalenergies.com,DIGITAL,NON,NON,79,2025-10-29,2026-10-12,VIDEO,,,0,97624964290
+20407345134,Tony,Bernardo,Directeur Général,Ocellis Energies,Ocellis Energies,EXACT,15,,+33147393993,tbernardo@ocellis-energies.fr,DIRIGEANT,NON,NON,60,2023-03-01,2026-11-04,"TEXT,IMAGE,VIDEO",,,0,12491210432
+9432318169,Philippe,Korda,Président Fondateur,Energie Jeunes,Energie Jeunes,EXACT,50,,,philippe.korda@energiejeunes.fr,DIRIGEANT,NON,NON,44,2023-08-24,2026-11-04,TEXT,,,0,11364161993
+17138890985,Robin,Capuano,Directeur général,Groupe Solaire Clim Chauffage,SOLAIRE CLIM CHAUFFAGE,EXACT,27,,,robin@solaireclimchauffage.fr,DIRIGEANT,NON,NON,23,2023-03-01,2026-11-04,"TEXT,VIDEO,IMAGE",,,0,12200667363
+17140549306,Nicolas,Capuano,Directeur général,Groupe Solaire Clim Chauffage,SOLAIRE CLIM CHAUFFAGE,EXACT,27,,,nicolas@solaireclimchauffage.fr,DIRIGEANT,NON,NON,23,2023-03-01,2026-11-04,"TEXT,VIDEO,IMAGE",,,0,12200667363
+9442360261,Thierry,Chambon,Directeur Général,Energisme,Energisme,EXACT,200,,,thierry.chambon@energisme.com,DIRIGEANT,NON,NON,21,2023-09-12,2026-11-04,"TEXT,VIDEO,IMAGE",,,,11364058062
+196735191226,Romain,Priot,Head of Digital,Galeries Du Carrelage,Galeries du Carrelage,EXACT,26,,,romain.priot@galeriesducarrelage.fr,DIGITAL,NON,NON,21,2023-03-01,2026-02-04,"TEXT,IMAGE",,2025-03-18,5,97763776749
+161356115158,Matthieu,Mancini,Directeur général adjoint,Ace Energie,ACE Energie,EXACT,48,,,matthieu.mancini@aceenergie.com,DIRIGEANT,NON,NON,20,2023-03-01,2026-11-04,"VIDEO,IMAGE,TEXT",,,,12490953686
+20407829957,Hervé,Guiet,Co-gérant,Clim Energie,CLIM ENERGIE SERVICE,PARTIEL,1,,,h.guiet@climenergie.com,DIRIGEANT,NON,NON,18,2026-05-28,2026-11-04,"VIDEO,IMAGE,TEXT",,,0,12491148504
+20412727764,Yvain,Duprat,Fondateur,Green Label Isolation,SARL GREEN LABEL ISOLATION,EXACT,10,,,yvain.duprat@fake-linkedin.com,DIRIGEANT,NON,NON,17,2025-11-13,2026-11-04,"TEXT,VIDEO,IMAGE",,,0,12491543232
+20417928152,Hugo,Marsollier,Dirigeant,Ed Ouest Solaire,ED Ouest Solaire,EXACT,1,,,hugo.marsollier@fake-linkedin.com,DIRIGEANT,NON,NON,17,2025-01-10,2026-11-04,"VIDEO,IMAGE,TEXT",,,0,12491719653
+38100349137,Rhone,Malerba,Directeur général,Rhone Solaire Pro,Rhône Solaire Pro,EXACT,10,,+33951693972,malerba@rhonesolairepro.fr,DIRIGEANT,NON,NON,15,2025-01-06,2026-11-04,"IMAGE,TEXT,VIDEO",,,0,15612294388
+196508777708,Xavier,Nass,Directeur Général,Jp Energie Environnement,JP Energie Environnement,EXACT,162,,,xavier.nass@jpee.fr,DIRIGEANT,NON,NON,15,2023-03-01,2026-11-04,TEXT,,2025-03-06,3,97576151236
+38085939691,Hervé,Brahmi,Fondateur,Groupe Innovation Energie,Groupe Innovation Energie,EXACT,,,+33180977700,herve@gienergie.fr,DIRIGEANT,NON,NON,10,2026-10-12,2026-11-04,TEXT,,,0,15444271039
+196734960861,Maximilien,Collas,Gérant,Les Courtiers Energie,LES COURTIERS ENERGIE,EXACT,12,,,collas.maximilien@lescourtiersenergie.com,DIRIGEANT,NON,NON,10,2026-06-23,2026-11-04,TEXT,,2025-03-17,3,97763776751
+38105579734,Antonio,Fernandes,Directeur général,Agb Renovation,AGB Renovation,EXACT,50,,+33247536451,a.fernandes@agbrenovation37.fr,DIRIGEANT,NON,NON,9,2026-02-11,2026-04-28,"TEXT,VIDEO,IMAGE",,,0,15569277927
+9442175683,Ivan,Larionoff,Fondateur - Directeur - Gérant,Energies Fluides,ENERGIES FLUIDES SARL,EXACT,10,,,i.larionoff@energiesfluides.fr,DIRIGEANT,NON,NON,6,2025-10-13,2026-02-18,TEXT,,,0,11364023510
