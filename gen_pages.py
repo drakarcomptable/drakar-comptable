@@ -25,122 +25,7 @@ RDV = '/audit-gratuit'          # la page qui porte la prise de rendez-vous
 ORG = RACINE + '#organisation'  # l'entite declaree sur la home
 
 
-# --------------------------------------------------------------------------
-# Registre
-# --------------------------------------------------------------------------
-# Chaque page : slug, balises, en-tete, blocs, FAQ, appel a l'action.
-# 'prio' alimente le sitemap, 'llms' la fiche de lecture des moteurs.
-
-PAGES = [
-{
- 'slug': 'audit-geo',
- 'fil': 'Audit GEO',
- 'titre': u'Audit GEO gratuit : ce que les IA disent de vous | NAZAR',
- 'desc': u'Audit GEO gratuit en 9 minutes : le relevé de ce que ChatGPT, '
-         u'Perplexity et Gemini répondent sur votre marché, et des '
-         u'concurrents qu’ils citent à votre place.',
- 'kick': u'Gratuit, 9 minutes',
- 'h1': u'Ce que les IA répondent déjà sur votre marché',
- 'chapo': u'Un audit GEO mesure votre présence dans les réponses des moteurs '
-          u'génératifs. NAZAR le réalise gratuitement, en direct, et vous '
-          u'repartez avec le relevé et la feuille de route.',
- 'bouton': u'Réserver mon audit',
- 'prio': '0.9',
- 'llms': u'Audit GEO gratuit : relevé de ce que les moteurs génératifs '
-         u'répondent sur votre marché, concurrents cités, sources reprises.',
- 'service': u'Audit GEO',
- 'blocs': [
-   {'note': u'Définition',
-    'h2': u'Qu’est-ce qu’un audit GEO ?',
-    'tete': u'Un audit GEO est le relevé de ce que les moteurs génératifs '
-            u'répondent aujourd’hui aux questions d’achat de votre secteur. '
-            u'Il identifie si votre entreprise est citée, qui l’est à votre '
-            u'place, et sur quelles sources le modèle s’appuie pour le dire.',
-    'corps': [
-      u'Le GEO, pour <i>generative engine optimization</i>, désigne le travail '
-      u'de visibilité dans les réponses de ChatGPT, Perplexity, Gemini, Claude, '
-      u'Copilot et dans les AI Overviews de Google. L’audit en est le point de '
-      u'départ : avant de chercher à être cité, il faut savoir ce qui est dit.',
-      u'La différence avec un audit de référencement classique tient à l’objet '
-      u'mesuré. Un audit SEO regarde des positions dans une liste de liens. Un '
-      u'audit GEO regarde un texte rédigé, où deux ou trois acteurs sont nommés '
-      u'et les autres absents. Il n’y a pas de dixième place en GEO.']},
-
-   {'note': u'Contenu',
-    'h2': u'Que contient l’audit NAZAR ?',
-    'tete': u'Quatre éléments, remis à l’issue de l’échange.',
-    'pts': [
-      u'<b>Le relevé des réponses.</b> Ce que les principaux moteurs répondent '
-      u'aujourd’hui aux questions d’achat de votre marché.',
-      u'<b>Les concurrents cités à votre place.</b> Nommément, avec la fréquence '
-      u'à laquelle chacun revient.',
-      u'<b>Les sources reprises.</b> Les pages sur lesquelles le modèle s’appuie '
-      u'pour parler de votre secteur. C’est là que se joue l’essentiel du travail.',
-      u'<b>Une estimation chiffrée.</b> Ce que représente, pour votre activité, '
-      u'le fait d’être absent de ces réponses.']},
-
-   {'note': u'Déroulé',
-    'h2': u'Comment se passe l’audit ?',
-    'tete': u'En visioconférence, avec un consultant, sans préparation de votre '
-            u'côté.',
-    'ol': [
-      u'Vous choisissez un créneau. Le rendez-vous dure trente minutes, '
-      u'l’audit lui-même en prend neuf : le reste est là pour vos questions.',
-      u'Le consultant interroge les moteurs en direct, devant vous, sur les '
-      u'questions que posent vos acheteurs.',
-      u'Vous repartez avec le relevé et la feuille de route. Sans engagement, '
-      u'et sans obligation de travailler avec NAZAR ensuite.']},
-
-   {'note': u'Transparence',
-    'sombre': True,
-    'h2': u'Pourquoi est-il gratuit ?',
-    'tete': u'Parce que le relevé se fait en direct et qu’il nous coûte neuf '
-            u'minutes.',
-    'corps': [
-      u'Un audit GEO ne demande pas de collecte longue : les réponses des '
-      u'moteurs s’obtiennent en les interrogeant. Ce qui prend du temps, c’est '
-      u'le travail qui vient après, et c’est celui-là qui se facture.',
-      u'Nous préférons donc montrer d’abord. Si le relevé montre que vous êtes '
-      u'déjà bien cité, nous vous le dirons, et il n’y aura pas de suite.']},
- ],
- 'faq': [
-   (u'Combien de temps dure un audit GEO ?',
-    u'L’audit lui-même prend neuf minutes. Le créneau réservé est de trente '
-    u'minutes, pour laisser la place à vos questions et à la lecture du relevé.'),
-   (u'Faut-il préparer quelque chose ?',
-    u'Non. L’adresse de votre site suffit. Le consultant interroge les moteurs '
-    u'en direct pendant l’échange, vous voyez les réponses en même temps que lui.'),
-   (u'L’audit est-il vraiment gratuit ?',
-    u'Oui, et sans engagement. Il n’y a ni contrepartie, ni période d’essai à '
-    u'résilier. Si le relevé montre que votre entreprise est déjà bien citée, '
-    u'nous vous le disons et l’échange s’arrête là.'),
-   (u'Quelle différence avec un audit SEO ?',
-    u'Un audit SEO mesure des positions dans une liste de liens et l’état '
-    u'technique d’un site. Un audit GEO mesure ce qu’un moteur génératif '
-    u'<i>dit</i> de vous dans une réponse rédigée. Les deux sont liés : les pages '
-    u'bien positionnées dans Google ont statistiquement plus de chances d’être '
-    u'reprises par un modèle.'),
-   (u'Quels moteurs sont couverts ?',
-    u'ChatGPT, Perplexity, Gemini, Claude, Copilot et les AI Overviews de '
-    u'Google. Le choix des questions posées dépend de votre marché, pas d’une '
-    u'liste type.'),
-   (u'Au bout de combien de temps voit-on un effet ?',
-    u'Les premiers déplacements se mesurent en semaines : les moteurs '
-    u'génératifs réévaluent leurs sources plus souvent qu’un index classique ne '
-    u'se réorganise. Une position stable, elle, se construit sur plusieurs '
-    u'mois. Méfiez-vous de qui promet une citation immédiate.'),
- ],
- 'voisins': [
-   (u'/', u'NAZAR, agence SEO et GEO',
-    u'Qui nous sommes, ce que nous faisons et pour qui.'),
- ],
- 'cend': {
-   'h2': u'Voyons ce que les IA répondent sur votre marché',
-   'p': u'Neuf minutes de relevé, trente minutes de créneau, aucune préparation '
-        u'de votre côté. Gratuit et sans engagement.',
-   'bouton': u'Réserver mon audit'},
-},
-]
+from pages_nazar import PAGES  # noqa: E402  le contenu vit a part
 
 
 # --------------------------------------------------------------------------
@@ -231,6 +116,15 @@ def corps(p):
             L.append(u'<ul class="pts">')
             L += [u'<li><span>%s</span></li>' % x for x in b['pts']]
             L.append(u'</ul>')
+        if b.get('tableau'):
+            t = b['tableau']
+            L.append(u'<div class="tab"><table><thead><tr>')
+            L += [u'<th>%s</th>' % c for c in t['entetes']]
+            L.append(u'</tr></thead><tbody>')
+            for ligne in t['lignes']:
+                L.append(u'<tr><th scope="row">%s</th>%s</tr>'
+                         % (ligne[0], u''.join(u'<td>%s</td>' % c for c in ligne[1:])))
+            L.append(u'</tbody></table></div>')
         if b.get('ol'):
             L.append(u'<ol>')
             L += [u'<li>%s</li>' % x for x in b['ol']]
@@ -383,6 +277,31 @@ def fiche(jour, entrees):
             encoding='utf-8').write(u'\n'.join(L) + u'\n')
 
 
+def adresses():
+    """Les reecritures d'URL sortent du registre, elles aussi.
+
+    Sans cela une page peut exister dans nazar-site/ sans que son adresse
+    sans extension reponde : le fichier est la, l'URL tombe en 404. On ne
+    touche qu'au tableau rewrites, les redirections et les en-tetes sont
+    maintenus a la main.
+    """
+    import collections
+    chemin = os.path.join(SORTIE, 'vercel.json')
+    c = json.load(io.open(chemin, encoding='utf-8'),
+                  object_pairs_hook=collections.OrderedDict)
+    garde = [r for r in c['rewrites'] if not r['destination'].lstrip('/')
+             .replace('.html', '') in {p['slug'] for p in PAGES}]
+    neuves = []
+    for p in PAGES:
+        for src in ('/' + p['slug'], '/' + p['slug'] + '/'):
+            neuves.append(collections.OrderedDict(
+                [('source', src), ('destination', '/%s.html' % p['slug'])]))
+    c['rewrites'] = garde + neuves
+    io.open(chemin, 'w', encoding='utf-8').write(
+        json.dumps(c, indent=2, ensure_ascii=False) + '\n')
+    return len(c['rewrites'])
+
+
 def main():
     jour = datetime.date.today().isoformat()
     for p in PAGES:
@@ -391,6 +310,7 @@ def main():
         print('  %-24s %6d octets' % (p['slug'] + '.html',
                                       os.path.getsize(chemin)))
     entrees = plan(jour)
+    print('  %-24s %6d reecritures' % ('vercel.json', adresses()))
     fiche(jour, entrees)
     print('  %-24s %6d octets' % ('sitemap.xml',
                                   os.path.getsize(os.path.join(SORTIE, 'sitemap.xml'))))

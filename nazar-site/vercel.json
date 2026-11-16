@@ -202,6 +202,38 @@
     {
       "source": "/audit-geo/",
       "destination": "/audit-geo.html"
+    },
+    {
+      "source": "/agence-geo",
+      "destination": "/agence-geo.html"
+    },
+    {
+      "source": "/agence-geo/",
+      "destination": "/agence-geo.html"
+    },
+    {
+      "source": "/consultant-geo",
+      "destination": "/consultant-geo.html"
+    },
+    {
+      "source": "/consultant-geo/",
+      "destination": "/consultant-geo.html"
+    },
+    {
+      "source": "/referencement-ia",
+      "destination": "/referencement-ia.html"
+    },
+    {
+      "source": "/referencement-ia/",
+      "destination": "/referencement-ia.html"
+    },
+    {
+      "source": "/referencement-chatgpt",
+      "destination": "/referencement-chatgpt.html"
+    },
+    {
+      "source": "/referencement-chatgpt/",
+      "destination": "/referencement-chatgpt.html"
     }
   ],
   "functions": {
