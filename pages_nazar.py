@@ -442,17 +442,33 @@ PAGES += [
             'une question d’achat, il lance une recherche, lit quelques pages, '
             'puis rédige une synthèse en citant celles qu’il a retenues. La '
             'bataille se joue à l’étape de lecture, pas à l’étape de rédaction.',
+    'etapes': [
+      {'t': 'La question est reformulée',
+       'd': 'Le modèle transforme votre question en plusieurs requêtes, '
+            'souvent plus précises et plus nombreuses que ce que '
+            'l’utilisateur a tapé.',
+       'part': '100%'},
+      {'t': 'Quelques pages sont récupérées',
+       'd': 'Un nombre réduit de résultats, bien inférieur aux dix liens '
+            'd’une page de recherche classique. Une page absente du web '
+            'ouvert ne passe pas cette étape.',
+       'part': '46%'},
+      {'t': 'Les passages qui répondent sont extraits',
+       'd': 'Le modèle ne retient pas des pages mais des fragments. Une page '
+            'qui tourne autour du sujet sans y répondre franchement est '
+            'écartée ici, même très bien positionnée.',
+       'part': '20%', 'cle': True,
+       'ici': 'C’est ici que se joue la citation'},
+      {'t': 'La réponse est rédigée',
+       'd': 'Deux ou trois sources sont nommées. Les autres n’existent pas '
+            'pour la personne qui a posé la question.',
+       'part': '9%'}],
     'corps': [
-      'Trois filtres s’enchaînent. Le modèle reformule d’abord votre question '
-      'en plusieurs requêtes, souvent plus précises que ce que vous avez '
-      'tapé. Il récupère ensuite un petit nombre de pages, bien plus petit '
-      'que les dix résultats d’une page Google. Il en extrait enfin les '
-      'passages qui répondent directement, et ce sont ces passages qui '
-      'deviennent la réponse.',
-      'Deux conséquences suivent. Une page qui tourne autour du sujet sans y '
-      'répondre franchement ne passe pas le troisième filtre, même bien '
-      'positionnée. Et une page absente du web ouvert, enfermée derrière un '
-      'formulaire ou une application, ne passe pas le premier.']},
+      'Deux conséquences suivent de cet enchaînement. La première est qu’une '
+      'page excellente mais lente à répondre perd au troisième filtre contre '
+      'une page plus faible qui répond dès sa première phrase. La seconde est '
+      'qu’un contenu enfermé derrière un formulaire ou une application ne '
+      'passe jamais le premier.']},
 
    ENJEUX,
 

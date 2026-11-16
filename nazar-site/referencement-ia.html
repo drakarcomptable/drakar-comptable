@@ -11,9 +11,13 @@
 <meta property="og:title" content="Référencement IA : comment un modèle choisit ses sources">
 <meta property="og:description" content="Référencement IA et SEO IA : comment ChatGPT, Perplexity et Gemini sélectionnent les sources qu’ils citent, et comment travailler cette sélection.">
 <meta property="og:url" content="https://nazar-seo.fr/referencement-ia">
-<meta property="og:image" content="https://nazar-seo.fr/logo-partage.png">
+<meta property="og:image" content="https://nazar-seo.fr/og/referencement-ia.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Comment une IA choisit ce qu’elle cite">
 <meta property="og:site_name" content="NAZAR">
 <meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,8 +44,18 @@
 <p class="note">Mécanisme</p>
 <h2>Comment un moteur génératif choisit ses sources</h2>
 <p class="tete">Un assistant moderne ne répond pas uniquement de mémoire : face à une question d’achat, il lance une recherche, lit quelques pages, puis rédige une synthèse en citant celles qu’il a retenues. La bataille se joue à l’étape de lecture, pas à l’étape de rédaction.</p>
-<p>Trois filtres s’enchaînent. Le modèle reformule d’abord votre question en plusieurs requêtes, souvent plus précises que ce que vous avez tapé. Il récupère ensuite un petit nombre de pages, bien plus petit que les dix résultats d’une page Google. Il en extrait enfin les passages qui répondent directement, et ce sont ces passages qui deviennent la réponse.</p>
-<p>Deux conséquences suivent. Une page qui tourne autour du sujet sans y répondre franchement ne passe pas le troisième filtre, même bien positionnée. Et une page absente du web ouvert, enfermée derrière un formulaire ou une application, ne passe pas le premier.</p>
+<p>Deux conséquences suivent de cet enchaînement. La première est qu’une page excellente mais lente à répondre perd au troisième filtre contre une page plus faible qui répond dès sa première phrase. La seconde est qu’un contenu enfermé derrière un formulaire ou une application ne passe jamais le premier.</p>
+<div class="etapes">
+<div class="et"><span class="n"></span><div><b>La question est reformulée</b><span>Le modèle transforme votre question en plusieurs requêtes, souvent plus précises et plus nombreuses que ce que l’utilisateur a tapé.</span>
+</div><div class="jauge"><i style="width:100%"></i></div></div>
+<div class="et"><span class="n"></span><div><b>Quelques pages sont récupérées</b><span>Un nombre réduit de résultats, bien inférieur aux dix liens d’une page de recherche classique. Une page absente du web ouvert ne passe pas cette étape.</span>
+</div><div class="jauge"><i style="width:46%"></i></div></div>
+<div class="et cle"><span class="n"></span><div><b>Les passages qui répondent sont extraits</b><span>Le modèle ne retient pas des pages mais des fragments. Une page qui tourne autour du sujet sans y répondre franchement est écartée ici, même très bien positionnée.</span>
+<span class="ici">C’est ici que se joue la citation</span>
+</div><div class="jauge"><i style="width:20%"></i></div></div>
+<div class="et"><span class="n"></span><div><b>La réponse est rédigée</b><span>Deux ou trois sources sont nommées. Les autres n’existent pas pour la personne qui a posé la question.</span>
+</div><div class="jauge"><i style="width:9%"></i></div></div>
+</div>
 </section>
 <section class="bloc sombre">
 <p class="note">Enjeux</p>

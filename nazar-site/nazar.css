@@ -222,3 +222,36 @@ footer .fadr{font-style:normal;color:var(--dim)}
   color:var(--ink);letter-spacing:-.02em;margin-bottom:7px}
 .artl a:hover b{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px}
 .artl span{display:block;color:var(--steel);line-height:1.6;font-size:.98rem}
+
+/* Schema d'un enchainement d'etapes.
+   Volontairement en HTML et non en image : le texte reste lisible par un
+   moteur generatif, il se reflow sur telephone, et il ne pese rien. Une
+   image ferait l'inverse des trois. La barre donne l'echelle, elle ne
+   porte aucune information que le texte ne dise deja. */
+.etapes{display:flex;flex-direction:column;gap:2px;margin:4px 0 1.05em;
+  counter-reset:et}
+.et{position:relative;display:grid;grid-template-columns:auto 1fr;
+  gap:16px;align-items:start;padding:18px 20px;background:var(--cream);
+  border-radius:4px}
+.et:first-child{border-radius:14px 14px 4px 4px}
+.et:last-child{border-radius:4px 4px 14px 14px}
+.et .n{counter-increment:et;width:28px;height:28px;border-radius:50%;
+  background:var(--night);color:var(--acc);display:grid;place-items:center;
+  font-family:var(--mono);font-size:.76rem;font-weight:600;flex:none}
+.et .n::before{content:counter(et)}
+.et b{display:block;color:var(--ink);font-size:1rem;margin-bottom:4px}
+.et span{display:block;color:var(--ink-2);font-size:.97rem;line-height:1.55}
+.et .jauge{grid-column:2;margin-top:11px;height:5px;border-radius:999px;
+  background:rgba(0,67,88,.13);overflow:hidden}
+.et .jauge i{display:block;height:100%;border-radius:999px;background:var(--steel)}
+.et.cle{background:var(--night)}
+.et.cle b{color:#fff}
+.et.cle span{color:var(--on-night);opacity:.9}
+.et.cle .n{background:var(--acc);color:var(--night)}
+.et.cle .jauge{background:rgba(255,255,255,.16)}
+.et.cle .jauge i{background:var(--acc)}
+.et .ici{display:inline-block;margin-top:9px;font-family:var(--mono);
+  font-size:.64rem;letter-spacing:.17em;text-transform:uppercase;color:var(--acc)}
+.sombre .et{background:var(--night-3)}
+.sombre .et b{color:#fff}
+.sombre .et span{color:var(--on-night);opacity:.88}

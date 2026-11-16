@@ -48,6 +48,12 @@ def date_fr(iso):
     return u'%d %s %s' % (int(j), MOIS[int(m) - 1], a)
 
 
+def og(p):
+    """Le nom de la vignette de partage. Un article vit sous /blog/, mais
+    son image reste a plat : un sous-dossier d'images n'apporte rien."""
+    return ('blog-' + p['slug']) if p.get('parent') == 'blog' else p['slug']
+
+
 def adr(p):
     """Le chemin public d'une page. Un article vit sous /blog/, pour que
     l'URL dise la meme chose que le fil d'Ariane."""
@@ -73,9 +79,14 @@ def tete(p):
          u'<meta property="og:title" content="%s">' % p['titre'],
          u'<meta property="og:description" content="%s">' % p['desc'],
          u'<meta property="og:url" content="%s">' % url,
-         u'<meta property="og:image" content="%slogo-partage.png">' % RACINE,
+         u'<meta property="og:image" content="%sog/%s.jpg">' % (RACINE, og(p)),
+         u'<meta property="og:image:width" content="1200">',
+         u'<meta property="og:image:height" content="630">',
+         u'<meta property="og:image:alt" content="%s">' % p['h1'],
          u'<meta property="og:site_name" content="NAZAR">',
          u'<meta property="og:locale" content="fr_FR">',
+         # sans cette ligne, X et LinkedIn affichent une vignette carree
+         u'<meta name="twitter:card" content="summary_large_image">',
          u'<link rel="icon" href="/favicon.ico" sizes="48x48">',
          u'<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">',
          # la police part avant la feuille de style : sinon le navigateur
@@ -139,6 +150,17 @@ def corps(p):
             L.append(u'<ul class="pts">')
             L += [u'<li><span>%s</span></li>' % x for x in b['pts']]
             L.append(u'</ul>')
+        if b.get('etapes'):
+            L.append(u'<div class="etapes">')
+            for e in b['etapes']:
+                cl = u'et cle' if e.get('cle') else u'et'
+                L.append(u'<div class="%s"><span class="n"></span><div>'
+                         u'<b>%s</b><span>%s</span>' % (cl, e['t'], e['d']))
+                if e.get('ici'):
+                    L.append(u'<span class="ici">%s</span>' % e['ici'])
+                L.append(u'</div><div class="jauge"><i style="width:%s"></i></div>'
+                         u'</div>' % e['part'])
+            L.append(u'</div>')
         if b.get('tableau'):
             t = b['tableau']
             L.append(u'<div class="tab"><table><thead><tr>')
