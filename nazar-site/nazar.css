@@ -130,3 +130,82 @@ footer a{color:var(--dim);text-decoration:none}
 footer a:hover{color:#fff}
 footer .sep{flex:1}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ------------------------------------------------------------------
+   Pages de contenu : piliers et articles.
+   Elles reprennent la topbar, les .bloc et le .cend des rapports de
+   mission. Ce qui suit est ce qui leur manquait.
+   ------------------------------------------------------------------ */
+
+/* fil d'Ariane : il double le BreadcrumbList en donnees structurees,
+   qui ne doit jamais decrire un chemin que la page n'affiche pas */
+.fil{font-size:.84rem;color:var(--steel);padding-block:14px 0}
+.fil ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fil li{display:flex;align-items:center;gap:8px}
+.fil li+li::before{content:"/";color:rgba(0,67,88,.3)}
+.fil a{text-decoration:none;color:var(--steel)}
+.fil a:hover{color:var(--ink)}
+.fil [aria-current]{color:var(--ink);font-weight:600}
+
+/* en-tete d'une page de contenu : pas de photo, donc pas de .chero.
+   Le fond sombre suffit a poser la page sans rien promettre. */
+.phero{background:var(--night);color:#fff;padding-block:clamp(34px,4.6vw,62px)}
+.phero .fil,.phero .fil a,.phero .fil li+li::before{color:rgba(223,242,249,.62)}
+.phero .fil a:hover,.phero .fil [aria-current]{color:#fff}
+.phero .kick{margin-top:22px}
+.pts li>span{min-width:0}
+.phero h1{color:#fff;font-size:clamp(2rem,4.6vw,3.3rem);max-width:19ch;margin-top:16px}
+.phero .chapo{margin-top:18px;max-width:60ch;font-size:clamp(1.02rem,1.4vw,1.16rem);
+  line-height:1.6;color:var(--on-night);opacity:.9}
+.phero .btn{margin-top:clamp(22px,2.6vw,30px)}
+
+/* la reponse tient dans les deux premieres phrases sous le titre :
+   c'est cette forme que les moteurs generatifs extraient */
+.bloc .tete{font-size:1.1rem;line-height:1.6;color:var(--ink);font-weight:600;margin-bottom:1.05em}
+.bloc.sombre .tete{color:#fff}
+.bloc h3{margin-top:1.6em;margin-bottom:.5em}
+.bloc ol{padding-left:1.15rem;margin:0 0 1.05em;color:var(--ink-2)}
+.bloc ol li{margin-bottom:.5em;line-height:1.6}
+.bloc a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:rgba(0,67,88,.35)}
+.bloc a:hover{text-decoration-color:var(--ink)}
+.bloc.sombre a{color:#fff;text-decoration-color:rgba(255,255,255,.45)}
+
+/* tableau : il sert a comparer, donc il doit rester lisible au pouce */
+.tab{overflow-x:auto;margin:0 0 1.05em}
+.tab table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.96rem}
+.tab th,.tab td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid rgba(0,67,88,.12);
+  vertical-align:top;line-height:1.5}
+.tab th{font-weight:700;color:var(--ink);white-space:nowrap}
+.tab td{color:var(--ink-2)}
+.tab tr:last-child td{border-bottom:0}
+
+/* FAQ : les questions sont ouvrables, mais la reponse reste dans le
+   HTML meme fermee, donc lisible par un robot comme par un lecteur
+   d'ecran. Le JSON-LD ne reprend que ce qui est ecrit ici. */
+.faq{display:flex;flex-direction:column;gap:10px}
+.faq details{background:#fff;border-radius:14px;padding:4px 20px;
+  box-shadow:0 20px 46px -40px rgba(0,67,88,.6)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:700;
+  font-size:1.02rem;display:flex;align-items:flex-start;gap:14px;line-height:1.45}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;margin-left:auto;margin-top:5px;width:11px;height:11px;
+  border-right:2px solid var(--steel);border-bottom:2px solid var(--steel);
+  transform:rotate(45deg);transition:transform .22s ease}
+.faq details[open] summary::after{transform:rotate(-135deg)}
+.faq .rep{padding:0 0 18px;color:var(--ink-2);line-height:1.66}
+.faq .rep p{font-size:1rem}
+
+/* liens vers les pages voisines : le maillage interne, visible */
+.voisins{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  gap:12px;margin-top:clamp(16px,2vw,26px)}
+.voisins a{display:block;background:#fff;border-radius:14px;padding:18px 20px;
+  text-decoration:none;box-shadow:0 20px 46px -40px rgba(0,67,88,.6);
+  transition:transform .22s ease}
+.voisins a:hover{transform:translateY(-2px)}
+.voisins b{display:block;font-size:1rem;margin-bottom:5px;color:var(--ink)}
+.voisins span{display:block;font-size:.9rem;color:var(--steel);line-height:1.5}
+
+/* pied de page des pages de contenu : trois lignes, pas la grille de
+   la home, mais la meme adresse et le meme telephone */
+footer .fadr{font-style:normal;color:var(--dim)}

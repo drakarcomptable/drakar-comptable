@@ -29,6 +29,7 @@
 ## Pages
 
 - [NAZAR SEO & GEO](https://nazar-seo.fr/) : Collectif de consultants en référencement sur Google et sur les IA génératives. Audit GEO gratuit en 9 minutes.
+- [Audit GEO](https://nazar-seo.fr/audit-geo) : Audit GEO gratuit : relevé de ce que les moteurs génératifs répondent sur votre marché, concurrents cités, sources reprises.
 
 ## Contact
 

@@ -194,6 +194,14 @@
     {
       "source": "/audit-gratuit/",
       "destination": "/audit-gratuit.html"
+    },
+    {
+      "source": "/audit-geo",
+      "destination": "/audit-geo.html"
+    },
+    {
+      "source": "/audit-geo/",
+      "destination": "/audit-geo.html"
     }
   ],
   "functions": {
