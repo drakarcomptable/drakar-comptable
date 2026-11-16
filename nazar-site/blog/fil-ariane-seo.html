@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le fil d’Ariane en SEO : à quoi il sert et comment le baliser</title>
+<meta name="description" content="Le fil d’Ariane expliqué : son rôle pour la navigation, son effet sur le référencement, le balisage BreadcrumbList et les erreurs qui le rendent inutile.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://nazar-seo.fr/blog/fil-ariane-seo">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Le fil d’Ariane en SEO : à quoi il sert et comment le baliser">
+<meta property="og:description" content="Le fil d’Ariane expliqué : son rôle pour la navigation, son effet sur le référencement, le balisage BreadcrumbList et les erreurs qui le rendent inutile.">
+<meta property="og:url" content="https://nazar-seo.fr/blog/fil-ariane-seo">
+<meta property="og:image" content="https://nazar-seo.fr/logo-partage.png">
+<meta property="og:site_name" content="NAZAR">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/nazar.css">
+</head>
+<body>
+<nav class="topbar"><div class="rail">
+<a class="home" href="/"><img src="/logo.png" width="40" height="40" alt="NAZAR"><span>NAZAR</span></a>
+<span class="sep"></span>
+<a class="back" href="/audit-gratuit">Audit gratuit</a>
+</div></nav>
+<header class="phero"><div class="rail">
+<nav class="fil" aria-label="Fil d’Ariane"><ol>
+<li><a href="/">Accueil</a></li>
+<li><a href="/blog">Blog</a></li>
+<li><span aria-current="page">Le fil d’Ariane</span></li>
+</ol></nav>
+<span class="kick">Article</span>
+<h1>Le fil d’Ariane en SEO : rôle, balisage et erreurs</h1>
+<p class="chapo">Souvent traité comme un détail graphique, le fil d’Ariane est l’un des rares éléments de navigation que les moteurs reprennent directement dans leurs résultats.</p>
+<a class="btn btn-white" href="/audit-gratuit">Demander un audit gratuit<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
+</div></header>
+<main class="cbody"><div class="rail">
+<section class="bloc">
+<p class="note">Définition</p>
+<h2>Qu’est-ce qu’un fil d’Ariane ?</h2>
+<p class="tete">Un fil d’Ariane est la ligne de liens qui indique où se trouve la page courante dans l’arborescence du site, de l’accueil jusqu’à elle. Il sert à la fois à l’utilisateur, qui remonte d’un niveau en un clic, et aux moteurs, qui en déduisent la hiérarchie des contenus.</p>
+<p>Il se place en haut de page, avant le titre principal, et se lit de gauche à droite du plus général au plus précis. Sur cet article, il affiche Accueil, puis Blog, puis le titre de la page.</p>
+<p>Son intérêt pour le référencement tient à un point précis : Google remplace fréquemment l’URL affichée dans ses résultats par le fil d’Ariane de la page. Une adresse technique illisible devient alors une suite de mots compréhensibles, ce qui améliore le taux de clic.</p>
+</section>
+<section class="bloc">
+<p class="note">Balisage</p>
+<h2>Comment baliser un fil d’Ariane</h2>
+<p class="tete">Avec le type BreadcrumbList de schema.org, en JSON-LD, et à une condition absolue : le chemin déclaré doit correspondre au fil réellement affiché sur la page.</p>
+<p>Chaque niveau est un ListItem numéroté, avec son nom et son adresse. Le dernier élément, la page courante, peut porter son URL mais n’a pas besoin d’être un lien dans le HTML : c’est la page où l’on se trouve.</p>
+<p>La règle de cohérence n’est pas une recommandation de style. Déclarer une arborescence que la page n’affiche pas est considéré comme du balisage trompeur, et expose à une action manuelle. C’est le même principe que pour une FAQ balisée dont les questions n’apparaissent nulle part.</p>
+</section>
+<section class="bloc">
+<p class="note">Erreurs</p>
+<h2>Les quatre erreurs qui le rendent inutile</h2>
+<p class="tete">Elles sont fréquentes et faciles à corriger.</p>
+<ul class="pts">
+<li><span><b>Un fil qui reproduit le parcours de l’utilisateur.</b> Le fil d’Ariane décrit la place de la page dans le site, pas le chemin parcouru pour y arriver. Il doit être identique quelle que soit la page d’où l’on vient.</span></li>
+<li><span><b>Un balisage sans affichage.</b> Du JSON-LD BreadcrumbList sur une page qui ne montre aucun fil. Le balisage doit décrire ce qui existe.</span></li>
+<li><span><b>Des niveaux qui ne correspondent à aucune page.</b> Un intitulé de catégorie qui ne mène nulle part, ou vers une page vide, casse la logique que le moteur essaie de reconstruire.</span></li>
+<li><span><b>Le dernier élément en lien vers lui-même.</b> Sans effet négatif grave, mais inutile, et déroutant pour un lecteur d’écran.</span></li>
+</ul>
+</section>
+<section class="bloc sombre">
+<p class="note">Et pour les IA</p>
+<h2>Le fil d’Ariane compte-t-il pour les moteurs génératifs ?</h2>
+<p class="tete">Indirectement, oui. Un modèle qui lit une page isolée cherche à savoir de quoi elle relève et à quelle entité elle appartient. Le fil d’Ariane le lui dit en une ligne.</p>
+<p>C’est la même logique que pour le reste du travail de citabilité : tout ce qui épargne à un modèle un travail d’interprétation augmente les chances que la page soit correctement comprise, donc reprise. Un fil d’Ariane, un titre clair, une réponse en tête de section et des entités nommées explicitement vont dans le même sens.</p>
+</section>
+<section class="bloc">
+<h2>Questions fréquentes</h2>
+<div class="faq">
+<details><summary>Le fil d’Ariane améliore-t-il le classement ?</summary><div class="rep"><p>Pas directement. Il agit sur deux leviers indirects : la compréhension de la structure du site par le moteur, et le taux de clic dans les résultats quand Google l’affiche à la place de l’URL.</p></div></details>
+<details><summary>Faut-il un fil d’Ariane sur toutes les pages ?</summary><div class="rep"><p>Sur toutes celles qui ont un niveau au-dessus d’elles. La page d’accueil n’en a pas besoin, puisqu’elle est la racine.</p></div></details>
+<details><summary>Où le placer dans la page ?</summary><div class="rep"><p>En haut, avant le titre principal, et dans une balise de navigation identifiée. Il doit être lisible avant le contenu, pas relégué en pied de page.</p></div></details>
+</div></section>
+<section class="bloc">
+<h2>À lire aussi</h2>
+<div class="voisins">
+<a href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
+<a href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
+<a href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
+</div></section>
+</div></main>
+<section class="cend"><div class="narrow">
+<h2>Votre site est-il lisible par les moteurs ?</h2>
+<p>Fil d’Ariane, données structurées, forme des réponses : l’audit gratuit passe l’ensemble en revue, en direct.</p>
+<a class="btn btn-dark" href="/audit-gratuit">Demander un audit gratuit<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
+</div></section>
+<footer><div class="rail">
+<span>© 2026 NAZAR</span>
+<address class="fadr">10 rue de Penthièvre, 75008 Paris</address>
+<a href="tel:+33743392574">+33 7 43 39 25 74</a>
+<span class="sep"></span>
+<a href="/mentions-legales.html">Mentions légales</a>
+<a href="/confidentialite.html">Confidentialité</a>
+</div></footer>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "Accueil",
+   "item": "https://nazar-seo.fr/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Blog",
+   "item": "https://nazar-seo.fr/blog"
+  },
+  {
+   "@type": "ListItem",
+   "position": 3,
+   "name": "Le fil d’Ariane",
+   "item": "https://nazar-seo.fr/blog/fil-ariane-seo"
+  }
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Le fil d’Ariane en SEO : rôle, balisage et erreurs",
+ "description": "Le fil d’Ariane expliqué : son rôle pour la navigation, son effet sur le référencement, le balisage BreadcrumbList et les erreurs qui le rendent inutile.",
+ "datePublished": "2026-11-16",
+ "dateModified": "2026-11-16",
+ "inLanguage": "fr-FR",
+ "author": {
+  "@id": "https://nazar-seo.fr/#organisation"
+ },
+ "publisher": {
+  "@id": "https://nazar-seo.fr/#organisation"
+ },
+ "mainEntityOfPage": {
+  "@type": "WebPage",
+  "@id": "https://nazar-seo.fr/blog/fil-ariane-seo"
+ }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Le fil d’Ariane améliore-t-il le classement ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Pas directement. Il agit sur deux leviers indirects : la compréhension de la structure du site par le moteur, et le taux de clic dans les résultats quand Google l’affiche à la place de l’URL."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Faut-il un fil d’Ariane sur toutes les pages ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Sur toutes celles qui ont un niveau au-dessus d’elles. La page d’accueil n’en a pas besoin, puisqu’elle est la racine."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Où le placer dans la page ?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "En haut, avant le titre principal, et dans une balise de navigation identifiée. Il doit être lisible avant le contenu, pas relégué en pied de page."
+   }
+  }
+ ]
+}
+</script>
+</body>
+</html>

@@ -38,6 +38,22 @@ FLECHE = (u'<span class="arrow"><svg viewBox="0 0 24 24" fill="none" '
           u'<path d="M5 12h13M12 5l7 7-7 7"/></svg></span>')
 
 
+MOIS = (u'janvier', u'février', u'mars', u'avril', u'mai', u'juin',
+        u'juillet', u'août', u'septembre', u'octobre', u'novembre',
+        u'décembre')
+
+
+def date_fr(iso):
+    a, m, j = iso.split('-')
+    return u'%d %s %s' % (int(j), MOIS[int(m) - 1], a)
+
+
+def adr(p):
+    """Le chemin public d'une page. Un article vit sous /blog/, pour que
+    l'URL dise la meme chose que le fil d'Ariane."""
+    return ('blog/' + p['slug']) if p.get('parent') == 'blog' else p['slug']
+
+
 def bouton(href, libelle, variante=u'btn-dark'):
     return (u'<a class="btn %s" href="%s">%s%s</a>'
             % (variante, href, libelle, FLECHE))
@@ -45,7 +61,7 @@ def bouton(href, libelle, variante=u'btn-dark'):
 
 def tete(p):
     """Le <head>, identique d'une page a l'autre sauf les balises propres."""
-    url = RACINE + p['slug']
+    url = RACINE + adr(p)
     L = [u'<!doctype html>', u'<html lang="fr">', u'<head>',
          u'<meta charset="utf-8">',
          u'<meta name="viewport" content="width=device-width,initial-scale=1">',
@@ -80,11 +96,18 @@ def barre():
             u'</div></nav>']
 
 
+PARENTS = {'blog': (u'Blog', u'/blog')}
+
+
 def ariane(p):
-    return [u'<nav class="fil" aria-label="Fil d’Ariane"><ol>',
-            u'<li><a href="/">Accueil</a></li>',
-            u'<li><span aria-current="page">%s</span></li>' % p['fil'],
-            u'</ol></nav>']
+    L = [u'<nav class="fil" aria-label="Fil d’Ariane"><ol>',
+         u'<li><a href="/">Accueil</a></li>']
+    if p.get('parent'):
+        nom, href = PARENTS[p['parent']]
+        L.append(u'<li><a href="%s">%s</a></li>' % (href, nom))
+    L.append(u'<li><span aria-current="page">%s</span></li>' % p['fil'])
+    L.append(u'</ol></nav>')
+    return L
 
 
 def entete(p):
@@ -140,6 +163,15 @@ def corps(p):
                      u'<div class="rep"><p>%s</p></div></details>' % (q, r))
         L.append(u'</div></section>')
 
+    if p.get('liste'):
+        L.append(u'<section class="bloc"><div class="artl">')
+        for a in [x for x in PAGES if x.get('parent') == 'blog']:
+            L.append(u'<a href="/%s"><time datetime="%s">%s</time>'
+                     u'<b>%s</b><span>%s</span></a>'
+                     % (adr(a), a['date'], date_fr(a['date']),
+                        a['h1'], a['resume']))
+        L.append(u'</div></section>')
+
     if p.get('voisins'):
         L.append(u'<section class="bloc">')
         L.append(u'<h2>À lire aussi</h2>')
@@ -178,12 +210,35 @@ def donnees(p):
     Le fil d'Ariane est affiche sur la page, la FAQ aussi : on ne declare
     jamais ici ce que la page ne montre pas.
     """
-    url = RACINE + p['slug']
+    url = RACINE + adr(p)
     blocs = [{
         '@context': 'https://schema.org', '@type': 'BreadcrumbList',
         'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Accueil', 'item': RACINE},
             {'@type': 'ListItem', 'position': 2, 'name': p['fil'], 'item': url}]}]
+
+    if p.get('parent'):
+        nom, href = PARENTS[p['parent']]
+        blocs[0]['itemListElement'] = [
+            {'@type': 'ListItem', 'position': 1, 'name': 'Accueil', 'item': RACINE},
+            {'@type': 'ListItem', 'position': 2, 'name': nom,
+             'item': RACINE + href.lstrip('/')},
+            {'@type': 'ListItem', 'position': 3, 'name': p['fil'], 'item': url}]
+
+    if p.get('date'):
+        # L'auteur declare est l'entite NAZAR, pas une personne : attribuer
+        # un texte a quelqu'un qui ne l'a pas ecrit serait faux. Un auteur
+        # nomme serait un signal plus fort, il demande un vrai nom.
+        blocs.append({
+            '@context': 'https://schema.org', '@type': 'Article',
+            'headline': p['h1'],
+            'description': p['desc'],
+            'datePublished': p['date'],
+            'dateModified': p.get('maj', p['date']),
+            'inLanguage': 'fr-FR',
+            'author': {'@id': ORG},
+            'publisher': {'@id': ORG},
+            'mainEntityOfPage': {'@type': 'WebPage', '@id': url}})
 
     if p.get('service'):
         blocs.append({
@@ -222,7 +277,7 @@ def plan(jour):
     entrees = [('', '1.0', u'NAZAR SEO & GEO',
                 u'Collectif de consultants en référencement sur Google et sur '
                 u'les IA génératives. Audit GEO gratuit en 9 minutes.')]
-    entrees += [(p['slug'], p['prio'], p['fil'], p['llms']) for p in PAGES]
+    entrees += [(adr(p), p['prio'], p['fil'], p['llms']) for p in PAGES]
 
     x = [u'<?xml version="1.0" encoding="UTF-8"?>',
          u'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -289,13 +344,21 @@ def adresses():
     chemin = os.path.join(SORTIE, 'vercel.json')
     c = json.load(io.open(chemin, encoding='utf-8'),
                   object_pairs_hook=collections.OrderedDict)
-    garde = [r for r in c['rewrites'] if not r['destination'].lstrip('/')
-             .replace('.html', '') in {p['slug'] for p in PAGES}]
+    nos = {adr(p) for p in PAGES}
+    garde = []
+    for r in c['rewrites']:
+        cible = r['destination'].lstrip('/')
+        if cible.replace('.html', '') in nos:
+            continue                      # regeneree juste apres
+        if not os.path.exists(os.path.join(SORTIE, cible)):
+            continue                      # reecriture morte, on la laisse partir
+        garde.append(r)
     neuves = []
     for p in PAGES:
-        for src in ('/' + p['slug'], '/' + p['slug'] + '/'):
+        a = adr(p)
+        for src in ('/' + a, '/' + a + '/'):
             neuves.append(collections.OrderedDict(
-                [('source', src), ('destination', '/%s.html' % p['slug'])]))
+                [('source', src), ('destination', '/%s.html' % a)]))
     c['rewrites'] = garde + neuves
     io.open(chemin, 'w', encoding='utf-8').write(
         json.dumps(c, indent=2, ensure_ascii=False) + '\n')
@@ -305,9 +368,12 @@ def adresses():
 def main():
     jour = datetime.date.today().isoformat()
     for p in PAGES:
-        chemin = os.path.join(SORTIE, p['slug'] + '.html')
+        chemin = os.path.join(SORTIE, adr(p) + '.html')
+        d = os.path.dirname(chemin)
+        if not os.path.isdir(d):
+            os.makedirs(d)
         io.open(chemin, 'w', encoding='utf-8').write(page(p))
-        print('  %-24s %6d octets' % (p['slug'] + '.html',
+        print('  %-36s %6d octets' % (adr(p) + '.html',
                                       os.path.getsize(chemin)))
     entrees = plan(jour)
     print('  %-24s %6d reecritures' % ('vercel.json', adresses()))

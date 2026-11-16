@@ -34,6 +34,12 @@
 - [Consultant GEO](https://nazar-seo.fr/consultant-geo) : Consultant GEO : définition du métier, livrables concrets, différence avec un consultant SEO, et choix entre consultant et agence.
 - [Référencement IA](https://nazar-seo.fr/referencement-ia) : Référencement IA : le mécanisme de sélection des sources par les moteurs génératifs, et les leviers qui agissent dessus.
 - [Référencement ChatGPT](https://nazar-seo.fr/referencement-chatgpt) : Référencement ChatGPT : d’où viennent les sources citées, ce qui augmente les chances d’être nommé, et les fausses pistes.
+- [Blog](https://nazar-seo.fr/blog) : Blog NAZAR : articles de fond sur le GEO, le référencement IA, llms.txt et le vocabulaire du marché.
+- [Generative engine optimization](https://nazar-seo.fr/blog/generative-engine-optimization) : Definition du generative engine optimization, origine du terme, difference avec le SEO et methode en cinq chantiers.
+- [llms.txt](https://nazar-seo.fr/blog/llms-txt) : Guide du fichier llms.txt : contenu, utilite reelle, limites et exemple complet.
+- [GEO et SEO](https://nazar-seo.fr/blog/geo-vs-seo) : Comparatif GEO et SEO : objectif, nombre de gagnants, unite de travail, role des tiers, mesure, et repartition du budget.
+- [AEO, GEO, LLMO](https://nazar-seo.fr/blog/aeo-geo-llmo) : Lexique du referencement IA : AEO, GEO, LLMO, AI Overviews, SGE, et ce que chaque terme designe exactement.
+- [Le fil d’Ariane](https://nazar-seo.fr/blog/fil-ariane-seo) : Le fil d’Ariane en SEO : role, balisage BreadcrumbList, effet sur les resultats de recherche et erreurs courantes.
 
 ## Contact
 

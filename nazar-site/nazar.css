@@ -209,3 +209,16 @@ footer .sep{flex:1}
 /* pied de page des pages de contenu : trois lignes, pas la grille de
    la home, mais la meme adresse et le meme telephone */
 footer .fadr{font-style:normal;color:var(--dim)}
+
+/* liste des articles du blog */
+.artl{display:flex;flex-direction:column}
+.artl a{display:block;text-decoration:none;padding:22px 0;
+  border-bottom:1px solid rgba(0,67,88,.12)}
+.artl a:last-child{border-bottom:0;padding-bottom:0}
+.artl a:first-child{padding-top:0}
+.artl time{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--steel);margin-bottom:8px}
+.artl b{display:block;font-size:clamp(1.1rem,1.7vw,1.3rem);line-height:1.3;
+  color:var(--ink);letter-spacing:-.02em;margin-bottom:7px}
+.artl a:hover b{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px}
+.artl span{display:block;color:var(--steel);line-height:1.6;font-size:.98rem}

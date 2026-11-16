@@ -3,7 +3,7 @@
   "redirects": [
     {
       "source": "/index.php/2024/12/04/fil-ariane/",
-      "destination": "/",
+      "destination": "/blog/fil-ariane-seo",
       "permanent": true
     },
     {
@@ -104,21 +104,6 @@
     {
       "source": "/prestations/",
       "destination": "/#surfaces",
-      "permanent": true
-    },
-    {
-      "source": "/blog",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/blog/",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/blog/:chemin*",
-      "destination": "/",
       "permanent": true
     }
   ],
@@ -234,6 +219,54 @@
     {
       "source": "/referencement-chatgpt/",
       "destination": "/referencement-chatgpt.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/generative-engine-optimization",
+      "destination": "/blog/generative-engine-optimization.html"
+    },
+    {
+      "source": "/blog/generative-engine-optimization/",
+      "destination": "/blog/generative-engine-optimization.html"
+    },
+    {
+      "source": "/blog/llms-txt",
+      "destination": "/blog/llms-txt.html"
+    },
+    {
+      "source": "/blog/llms-txt/",
+      "destination": "/blog/llms-txt.html"
+    },
+    {
+      "source": "/blog/geo-vs-seo",
+      "destination": "/blog/geo-vs-seo.html"
+    },
+    {
+      "source": "/blog/geo-vs-seo/",
+      "destination": "/blog/geo-vs-seo.html"
+    },
+    {
+      "source": "/blog/aeo-geo-llmo",
+      "destination": "/blog/aeo-geo-llmo.html"
+    },
+    {
+      "source": "/blog/aeo-geo-llmo/",
+      "destination": "/blog/aeo-geo-llmo.html"
+    },
+    {
+      "source": "/blog/fil-ariane-seo",
+      "destination": "/blog/fil-ariane-seo.html"
+    },
+    {
+      "source": "/blog/fil-ariane-seo/",
+      "destination": "/blog/fil-ariane-seo.html"
     }
   ],
   "functions": {
