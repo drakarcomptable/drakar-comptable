@@ -58,6 +58,24 @@ const h1 = t => new Paragraph({
 
 const note = t => p([txt(t, { size: 18, color: GREY, italics: true })], { after: 180 });
 
+const part = (num, title, sub) => ([
+  new Paragraph({ pageBreakBefore: num === 2, spacing: { before: num === 2 ? 0 : 400, after: 0 },
+    children: [new TextRun({ text: "PARTIE " + num, font: "Arial", size: 18, bold: true, color: GOLD })] }),
+  new Paragraph({ spacing: { before: 60, after: 60 }, keepNext: true,
+    border: { bottom: { style: BorderStyle.SINGLE, size: 10, color: GOLD, space: 8 } },
+    children: [new TextRun({ text: title, font: "Arial", size: 34, bold: true, color: INK })] }),
+  p([txt(sub, { size: 20, color: GREY })], { before: 120, after: 220 }),
+]);
+
+// tableau deja rempli, pour expliquer plutot que pour recolter
+const info = rows => new Table({
+  width: { size: W, type: WidthType.DXA }, columnWidths: [4600, W - 4600], borders,
+  rows: rows.map(([a, b, strong]) => new TableRow({ children: [
+    cell([p([txt(a, { bold: true, size: strong ? 20 : 19 })], { after: 0 })], 4600,
+         { fill: strong ? "EFE9DC" : undefined }),
+    cell([p([txt(b, { size: strong ? 20 : 19, bold: !!strong })], { after: 0 })], W - 4600,
+         { fill: strong ? "EFE9DC" : undefined }) ] })) });
+
 const doc = new Document({
   creator: "AFRIKAYAA",
   title: "AFRIKAYAA — informations à compléter",
@@ -77,6 +95,9 @@ p([txt("Le site de réservation est prêt dans sa forme. Pour le mettre en ligne
 p([txt("Écrivez directement dans les cases grises. Tout ne vous concerne peut-être pas : laissez vide ce qui ne s'applique pas, et écrivez « à voir » là où vous hésitez. Enregistrez le document et renvoyez-le.")], { after: 160 }),
 
 qTable([ ask("Rempli par"), ask("Date") ]),
+
+...part(1, "Ce qu'il nous faut pour compléter le site",
+  "Les informations réelles de votre activité, qui remplaceront les exemples affichés aujourd'hui."),
 
 h1("1. Vos prestations de coiffure"),
 note("La liste complète, avec la durée que vous bloquez réellement dans votre agenda et le prix que paie la cliente. Ajoutez autant de lignes que nécessaire."),
@@ -186,6 +207,60 @@ h1("11. Ce que vous voulez ajouter"),
 qTable([ ask("Remarques, demandes, ce qui manque") ]),
 p("", { before: 60, after: 0 }),
 qTable([ ask("Remarques (suite)") ]),
+
+...part(2, "Comment l'outil fonctionnera de votre côté",
+  "Aucun abonnement mensuel. Voici ce qui se passe quand une cliente réserve, et ce que cela coûte réellement."),
+
+h1("Votre agenda sera votre tableau de bord"),
+p("Plutôt que de vous faire apprendre un outil de plus, le site se branche directement sur votre Google Agenda. Vous l'avez déjà sur votre téléphone, et vous savez vous en servir."),
+p("Vous y bloquez vos indisponibilités comme d'habitude : le site cesse aussitôt de proposer ces créneaux aux clientes."),
+p("Chaque rendez-vous confirmé s'ajoute tout seul à votre agenda, avec le nom de la cliente, la prestation, le lieu et le montant qui reste à régler."),
+p("Votre téléphone vous prévient à chaque nouvelle réservation, et la veille de chaque rendez-vous."),
+p("C'est gratuit, et vous gardez tout votre historique même si le site change un jour."),
+
+h1("L'acompte"),
+p("Stripe encaisse le paiement. Pas d'abonnement, pas de frais fixes : vous ne payez que lorsque vous encaissez, de l'ordre de 1,5 % plus 0,25 € par paiement avec une carte européenne. Sur un acompte de 50 €, cela représente environ 1 €. L'argent arrive sur votre compte bancaire quelques jours après."),
+note("Tarif à vérifier à l'ouverture du compte : Stripe ajuste ses grilles."),
+
+h1("Ce que cela coûte par an"),
+info([
+  ["Nom de domaine (afrikayaa.fr)", "environ 10 à 15 € par an"],
+  ["Hébergement du site", "gratuit"],
+  ["Envoi automatique des e-mails", "gratuit à votre volume"],
+  ["Google Agenda", "gratuit"],
+  ["Stripe", "aucun abonnement, environ 1 € sur un acompte de 50 €"],
+  ["Total", "environ 1 € par mois, plus les frais sur ce que vous encaissez", true],
+]),
+
+h1("On peut y aller en deux temps"),
+p([txt("Pour démarrer. ", { bold: true }),
+   txt("Le site est en ligne, la demande de rendez-vous vous arrive par e-mail, vous la notez dans votre agenda et vous envoyez un lien de paiement Stripe créé en trois clics. Rien d'automatique, rien à régler, et vous gardez la main sur tout.")]),
+p([txt("Ensuite, quand vous le sentez. ", { bold: true }),
+   txt("Le site lit vos disponibilités, encaisse l'acompte et remplit votre agenda sans vous. Le coût ne bouge pas.")]),
+
+h1("Les comptes clientes et les points de fidélité"),
+p("C'est faisable, mais c'est la partie la plus lourde : il faut conserver des données personnelles, gérer des mots de passe et respecter le RGPD. Beaucoup de travail pour peu d'effet tant que le volume est faible. La proposition est de le garder pour plus tard, et de le mettre en place quand les réservations auront pris."),
+
+h1("La notification WhatsApp"),
+p("Envoyer un message WhatsApp automatique demande un compte Meta Business vérifié et un prestataire qui facture chaque message. Comme votre agenda vous prévient déjà sur votre téléphone, ce serait un coût et une complication pour la même information."),
+p("Le bouton WhatsApp du site reste, lui, pour que les clientes vous écrivent directement."),
+
+h1("12. Vos outils"),
+qTable([
+  ask("Utilisez-vous déjà Google Agenda ?", "Si oui, sur quelle adresse Gmail"),
+  ask("Adresse e-mail où recevoir les demandes de rendez-vous"),
+  ask("Avez-vous déjà un compte Stripe ?"),
+  ask("Compte bancaire sur lequel recevoir les acomptes", "Le nom de la banque suffit ici, pas le numéro"),
+  ask("Qui achète le nom de domaine ?", "Vous, ou nous pour votre compte"),
+]),
+
+h1("13. Vos choix"),
+qTable([
+  ask("Démarrer en mode simple, ou directement en automatique ?"),
+  ask("Les comptes clientes et les points de fidélité", "Maintenant, plus tard, ou jamais"),
+  ask("La notification WhatsApp malgré son coût par message ?"),
+  ask("Autre chose que vous aimeriez faire depuis votre téléphone ?"),
+]),
 
 p([txt("AFRIKAYAA — Coiffure cheveux naturels afro, Sainte-Rose, Guadeloupe", { size: 17, color: GREY })],
   { before: 400, align: AlignmentType.CENTER, after: 0 }),

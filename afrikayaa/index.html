@@ -101,6 +101,7 @@ a{color:var(--gold);text-decoration:none}
 .bridge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,2.4vw,20px)}
 .bridge h2{font-size:clamp(1.95rem,6.4vw,3.1rem)}
 .bridge .lede{max-width:42ch}
+.bridge__acts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:4px}
 
 /* --- descente etoilee du menu vers la reservation --- */
 .spark{position:fixed;z-index:60;pointer-events:none;color:var(--gold);text-shadow:0 0 14px rgba(240,206,142,.85);animation:sparkFall var(--d,.8s) cubic-bezier(.32,0,.7,1) forwards;will-change:transform,opacity}
@@ -378,7 +379,10 @@ a{color:var(--gold);text-decoration:none}
     <p class="eyebrow">Aller plus loin</p>
     <h2>Et si on changeait<br>plus que la coiffure ?</h2>
     <p class="lede">Une silhouette, des couleurs, une façon de se tenir. REVEAL est l'autre métier de la maison.</p>
-    <a class="btn btn--ghost" href="#reveal">Découvrir Reveal</a>
+    <div class="bridge__acts">
+      <a class="btn btn--gold" href="#reveal">Découvrir Reveal</a>
+      <a class="btn btn--ghost" href="https://www.instagram.com/reel/DV9LiBICX49/" target="_blank" rel="noopener">Voir une transformation</a>
+    </div>
   </div>
 </div></section>
 
