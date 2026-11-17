@@ -95,14 +95,10 @@ a{color:var(--gold);text-decoration:none}
 .portrait{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;border:1px solid var(--line);background:linear-gradient(150deg,rgba(240,206,142,.2),rgba(198,124,178,.26));max-width:100%}
 .portrait img{width:100%;height:100%;object-fit:cover;object-position:center 24%}
 .portrait figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 18px 14px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,233,.82);background:linear-gradient(transparent,rgba(9,8,12,.85))}
-.about__txt{display:flex;flex-direction:column;gap:20px;min-width:0}
+.about__txt{display:flex;flex-direction:column;gap:clamp(14px,2.2vw,20px);min-width:0}
 .about__txt h2{font-size:clamp(2.3rem,7.5vw,3.6rem)}
-.about__txt .lede{max-width:34ch}
+.about__txt .lede{max-width:38ch;font-size:clamp(1.02rem,2.4vw,1.18rem)}
 .sign{font-family:var(--script);font-size:2.4rem;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.1em}
-.creds{list-style:none;margin:6px 0 2px;padding:0;display:grid;grid-template-columns:1fr}
-@media (min-width:560px){.creds{grid-template-columns:1fr 1fr;column-gap:30px}}
-.creds li{display:flex;gap:13px;align-items:baseline;padding:11px 0;border-top:1px solid var(--line);font-size:.97rem;color:var(--fg)}
-.creds li::before{content:"";width:13px;height:1px;background:var(--gold);flex:none;transform:translateY(-5px)}
 .wa{display:inline-flex;align-items:center;gap:13px;align-self:flex-start;padding:14px 28px 14px 19px;border-radius:999px;border:1px solid rgba(37,211,102,.38);background:rgba(37,211,102,.09);color:var(--fg);font-size:.86rem;letter-spacing:.15em;text-transform:uppercase;transition:transform .2s cubic-bezier(.3,1.4,.5,1),background .2s,border-color .2s}
 .wa:hover{transform:translateY(-2px);background:rgba(37,211,102,.17);border-color:rgba(37,211,102,.68)}
 .wa img{width:27px;height:27px;flex:none}
@@ -297,16 +293,8 @@ a{color:var(--gold);text-decoration:none}
     <div class="about__txt">
       <p class="eyebrow">La fondatrice</p>
       <h2>Le cheveu afro,<br>compris avant<br>d'être coiffé</h2>
-      <p class="lede">Quinze ans passés sur le cheveu crépu, frisé et bouclé — à le lire avant d'y toucher. Chaque chevelure a sa porosité, sa densité, son histoire. C'est de là que part une coiffure qui tient.</p>
-      <p class="lede">La consultation capillaire ouvre toute première venue : diagnostic, routine, et ce qui est réaliste pour vos cheveux. Le soin, la coupe, la couleur et les tresses viennent ensuite.</p>
-      <ul class="creds">
-        <li>Coiffeuse diplômée</li>
-        <li>Plus de quinze ans d'expérience</li>
-        <li>Spécialiste du cheveu naturel</li>
-        <li>Consultations capillaires</li>
-        <li>Au salon et à domicile</li>
-        <li>Sur rendez-vous</li>
-      </ul>
+      <p class="lede">15 ans sur le cheveu crépu, frisé et bouclé. Chaque chevelure a sa porosité, sa densité, son histoire : c'est de là que part une coiffure qui tient.</p>
+      <p class="lede">Coiffeuse diplômée, spécialiste du cheveu naturel. La consultation capillaire ouvre toute première venue. Au salon de Sainte-Rose et à domicile, sur rendez-vous.</p>
       <a class="wa" href="https://wa.me/590690964392" target="_blank" rel="noopener"><img src="assets/whatsapp.png" alt=""><span>On en discute</span></a>
       <p class="sign">AfriKayàa</p>
     </div>
@@ -556,7 +544,7 @@ a{color:var(--gold);text-decoration:none}
     var sel = $(id);
     COMMUNES.forEach(function(c){
       var o = document.createElement('option');
-      o.value = c.n; o.textContent = c.n + (c.f === null ? ' — sur devis' : ' — ' + EUR(c.f));
+      o.value = c.n; o.textContent = c.n + (c.f === null ? ' · sur devis' : ' · ' + EUR(c.f));
       sel.appendChild(o);
     });
   });
@@ -905,7 +893,7 @@ a{color:var(--gold);text-decoration:none}
       '<div class="mail__box">' + r('Total', EUR(t.sum)) + r('Acompte réglé', EUR(t.due)) + r('Solde, la veille', EUR(t.rest), true) + '</div>' +
       '<p class="mail__note">Le solde de ' + EUR(t.rest) + ' est à régler la veille du rendez-vous. Pour toute modification, contactez-nous au 0690 96 43 92 en indiquant votre référence.</p>' +
       '<p class="mail__ref">Réf. ' + $('doneRef').textContent.replace('Réf. ', '') + '</p>' +
-      '<div class="mail__f"><b>Afrikayaa</b>Coiffure cheveux naturels afro — Sainte-Rose, Guadeloupe<br>0690 96 43 92 — du mardi au samedi</div>' +
+      '<div class="mail__f"><b>Afrikayaa</b>Coiffure cheveux naturels afro, Sainte-Rose, Guadeloupe<br>0690 96 43 92, du mardi au samedi</div>' +
       '</div>';
   }
   $('showMail').addEventListener('click', function(){
