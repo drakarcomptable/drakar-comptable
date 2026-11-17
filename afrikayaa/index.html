@@ -556,6 +556,18 @@ a{color:var(--gold);text-decoration:none}
       if (k < 1) requestAnimationFrame(frame);
     })(t0);
   }
+  // Un lien vers une ancre ecrit son nom dans la barre d'adresse, et le lien
+  // copie ensuite emmene le visiteur au meme endroit. On fait defiler nous-memes
+  // et on laisse l'adresse tranquille.
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var t = document.getElementById(a.getAttribute('href').slice(1));
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+  });
+
   document.addEventListener('click', function(e){
     if (!e.target.closest) return;
     var b = e.target.closest('.btn,.opt,.slot,.day');
