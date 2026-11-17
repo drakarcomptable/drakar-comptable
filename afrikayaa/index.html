@@ -1,0 +1,740 @@
+<title>AFRIKAYAA &amp; REVEAL</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Jost:wght@300;400;500&family=Parisienne&display=swap">
+<style>
+/* Layout : une colonne pleine largeur sur mobile, bandes noires separees par un filet dore, contenu centre max 1060px */
+:root{
+  --ink:#08070b; --ink-2:#100d15; --ink-3:#181220; --ink-4:#211a2b;
+  --gold:#e3be7e; --gold-deep:#c4922f; --rose:#c07fa6; --violet:#7d5e90;
+  --fg:#efe9e2; --muted:#a2988d; --line:rgba(227,190,126,.17);
+  --ok:#7fc0a0; --warn:#e0b05c;
+  --display:"Cormorant Garamond",Georgia,serif;
+  --script:"Parisienne","Cormorant Garamond",cursive;
+  --body:"Jost","Helvetica Neue",Arial,sans-serif;
+  --grad:linear-gradient(135deg,var(--gold) 0%,#d7a98f 45%,var(--rose) 100%);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--fg);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:rgba(8,7,11,.96)}
+img{display:block}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:300;text-wrap:balance;margin:0;letter-spacing:.01em}
+p{margin:0}
+a{color:var(--gold);text-decoration:none}
+
+.wrap{width:100%;max-width:1060px;margin-inline:auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.band{padding-block:clamp(48px,9vw,84px);border-top:1px solid var(--line)}
+.band--plain{border-top:0}
+.eyebrow{font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.lede{color:var(--muted);max-width:60ch}
+.gradtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* --- barre de navigation --- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:29;background:rgba(8,7,11,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
+.nav__brand{display:flex;align-items:center;gap:9px;margin-right:auto;min-width:0}
+.nav__brand img{width:26px;height:auto}
+.nav__name{font-family:var(--display);font-size:1.02rem;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}
+.nav__links{display:flex;gap:4px}
+.nav__links a{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:7px 9px;border-radius:999px}
+.nav__links a:hover,.nav__links a:focus-visible{color:var(--fg)}
+@media (max-width:620px){.nav__links a:not(.nav__cta){display:none}}
+.nav__cta{color:var(--ink)!important;background:var(--grad);font-weight:500}
+
+/* --- hero --- */
+.hero{position:relative;padding-block:clamp(34px,7vw,64px) clamp(44px,8vw,76px);overflow:hidden}
+.hero::after{content:"";position:absolute;left:50%;top:-14%;width:min(760px,135%);aspect-ratio:1;transform:translateX(-50%);background:radial-gradient(circle,rgba(192,127,166,.17),rgba(227,190,126,.07) 42%,transparent 68%);pointer-events:none}
+.hero .wrap{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
+.hero img{width:min(190px,52vw);height:auto;filter:drop-shadow(0 10px 40px rgba(192,127,166,.3))}
+.hero h1{font-size:clamp(2.1rem,8.4vw,3.5rem);line-height:1.08}
+.hero h1 em{font-family:var(--script);font-style:normal;font-size:1.22em;display:block;margin-top:.06em}
+.hero__sub{color:var(--muted);max-width:40ch;font-size:1.02rem}
+.hero__acts{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-top:6px}
+.hero__meta{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:center;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 26px;border-radius:999px;font-size:.82rem;letter-spacing:.13em;text-transform:uppercase;font-weight:500;transition:transform .18s ease,opacity .18s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn--gold{background:var(--grad);color:#15100c}
+.btn--ghost{border:1px solid var(--line);color:var(--fg)}
+.btn--ghost:hover{border-color:var(--gold)}
+.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
+.btn--sm{padding:11px 20px;font-size:.74rem}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* --- notice maquette --- */
+.notice{background:var(--ink-3);border-bottom:1px solid var(--line)}
+.notice .wrap{display:flex;gap:10px;align-items:baseline;padding-block:9px;font-size:.78rem;color:var(--muted)}
+.notice b{color:var(--gold);font-weight:500;letter-spacing:.1em;text-transform:uppercase;font-size:.7rem;white-space:nowrap}
+
+/* --- titres de section --- */
+.shead{display:flex;flex-direction:column;gap:10px;margin-bottom:30px}
+.shead h2{font-size:clamp(1.8rem,5.6vw,2.6rem)}
+
+/* --- prestations --- */
+.menu{display:grid;gap:12px}
+@media (min-width:720px){.menu{grid-template-columns:1fr 1fr}}
+.presta{display:flex;gap:14px;align-items:baseline;padding:16px 18px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;min-width:0}
+.presta__body{flex:1;min-width:0}
+.presta__name{font-family:var(--display);font-size:1.22rem}
+.presta__meta{font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+.presta__price{font-family:var(--display);font-size:1.35rem;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--gold);vertical-align:middle;margin-left:7px}
+
+/* --- grille zones --- */
+.zones{width:100%;border-collapse:collapse;font-size:.92rem}
+.zones th,.zones td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+.zones th{font-size:.68rem;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:400}
+.zones td:last-child{text-align:right;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.zones tbody tr:hover{background:var(--ink-2)}
+.scroller{overflow-x:auto}
+
+/* --- moteur de reservation --- */
+.book{background:var(--ink-2);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.book__steps{display:flex;gap:2px;padding:14px 16px;border-bottom:1px solid var(--line);overflow-x:auto}
+.stepdot{display:flex;align-items:center;gap:7px;padding:5px 10px;border-radius:999px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.stepdot span{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;border:1px solid var(--line);font-size:.65rem}
+.stepdot[data-on="1"]{color:var(--fg)}
+.stepdot[data-on="1"] span{background:var(--grad);color:#15100c;border-color:transparent}
+.stepdot[data-done="1"] span{background:rgba(227,190,126,.2);color:var(--gold)}
+.book__body{padding:clamp(18px,4vw,28px)}
+.book h3{font-size:1.5rem;margin-bottom:4px}
+.book__hint{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+.book__foot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+.book__foot .spacer{flex:1}
+.runtotal{font-size:.84rem;color:var(--muted)}
+.runtotal b{color:var(--gold);font-weight:400;font-family:var(--display);font-size:1.25rem;font-variant-numeric:tabular-nums}
+
+.opts{display:grid;gap:9px}
+@media (min-width:640px){.opts--2{grid-template-columns:1fr 1fr}}
+.opt{display:flex;gap:13px;align-items:center;width:100%;text-align:left;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--ink-3);transition:border-color .16s ease,background .16s ease}
+.opt:hover{border-color:rgba(227,190,126,.42)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:var(--ink-4)}
+.opt__t{flex:1;min-width:0}
+.opt__t strong{font-family:var(--display);font-weight:400;font-size:1.15rem;display:block}
+.opt__t small{color:var(--muted);font-size:.78rem}
+.opt__p{color:var(--gold);font-family:var(--display);font-size:1.2rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.opt__mark{width:17px;height:17px;border-radius:50%;border:1px solid var(--line);flex:none}
+.opt[aria-pressed="true"] .opt__mark{background:var(--grad);border-color:transparent}
+
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;background:var(--ink-3);border:1px solid var(--line);border-radius:11px;padding:13px 14px;font-weight:300}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);outline:none}
+.grid2{display:grid;gap:14px}
+@media (min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+.check{display:flex;gap:11px;align-items:flex-start;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--ink-3)}
+.check input{margin-top:4px;accent-color:var(--gold);width:17px;height:17px;flex:none}
+.check small{display:block;color:var(--muted);font-size:.8rem}
+
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px}
+.day{flex:none;width:64px;padding:11px 0;border:1px solid var(--line);border-radius:12px;background:var(--ink-3);text-align:center;line-height:1.25}
+.day em{display:block;font-style:normal;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.day b{display:block;font-family:var(--display);font-size:1.4rem;font-weight:400}
+.day[aria-pressed="true"]{border-color:var(--gold);background:var(--ink-4)}
+.day[disabled]{opacity:.26}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:9px}
+.slot{padding:13px 6px;border:1px solid var(--line);border-radius:11px;background:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums}
+.slot[aria-pressed="true"]{border-color:var(--gold);background:var(--ink-4);color:var(--gold)}
+.slot[disabled]{opacity:.3;text-decoration:line-through}
+
+.recap{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.recap__row{display:flex;gap:14px;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line);font-size:.94rem}
+.recap__row span:last-child{color:var(--fg);font-variant-numeric:tabular-nums;white-space:nowrap}
+.recap__row span:first-child{color:var(--muted)}
+.recap__row--tot{background:var(--ink-3)}
+.recap__row--tot span{color:var(--fg)!important;font-family:var(--display);font-size:1.2rem}
+.recap__row--due{background:linear-gradient(135deg,rgba(227,190,126,.13),rgba(192,127,166,.13));border-bottom:0}
+.recap__row--due span{color:var(--gold)!important;font-family:var(--display);font-size:1.38rem}
+.callout{display:flex;gap:11px;padding:13px 15px;border-radius:12px;background:var(--ink-3);border:1px solid var(--line);font-size:.86rem;color:var(--muted);margin-top:14px}
+.callout b{color:var(--gold);font-weight:400}
+.callout--warn{border-color:rgba(224,176,92,.4)}
+
+.done{text-align:center;display:flex;flex-direction:column;align-items:center;gap:13px;padding-block:14px}
+.done__seal{width:66px;height:66px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#15100c;font-size:1.9rem}
+.ref{font-family:var(--display);letter-spacing:.2em;color:var(--gold);font-size:1.05rem}
+
+/* --- REVEAL --- */
+#reveal{background:linear-gradient(180deg,var(--ink) 0%,#130c15 55%,var(--ink) 100%)}
+.formules{display:grid;gap:14px;margin-bottom:16px}
+@media (min-width:720px){.formules{grid-template-columns:1fr 1fr}}
+.formule{padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--ink-2);display:flex;flex-direction:column;gap:9px}
+.formule--hi{border-color:rgba(192,127,166,.5);background:linear-gradient(165deg,rgba(192,127,166,.1),var(--ink-2))}
+.formule h3{font-size:1.65rem}
+.formule__p{font-family:var(--display);font-size:2.5rem;color:var(--gold);line-height:1;font-variant-numeric:tabular-nums}
+.formule ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:.92rem;color:var(--muted)}
+.formule li::before{content:"—";color:var(--gold);margin-right:9px}
+
+/* --- tableau de suivi --- */
+.kpis{display:grid;gap:11px;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));margin-bottom:16px}
+.kpi{padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--ink-2)}
+.kpi em{font-style:normal;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block}
+.kpi b{font-family:var(--display);font-weight:400;font-size:2rem;color:var(--gold);font-variant-numeric:tabular-nums}
+.rdv{display:flex;gap:13px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--ink-2);margin-bottom:9px;flex-wrap:wrap}
+.rdv__when{font-variant-numeric:tabular-nums;font-family:var(--display);font-size:1.1rem;width:74px;flex:none}
+.rdv__who{flex:1;min-width:140px}
+.rdv__who small{display:block;color:var(--muted);font-size:.79rem}
+.tag{font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.tag--ok{color:var(--ok);border-color:rgba(127,192,160,.45)}
+.tag--wait{color:var(--warn);border-color:rgba(224,176,92,.45)}
+.tag--paid{color:var(--gold);border-color:rgba(227,190,126,.45)}
+
+/* --- pied de page + notes --- */
+.foot{border-top:1px solid var(--line);padding-block:40px 34px;color:var(--muted);font-size:.9rem}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between}
+.foot b{color:var(--fg);font-weight:400;font-family:var(--display);font-size:1.1rem;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:7px}
+.tel{font-variant-numeric:tabular-nums;color:var(--gold);font-size:1.15rem;letter-spacing:.06em}
+.todo{border:1px dashed rgba(227,190,126,.3);border-radius:14px;padding:20px;background:rgba(227,190,126,.03)}
+.todo ol{margin:12px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:9px;color:var(--muted);font-size:.92rem}
+.todo li::marker{color:var(--gold)}
+/* --- fondatrice --- */
+.about{display:grid;gap:clamp(22px,4vw,40px);align-items:center}
+@media (min-width:760px){.about{grid-template-columns:minmax(0,.82fr) minmax(0,1fr)}}
+.portrait{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(150deg,rgba(227,190,126,.26),rgba(192,127,166,.3));aspect-ratio:4/5;display:grid;place-items:center;border:1px solid var(--line);max-width:100%}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.portrait__ph{display:grid;place-items:center;gap:10px;text-align:center;padding:24px;color:var(--muted);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+.portrait__ph img{width:92px;height:auto;opacity:.85;object-fit:contain}
+.portrait__cred{position:absolute;right:10px;bottom:9px;font-size:.6rem;letter-spacing:.12em;color:rgba(239,233,226,.6);background:rgba(8,7,11,.5);padding:3px 8px;border-radius:999px}
+.about__txt{display:flex;flex-direction:column;gap:14px;min-width:0}
+.about__txt h2{font-size:clamp(1.8rem,5.6vw,2.6rem)}
+.sign{font-family:var(--script);font-size:1.9rem;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.12em}
+.vals{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.vals span{font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;padding:6px 13px;border:1px solid var(--line);border-radius:999px;color:var(--gold)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="notice"><div class="wrap"><b>Maquette</b><span>Démonstration du parcours : les paiements ne sont pas encaissés et les prestations de coiffure ci-dessous sont des exemples à remplacer par la grille réelle.</span></div></div>
+
+<nav class="nav"><div class="wrap">
+  <div class="nav__brand"><img src="assets/logo-mark.png" alt=""><span class="nav__name">Afrikayaa</span></div>
+  <div class="nav__links">
+    <a href="#prestations">Coiffure</a>
+    <a href="#reveal">Reveal</a>
+    <a href="#suivi">Espace pro</a>
+    <a class="nav__cta btn btn--sm" href="#reserver">Réserver</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <img src="assets/logo-lockup.png" alt="AfriKayaa">
+  <h1>Vos cheveux naturels,<em>révélés</em></h1>
+  <p class="hero__sub">Coiffure afro et soins du cheveu naturel, au salon de Sainte-Rose ou chez vous en Guadeloupe.</p>
+  <div class="hero__acts">
+    <a class="btn btn--gold" href="#reserver">Prendre rendez-vous</a>
+    <a class="btn btn--ghost" href="#reveal">Découvrir REVEAL</a>
+  </div>
+  <div class="hero__meta"><span>Sainte-Rose &amp; à domicile</span><span>Acompte en ligne</span><span>0690 96 43 92</span></div>
+</div></header>
+
+<section class="band band--plain" id="fondatrice"><div class="wrap">
+  <div class="about">
+    <figure class="portrait" style="margin:0">
+      <img src="assets/fondatrice.jpg" alt="La fondatrice d&#39;AFRIKAYAA" onerror="this.hidden=true;document.getElementById('phFallback').hidden=false">
+      <div class="portrait__ph" id="phFallback" hidden><img src="assets/logo-mark.png" alt=""><span>Portrait de la fondatrice</span></div>
+      <figcaption class="portrait__cred">© JobyJOV</figcaption>
+    </figure>
+    <div class="about__txt">
+      <p class="eyebrow">La fondatrice</p>
+      <h2>Le cheveu naturel, sans compromis</h2>
+      <p class="lede">AFRIKAYAA est né d&#39;une conviction : le cheveu afro n&#39;a pas à être dompté, il a besoin d&#39;être compris. Chaque chevelure a sa porosité, sa densité, son histoire — et c&#39;est à partir de là que se construit une coiffure qui tient.</p>
+      <p class="lede">De la consultation au dernier geste de finition, l&#39;accompagnement est personnel : on prend le temps du diagnostic, on explique les soins, on vous apprend à entretenir le résultat entre deux rendez-vous.</p>
+      <div class="vals"><span>Cheveux crépus &amp; bouclés</span><span>Soins et protection</span><span>Salon &amp; domicile</span><span>Guadeloupe</span></div>
+      <p class="sign">AfriKayàa</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="prestations"><div class="wrap">
+  <div class="shead">
+    <p class="eyebrow">Afrikayaa — Coiffure</p>
+    <h2>Les prestations</h2>
+    <p class="lede">Chaque prestation commence par un diagnostic du cheveu. Une consultation préalable est demandée à toute nouvelle cliente, afin d'évaluer la nature du cheveu et le temps nécessaire.</p>
+  </div>
+  <div class="menu" id="menu"></div>
+</div></section>
+
+<section class="band" id="deplacement"><div class="wrap">
+  <div class="shead">
+    <p class="eyebrow">À domicile</p>
+    <h2>Frais de déplacement</h2>
+    <p class="lede">Le montant est ajouté automatiquement au devis selon votre commune, et affiché avant tout paiement.</p>
+  </div>
+  <div class="scroller"><table class="zones"><thead><tr><th>Zone</th><th>Commune</th><th>Secteur</th><th>Frais</th></tr></thead><tbody id="zonesBody"></tbody></table></div>
+</div></section>
+
+<section class="band" id="reserver"><div class="wrap">
+  <div class="shead">
+    <p class="eyebrow">Réservation</p>
+    <h2>Votre rendez-vous en 5 étapes</h2>
+  </div>
+
+  <div class="book">
+    <div class="book__steps" id="steps"></div>
+    <div class="book__body">
+
+      <div class="pane" id="pane1">
+        <h3>La prestation</h3>
+        <p class="book__hint">Sélectionnez la prestation souhaitée.</p>
+        <div class="opts" id="svcList"></div>
+      </div>
+
+      <div class="pane" id="pane2" hidden>
+        <h3>Le lieu</h3>
+        <p class="book__hint">Au salon de Sainte-Rose, ou chez vous.</p>
+        <div class="opts opts--2" style="margin-bottom:16px">
+          <button class="opt" type="button" id="placeSalon" aria-pressed="false"><span class="opt__mark"></span><span class="opt__t"><strong>Au salon</strong><small>Sainte-Rose — aucun frais</small></span></button>
+          <button class="opt" type="button" id="placeHome" aria-pressed="false"><span class="opt__mark"></span><span class="opt__t"><strong>À domicile</strong><small>Frais selon la commune</small></span></button>
+        </div>
+        <div id="communeWrap" hidden>
+          <div class="field"><label for="commune">Votre commune</label>
+            <select id="commune"><option value="">Choisir une commune…</option></select>
+          </div>
+          <div class="callout" id="communeInfo" hidden></div>
+        </div>
+      </div>
+
+      <div class="pane" id="pane3" hidden>
+        <h3>Date et horaire</h3>
+        <p class="book__hint">Salon fermé le dimanche et le lundi.</p>
+        <div class="days" id="days"></div>
+        <div class="slots" id="slots"></div>
+      </div>
+
+      <div class="pane" id="pane4" hidden>
+        <h3>Vos coordonnées</h3>
+        <p class="book__hint">Pour la confirmation du rendez-vous et du paiement.</p>
+        <div class="grid2" style="margin-bottom:14px">
+          <div class="field"><label for="fname">Prénom et nom</label><input id="fname" type="text" autocomplete="name" placeholder="Ex. Laura Martin"></div>
+          <div class="field"><label for="fphone">Téléphone</label><input id="fphone" type="tel" autocomplete="tel" placeholder="0690 00 00 00"></div>
+        </div>
+        <div class="field" style="margin-bottom:14px"><label for="femail">E-mail</label><input id="femail" type="email" autocomplete="email" placeholder="vous@exemple.fr"></div>
+        <div class="field" style="margin-bottom:14px"><label for="fnote">Nature du cheveu, longueur, précisions</label><textarea id="fnote" rows="3" placeholder="Cheveux crépus 4C, longueur épaules, dernière pose il y a 3 mois…"></textarea></div>
+        <label class="check" for="ffirst"><input id="ffirst" type="checkbox"><span>C'est ma première venue chez AFRIKAYAA<small>La consultation préalable est obligatoire pour une première cliente.</small></span></label>
+        <div class="callout callout--warn" id="firstInfo" hidden><span>⚑</span><span>Votre rendez-vous démarrera par la <b>consultation préalable</b>. Elle est ajoutée au récapitulatif et conditionne la validation de la prestation.</span></div>
+      </div>
+
+      <div class="pane" id="pane5" hidden>
+        <h3>Récapitulatif</h3>
+        <p class="book__hint">L'acompte confirme le rendez-vous. Le solde se règle la veille.</p>
+        <div class="recap" id="recap"></div>
+        <div class="callout"><span>🔒</span><span>Paiement sécurisé par carte bancaire. Aucun rendez-vous n'est confirmé sans validation de l'acompte. <b>Maquette : aucun montant n'est débité.</b></span></div>
+      </div>
+
+      <div class="pane done" id="pane6" hidden>
+        <div class="done__seal">✓</div>
+        <h3 id="doneTitle">Rendez-vous confirmé</h3>
+        <p class="lede" style="text-align:center" id="doneText"></p>
+        <p class="ref" id="doneRef"></p>
+        <button class="btn btn--ghost btn--sm" type="button" id="restart">Nouvelle réservation</button>
+      </div>
+
+      <div class="book__foot" id="foot">
+        <button class="btn btn--ghost btn--sm" type="button" id="back" hidden>Retour</button>
+        <span class="spacer"></span>
+        <span class="runtotal" id="runtotal"></span>
+        <button class="btn btn--gold btn--sm" type="button" id="next" disabled>Continuer</button>
+      </div>
+
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="reveal"><div class="wrap">
+  <div class="shead">
+    <p class="eyebrow">Reveal — Relooking &amp; estime de soi</p>
+    <h2>Se retrouver, se révéler</h2>
+    <p class="lede">Un accompagnement complet : analyse de la morphologie et des couleurs, conseil en image, et mise en valeur de ce qui vous ressemble vraiment.</p>
+  </div>
+  <div class="formules">
+    <div class="formule">
+      <h3>REVEAL Simple</h3>
+      <p class="formule__p">320 €</p>
+      <ul><li>Analyse morphologie et colorimétrie</li><li>Conseil en image personnalisé</li><li>Mise en beauté et coiffure</li><li>Restitution et conseils d'entretien</li></ul>
+    </div>
+    <div class="formule formule--hi">
+      <h3>REVEAL Premium <span class="pill">Photographe</span></h3>
+      <p class="formule__p">370 €</p>
+      <ul><li>Tout le contenu de la formule Simple</li><li>Séance photo avec photographe professionnel</li><li>Photos retouchées remises après la séance</li></ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-bottom:26px"><span>+</span><span>Accompagnement shopping en option : <b>50 €</b>. Frais de déplacement calculés selon la commune, pour deux personnes.</span></div>
+
+  <div class="book"><div class="book__body" id="revealBox">
+    <h3>Demander un rendez-vous</h3>
+    <p class="book__hint">Vous recevez une réponse avec le devis détaillé, frais de déplacement compris.</p>
+    <div class="opts opts--2" style="margin-bottom:14px">
+      <button class="opt" type="button" data-rf="simple" aria-pressed="false"><span class="opt__mark"></span><span class="opt__t"><strong>Simple</strong><small>Formule complète</small></span><span class="opt__p">320 €</span></button>
+      <button class="opt" type="button" data-rf="premium" aria-pressed="false"><span class="opt__mark"></span><span class="opt__t"><strong>Premium</strong><small>Photographe inclus</small></span><span class="opt__p">370 €</span></button>
+    </div>
+    <label class="check" for="rshop" style="margin-bottom:14px"><input id="rshop" type="checkbox"><span>Ajouter l'accompagnement shopping<small>+ 50 €</small></span></label>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="field"><label for="rname">Prénom et nom</label><input id="rname" type="text" placeholder="Ex. Laura Martin"></div>
+      <div class="field"><label for="rphone">Téléphone</label><input id="rphone" type="tel" placeholder="0690 00 00 00"></div>
+    </div>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="field"><label for="rcommune">Commune</label><select id="rcommune"><option value="">Choisir…</option></select></div>
+      <div class="field"><label for="rdate">Période souhaitée</label><input id="rdate" type="text" placeholder="Ex. décembre, un samedi"></div>
+    </div>
+    <div class="field" style="margin-bottom:14px"><label for="rmsg">Votre projet</label><textarea id="rmsg" rows="3" placeholder="Ce que vous attendez de cet accompagnement…"></textarea></div>
+    <div class="recap" id="rrecap" hidden></div>
+    <div class="book__foot"><span class="spacer"></span><button class="btn btn--gold btn--sm" type="button" id="rsend" disabled>Envoyer la demande</button></div>
+  </div></div>
+</div></section>
+
+<section class="band" id="suivi"><div class="wrap">
+  <div class="shead">
+    <p class="eyebrow">Espace professionnelle</p>
+    <h2>Le suivi des rendez-vous</h2>
+    <p class="lede">Côté coulisses : chaque réservation arrive ici avec son statut de paiement. Exemple de ce que vous verriez en vous connectant.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><em>Rendez-vous cette semaine</em><b>9</b></div>
+    <div class="kpi"><em>Acomptes encaissés</em><b>412 €</b></div>
+    <div class="kpi"><em>Soldes à percevoir</em><b>398 €</b></div>
+    <div class="kpi"><em>En attente d'acompte</em><b>2</b></div>
+  </div>
+  <div id="agenda"></div>
+</div></section>
+
+<section class="band" id="notes"><div class="wrap">
+  <div class="todo">
+    <p class="eyebrow">Note de travail</p>
+    <h3 style="font-size:1.5rem;margin:8px 0 0">À confirmer avant la mise en ligne</h3>
+    <ol>
+      <li>La <b>liste réelle des prestations</b>, leurs tarifs et leurs durées : celles affichées ici sont des exemples.</li>
+      <li>Les <b>horaires d'ouverture</b> et les jours de fermeture, ainsi que le temps de trajet à prévoir entre deux rendez-vous à domicile.</li>
+      <li>La <b>base de calcul de l'acompte</b> de 50 % : sur la prestation seule, ou sur la prestation plus les frais de déplacement (retenu ici).</li>
+      <li>La <b>consultation préalable</b> : durée, tarif, et si elle peut se tenir le jour même de la prestation.</li>
+      <li>Le <b>mode de règlement du solde</b> la veille : lien de paiement envoyé automatiquement, ou règlement sur place.</li>
+      <li>La <b>grille de déplacement REVEAL</b>, pour deux personnes : non fournie à ce jour.</li>
+      <li><b>Petit-Bourg</b> : tarif de 20 € en zone 3, mais le secteur géographique reste à trancher.</li>
+      <li>Le secteur des zones 7 et 8 : <b>Sainte-Anne et Le Moule se situent en Grande-Terre</b>, à l'est, et non à l'ouest comme indiqué dans le document.</li>
+      <li>Les <b>4 € de frais de transaction</b> : leur refacturation au client pour un paiement par carte demande à être vérifiée au regard de la réglementation française.</li>
+    </ol>
+  </div>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div><b>Afrikayaa</b>Coiffure cheveux naturels afro<br>Sainte-Rose, Guadeloupe<br>Au salon et à domicile</div>
+  <div><b>Reveal</b>Relooking et estime de soi<br>Conseil en image<br>Formules Simple et Premium</div>
+  <div><b>Rendez-vous</b><span class="tel">0690 96 43 92</span><br>Du mardi au samedi</div>
+</div></footer>
+
+<script>
+(function(){
+  "use strict";
+  var EUR = function(n){ return n.toLocaleString('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2}); };
+
+  /* Prestations : exemples a remplacer par la grille reelle */
+  var SERVICES = [
+    {id:'consult', n:"Consultation préalable", d:"30 min", p:25, t:"Obligatoire pour une première cliente"},
+    {id:'soin',    n:"Soin profond & hydratation", d:"1 h 30", p:55, t:"Bain d'huiles, masque, vapeur"},
+    {id:'coupe',   n:"Coupe & mise en forme", d:"1 h", p:45, t:"Coupe sur cheveux bouclés ou crépus"},
+    {id:'twists',  n:"Twists / vanilles", d:"3 h", p:90, t:"Sur cheveux naturels"},
+    {id:'cornrow', n:"Nattes collées", d:"2 h 30", p:75, t:"Motifs au choix"},
+    {id:'box',     n:"Box braids", d:"5 h", p:140, t:"Mèches non comprises"},
+    {id:'locks',   n:"Entretien de locks", d:"2 h", p:70, t:"Reprise des racines et soin"},
+    {id:'crochet', n:"Crochet braids", d:"3 h 30", p:110, t:"Pose et finitions"},
+    {id:'event',   n:"Coiffure événement", d:"2 h", p:120, t:"Mariage, cérémonie"}
+  ];
+
+  var COMMUNES = [
+    {n:"Sainte-Rose", z:"1", f:10, s:"Nord Basse-Terre"},
+    {n:"Lamentin", z:"1", f:15, s:"Nord Basse-Terre"},
+    {n:"Baie-Mahault (Bémao)", z:"2", f:20, s:"Nord Basse-Terre"},
+    {n:"Jarry", z:"2", f:20, s:"Nord Basse-Terre"},
+    {n:"Petit-Bourg", z:"3", f:20, s:"Nord Basse-Terre"},
+    {n:"Pointe-à-Pitre", z:"4", f:25, s:"Centre"},
+    {n:"Les Abymes", z:"4", f:25, s:"Centre"},
+    {n:"Goyave", z:"5", f:30, s:"Sud Basse-Terre"},
+    {n:"Capesterre-Belle-Eau", z:"6", f:30, s:"Sud Basse-Terre"},
+    {n:"Sainte-Anne", z:"7", f:35, s:"Grande-Terre"},
+    {n:"Le Moule", z:"8", f:35, s:"Grande-Terre"},
+    {n:"Les Saintes", z:"—", f:null, s:"Îles"},
+    {n:"Marie-Galante", z:"—", f:null, s:"Îles"}
+  ];
+
+  var FEE_TX = 4, DEPOSIT = 0.5;
+  var S = {step:1, svc:null, place:null, commune:null, date:null, slot:null, first:false};
+
+  /* ---------- rendu des listes statiques ---------- */
+  var menu = document.getElementById('menu');
+  SERVICES.forEach(function(s){
+    var el = document.createElement('div');
+    el.className = 'presta';
+    el.innerHTML = '<div class="presta__body"><p class="presta__name">' + s.n +
+      (s.id === 'consult' ? '<span class="pill">1re visite</span>' : '') +
+      '</p><p class="presta__meta">' + s.d + ' · ' + s.t + '</p></div><p class="presta__price">' + EUR(s.p) + '</p>';
+    menu.appendChild(el);
+  });
+
+  var zb = document.getElementById('zonesBody');
+  COMMUNES.forEach(function(c){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + c.z + '</td><td>' + c.n + '</td><td style="color:var(--muted)">' + c.s + '</td><td>' + (c.f === null ? 'Sur devis' : EUR(c.f)) + '</td>';
+    zb.appendChild(tr);
+  });
+
+  ['commune','rcommune'].forEach(function(id){
+    var sel = document.getElementById(id);
+    COMMUNES.forEach(function(c){
+      var o = document.createElement('option');
+      o.value = c.n; o.textContent = c.n + (c.f === null ? ' — sur devis' : ' — ' + EUR(c.f));
+      sel.appendChild(o);
+    });
+  });
+
+  /* ---------- etapes ---------- */
+  var LABELS = ["Prestation","Lieu","Date","Coordonnées","Paiement"];
+  var stepsEl = document.getElementById('steps');
+  function paintSteps(){
+    stepsEl.innerHTML = '';
+    LABELS.forEach(function(l, i){
+      var n = i + 1, d = document.createElement('span');
+      d.className = 'stepdot';
+      d.setAttribute('data-on', S.step === n ? '1' : '0');
+      d.setAttribute('data-done', S.step > n ? '1' : '0');
+      d.innerHTML = '<span>' + (S.step > n ? '✓' : n) + '</span>' + l;
+      stepsEl.appendChild(d);
+    });
+    stepsEl.hidden = S.step > 5;
+  }
+
+  /* ---------- prestations selectionnables ---------- */
+  var svcList = document.getElementById('svcList');
+  SERVICES.forEach(function(s){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt'; b.setAttribute('aria-pressed','false'); b.dataset.svc = s.id;
+    b.innerHTML = '<span class="opt__mark"></span><span class="opt__t"><strong>' + s.n + '</strong><small>' + s.d + ' · ' + s.t + '</small></span><span class="opt__p">' + EUR(s.p) + '</span>';
+    b.addEventListener('click', function(){
+      S.svc = s.id;
+      Array.prototype.forEach.call(svcList.children, function(c){ c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+      sync();
+    });
+    svcList.appendChild(b);
+  });
+
+  /* ---------- lieu ---------- */
+  var salon = document.getElementById('placeSalon'), home = document.getElementById('placeHome');
+  var communeWrap = document.getElementById('communeWrap'), communeSel = document.getElementById('commune'), communeInfo = document.getElementById('communeInfo');
+  function pickPlace(v){
+    S.place = v;
+    salon.setAttribute('aria-pressed', v === 'salon' ? 'true' : 'false');
+    home.setAttribute('aria-pressed', v === 'home' ? 'true' : 'false');
+    communeWrap.hidden = v !== 'home';
+    if (v === 'salon'){ S.commune = null; communeSel.value = ''; communeInfo.hidden = true; }
+    sync();
+  }
+  salon.addEventListener('click', function(){ pickPlace('salon'); });
+  home.addEventListener('click', function(){ pickPlace('home'); });
+  communeSel.addEventListener('change', function(){
+    S.commune = COMMUNES.filter(function(c){ return c.n === communeSel.value; })[0] || null;
+    if (S.commune){
+      communeInfo.hidden = false;
+      communeInfo.innerHTML = S.commune.f === null
+        ? '<span>✎</span><span>Déplacement vers <b>' + S.commune.n + '</b> : établi <b>sur devis</b>. Votre demande sera transmise sans paiement en ligne.</span>'
+        : '<span>🚗</span><span>Zone ' + S.commune.z + ' · ' + S.commune.s + ' — frais de déplacement <b>' + EUR(S.commune.f) + '</b>, ajoutés au total.</span>';
+    } else { communeInfo.hidden = true; }
+    sync();
+  });
+
+  /* ---------- jours et creneaux ---------- */
+  var DAYN = ['dim','lun','mar','mer','jeu','ven','sam'], MON = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+  var TIMES = ['08:30','11:00','14:00','16:30'];
+  function seed(str){ var h = 0, i; for (i = 0; i < str.length; i++){ h = (h * 31 + str.charCodeAt(i)) % 9973; } return h; }
+  function openDay(d){ var w = d.getDay(); return w !== 0 && w !== 1; }
+  function slotFree(dateKey, time){ return seed(dateKey + time) % 10 > 3; }
+
+  var daysEl = document.getElementById('days'), slotsEl = document.getElementById('slots');
+  function buildDays(){
+    daysEl.innerHTML = '';
+    var base = new Date(); base.setHours(0,0,0,0);
+    for (var i = 1; i <= 21; i++){
+      var d = new Date(base.getTime() + i * 86400000);
+      var key = d.toISOString().slice(0,10);
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'day'; b.dataset.key = key;
+      b.innerHTML = '<em>' + DAYN[d.getDay()] + '</em><b>' + d.getDate() + '</b><em>' + MON[d.getMonth()] + '</em>';
+      if (!openDay(d)){ b.disabled = true; b.setAttribute('aria-pressed','false'); }
+      else {
+        b.setAttribute('aria-pressed','false');
+        (function(k, btn){
+          btn.addEventListener('click', function(){
+            S.date = k; S.slot = null;
+            Array.prototype.forEach.call(daysEl.children, function(c){ c.setAttribute('aria-pressed', c === btn ? 'true' : 'false'); });
+            buildSlots(); sync();
+          });
+        })(key, b);
+      }
+      daysEl.appendChild(b);
+    }
+  }
+  function buildSlots(){
+    slotsEl.innerHTML = '';
+    if (!S.date){ slotsEl.innerHTML = '<p class="book__hint" style="margin:0">Choisissez d\'abord une date.</p>'; return; }
+    TIMES.forEach(function(t){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'slot'; b.textContent = t; b.setAttribute('aria-pressed','false');
+      if (!slotFree(S.date, t)){ b.disabled = true; b.title = 'Complet'; }
+      else b.addEventListener('click', function(){
+        S.slot = t;
+        Array.prototype.forEach.call(slotsEl.children, function(c){ c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+        sync();
+      });
+      slotsEl.appendChild(b);
+    });
+  }
+  buildDays(); buildSlots();
+
+  /* ---------- coordonnees ---------- */
+  var first = document.getElementById('ffirst'), firstInfo = document.getElementById('firstInfo');
+  first.addEventListener('change', function(){ S.first = first.checked; firstInfo.hidden = !first.checked; sync(); });
+  ['fname','fphone','femail'].forEach(function(id){ document.getElementById(id).addEventListener('input', sync); });
+
+  /* ---------- calculs ---------- */
+  function svcObj(){ return SERVICES.filter(function(s){ return s.id === S.svc; })[0] || null; }
+  function isQuote(){ return S.place === 'home' && S.commune && S.commune.f === null; }
+  function totals(){
+    var s = svcObj(), lines = [], sum = 0;
+    if (s){ lines.push([s.n + ' (' + s.d + ')', s.p]); sum += s.p; }
+    if (S.first && S.svc !== 'consult'){ lines.push(['Consultation préalable (30 min)', 25]); sum += 25; }
+    if (S.place === 'home' && S.commune && S.commune.f !== null){ lines.push(['Déplacement — ' + S.commune.n + ' (zone ' + S.commune.z + ')', S.commune.f]); sum += S.commune.f; }
+    var dep = Math.round(sum * DEPOSIT * 100) / 100;
+    return {lines:lines, sum:sum, dep:dep, due:dep + FEE_TX, rest:sum - dep};
+  }
+
+  /* ---------- recapitulatif ---------- */
+  function paintRecap(){
+    var t = totals(), el = document.getElementById('recap'), h = '';
+    var d = S.date ? new Date(S.date + 'T12:00:00') : null;
+    var when = d ? DAYN[d.getDay()] + '. ' + d.getDate() + ' ' + MON[d.getMonth()] + ' · ' + S.slot : '—';
+    h += '<div class="recap__row"><span>Rendez-vous</span><span>' + when + '</span></div>';
+    h += '<div class="recap__row"><span>Lieu</span><span>' + (S.place === 'salon' ? 'Salon de Sainte-Rose' : 'À domicile — ' + (S.commune ? S.commune.n : '')) + '</span></div>';
+    t.lines.forEach(function(l){ h += '<div class="recap__row"><span>' + l[0] + '</span><span>' + EUR(l[1]) + '</span></div>'; });
+    if (isQuote()){
+      h += '<div class="recap__row"><span>Déplacement — ' + S.commune.n + '</span><span>Sur devis</span></div>';
+      h += '<div class="recap__row recap__row--due"><span>Demande de devis</span><span>Sans paiement</span></div>';
+    } else {
+      h += '<div class="recap__row recap__row--tot"><span>Total de la prestation</span><span>' + EUR(t.sum) + '</span></div>';
+      h += '<div class="recap__row"><span>Acompte (50 %)</span><span>' + EUR(t.dep) + '</span></div>';
+      h += '<div class="recap__row"><span>Frais de transaction</span><span>' + EUR(FEE_TX) + '</span></div>';
+      h += '<div class="recap__row"><span>Solde à régler la veille</span><span>' + EUR(t.rest) + '</span></div>';
+      h += '<div class="recap__row recap__row--due"><span>À régler maintenant</span><span>' + EUR(t.due) + '</span></div>';
+    }
+    el.innerHTML = h;
+  }
+
+  /* ---------- navigation ---------- */
+  var panes = [1,2,3,4,5,6].map(function(i){ return document.getElementById('pane' + i); });
+  var nextBtn = document.getElementById('next'), backBtn = document.getElementById('back');
+  var runtotal = document.getElementById('runtotal'), foot = document.getElementById('foot');
+
+  function valid(step){
+    if (step === 1) return !!S.svc;
+    if (step === 2) return S.place === 'salon' || (S.place === 'home' && !!S.commune);
+    if (step === 3) return !!S.date && !!S.slot;
+    if (step === 4) return document.getElementById('fname').value.trim().length > 1 && document.getElementById('fphone').value.trim().length > 5 && document.getElementById('femail').value.indexOf('@') > 0;
+    return true;
+  }
+
+  function sync(){
+    panes.forEach(function(p, i){ p.hidden = (i + 1) !== S.step; });
+    paintSteps();
+    backBtn.hidden = S.step === 1 || S.step === 6;
+    foot.hidden = S.step === 6;
+    nextBtn.disabled = !valid(S.step);
+    nextBtn.textContent = S.step === 5 ? (isQuote() ? 'Envoyer la demande' : 'Payer l\'acompte') : 'Continuer';
+    var t = totals();
+    runtotal.innerHTML = (S.step < 5 && t.sum > 0 && !isQuote()) ? 'Total estimé <b>' + EUR(t.sum) + '</b>' : '';
+    if (S.step === 5) paintRecap();
+  }
+
+  nextBtn.addEventListener('click', function(){
+    if (!valid(S.step)) return;
+    if (S.step === 5){ finish(); return; }
+    S.step++;
+    if (S.step === 3) buildSlots();
+    sync();
+    document.getElementById('reserver').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  backBtn.addEventListener('click', function(){ if (S.step > 1){ S.step--; sync(); } });
+
+  function finish(){
+    var t = totals(), q = isQuote();
+    var d = new Date(S.date + 'T12:00:00');
+    var when = DAYN[d.getDay()] + '. ' + d.getDate() + ' ' + MON[d.getMonth()] + ' à ' + S.slot;
+    document.getElementById('doneTitle').textContent = q ? 'Demande envoyée' : 'Rendez-vous confirmé';
+    document.getElementById('doneText').innerHTML = q
+      ? 'Votre demande pour le ' + when + ' a bien été transmise. Un devis incluant le déplacement vers ' + S.commune.n + ' vous sera adressé.'
+      : 'Acompte de <b style="color:var(--gold)">' + EUR(t.due) + '</b> validé. Votre rendez-vous du ' + when + ' est confirmé. Un e-mail et un SMS de confirmation vous sont envoyés, et le solde de ' + EUR(t.rest) + ' sera à régler la veille.';
+    document.getElementById('doneRef').textContent = 'Réf. AK-' + String(seed(S.date + S.slot + (S.svc || ''))).padStart(4,'0');
+    S.step = 6; sync();
+    document.getElementById('reserver').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  document.getElementById('restart').addEventListener('click', function(){
+    S = {step:1, svc:null, place:null, commune:null, date:null, slot:null, first:false};
+    Array.prototype.forEach.call(svcList.children, function(c){ c.setAttribute('aria-pressed','false'); });
+    salon.setAttribute('aria-pressed','false'); home.setAttribute('aria-pressed','false');
+    communeWrap.hidden = true; communeInfo.hidden = true; communeSel.value = '';
+    first.checked = false; firstInfo.hidden = true;
+    ['fname','fphone','femail','fnote'].forEach(function(id){ document.getElementById(id).value = ''; });
+    buildDays(); buildSlots(); sync();
+  });
+
+  /* ---------- REVEAL ---------- */
+  var R = {f:null};
+  var rBtns = document.querySelectorAll('[data-rf]'), rSend = document.getElementById('rsend'), rRecap = document.getElementById('rrecap');
+  var rShop = document.getElementById('rshop'), rCom = document.getElementById('rcommune');
+  function rSync(){
+    var ok = !!R.f && document.getElementById('rname').value.trim().length > 1 && document.getElementById('rphone').value.trim().length > 5;
+    rSend.disabled = !ok;
+    if (!R.f){ rRecap.hidden = true; return; }
+    var base = R.f === 'premium' ? 370 : 320, shop = rShop.checked ? 50 : 0;
+    var c = COMMUNES.filter(function(x){ return x.n === rCom.value; })[0];
+    var trav = c ? (c.f === null ? null : c.f * 2) : undefined;
+    var h = '<div class="recap__row"><span>Formule ' + (R.f === 'premium' ? 'Premium' : 'Simple') + '</span><span>' + EUR(base) + '</span></div>';
+    if (shop) h += '<div class="recap__row"><span>Accompagnement shopping</span><span>' + EUR(shop) + '</span></div>';
+    if (trav === undefined) h += '<div class="recap__row"><span>Déplacement (2 personnes)</span><span>à préciser</span></div>';
+    else if (trav === null) h += '<div class="recap__row"><span>Déplacement — ' + c.n + '</span><span>Sur devis</span></div>';
+    else h += '<div class="recap__row"><span>Déplacement — ' + c.n + ' (2 pers.)</span><span>' + EUR(trav) + '</span></div>';
+    h += '<div class="recap__row recap__row--due"><span>Estimation</span><span>' + (typeof trav === 'number' ? EUR(base + shop + trav) : 'à partir de ' + EUR(base + shop)) + '</span></div>';
+    rRecap.innerHTML = h; rRecap.hidden = false;
+  }
+  Array.prototype.forEach.call(rBtns, function(b){
+    b.addEventListener('click', function(){
+      R.f = b.dataset.rf;
+      Array.prototype.forEach.call(rBtns, function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      rSync();
+    });
+  });
+  [rShop, rCom].forEach(function(el){ el.addEventListener('change', rSync); });
+  ['rname','rphone','rmsg','rdate'].forEach(function(id){ document.getElementById(id).addEventListener('input', rSync); });
+  rSend.addEventListener('click', function(){
+    document.getElementById('revealBox').innerHTML =
+      '<div class="done"><div class="done__seal">✓</div><h3>Demande envoyée</h3>' +
+      '<p class="lede" style="text-align:center">Merci. Votre demande REVEAL a bien été transmise : vous recevez une réponse avec le devis détaillé, frais de déplacement compris.</p>' +
+      '<p class="ref">Réf. RV-' + String(seed(Date.now() + 'reveal')).padStart(4,'0') + '</p></div>';
+  });
+
+  /* ---------- agenda de demonstration ---------- */
+  var AGENDA = [
+    {h:'08:30', n:'Laura M.', s:'Box braids · à domicile, Les Abymes', st:'ok',   l:'Acompte réglé'},
+    {h:'11:00', n:'Sandra P.', s:'Soin profond · au salon',            st:'paid', l:'Soldé'},
+    {h:'14:00', n:'Mélissa R.', s:'Consultation préalable · au salon', st:'wait', l:'Acompte en attente'},
+    {h:'16:30', n:'Johanna C.', s:'Nattes collées · à domicile, Lamentin', st:'ok', l:'Acompte réglé'},
+    {h:'18:00', n:'Aïcha D.', s:'REVEAL Premium · demande reçue',      st:'wait', l:'Devis à envoyer'}
+  ];
+  var ag = document.getElementById('agenda');
+  AGENDA.forEach(function(r){
+    var el = document.createElement('div');
+    el.className = 'rdv';
+    el.innerHTML = '<span class="rdv__when">' + r.h + '</span><span class="rdv__who">' + r.n + '<small>' + r.s + '</small></span><span class="tag tag--' + r.st + '">' + r.l + '</span>';
+    ag.appendChild(el);
+  });
+
+  sync();
+})();
+</script>
