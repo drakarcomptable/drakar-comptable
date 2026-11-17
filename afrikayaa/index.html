@@ -74,7 +74,7 @@ a{color:var(--gold);text-decoration:none}
 .hero h1{font-size:clamp(.9rem,3vw,1.2rem);letter-spacing:.44em;text-transform:uppercase;font-weight:300;color:var(--gold);animation:rise .9s .12s cubic-bezier(.2,.9,.3,1) both}
 .hero__tag{font-size:clamp(1.7rem,6.4vw,3.5rem);font-weight:200;line-height:1.12;letter-spacing:-.025em;white-space:nowrap;padding-bottom:.08em;animation:rise .9s .2s cubic-bezier(.2,.9,.3,1) both}
 .hero__tag em{font-family:var(--script);font-style:normal;font-size:1.12em;margin-left:.18em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero__sub{color:var(--muted);max-width:30ch;font-size:clamp(.98rem,2.8vw,1.18rem);animation:rise .9s .28s cubic-bezier(.2,.9,.3,1) both}
+.hero__sub{color:var(--muted);max-width:none;font-size:clamp(.95rem,2.7vw,1.16rem);animation:rise .9s .28s cubic-bezier(.2,.9,.3,1) both}
 .hero__acts{display:flex;flex-wrap:wrap;gap:13px;justify-content:center;animation:rise .9s .36s cubic-bezier(.2,.9,.3,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
@@ -97,6 +97,10 @@ a{color:var(--gold);text-decoration:none}
 .about__txt h2{font-size:clamp(2.3rem,7.5vw,3.6rem)}
 .about__txt .lede{max-width:34ch}
 .sign{font-family:var(--script);font-size:2.4rem;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.1em}
+.creds{list-style:none;margin:6px 0 2px;padding:0;display:grid;grid-template-columns:1fr}
+@media (min-width:560px){.creds{grid-template-columns:1fr 1fr;column-gap:30px}}
+.creds li{display:flex;gap:13px;align-items:baseline;padding:11px 0;border-top:1px solid var(--line);font-size:.97rem;color:var(--fg)}
+.creds li::before{content:"";width:13px;height:1px;background:var(--gold);flex:none;transform:translateY(-5px)}
 .wa{display:inline-flex;align-items:center;gap:13px;align-self:flex-start;padding:14px 28px 14px 19px;border-radius:999px;border:1px solid rgba(37,211,102,.38);background:rgba(37,211,102,.09);color:var(--fg);font-size:.86rem;letter-spacing:.15em;text-transform:uppercase;transition:transform .2s cubic-bezier(.3,1.4,.5,1),background .2s,border-color .2s}
 .wa:hover{transform:translateY(-2px);background:rgba(37,211,102,.17);border-color:rgba(37,211,102,.68)}
 .wa img{width:27px;height:27px;flex:none}
@@ -269,7 +273,7 @@ a{color:var(--gold);text-decoration:none}
   <figure class="hero__shot"><img src="assets/hero.webp" alt="Coiffure afro naturelle réalisée par AFRIKAYAA" fetchpriority="high"></figure>
   <h1>Afrikayaa</h1>
   <p class="hero__tag">Vos cheveux<em>révélés</em></p>
-  <p class="hero__sub">Coiffure afro, au salon de Sainte-Rose ou chez vous.</p>
+  <p class="hero__sub">Salon de Sainte-Rose ou à domicile.</p>
   <div class="hero__acts">
     <a class="btn btn--gold" href="#reserver">Prendre rendez-vous</a>
     <a class="btn btn--ghost" href="#reveal">Reveal</a>
@@ -290,7 +294,16 @@ a{color:var(--gold);text-decoration:none}
     <div class="about__txt">
       <p class="eyebrow">La fondatrice</p>
       <h2>Le cheveu afro,<br>compris avant<br>d'être coiffé</h2>
-      <p class="lede">Chaque chevelure a sa porosité, sa densité, son histoire. C'est de là que part une coiffure qui tient.</p>
+      <p class="lede">Quinze ans passés sur le cheveu crépu, frisé et bouclé — à le lire avant d'y toucher. Chaque chevelure a sa porosité, sa densité, son histoire. C'est de là que part une coiffure qui tient.</p>
+      <p class="lede">La consultation capillaire ouvre toute première venue : diagnostic, routine, et ce qui est réaliste pour vos cheveux. Le soin, la coupe, la couleur et les tresses viennent ensuite.</p>
+      <ul class="creds">
+        <li>Coiffeuse diplômée</li>
+        <li>Plus de quinze ans d'expérience</li>
+        <li>Spécialiste du cheveu naturel</li>
+        <li>Consultations capillaires</li>
+        <li>Au salon et à domicile</li>
+        <li>Sur rendez-vous</li>
+      </ul>
       <a class="wa" href="https://wa.me/590690964392" target="_blank" rel="noopener"><img src="assets/whatsapp.png" alt=""><span>On en discute</span></a>
       <p class="sign">AfriKayàa</p>
     </div>
@@ -571,8 +584,11 @@ a{color:var(--gold);text-decoration:none}
     })(t0);
   }
   document.addEventListener('click', function(e){
-    var b = e.target.closest ? e.target.closest('.btn,.opt,.slot') : null;
+    if (!e.target.closest) return;
+    var b = e.target.closest('.btn,.opt,.slot,.day,.presta');
     if (b && !b.disabled) ripple(b, e);
+    var sel = e.target.closest('.opt,.slot,.day,.check');
+    if (sel && !sel.disabled) sparkBurst(sel, e);
   });
 
   /* ---------- etape 1 : plusieurs prestations ---------- */
@@ -598,26 +614,58 @@ a{color:var(--gold);text-decoration:none}
     });
   }
 
-  /* ---------- descente etoilee du menu vers la reservation ---------- */
+  /* ---------- etincelles : trois gestes, trois trajectoires ---------- */
+  function star(x, y, dx, dy, size, delay, dur, glyph){
+    var sp = document.createElement('span');
+    sp.className = 'spark';
+    sp.textContent = glyph;
+    sp.style.left = x + 'px';
+    sp.style.top = y + 'px';
+    sp.style.fontSize = size + 'px';
+    sp.style.setProperty('--dx', dx + 'px');
+    sp.style.setProperty('--dy', dy + 'px');
+    sp.style.setProperty('--d', dur + 's');
+    sp.style.animationDelay = delay + 's';
+    document.body.appendChild(sp);
+    setTimeout(function(){ sp.remove(); }, (delay + dur) * 1000 + 300);
+  }
+  function glyph(i){ return i % 3 ? '✦' : '✧'; }
+
+  // le menu : longue chute vers le bas de l'ecran
   function sparkDive(el){
     if (REDUCED) return;
     var r = el.getBoundingClientRect(), vh = window.innerHeight;
     var x0 = r.left + r.width / 2, y0 = r.bottom - 10;
     for (var i = 0; i < 18; i++){
-      (function(){
-        var sp = document.createElement('span');
-        sp.className = 'spark';
-        sp.textContent = i % 3 ? '✦' : '✧';
-        sp.style.left = (x0 + (Math.random() - .5) * r.width * .75) + 'px';
-        sp.style.top = y0 + 'px';
-        sp.style.fontSize = (9 + Math.random() * 13) + 'px';
-        sp.style.setProperty('--dx', ((Math.random() - .5) * 170) + 'px');
-        sp.style.setProperty('--dy', (vh - y0 + 70 + Math.random() * 150) + 'px');
-        sp.style.setProperty('--d', (.62 + Math.random() * .5) + 's');
-        sp.style.animationDelay = (Math.random() * .22) + 's';
-        document.body.appendChild(sp);
-        setTimeout(function(){ sp.remove(); }, 1500);
-      })();
+      star(x0 + (Math.random() - .5) * r.width * .75, y0,
+           (Math.random() - .5) * 170, vh - y0 + 70 + Math.random() * 150,
+           9 + Math.random() * 13, Math.random() * .22, .62 + Math.random() * .5, glyph(i));
+    }
+  }
+
+  // une selection : petite gerbe autour du doigt
+  function sparkBurst(el, ev){
+    if (REDUCED) return;
+    var r = el.getBoundingClientRect();
+    var x0 = (ev && ev.clientX) ? ev.clientX : r.left + r.width / 2;
+    var y0 = (ev && ev.clientY) ? ev.clientY : r.top + r.height / 2;
+    for (var i = 0; i < 12; i++){
+      var a = (i / 12) * Math.PI * 2 + Math.random() * .5;
+      var d = 34 + Math.random() * 42;
+      star(x0, y0, Math.cos(a) * d, Math.sin(a) * d + 14,
+           8 + Math.random() * 8, Math.random() * .06, .46 + Math.random() * .26, glyph(i));
+    }
+  }
+
+  // un changement d'etape : une vague qui remonte le long du formulaire
+  function sparkWave(el){
+    if (REDUCED) return;
+    var r = el.getBoundingClientRect(), vh = window.innerHeight;
+    var y0 = Math.min(vh - 30, Math.max(60, r.top + Math.min(r.height, vh) * .66));
+    for (var i = 0; i < 22; i++){
+      star(r.left + (i / 21) * r.width, y0,
+           (Math.random() - .5) * 46, -(95 + Math.random() * 90),
+           7 + Math.random() * 9, i * .022, .58 + Math.random() * .34, glyph(i));
     }
   }
   function pickFromMenu(id, card){
@@ -785,9 +833,11 @@ a{color:var(--gold);text-decoration:none}
     if (S.step === 5) paintRecap();
   }
   function go(n){
+    var card = document.querySelector('.book');
     S.step = n;
     if (n === 3) buildSlots();
     sync();
+    sparkWave(card);
     var p = panes[n-1];
     if (!REDUCED){ p.style.animation = 'none'; void p.offsetWidth; p.style.animation = ''; }
     $('reserver').scrollIntoView({behavior: REDUCED ? 'auto' : 'smooth', block:'start'});

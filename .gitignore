@@ -26,3 +26,4 @@ dist-ssr
 # construction, ils ne doivent pas vivre dans le depot.
 __pycache__/
 *.pyc
+afrikayaa/site/

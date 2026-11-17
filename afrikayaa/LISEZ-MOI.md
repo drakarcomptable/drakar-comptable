@@ -7,25 +7,50 @@ et le dossier `assets/`.
 afrikayaa/
 ├── index.html               ← tout le site
 ├── email-confirmation.html  ← modèle d'e-mail envoyé après réservation
+├── build.py                 ← assemble le dossier site/ prêt à héberger
+├── site/                    ← CE DOSSIER EST CELUI À METTRE EN LIGNE
 ├── assets/
 │   ├── logo-lockup.png      ← logo complet, en pied de page
 │   ├── logo-mark.png        ← scarabée seul (navigation et e-mail)
 │   ├── hero.webp            ← photo d'accueil
+│   ├── favicon-32.png, icon-192.png, icon-512.png, apple-touch-icon.png
+│   ├── site.webmanifest     ← nom et icône quand le site est ajouté à l'écran d'accueil
 │   ├── fondatrice.webp      ← portrait de la fondatrice
 │   └── realisation-1…5.webp ← bandeau défilant des réalisations
 └── LISEZ-MOI.md
 ```
 
-## Voir le site sur son ordinateur
+## Avant de mettre en ligne : assembler le dossier `site/`
 
-Ouvrir `index.html` dans un navigateur. Rien à installer.
+```bash
+python3 build.py
+```
+
+`index.html` est écrit sans `<!doctype>` ni `<head>` : c'est le format attendu
+par l'outil de prévisualisation. Un navigateur qui reçoit ce fichier tel quel
+bascule en mode *quirks*, où la mise en page peut dériver. `build.py` enveloppe
+donc le contenu dans un document complet, y ajoute les icônes, le manifeste et
+les métadonnées de partage, puis recopie l'ensemble dans `site/`.
+
+**C'est le dossier `site/` qu'on envoie à l'hébergeur, pas la racine.**
+À relancer après chaque modification de `index.html`.
+
+## L'icône de l'application
+
+Le scarabée seul, sur fond noir, sert d'icône : onglet du navigateur, raccourci
+sur l'écran d'accueil du téléphone, et vignette quand le lien est partagé.
+Elle n'apparaît qu'une fois le site hébergé — l'outil de prévisualisation
+impose la sienne.
+
+Pour la régénérer après un changement de logo, relancer la fabrication des
+icônes depuis `assets/logo-mark.png` aux tailles 32, 180, 192 et 512 pixels.
 
 ## Mettre le site en ligne
 
 Trois possibilités, de la plus simple à la plus souple.
 
 **Netlify Drop** — https://app.netlify.com/drop
-Glisser le dossier `afrikayaa` dans la page. Le site est en ligne en moins d'une minute,
+Glisser le dossier `site/` dans la page. Le site est en ligne en moins d'une minute,
 avec une adresse du type `nom-choisi.netlify.app`. Gratuit. Un nom de domaine personnel
 (`afrikayaa.fr`) peut être rattaché ensuite depuis les réglages.
 
@@ -33,7 +58,7 @@ avec une adresse du type `nom-choisi.netlify.app`. Gratuit. Un nom de domaine pe
 Même principe, avec un historique des versions. Gratuit pour ce volume.
 
 **Hébergement classique (OVH, Ionos, o2switch…)**
-Envoyer le contenu du dossier par FTP dans le répertoire `www`. À privilégier si un
+Envoyer le contenu de `site/` par FTP dans le répertoire `www`. À privilégier si un
 nom de domaine et des adresses e-mail professionnelles sont déjà en place.
 
 ## Modifier le contenu
