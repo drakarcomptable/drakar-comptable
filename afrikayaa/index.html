@@ -15,6 +15,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+html,body{overflow-anchor:none}
 body{background:var(--ink);color:var(--fg);font-family:var(--f);font-weight:300;font-size:17.5px;line-height:1.62;letter-spacing:.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:rgba(9,8,12,.97)}
 img{display:block}
@@ -84,7 +85,7 @@ a{color:var(--gold);text-decoration:none}
 
 /* --- bandeau defilant --- */
 .marquee{position:relative;overflow:hidden;padding-block:clamp(4px,1.4vw,12px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-.marquee__track{display:flex;gap:clamp(12px,2.4vw,20px);width:max-content;animation:slide 44s linear infinite}
+.marquee__track{display:flex;gap:clamp(12px,2.4vw,20px);width:max-content;animation:slide 31s linear infinite}
 @keyframes slide{to{transform:translateX(calc(-50% - clamp(6px,1.2vw,10px)))}}
 .shot{position:relative;width:clamp(200px,52vw,310px);aspect-ratio:1;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);flex:none;transition:transform .35s cubic-bezier(.2,.9,.3,1)}
 .shot:hover{transform:scale(1.035)}
@@ -447,11 +448,24 @@ a{color:var(--gold);text-decoration:none}
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
 
-  // le navigateur rouvre une page la ou il l'avait quittee : ici on veut le haut
+  // Le navigateur rouvre une page la ou il l'avait quittee, et la recale encore
+  // quand les images arrivent. On la ramene en haut a chaque etape du chargement,
+  // sauf si le visiteur a deja fait defiler lui-meme ou vise une ancre precise.
   try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
-  var toTop = function(){ try { window.scrollTo(0, 0); } catch (e) {} };
+  var moved = false;
+  ['wheel','touchstart','pointerdown','keydown'].forEach(function(ev){
+    window.addEventListener(ev, function(){ moved = true; }, { passive: true, once: true });
+  });
+  function toTop(){
+    if (moved || location.hash) return;
+    try { window.scrollTo(0, 0); } catch (e) {}
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }
   toTop();
+  document.addEventListener('DOMContentLoaded', toTop);
   window.addEventListener('load', toTop);
+  [40, 140, 320, 650, 1100].forEach(function(ms){ setTimeout(toTop, ms); });
   var EUR = function(n){ return n.toLocaleString('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2}); };
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
