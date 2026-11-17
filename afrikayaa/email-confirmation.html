@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Confirmation de votre rendez-vous — AFRIKAYAA</title>
+</head>
+<!--
+  Modele d'e-mail de confirmation AFRIKAYAA.
+  Les valeurs entre doubles accolades sont remplacees par le systeme au moment de l'envoi :
+  {{PRENOM}} {{DATE}} {{HEURE}} {{LIEU}} {{PRESTATIONS}} {{DUREE}}
+  {{TOTAL}} {{ACOMPTE}} {{SOLDE}} {{REFERENCE}} {{LOGO_URL}}
+  Mise en page en tableaux et styles en ligne : c'est la seule facon d'etre lisible
+  dans Outlook, Gmail et Apple Mail.
+-->
+<body style="margin:0;padding:0;background:#0f0d13;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Votre rendez-vous AFRIKAYAA du {{DATE}} à {{HEURE}} est confirmé.</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0f0d13;padding:28px 12px;">
+<tr><td align="center">
+
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:100%;background:#16121d;border:1px solid #352a40;border-radius:20px;overflow:hidden;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+
+    <!-- en-tete -->
+    <tr><td align="center" style="padding:34px 28px 10px;">
+      <img src="{{LOGO_URL}}" width="76" alt="AFRIKAYAA" style="display:block;border:0;width:76px;height:auto;">
+    </td></tr>
+    <tr><td align="center" style="padding:0 28px 26px;">
+      <div style="font-size:15px;letter-spacing:6px;text-transform:uppercase;color:#f0ce8e;">Afrikayaa</div>
+    </td></tr>
+
+    <!-- titre -->
+    <tr><td align="center" style="padding:0 28px;">
+      <h1 style="margin:0;font-size:30px;line-height:1.2;font-weight:300;color:#f4efe9;">Votre rendez-vous<br>est confirmé</h1>
+    </td></tr>
+    <tr><td align="center" style="padding:16px 34px 30px;">
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#9e9589;">
+        Bonjour {{PRENOM}}, AFRIKAYAA vous remercie pour votre réservation. Votre acompte a bien été reçu.
+      </p>
+    </td></tr>
+
+    <!-- le rendez-vous -->
+    <tr><td style="padding:0 28px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#1d1726;border:1px solid #352a40;border-radius:14px;">
+        <tr>
+          <td style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Date</td>
+          <td align="right" style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:16px;color:#f4efe9;">{{DATE}}</td>
+        </tr>
+        <tr>
+          <td style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Heure</td>
+          <td align="right" style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:16px;color:#f4efe9;">{{HEURE}}</td>
+        </tr>
+        <tr>
+          <td style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Lieu</td>
+          <td align="right" style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:16px;color:#f4efe9;">{{LIEU}}</td>
+        </tr>
+        <tr>
+          <td style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Prestations</td>
+          <td align="right" style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:16px;color:#f4efe9;">{{PRESTATIONS}}</td>
+        </tr>
+        <tr>
+          <td style="padding:18px 22px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Durée estimée</td>
+          <td align="right" style="padding:18px 22px;font-size:16px;color:#f4efe9;">{{DUREE}}</td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- le paiement -->
+    <tr><td style="padding:14px 28px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#1d1726;border:1px solid #352a40;border-radius:14px;">
+        <tr>
+          <td style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Total</td>
+          <td align="right" style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:16px;color:#f4efe9;">{{TOTAL}}</td>
+        </tr>
+        <tr>
+          <td style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Acompte réglé</td>
+          <td align="right" style="padding:18px 22px;border-bottom:1px solid #352a40;font-size:16px;color:#f0ce8e;">{{ACOMPTE}}</td>
+        </tr>
+        <tr>
+          <td style="padding:20px 22px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#9e9589;">Solde, la veille</td>
+          <td align="right" style="padding:20px 22px;font-size:22px;color:#f0ce8e;">{{SOLDE}}</td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- rappel -->
+    <tr><td style="padding:20px 28px 0;">
+      <p style="margin:0;font-size:14px;line-height:1.65;color:#9e9589;">
+        Le solde de {{SOLDE}} est à régler la veille du rendez-vous. Pour toute modification ou annulation,
+        contactez-nous au 0690&nbsp;96&nbsp;43&nbsp;92 en indiquant votre référence.
+      </p>
+    </td></tr>
+
+    <!-- reference -->
+    <tr><td align="center" style="padding:26px 28px 32px;">
+      <div style="font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#f0ce8e;">Réf. {{REFERENCE}}</div>
+    </td></tr>
+
+    <!-- pied -->
+    <tr><td style="padding:22px 28px 30px;border-top:1px solid #352a40;background:#120f18;">
+      <p style="margin:0 0 6px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#f4efe9;">Afrikayaa</p>
+      <p style="margin:0;font-size:13px;line-height:1.7;color:#776f66;">
+        Coiffure cheveux naturels afro — Sainte-Rose, Guadeloupe<br>
+        0690 96 43 92 — du mardi au samedi
+      </p>
+    </td></tr>
+
+  </table>
+
+  <p style="margin:18px 0 0;font-size:12px;color:#5d564f;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+    Vous recevez cet e-mail parce que vous avez réservé un rendez-vous chez AFRIKAYAA.
+  </p>
+
+</td></tr>
+</table>
+</body>
+</html>
