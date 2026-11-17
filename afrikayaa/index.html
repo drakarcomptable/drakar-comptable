@@ -45,6 +45,13 @@ a{color:var(--gold);text-decoration:none}
 .btn:active{transform:scale(.97)}
 .btn[disabled]{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
 .btn--sm{padding:13px 24px;font-size:.78rem}
+@property --ring{syntax:"<angle>";initial-value:0deg;inherits:false}
+.btn--pulse::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.6px;pointer-events:none;
+  background:conic-gradient(from var(--ring),transparent 0 58%,rgba(240,206,142,.18) 68%,var(--gold) 78%,#fff6e4 83%,var(--gold) 88%,rgba(240,206,142,.18) 96%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:ringSpin 2.8s linear infinite}
+@keyframes ringSpin{to{--ring:360deg}}
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);transform:translate(-50%,-50%) scale(0);animation:rip .62s ease-out forwards;pointer-events:none}
 @keyframes rip{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
 
@@ -236,7 +243,7 @@ a{color:var(--gold);text-decoration:none}
 .foot__logo{width:clamp(96px,16vw,128px);height:auto;opacity:.92}
 .foot b{color:var(--fg);font-weight:300;font-size:1.05rem;letter-spacing:.25em;text-transform:uppercase;display:block;margin-bottom:11px}
 .tel{color:var(--gold);font-size:1.4rem;font-variant-numeric:tabular-nums;letter-spacing:.06em}
-@media (prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}.btn--pulse::after{display:none}}
 </style>
 
 <nav class="nav"><div class="wrap">
@@ -381,7 +388,7 @@ a{color:var(--gold);text-decoration:none}
     <p class="lede">Une silhouette, des couleurs, une façon de se tenir. REVEAL est l'autre métier de la maison.</p>
     <div class="bridge__acts">
       <a class="btn btn--gold" href="#reveal">Découvrir Reveal</a>
-      <a class="btn btn--ghost" href="https://www.instagram.com/reel/DV9LiBICX49/" target="_blank" rel="noopener">Voir une transformation</a>
+      <a class="btn btn--ghost btn--pulse" href="https://www.instagram.com/reel/DV9LiBICX49/" target="_blank" rel="noopener">Voir une transformation</a>
     </div>
   </div>
 </div></section>
