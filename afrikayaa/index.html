@@ -453,12 +453,19 @@ a{color:var(--gold);text-decoration:none}
   // quand les images arrivent. On la ramene en haut a chaque etape du chargement,
   // sauf si le visiteur a deja fait defiler lui-meme ou vise une ancre precise.
   try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+
+  // Les liens deja partages portent encore une ancre : on l'efface de l'adresse,
+  // sinon le navigateur ouvre la page au milieu chez tous leurs destinataires.
+  if (location.hash){
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
   var moved = false;
   ['wheel','touchstart','pointerdown','keydown'].forEach(function(ev){
     window.addEventListener(ev, function(){ moved = true; }, { passive: true, once: true });
   });
   function toTop(){
-    if (moved || location.hash) return;
+    if (moved) return;
     try { window.scrollTo(0, 0); } catch (e) {}
     if (document.documentElement) document.documentElement.scrollTop = 0;
     if (document.body) document.body.scrollTop = 0;
