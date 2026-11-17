@@ -104,12 +104,22 @@ a{color:var(--gold);text-decoration:none}
 /* --- prestations --- */
 .menu{display:grid;gap:clamp(10px,1.8vw,14px)}
 @media (min-width:760px){.menu{grid-template-columns:1fr 1fr}}
-.presta{display:flex;gap:18px;align-items:center;padding:clamp(20px,3.4vw,26px);background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);min-width:0;transition:border-color .25s,transform .25s}
+.presta{position:relative;overflow:hidden;display:flex;gap:16px;align-items:center;width:100%;text-align:left;padding:clamp(20px,3.4vw,26px);background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);min-width:0;transition:border-color .25s,background .25s,transform .25s cubic-bezier(.3,1.4,.5,1)}
 .presta:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.presta:active{transform:scale(.99)}
+.presta[aria-pressed="true"]{border-color:var(--gold);background:var(--ink-4)}
+.presta__k{width:23px;height:23px;border-radius:50%;border:1px solid var(--line-2);flex:none;display:grid;place-items:center;font-size:.72rem;color:transparent;transition:all .28s cubic-bezier(.3,1.5,.5,1)}
+.presta[aria-pressed="true"] .presta__k{background:var(--grad);border-color:transparent;color:#171009;transform:scale(1.12)}
 .presta__b{flex:1;min-width:0}
 .presta__n{display:block;font-size:clamp(1.3rem,3.6vw,1.6rem);font-weight:300;letter-spacing:-.01em}
 .presta__m{display:block;font-size:.84rem;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-top:5px;line-height:1.45}
 .presta__p{font-size:clamp(1.5rem,4vw,1.9rem);font-weight:300;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* --- descente etoilee du menu vers la reservation --- */
+.spark{position:fixed;z-index:60;pointer-events:none;color:var(--gold);text-shadow:0 0 14px rgba(240,206,142,.85);animation:sparkFall var(--d,.8s) cubic-bezier(.32,0,.7,1) forwards;will-change:transform,opacity}
+@keyframes sparkFall{0%{opacity:0;transform:translate(0,0) scale(.3) rotate(0)}12%{opacity:1}100%{opacity:0;transform:translate(var(--dx,0),var(--dy,400px)) scale(1.15) rotate(240deg)}}
+.flash{animation:flash 1.15s ease-out}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(240,206,142,.5)}70%{box-shadow:0 0 0 15px rgba(240,206,142,0)}100%{box-shadow:0 0 0 0 rgba(240,206,142,0)}}
 
 /* --- zones --- */
 .zgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(205px,1fr))}
@@ -291,7 +301,7 @@ a{color:var(--gold);text-decoration:none}
   <div class="shead">
     <p class="eyebrow">Prestations</p>
     <h2>Le <span class="grad">menu</span></h2>
-    <p class="lede">Une consultation précède toute première venue.</p>
+    <p class="lede">Touchez une prestation : elle part dans votre réservation.</p>
   </div>
   <div class="menu" id="menu"></div>
 </div></section>
@@ -511,9 +521,10 @@ a{color:var(--gold);text-decoration:none}
   /* ---------- listes statiques ---------- */
   var menu = $('menu');
   SERVICES.forEach(function(s){
-    var el = document.createElement('div');
-    el.className = 'presta';
-    el.innerHTML = '<span class="presta__b"><span class="presta__n">' + s.n + '</span><span class="presta__m">' + dur(s.m) + ' · ' + s.t + '</span></span><span class="presta__p">' + EUR(s.p) + '</span>';
+    var el = document.createElement('button');
+    el.type = 'button'; el.className = 'presta'; el.dataset.svc = s.id; el.setAttribute('aria-pressed','false');
+    el.innerHTML = '<span class="presta__k">✓</span><span class="presta__b"><span class="presta__n">' + s.n + '</span><span class="presta__m">' + dur(s.m) + ' · ' + s.t + '</span></span><span class="presta__p">' + EUR(s.p) + '</span>';
+    el.addEventListener('click', function(){ pickFromMenu(s.id, el); });
     menu.appendChild(el);
   });
 
@@ -568,16 +579,59 @@ a{color:var(--gold);text-decoration:none}
   var svcList = $('svcList');
   SERVICES.forEach(function(s){
     var b = document.createElement('button');
-    b.type = 'button'; b.className = 'opt'; b.setAttribute('aria-pressed','false');
+    b.type = 'button'; b.className = 'opt'; b.dataset.svc = s.id; b.setAttribute('aria-pressed','false');
     b.innerHTML = '<span class="opt__m">✓</span><span class="opt__t"><strong>' + s.n + '</strong><small>' + dur(s.m) + ' · ' + s.t + '</small></span><span class="opt__p">' + EUR(s.p) + '</span>';
-    b.addEventListener('click', function(){
-      var i = S.svcs.indexOf(s.id);
-      if (i < 0) S.svcs.push(s.id); else S.svcs.splice(i, 1);
-      b.setAttribute('aria-pressed', i < 0 ? 'true' : 'false');
-      pop(b); sync();
-    });
+    b.addEventListener('click', function(){ toggleSvc(s.id); pop(b); sync(); });
     svcList.appendChild(b);
   });
+
+  function toggleSvc(id){
+    var i = S.svcs.indexOf(id);
+    if (i < 0) S.svcs.push(id); else S.svcs.splice(i, 1);
+    return i < 0;
+  }
+  function syncSvcButtons(){
+    [svcList, menu].forEach(function(list){
+      Array.prototype.forEach.call(list.children, function(b){
+        b.setAttribute('aria-pressed', S.svcs.indexOf(b.dataset.svc) >= 0 ? 'true' : 'false');
+      });
+    });
+  }
+
+  /* ---------- descente etoilee du menu vers la reservation ---------- */
+  function sparkDive(el){
+    if (REDUCED) return;
+    var r = el.getBoundingClientRect(), vh = window.innerHeight;
+    var x0 = r.left + r.width / 2, y0 = r.bottom - 10;
+    for (var i = 0; i < 18; i++){
+      (function(){
+        var sp = document.createElement('span');
+        sp.className = 'spark';
+        sp.textContent = i % 3 ? '✦' : '✧';
+        sp.style.left = (x0 + (Math.random() - .5) * r.width * .75) + 'px';
+        sp.style.top = y0 + 'px';
+        sp.style.fontSize = (9 + Math.random() * 13) + 'px';
+        sp.style.setProperty('--dx', ((Math.random() - .5) * 170) + 'px');
+        sp.style.setProperty('--dy', (vh - y0 + 70 + Math.random() * 150) + 'px');
+        sp.style.setProperty('--d', (.62 + Math.random() * .5) + 's');
+        sp.style.animationDelay = (Math.random() * .22) + 's';
+        document.body.appendChild(sp);
+        setTimeout(function(){ sp.remove(); }, 1500);
+      })();
+    }
+  }
+  function pickFromMenu(id, card){
+    var added = toggleSvc(id);
+    S.step = 1; sync();
+    if (!added) return;
+    sparkDive(card);
+    $('reserver').scrollIntoView({behavior: REDUCED ? 'auto' : 'smooth', block:'start'});
+    setTimeout(function(){
+      var b = svcList.querySelector('[data-svc="' + id + '"]');
+      if (!b) return;
+      b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash');
+    }, 640);
+  }
 
   /* ---------- etape 2 : lieu ---------- */
   var salon = $('placeSalon'), home = $('placeHome');
@@ -714,6 +768,7 @@ a{color:var(--gold);text-decoration:none}
     return true;
   }
   function sync(){
+    syncSvcButtons();
     panes.forEach(function(p, i){ p.hidden = (i + 1) !== S.step; });
     paintSteps();
     backBtn.hidden = S.step === 1 || S.step === 6;
@@ -756,7 +811,6 @@ a{color:var(--gold);text-decoration:none}
   }
   $('restart').addEventListener('click', function(){
     S = {step:1, svcs:[], place:null, commune:null, date:null, slot:null, first:false};
-    Array.prototype.forEach.call(svcList.children, function(c){ c.setAttribute('aria-pressed','false'); });
     salon.setAttribute('aria-pressed','false'); home.setAttribute('aria-pressed','false');
     communeWrap.hidden = true; communeInfo.hidden = true; communeSel.value = '';
     first.checked = false; firstInfo.hidden = true;
