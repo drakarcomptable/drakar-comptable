@@ -33,7 +33,7 @@ a{color:var(--gold);text-decoration:none}
 .lede{color:var(--muted);max-width:30ch;font-size:clamp(1.08rem,2.6vw,1.3rem);font-weight:300;line-height:1.5}
 .shead{display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(26px,4.6vw,44px)}
 .shead h2{font-size:clamp(2.5rem,9vw,4.4rem)}
-.shead h2.nowrap{white-space:nowrap;font-size:clamp(2.2rem,8.2vw,4.4rem)}
+.shead h2.nowrap{white-space:nowrap;font-size:clamp(1.85rem,7vw,4rem)}
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* --- boutons --- */
@@ -77,7 +77,7 @@ a{color:var(--gold);text-decoration:none}
 
 /* --- bandeau defilant --- */
 .marquee{position:relative;overflow:hidden;padding-block:clamp(4px,1.4vw,12px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-.marquee__track{display:flex;gap:clamp(12px,2.4vw,20px);width:max-content;animation:slide 68s linear infinite}
+.marquee__track{display:flex;gap:clamp(12px,2.4vw,20px);width:max-content;animation:slide 44s linear infinite}
 @keyframes slide{to{transform:translateX(calc(-50% - clamp(6px,1.2vw,10px)))}}
 .shot{position:relative;width:clamp(200px,52vw,310px);aspect-ratio:1;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);flex:none;transition:transform .35s cubic-bezier(.2,.9,.3,1)}
 .shot:hover{transform:scale(1.035)}
@@ -97,19 +97,10 @@ a{color:var(--gold);text-decoration:none}
 .wa:hover{transform:translateY(-2px);background:rgba(37,211,102,.17);border-color:rgba(37,211,102,.68)}
 .wa img{width:27px;height:27px;flex:none}
 
-/* --- prestations --- */
-.menu{display:grid;gap:clamp(10px,1.8vw,14px)}
-@media (min-width:760px){.menu{grid-template-columns:1fr 1fr}}
-.presta{position:relative;overflow:hidden;display:flex;gap:16px;align-items:center;width:100%;text-align:left;padding:clamp(20px,3.4vw,26px);background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);min-width:0;transition:border-color .25s,background .25s,transform .25s cubic-bezier(.3,1.4,.5,1)}
-.presta:hover{border-color:var(--line-2);transform:translateY(-2px)}
-.presta:active{transform:scale(.99)}
-.presta[aria-pressed="true"]{border-color:var(--gold);background:var(--ink-4)}
-.presta__k{width:23px;height:23px;border-radius:50%;border:1px solid var(--line-2);flex:none;display:grid;place-items:center;font-size:.72rem;color:transparent;transition:all .28s cubic-bezier(.3,1.5,.5,1)}
-.presta[aria-pressed="true"] .presta__k{background:var(--grad);border-color:transparent;color:#171009;transform:scale(1.12)}
-.presta__b{flex:1;min-width:0}
-.presta__n{display:block;font-size:clamp(1.3rem,3.6vw,1.6rem);font-weight:300;letter-spacing:-.01em}
-.presta__m{display:block;font-size:.84rem;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-top:5px;line-height:1.45}
-.presta__p{font-size:clamp(1.5rem,4vw,1.9rem);font-weight:300;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+/* --- transition vers REVEAL --- */
+.bridge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,2.4vw,20px)}
+.bridge h2{font-size:clamp(1.95rem,6.4vw,3.1rem)}
+.bridge .lede{max-width:42ch}
 
 /* --- descente etoilee du menu vers la reservation --- */
 .spark{position:fixed;z-index:60;pointer-events:none;color:var(--gold);text-shadow:0 0 14px rgba(240,206,142,.85);animation:sparkFall var(--d,.8s) cubic-bezier(.32,0,.7,1) forwards;will-change:transform,opacity}
@@ -250,7 +241,7 @@ a{color:var(--gold);text-decoration:none}
 <nav class="nav"><div class="wrap">
   <span class="nav__brand"><img src="assets/logo-mark.png" alt=""><span class="nav__name">Afrikayaa</span></span>
   <span class="nav__links">
-    <a href="#prestations">Prestations</a>
+    <a href="#deplacement">Déplacement</a>
     <a href="#reveal">Reveal</a>
     <a class="nav__cta btn btn--gold btn--sm" href="#reserver">Réserver</a>
   </span>
@@ -288,19 +279,11 @@ a{color:var(--gold);text-decoration:none}
   </div>
 </div></section>
 
-<section class="band band--line" id="prestations"><div class="wrap">
-  <div class="shead">
-    <p class="eyebrow">Prestations</p>
-    <h2>Le <span class="grad">menu</span></h2>
-    <p class="lede">Touchez une prestation : elle part dans votre réservation.</p>
-  </div>
-  <div class="menu" id="menu"></div>
-</div></section>
-
 <section class="band band--line" id="reserver"><div class="wrap">
   <div class="shead">
-    <p class="eyebrow">Réservation</p>
-    <h2 class="nowrap">En <span class="grad">5</span> étapes</h2>
+    <p class="eyebrow">Prestations</p>
+    <h2 class="nowrap">Réservez en <span class="grad">5</span> étapes</h2>
+    <p class="lede lede--wide">Vous pouvez en choisir plusieurs.</p>
   </div>
 
   <div class="book">
@@ -312,7 +295,7 @@ a{color:var(--gold);text-decoration:none}
 
       <div class="pane" id="pane1">
         <h3>Vos prestations</h3>
-        <p class="book__hint">Vous pouvez en choisir plusieurs.</p>
+        <p class="book__hint">Durée et tarif indiqués pour chacune.</p>
         <div class="opts" id="svcList"></div>
       </div>
 
@@ -390,6 +373,15 @@ a{color:var(--gold);text-decoration:none}
   <div class="zgrid" id="zgrid"></div>
 </div></section>
 
+<section class="band band--line" id="plus"><div class="wrap">
+  <div class="bridge">
+    <p class="eyebrow">Aller plus loin</p>
+    <h2>Et si on changeait<br>plus que la coiffure ?</h2>
+    <p class="lede">Une silhouette, des couleurs, une façon de se tenir. REVEAL est l'autre métier de la maison.</p>
+    <a class="btn btn--ghost" href="#reveal">Découvrir Reveal</a>
+  </div>
+</div></section>
+
 <section class="band band--line" id="reveal"><div class="wrap">
   <div class="shead">
     <p class="eyebrow">Reveal</p>
@@ -443,6 +435,12 @@ a{color:var(--gold);text-decoration:none}
 (function(){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
+
+  // le navigateur rouvre une page la ou il l'avait quittee : ici on veut le haut
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  var toTop = function(){ try { window.scrollTo(0, 0); } catch (e) {} };
+  toTop();
+  window.addEventListener('load', toTop);
   var EUR = function(n){ return n.toLocaleString('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2}); };
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -491,15 +489,6 @@ a{color:var(--gold);text-decoration:none}
   SHOTS.forEach(function(i){ var el = shot(i); el.setAttribute('aria-hidden','true'); track.appendChild(el); });
 
   /* ---------- listes statiques ---------- */
-  var menu = $('menu');
-  SERVICES.forEach(function(s){
-    var el = document.createElement('button');
-    el.type = 'button'; el.className = 'presta'; el.dataset.svc = s.id; el.setAttribute('aria-pressed','false');
-    el.innerHTML = '<span class="presta__k">✓</span><span class="presta__b"><span class="presta__n">' + s.n + '</span><span class="presta__m">' + dur(s.m) + ' · ' + s.t + '</span></span><span class="presta__p">' + EUR(s.p) + '</span>';
-    el.addEventListener('click', function(){ pickFromMenu(s.id, el); });
-    menu.appendChild(el);
-  });
-
   var zg = $('zgrid');
   COMMUNES.forEach(function(c){
     var el = document.createElement('div');
@@ -544,7 +533,7 @@ a{color:var(--gold);text-decoration:none}
   }
   document.addEventListener('click', function(e){
     if (!e.target.closest) return;
-    var b = e.target.closest('.btn,.opt,.slot,.day,.presta');
+    var b = e.target.closest('.btn,.opt,.slot,.day');
     if (b && !b.disabled) ripple(b, e);
     var sel = e.target.closest('.opt,.slot,.day,.check');
     if (sel && !sel.disabled) sparkBurst(sel, e);
@@ -566,10 +555,8 @@ a{color:var(--gold);text-decoration:none}
     return i < 0;
   }
   function syncSvcButtons(){
-    [svcList, menu].forEach(function(list){
-      Array.prototype.forEach.call(list.children, function(b){
-        b.setAttribute('aria-pressed', S.svcs.indexOf(b.dataset.svc) >= 0 ? 'true' : 'false');
-      });
+    Array.prototype.forEach.call(svcList.children, function(b){
+      b.setAttribute('aria-pressed', S.svcs.indexOf(b.dataset.svc) >= 0 ? 'true' : 'false');
     });
   }
 
@@ -589,18 +576,6 @@ a{color:var(--gold);text-decoration:none}
     setTimeout(function(){ sp.remove(); }, (delay + dur) * 1000 + 300);
   }
   function glyph(i){ return i % 3 ? '✦' : '✧'; }
-
-  // le menu : longue chute vers le bas de l'ecran
-  function sparkDive(el){
-    if (REDUCED) return;
-    var r = el.getBoundingClientRect(), vh = window.innerHeight;
-    var x0 = r.left + r.width / 2, y0 = r.bottom - 10;
-    for (var i = 0; i < 18; i++){
-      star(x0 + (Math.random() - .5) * r.width * .75, y0,
-           (Math.random() - .5) * 170, vh - y0 + 70 + Math.random() * 150,
-           9 + Math.random() * 13, Math.random() * .22, .62 + Math.random() * .5, glyph(i));
-    }
-  }
 
   // une selection : petite gerbe autour du doigt
   function sparkBurst(el, ev){
@@ -640,19 +615,6 @@ a{color:var(--gold);text-decoration:none}
            7 + Math.random() * 9, i * .022, .58 + Math.random() * .34, glyph(i));
     }
   }
-  function pickFromMenu(id, card){
-    var added = toggleSvc(id);
-    S.step = 1; sync();
-    if (!added) return;
-    sparkDive(card);
-    $('reserver').scrollIntoView({behavior: REDUCED ? 'auto' : 'smooth', block:'start'});
-    setTimeout(function(){
-      var b = svcList.querySelector('[data-svc="' + id + '"]');
-      if (!b) return;
-      b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash');
-    }, 640);
-  }
-
   /* ---------- etape 2 : lieu ---------- */
   var salon = $('placeSalon'), home = $('placeHome');
   var communeWrap = $('communeWrap'), communeSel = $('commune'), communeInfo = $('communeInfo');
