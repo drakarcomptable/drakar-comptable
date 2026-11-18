@@ -185,3 +185,32 @@ indisponible, seule la recherche fonctionne.
 | `crm/equipe/` | Reliquats Tyliann et Maël |
 
 `crm/JOURNAL.md` retrace chaque chantier, ce qui est livré et ce qui reste.
+
+---
+
+## 8. Clients NON protégés par la séquence — ne jamais prospecter
+
+Le blocage décrit au §3 repose sur l'inscription en séquence. **Onze contacts,
+chez neuf entreprises, n'ont pas pu y être inscrits** : soit leur adresse est
+sur la liste noire globale de HubSpot, soit ils étaient déjà dans une autre
+séquence. Ils sont donc **invisibles au mécanisme de blocage**.
+
+**Ces entreprises sont des clients ou d'anciens clients. Elles ne doivent
+jamais ressortir en prospection, quelle que soit la liste construite.**
+
+| Entreprise | Contact | Statut |
+|---|---|---|
+| Frames Dealer | Nicolas Meliand | client |
+| Energy Way | Florent Brecy | client |
+| Eventtia | Mauricio Palacio | client |
+| **Ideta** | Yanis Kerdjana | **ancien client** |
+| Kairntech | Bruno Freudensprung | client |
+| Publidata | Julian Nacci | client |
+| Skyted | Stéphane Hersen (2 fiches, dont une sans e-mail) | client |
+| Spinalcom | Jérémie Bellec | client |
+| **Ubigreen** | Caroline Vong Legrand (**ancienne cliente**) et Julien Meriaudeau (client) | les deux |
+
+Détail et motif de rejet pour chacun : `crm/suppression/CLIENTS-NON-PROTEGES.csv`.
+
+Avant d'envoyer une liste d'appel, **croiser avec ce tableau**. C'est le seul
+garde-fou pour ces neuf-là.
