@@ -40,6 +40,7 @@
 - [GEO et SEO](https://nazar-seo.fr/blog/geo-vs-seo) : Comparatif GEO et SEO : objectif, nombre de gagnants, unite de travail, role des tiers, mesure, et repartition du budget.
 - [AEO, GEO, LLMO](https://nazar-seo.fr/blog/aeo-geo-llmo) : Lexique du referencement IA : AEO, GEO, LLMO, AI Overviews, SGE, et ce que chaque terme designe exactement.
 - [Le fil d’Ariane](https://nazar-seo.fr/blog/fil-ariane-seo) : Le fil d’Ariane en SEO : role, balisage BreadcrumbList, effet sur les resultats de recherche et erreurs courantes.
+- [Meilleures agences GEO](https://nazar-seo.fr/blog/meilleures-agences-geo) : Releve date des agences GEO citees par ChatGPT, Claude, Gemini et Perplexity en France : methode, resultats bruts et limites.
 
 ## Contact
 
@@ -47,4 +48,4 @@
 - LinkedIn : https://www.linkedin.com/company/nazar-seo/
 - Adresse : 10 rue de Penthièvre, 75008 Paris, France
 
-Dernière mise à jour : 2026-11-16
+Dernière mise à jour : 2026-11-18

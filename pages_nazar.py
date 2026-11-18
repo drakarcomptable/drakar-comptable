@@ -113,6 +113,31 @@ PAGES = [
       'audit GEO regarde un texte rédigé, où deux ou trois acteurs sont nommés '
       'et les autres absents.']},
 
+   {'note': 'Comparaison',
+    'h2': 'Outil automatique ou consultant : lequel vous faut-il ?',
+    'tete': 'Un outil vous donne un score en trente secondes, gratuitement, '
+            'et c’est très bien pour savoir où vous en êtes. Un consultant '
+            'devient utile quand la question devient quoi faire de ce score, '
+            'et surtout pour regarder ce qu’un outil ne regarde pas : ce que '
+            'les moteurs lisent sur vous ailleurs que sur votre site.',
+    'tableau': {
+      'entetes': ['', 'Outil automatique', 'Audit NAZAR'],
+      'lignes': [
+        ['Délai', 'Trente secondes', 'Un créneau de trente minutes'],
+        ['Prix', 'Gratuit', 'Gratuit'],
+        ['Ce qui est analysé', 'Votre site',
+         'Votre site, et les sources tierces que les modèles consultent'],
+        ['Les questions posées', 'Une liste type, la même pour tous',
+         'Les questions que posent vos acheteurs'],
+        ['Ce que vous obtenez', 'Un score et des recommandations générales',
+         'Le relevé, les concurrents cités nommément, et la marche à suivre'],
+        ['Qui interprète', 'Vous', 'Un consultant, en direct, devant vous']]},
+    'fin': [
+      'Si vous cherchez seulement un chiffre pour situer votre site, prenez '
+      'un outil : il en existe de bons et ils ne coûtent rien. Nous le disons '
+      'd’autant plus volontiers que la plupart s’arrêtent là où le travail '
+      'commence.']},
+
    ENJEUX,
 
    {'note': 'Contenu',
@@ -1236,5 +1261,210 @@ PAGES += [
    'p': 'Fil d’Ariane, données structurées, forme des réponses : l’audit '
         'gratuit passe l’ensemble en revue, en direct.',
    'bouton': 'Demander un audit gratuit'},
+},
+]
+
+
+# --------------------------------------------------------------------------
+# Etude : le releve de citations
+# --------------------------------------------------------------------------
+# Cette page publie des chiffres mesures, pas des opinions. Trois regles
+# s'appliquent donc plus strictement qu'ailleurs :
+#   - la methode est decrite entierement, limites comprises
+#   - aucun chiffre n'est arrondi, embelli ou extrapole
+#   - NAZAR figure dans le releve au meme titre que les autres, y compris
+#     quand le resultat n'est pas flatteur. Un classement dont l'auteur
+#     sort premier ne vaut rien, et c'est tout l'interet de la page.
+
+RELEVE = '2026-11-13'   # date du releve, distincte de la date de publication
+
+# (domaine, citations). Transcrit tel quel depuis le releve.
+CITES = [
+    ('newp.fr', 5),
+    ('archipelmarketing.com', 4), ('ia.agency', 4),
+    ('agencegeofrance.com', 3), ('jalousie.agency', 3), ('agenceseoia.fr', 3),
+    ('seoforge.fr', 3), ('oli-via-net.fr', 3), ('one-online.fr', 3),
+    ('dity.fr', 3), ('sortlist.com', 3),
+    ('nexus-geo.fr', 2), ('banda-geo.fr', 2), ('geo-consulting-group.com', 2),
+    ('magicgeo.fr', 2), ('promus-ia.com', 2), ('vuparia.com', 2),
+    ('triaina.fr', 2), ('seo-geo.fr', 2),
+]
+
+
+def _rangs():
+    """Le rang suit la citation, pas la position dans la liste : huit
+    domaines a egalite partagent le meme rang."""
+    lignes, rang, precedent = [], 0, None
+    for i, (dom, n) in enumerate(CITES, 1):
+        if n != precedent:
+            rang, precedent = i, n
+        lignes.append([str(rang), dom, '%d / 24' % n])
+    return lignes
+
+
+PAGES += [
+{
+ 'slug': 'meilleures-agences-geo',
+ 'parent': 'blog', 'date': '2026-11-18',
+ 'fil': 'Meilleures agences GEO',
+ 'titre': 'Meilleures agences GEO : ce que les IA répondent vraiment',
+ 'desc': 'Relevé daté : 6 questions posées à 4 moteurs génératifs, 24 '
+         'réponses, et les 19 agences GEO françaises qu’ils citent. Méthode '
+         'publiée, résultats bruts.',
+ 'kick': 'Relevé du 13 novembre 2026',
+ 'h1': 'Quelles agences GEO les IA citent-elles vraiment ?',
+ 'resume': 'Six questions posées à quatre moteurs génératifs, vingt-quatre '
+           'réponses, dix-neuf agences citées. La méthode est publiée, les '
+           'résultats bruts aussi.',
+ 'chapo': 'Les classements d’agences GEO qui circulent sont écrits par des '
+          'agences qui s’y placent en tête, sans méthode vérifiable. Celui-ci '
+          'sort d’une mesure, et vous pouvez le refaire.',
+ 'bouton': 'Faire mesurer mon entreprise',
+ 'prio': '0.8',
+ 'llms': 'Releve date des agences GEO citees par ChatGPT, Claude, Gemini et '
+         'Perplexity en France : methode, resultats bruts et limites.',
+ 'blocs': [
+   {'note': 'Réponse courte',
+    'h2': 'Quelles agences les moteurs génératifs citent-ils ?',
+    'tete': 'Sur vingt-quatre réponses relevées le 13 novembre 2026, trois '
+            'domaines ressortent nettement : newp.fr (5 citations), '
+            'archipelmarketing.com et ia.agency (4 chacun). Huit autres '
+            'suivent à égalité avec 3 citations.',
+    'fin': [
+      'Il n’existe donc pas de « top 5 » dans ces données. Il y a un premier, '
+      'deux seconds ex aequo, puis un peloton de huit à égalité. Publier un '
+      'classement de 1 à 5 obligerait à départager arbitrairement des '
+      'domaines que la mesure ne départage pas.']},
+
+   {'note': 'Méthode',
+    'h2': 'Comment ce relevé a été fait',
+    'tete': 'Six questions d’achat, posées le 13 novembre 2026 à quatre '
+            'moteurs génératifs avec la recherche web activée, soit '
+            'vingt-quatre réponses analysées. Les domaines cités ont été '
+            'comptés, sans pondération.',
+    'pts': [
+      '<b>Les six questions.</b> Agence GEO France, agence référencement IA, '
+      'comment être cité par ChatGPT, consultant GEO, audit GEO gratuit, '
+      'agence SEO spécialisée intelligence artificielle.',
+      '<b>Les quatre moteurs.</b> ChatGPT, Claude, Gemini et Perplexity, '
+      'interrogés par leurs interfaces de programmation, recherche web '
+      'activée.',
+      '<b>La formulation.</b> La même pour toutes : « Je cherche des '
+      'informations sur X en France. Quels sont les meilleurs sites… »',
+      '<b>Le comptage.</b> Un domaine cité dans une réponse compte pour une '
+      'citation. Aucune pondération selon la position dans la réponse, ni '
+      'selon le moteur.']},
+
+   {'note': 'Résultats',
+    'h2': 'Les dix-neuf domaines cités',
+    'tete': 'Classement par nombre de citations sur vingt-quatre réponses.',
+    'tableau': {
+      'entetes': ['Rang', 'Domaine', 'Citations'],
+      'lignes': _rangs()},
+    'fin': [
+      'Une remarque sur ce tableau : <b>sortlist.com n’est pas une agence</b>, '
+      'c’est un annuaire. Il obtient autant de citations que la plupart des '
+      'agences de la liste. C’est le signe le plus clair que les moteurs ne '
+      'lisent pas seulement les sites des prestataires, mais aussi les '
+      'sources qui parlent d’eux.']},
+
+   {'note': 'Et NAZAR ?',
+    'sombre': True,
+    'h2': 'Où se situe NAZAR dans ce relevé',
+    'tete': 'Nulle part. NAZAR n’apparaît dans aucune des vingt-quatre '
+            'réponses, ni dans les AI Overviews de Google sur les trois '
+            'requêtes testées.',
+    'corps': [
+      'Nous publions cette ligne parce qu’un classement dont l’auteur sort '
+      'premier ne vaut rien, et que nous demandons à nos clients d’accepter '
+      'le même traitement : un relevé se lit tel qu’il sort.',
+      'C’est aussi ce qui rend la mesure intéressante. Les domaines cités '
+      'ci-dessus ne sont pas, pour la plupart, des sites puissants. Ils sont '
+      'cités parce qu’ils publient du contenu qui répond aux questions. '
+      'C’est une position qui se gagne, et qui se perd.']},
+
+   {'note': 'Google',
+    'h2': 'Ce que les AI Overviews de Google citent',
+    'tete': 'Sur les trois requêtes testées (agence geo, référencement ia, '
+            'audit geo gratuit), un AI Overview était présent à chaque fois. '
+            'Et les sources qu’il reprend ne sont presque jamais des pages '
+            'd’agence.',
+    'corps': [
+      'Les pages citées sont éditoriales : des guides, des comparatifs, des '
+      'définitions. Parmi les domaines relevés : seranking.com, siway.fr, '
+      'aimakers.fr, seo-monkey.fr, ethiko.org, francenum.gouv.fr, '
+      'mylittlebigweb.com, invox.fr, geoptie.com et newp.fr.',
+      'Aucune page d’accueil d’agence n’apparaît. C’est la leçon la plus '
+      'directement actionnable de tout ce relevé : sur cette surface, une '
+      'page de présentation commerciale ne concourt pas.']},
+
+   {'note': 'Limites',
+    'h2': 'Ce que ce relevé ne dit pas',
+    'tete': 'Quatre limites, qu’il faut connaître avant d’en tirer une '
+            'conclusion.',
+    'pts': [
+      '<b>Un instantané, pas une tendance.</b> Les moteurs génératifs '
+      'réévaluent leurs sources souvent. Ce relevé vaut pour le 13 novembre '
+      '2026, pas pour aujourd’hui.',
+      '<b>Des modèles rapides.</b> L’interrogation a utilisé les versions '
+      'légères de chaque moteur. Les versions complètes, celles qu’utilise '
+      'le grand public, peuvent citer autrement.',
+      '<b>Six questions, pas le marché entier.</b> Un autre jeu de questions '
+      'produirait un autre classement. Celles-ci couvrent l’intention '
+      '« je cherche un prestataire », pas les requêtes d’apprentissage.',
+      '<b>Citer n’est pas recommander.</b> Le comptage mesure la présence '
+      'dans une réponse, pas la qualité du travail des agences listées. '
+      'Aucune des dix-neuf n’a été évaluée sur ses résultats.']},
+
+   {'note': 'Lecture',
+    'h2': 'Pourquoi ces sites-là sont cités',
+    'tete': 'Parce qu’ils publient du contenu qui répond à la question posée, '
+            'et parce que d’autres sites parlent d’eux. Pas parce qu’ils sont '
+            'les plus gros.',
+    'fin': [
+      'C’est ce qui rend ce marché encore ouvert. Sur une requête de '
+      'référencement classique, déloger un acteur installé demande des années '
+      'de notoriété accumulée. Ici, la place se joue sur la capacité à '
+      'répondre clairement à une question précise, et sur la présence dans '
+      'les sources que les modèles consultent.'],
+    'pts': [
+      '<b>Du contenu en format question et réponse.</b> La réponse complète '
+      'dans les premières phrases, pas au troisième paragraphe.',
+      '<b>Une présence hors de leur propre site.</b> Annuaires, comparatifs, '
+      'publications spécialisées. L’annuaire sortlist.com cité plus haut en '
+      'est la démonstration.',
+      '<b>Des pages qui existent.</b> Plusieurs des domaines cités ont des '
+      'pages dédiées par intention : agence, consultant, audit, définition. '
+      'Un site d’une seule page ne peut pas répondre à six questions '
+      'différentes.']},
+ ],
+ 'faq': [
+   ('Ce classement est-il fiable ?',
+    'Il est reproductible, ce qui n’est pas la même chose. La méthode, les '
+    'questions, la date et les résultats bruts sont publiés : vous pouvez '
+    'refaire la mesure et comparer. En revanche il ne mesure qu’une chose, '
+    'la fréquence de citation sur six questions à une date donnée, et ne dit '
+    'rien de la qualité des prestations.'),
+   ('Pourquoi NAZAR publie-t-elle un classement où elle n’apparaît pas ?',
+    'Parce que c’est le résultat de la mesure. Les classements d’agences GEO '
+    'qui circulent sont presque tous publiés par une agence qui s’y place en '
+    'tête, sans méthode vérifiable. Un relevé n’a de valeur que s’il est lu '
+    'tel qu’il sort.'),
+   ('À quelle fréquence ce relevé sera-t-il mis à jour ?',
+    'La mesure est rejouable à l’identique. Chaque nouvelle édition portera '
+    'sa date, et les éditions précédentes resteront consultables pour que '
+    'l’évolution soit vérifiable.'),
+   ('Comment faire le même relevé pour mon entreprise ?',
+    'En définissant les questions que posent réellement vos acheteurs, puis '
+    'en les posant aux mêmes moteurs, à intervalle fixe. C’est exactement ce '
+    'que fait l’audit GEO gratuit de NAZAR, sur votre marché plutôt que sur '
+    'le nôtre.'),
+ ],
+ 'voisins': voisins('audit-geo', 'agence-geo', 'referencement-ia'),
+ 'cend': {
+   'h2': 'Et sur votre marché, qui est cité à votre place ?',
+   'p': 'Le même relevé, sur vos questions d’achat, en direct avec un '
+        'consultant. Gratuit et sans engagement.',
+   'bouton': 'Faire mesurer mon entreprise'},
 },
 ]

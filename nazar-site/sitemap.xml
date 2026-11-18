@@ -2,62 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nazar-seo.fr/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/audit-geo</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/agence-geo</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/consultant-geo</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/referencement-ia</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/referencement-chatgpt</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/blog</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/blog/generative-engine-optimization</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/blog/llms-txt</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/blog/geo-vs-seo</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/blog/aeo-geo-llmo</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nazar-seo.fr/blog/fil-ariane-seo</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nazar-seo.fr/blog/meilleures-agences-geo</loc>
+    <lastmod>2026-11-18</lastmod>
+    <priority>0.8</priority>
   </url>
 </urlset>

@@ -267,6 +267,14 @@
     {
       "source": "/blog/fil-ariane-seo/",
       "destination": "/blog/fil-ariane-seo.html"
+    },
+    {
+      "source": "/blog/meilleures-agences-geo",
+      "destination": "/blog/meilleures-agences-geo.html"
+    },
+    {
+      "source": "/blog/meilleures-agences-geo/",
+      "destination": "/blog/meilleures-agences-geo.html"
     }
   ],
   "functions": {
