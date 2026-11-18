@@ -255,3 +255,23 @@ footer .fadr{font-style:normal;color:var(--dim)}
 .sombre .et{background:var(--night-3)}
 .sombre .et b{color:#fff}
 .sombre .et span{color:var(--on-night);opacity:.88}
+
+/* ------------------------------------------------------------------
+   Apparition au defilement.
+   Repris tel quel de la page d'accueil, pour que les pages de contenu
+   bougent comme elle. La classe « anim » est posee sur <html> par un
+   script en tete de page : sans elle, rien n'est masque. Donc si le
+   script echoue, si le JavaScript est coupe ou si le visiteur demande
+   moins d'animations, tout le contenu reste visible. Une animation ne
+   doit jamais pouvoir cacher un texte.
+   ------------------------------------------------------------------ */
+.anim .rv{opacity:0;transform:translateY(22px)}
+.anim .rv.in{opacity:1;transform:none;
+  transition:opacity .7s ease,transform .85s cubic-bezier(.22,1,.36,1)}
+.anim .rv.d1.in{transition-delay:.06s}
+.anim .rv.d2.in{transition-delay:.12s}
+.anim .rv.d3.in{transition-delay:.18s}
+.anim .rv.d4.in{transition-delay:.24s}
+@media(prefers-reduced-motion:reduce){
+  .anim .rv{opacity:1;transform:none;transition:none}
+}

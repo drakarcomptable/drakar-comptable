@@ -22,6 +22,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/nazar.css">
+<script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches)document.documentElement.className+=" anim"</script>
+<script src="/nazar-anim.js" defer></script>
 </head>
 <body>
 <nav class="topbar"><div class="rail">
@@ -41,21 +43,21 @@
 <a class="btn btn-white" href="/audit-gratuit">Faire auditer mon site<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
 </div></header>
 <main class="cbody"><div class="rail">
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Définition</p>
 <h2>Qu’est-ce que le fichier llms.txt ?</h2>
 <p class="tete">llms.txt est un fichier texte placé à la racine d’un site, écrit en Markdown, qui décrit l’entreprise et ses pages principales à destination des modèles de langage. Il se consulte à l’adresse <code>votresite.fr/llms.txt</code>, sur le modèle de robots.txt.</p>
 <p>La convention a été proposée en septembre 2024 par Jeremy Howard, et documentée sur llmstxt.org. L’idée de départ est simple : une page web moderne contient une quantité de menus, de bandeaux et de scripts qui noient l’information utile. Un fichier texte court évite à un modèle d’avoir à interpréter cette mise en page.</p>
 <p>Le format est libre mais conventionnel : un titre, un paragraphe de présentation entre chevrons, puis des sections listant les pages avec une description par ligne.</p>
 </section>
-<section class="bloc sombre">
+<section class="bloc sombre rv">
 <p class="note">Honnêteté</p>
 <h2>Est-ce que ça marche vraiment ?</h2>
 <p class="tete">Aucun éditeur de moteur génératif n’a annoncé s’en servir comme critère. Présenter llms.txt comme un levier de classement serait malhonnête.</p>
 <p>Ce qui est vrai, en revanche, est qu’il ne coûte presque rien et produit trois effets secondaires utiles. Il oblige à formuler en quelques lignes ce que fait l’entreprise, exercice que beaucoup de sites n’ont jamais fait clairement. Il donne un point d’entrée propre à tout agent automatisé qui lirait le site. Et il sert de preuve de sérieux auprès d’interlocuteurs techniques.</p>
 <p>Notre propre fichier est consultable sur <a href="/llms.txt">nazar-seo.fr/llms.txt</a>. Nous le tenons à jour automatiquement : il sort de la même liste de pages que le plan du site, pour qu’une page ne puisse pas exister sans y figurer.</p>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Pratique</p>
 <h2>Comment en écrire un</h2>
 <p class="tete">Quatre sections suffisent, et une seule règle : ne rien y mettre que la réalité ne soutienne.</p>
@@ -66,7 +68,7 @@
 <li><b>Le contact.</b> Site, réseaux professionnels, adresse. Ce sont les éléments qu’un modèle reprend pour identifier une entité.</li>
 </ol>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Erreurs</p>
 <h2>Les trois erreurs courantes</h2>
 <p class="tete">Elles rendent le fichier inutile, voire contre-productif.</p>
@@ -76,22 +78,22 @@
 <li><span><b>Le confondre avec robots.txt.</b> llms.txt ne contrôle aucun accès et ne bloque rien. Les autorisations de lecture restent dans robots.txt.</span></li>
 </ul>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>Questions fréquentes</h2>
 <div class="faq">
 <details><summary>llms.txt remplace-t-il robots.txt ?</summary><div class="rep"><p>Non. robots.txt dit ce qu’un robot a le droit de parcourir. llms.txt ne contrôle aucun accès : il décrit le contenu. Les deux coexistent, à la racine du site.</p></div></details>
 <details><summary>Faut-il un llms.txt pour être cité par ChatGPT ?</summary><div class="rep"><p>Non, ce n’est pas une condition. Les moteurs génératifs lisent les pages du site. Le fichier est un confort, pas une porte d’entrée obligatoire.</p></div></details>
 <details><summary>Où placer le fichier ?</summary><div class="rep"><p>À la racine du domaine, accessible à l’adresse votresite.fr/llms.txt, servi en texte brut avec un encodage UTF-8.</p></div></details>
 </div></section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>À lire aussi</h2>
 <div class="voisins">
-<a href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
-<a href="/referencement-chatgpt"><b>Référencement ChatGPT</b><span>Comment ChatGPT sélectionne ce qu’il cite.</span></a>
-<a href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
+<a class="rv d1" href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
+<a class="rv d2" href="/referencement-chatgpt"><b>Référencement ChatGPT</b><span>Comment ChatGPT sélectionne ce qu’il cite.</span></a>
+<a class="rv d3" href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
 </div></section>
 </div></main>
-<section class="cend"><div class="narrow">
+<section class="cend"><div class="narrow rv">
 <h2>Votre site est-il lisible par les modèles ?</h2>
 <p>llms.txt n’est qu’un détail du sujet. L’audit gratuit regarde l’ensemble, en neuf minutes et en direct.</p>
 <a class="btn btn-dark" href="/audit-gratuit">Faire auditer mon site<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>

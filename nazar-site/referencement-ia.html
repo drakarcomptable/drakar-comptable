@@ -22,6 +22,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/nazar.css">
+<script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches)document.documentElement.className+=" anim"</script>
+<script src="/nazar-anim.js" defer></script>
 </head>
 <body>
 <nav class="topbar"><div class="rail">
@@ -40,7 +42,7 @@
 <a class="btn btn-white" href="/audit-gratuit">Faire mesurer mon site<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
 </div></header>
 <main class="cbody"><div class="rail">
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Mécanisme</p>
 <h2>Comment un moteur génératif choisit ses sources</h2>
 <p class="tete">Un assistant moderne ne répond pas uniquement de mémoire : face à une question d’achat, il lance une recherche, lit quelques pages, puis rédige une synthèse en citant celles qu’il a retenues. La bataille se joue à l’étape de lecture, pas à l’étape de rédaction.</p>
@@ -57,7 +59,7 @@
 </div>
 <p>Deux conséquences suivent de cet enchaînement. La première est qu’une page excellente mais lente à répondre perd au troisième filtre contre une page plus faible qui répond dès sa première phrase. La seconde est qu’un contenu enfermé derrière un formulaire ou une application ne passe jamais le premier.</p>
 </section>
-<section class="bloc sombre">
+<section class="bloc sombre rv">
 <p class="note">Enjeux</p>
 <h2>Pourquoi la visibilité dans les IA change la donne</h2>
 <p class="tete">Parce qu’une réponse générée ne propose pas dix résultats, mais deux ou trois noms. Être absent de cette réponse, ce n’est pas être mal classé : c’est ne pas exister pour la personne qui pose la question.</p>
@@ -71,7 +73,7 @@
 <li><span><b>Un coût qui ne se paie pas au clic.</b> Une citation ne s’achète pas aux enchères. Le travail se fait une fois, et continue de produire ensuite sans budget média adossé.</span></li>
 </ul>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Leviers</p>
 <h2>Les leviers du référencement IA</h2>
 <p class="tete">Quatre familles d’actions, de la plus technique à la plus longue à produire.</p>
@@ -82,7 +84,7 @@
 <li><span><b>Les sources tierces.</b> Annuaires professionnels, comparatifs, presse spécialisée, forums. Un modèle qui parle de votre marché lit rarement que votre site, et ce qu’il lit ailleurs pèse souvent plus lourd que ce que vous dites de vous-même.</span></li>
 </ul>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Comparaison</p>
 <h2>Référencement IA et SEO classique</h2>
 <p class="tete">Les deux disciplines partagent leur socle technique et divergent sur l’objectif.</p>
@@ -100,7 +102,7 @@
 </tbody></table></div>
 <p>Ces différences n’en font pas des disciplines concurrentes. Un site bien référencé dans Google a plus de chances d’être lu par un modèle, simplement parce que les moteurs génératifs s’appuient en partie sur les mêmes index. Le SEO reste le socle ; le GEO est ce qui se construit dessus.</p>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>Questions fréquentes</h2>
 <div class="faq">
 <details><summary>SEO IA et GEO, est-ce la même chose ?</summary><div class="rep"><p>Oui, dans l’usage courant. Le marché emploie référencement IA, SEO IA, GEO pour generative engine optimization, AEO pour answer engine optimization et LLMO. Les nuances sont surtout commerciales : l’objet reste la présence dans une réponse générée.</p></div></details>
@@ -108,16 +110,16 @@
 <details><summary>Le fichier llms.txt sert-il vraiment ?</summary><div class="rep"><p>Il ne garantit rien : aucun moteur n’a annoncé s’en servir comme critère de classement. Il reste utile parce qu’il donne une description propre et structurée de l’entreprise, lisible sans interpréter une mise en page, et parce qu’il coûte quelques minutes à produire.</p></div></details>
 <details><summary>Le contenu généré par IA est-il pénalisé ?</summary><div class="rep"><p>Ce n’est pas l’origine qui compte, c’est l’apport. Un texte générique, qui n’ajoute rien à ce qui existe déjà, a peu de raisons d’être repris par un modèle : il n’apporte aucune information que le modèle n’ait déjà. Un contenu de première main, chiffré et daté, reste le meilleur candidat à la citation.</p></div></details>
 </div></section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>À lire aussi</h2>
 <div class="voisins">
-<a href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
-<a href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
-<a href="/consultant-geo"><b>Consultant GEO</b><span>Le métier, ses livrables, et quand y faire appel.</span></a>
-<a href="/referencement-chatgpt"><b>Référencement ChatGPT</b><span>Comment ChatGPT sélectionne ce qu’il cite.</span></a>
+<a class="rv d1" href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
+<a class="rv d2" href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
+<a class="rv d3" href="/consultant-geo"><b>Consultant GEO</b><span>Le métier, ses livrables, et quand y faire appel.</span></a>
+<a class="rv d4" href="/referencement-chatgpt"><b>Référencement ChatGPT</b><span>Comment ChatGPT sélectionne ce qu’il cite.</span></a>
 </div></section>
 </div></main>
-<section class="cend"><div class="narrow">
+<section class="cend"><div class="narrow rv">
 <h2>Votre site passe-t-il ces filtres ?</h2>
 <p>L’audit gratuit répond en neuf minutes, en interrogeant les moteurs en direct sur les questions de votre marché.</p>
 <a class="btn btn-dark" href="/audit-gratuit">Faire mesurer mon site<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>

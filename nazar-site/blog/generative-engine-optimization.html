@@ -22,6 +22,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/nazar.css">
+<script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches)document.documentElement.className+=" anim"</script>
+<script src="/nazar-anim.js" defer></script>
 </head>
 <body>
 <nav class="topbar"><div class="rail">
@@ -41,14 +43,14 @@
 <a class="btn btn-white" href="/audit-gratuit">Faire mesurer mon site<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
 </div></header>
 <main class="cbody"><div class="rail">
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Définition</p>
 <h2>Qu’est-ce que le generative engine optimization ?</h2>
 <p class="tete">Le generative engine optimization, ou GEO, est l’ensemble des techniques qui visent à faire citer une entreprise dans les réponses rédigées par les moteurs génératifs. Il se distingue du référencement classique par son objectif : être nommé dans un texte, et non classé dans une liste de liens.</p>
 <p>Le terme s’est diffusé à partir de 2023, quand les assistants ont commencé à accompagner leurs réponses de sources cliquables. Avant cela, un modèle répondait de mémoire, sans citer, et il n’y avait rien à optimiser. À partir du moment où une réponse affiche des liens, il existe une sélection, donc un terrain de travail.</p>
 <p>Le marché emploie plusieurs noms pour la même chose. AEO, pour <i>answer engine optimization</i>, insiste sur la réponse. LLMO, pour <i>large language model optimization</i>, insiste sur le modèle. GEO s’est imposé comme le plus courant en France. Les différences sont commerciales plus que méthodologiques.</p>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Mécanique</p>
 <h2>Pourquoi le GEO ne se confond pas avec le SEO</h2>
 <p class="tete">Parce que le nombre de gagnants change. Une page de résultats Google affiche dix liens ; une réponse générée en nomme deux ou trois. Le reste n’existe pas pour la personne qui a posé la question.</p>
@@ -56,7 +58,7 @@
 <p>La seconde différence tient à l’unité de travail. Un moteur de recherche classe des pages. Un modèle, lui, extrait des passages. Une page excellente dont la réponse arrive au troisième paragraphe sera souvent ignorée au profit d’une page plus faible qui répond dès la première phrase.</p>
 <p>La troisième tient aux sources tierces. Un modèle qui parle de votre marché ne lit pas que votre site : il lit des annuaires, des comparatifs, de la presse spécialisée, des forums. Ce qui se dit de vous ailleurs pèse souvent plus lourd que ce que vous dites de vous.</p>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Méthode</p>
 <h2>Les cinq chantiers du GEO</h2>
 <p class="tete">Dans cet ordre, parce que chacun conditionne le suivant.</p>
@@ -68,29 +70,29 @@
 <li><b>Répéter la mesure.</b> Le même corpus, à intervalle fixe. Les moteurs génératifs réévaluent leurs sources souvent : une citation se gagne plus vite qu’une position Google, et se perd aussi plus vite.</li>
 </ol>
 </section>
-<section class="bloc sombre">
+<section class="bloc sombre rv">
 <p class="note">Limites</p>
 <h2>Ce que le GEO ne peut pas faire</h2>
 <p class="tete">Personne ne contrôle la sortie d’un modèle. Le GEO travaille une probabilité, pas une garantie.</p>
 <p>Deux questions identiques posées à deux minutes d’intervalle peuvent produire deux réponses différentes, avec des sources différentes. C’est une propriété des modèles, pas un défaut de méthode. Toute offre qui promet une position fixe dans une réponse générée se vend sur une chose qu’elle ne maîtrise pas.</p>
 <p>Ce qui est mesurable, en revanche, est la fréquence. Sur un corpus de questions suffisamment large et répété dans le temps, la proportion de réponses où votre nom apparaît est une donnée stable, et c’est elle qui doit servir d’indicateur.</p>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>Questions fréquentes</h2>
 <div class="faq">
 <details><summary>GEO, AEO et LLMO sont-ils la même chose ?</summary><div class="rep"><p>Dans l’usage courant, oui. Les trois sigles désignent le travail de visibilité dans les réponses générées. GEO est le plus répandu en France, AEO insiste sur la réponse, LLMO sur le modèle.</p></div></details>
 <details><summary>Le GEO remplace-t-il le SEO ?</summary><div class="rep"><p>Non. Les moteurs génératifs s’appuient en partie sur les mêmes index que la recherche classique. Un bon socle SEO augmente mécaniquement les chances d’être lu, donc cité. Le GEO se construit sur le SEO, il ne s’y substitue pas.</p></div></details>
 <details><summary>Combien de temps avant un résultat ?</summary><div class="rep"><p>Les premiers déplacements se mesurent en semaines, une présence stable en mois. La vitesse dépend surtout du niveau de concurrence sur vos questions d’achat.</p></div></details>
 </div></section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>À lire aussi</h2>
 <div class="voisins">
-<a href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
-<a href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
-<a href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
+<a class="rv d1" href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
+<a class="rv d2" href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
+<a class="rv d3" href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
 </div></section>
 </div></main>
-<section class="cend"><div class="narrow">
+<section class="cend"><div class="narrow rv">
 <h2>Où en êtes-vous sur ces cinq chantiers ?</h2>
 <p>L’audit GEO gratuit répond en neuf minutes, en interrogeant les moteurs en direct sur les questions de votre marché.</p>
 <a class="btn btn-dark" href="/audit-gratuit">Faire mesurer mon site<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>

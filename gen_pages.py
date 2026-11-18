@@ -94,6 +94,11 @@ def tete(p):
          u'<link rel="preload" href="/police-jakarta.woff2" as="font" '
          u'type="font/woff2" crossorigin>',
          u'<link rel="stylesheet" href="/nazar.css">',
+         # pose avant le premier affichage : un script differe laisserait
+         # le contenu apparaitre puis se masquer
+         u'<script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches)'
+         u'document.documentElement.className+=" anim"</script>',
+         u'<script src="/nazar-anim.js" defer></script>',
          u'</head>', u'<body>']
     return L
 
@@ -135,7 +140,7 @@ def entete(p):
 def corps(p):
     L = [u'<main class="cbody"><div class="rail">']
     for b in p['blocs']:
-        cl = u'bloc sombre' if b.get('sombre') else u'bloc'
+        cl = u'bloc sombre rv' if b.get('sombre') else u'bloc rv'
         L.append(u'<section class="%s">' % cl)
         if b.get('note'):
             L.append(u'<p class="note">%s</p>' % b['note'])
@@ -179,7 +184,7 @@ def corps(p):
         L.append(u'</section>')
 
     if p.get('faq'):
-        L.append(u'<section class="bloc">')
+        L.append(u'<section class="bloc rv">')
         L.append(u'<h2>Questions fréquentes</h2>')
         L.append(u'<div class="faq">')
         for q, r in p['faq']:
@@ -188,20 +193,21 @@ def corps(p):
         L.append(u'</div></section>')
 
     if p.get('liste'):
-        L.append(u'<section class="bloc"><div class="artl">')
+        L.append(u'<section class="bloc rv"><div class="artl">')
         for a in [x for x in PAGES if x.get('parent') == 'blog']:
-            L.append(u'<a href="/%s"><time datetime="%s">%s</time>'
+            L.append(u'<a class="rv" href="/%s"><time datetime="%s">%s</time>'
                      u'<b>%s</b><span>%s</span></a>'
                      % (adr(a), a['date'], date_fr(a['date']),
                         a['h1'], a['resume']))
         L.append(u'</div></section>')
 
     if p.get('voisins'):
-        L.append(u'<section class="bloc">')
+        L.append(u'<section class="bloc rv">')
         L.append(u'<h2>À lire aussi</h2>')
         L.append(u'<div class="voisins">')
-        for href, t, d in p['voisins']:
-            L.append(u'<a href="%s"><b>%s</b><span>%s</span></a>' % (href, t, d))
+        for i, (href, t, d) in enumerate(p['voisins']):
+            L.append(u'<a class="rv d%d" href="%s"><b>%s</b><span>%s</span></a>'
+                     % (min(i + 1, 4), href, t, d))
         L.append(u'</div></section>')
 
     L.append(u'</div></main>')
@@ -210,7 +216,7 @@ def corps(p):
 
 def fin(p):
     c = p['cend']
-    return [u'<section class="cend"><div class="narrow">',
+    return [u'<section class="cend"><div class="narrow rv">',
             u'<h2>%s</h2>' % c['h2'],
             u'<p>%s</p>' % c['p'],
             bouton(RDV, c['bouton']),

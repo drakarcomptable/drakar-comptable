@@ -22,6 +22,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="preload" href="/police-jakarta.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/nazar.css">
+<script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches)document.documentElement.className+=" anim"</script>
+<script src="/nazar-anim.js" defer></script>
 </head>
 <body>
 <nav class="topbar"><div class="rail">
@@ -40,14 +42,14 @@
 <a class="btn btn-white" href="/audit-gratuit">Savoir ce que ChatGPT dit de moi<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
 </div></header>
 <main class="cbody"><div class="rail">
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Mécanisme</p>
 <h2>D’où viennent les sites que ChatGPT cite ?</h2>
 <p class="tete">De deux endroits distincts. Soit de la mémoire du modèle, formée lors de son entraînement sur un web plus ancien, soit d’une recherche lancée au moment de la question, qui va lire des pages et les citer avec un lien.</p>
 <p>La distinction est pratique. Sur la mémoire d’entraînement, vous ne pouvez rien à court terme : elle est figée jusqu’à la version suivante, et elle favorise les marques déjà très présentes sur le web au moment de la collecte. Sur la recherche en direct, en revanche, tout est jouable, et c’est elle qui se déclenche sur les questions d’achat récentes ou locales.</p>
 <p>Quand une réponse affiche des liens, vous êtes dans le second cas. C’est ce terrain que travaille le référencement GEO : être parmi les quelques pages que le modèle va lire avant de rédiger.</p>
 </section>
-<section class="bloc sombre">
+<section class="bloc sombre rv">
 <p class="note">Enjeux</p>
 <h2>Pourquoi la visibilité dans les IA change la donne</h2>
 <p class="tete">Parce qu’une réponse générée ne propose pas dix résultats, mais deux ou trois noms. Être absent de cette réponse, ce n’est pas être mal classé : c’est ne pas exister pour la personne qui pose la question.</p>
@@ -61,7 +63,7 @@
 <li><span><b>Un coût qui ne se paie pas au clic.</b> Une citation ne s’achète pas aux enchères. Le travail se fait une fois, et continue de produire ensuite sans budget média adossé.</span></li>
 </ul>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <p class="note">Ce qui marche</p>
 <h2>Ce qui augmente vos chances d’être cité</h2>
 <p class="tete">Rien de magique : ce sont les mêmes qualités qu’un bon contenu de référence, poussées plus loin.</p>
@@ -73,7 +75,7 @@
 <li><span><b>Laisser les robots lire.</b> OAI-SearchBot et ChatGPT-User doivent pouvoir accéder au site. Un blocage dans le robots.txt est un retrait volontaire du jeu.</span></li>
 </ul>
 </section>
-<section class="bloc sombre">
+<section class="bloc sombre rv">
 <p class="note">Fausses pistes</p>
 <h2>Ce qui ne sert à rien</h2>
 <p class="tete">Trois pratiques circulent, et aucune ne tient.</p>
@@ -83,7 +85,7 @@
 <li><span><b>Publier en volume.</b> Vingt pages génériques apportent moins qu’une page qui répond réellement à une question que personne n’a traitée correctement.</span></li>
 </ul>
 </section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>Questions fréquentes</h2>
 <div class="faq">
 <details><summary>Peut-on payer pour apparaître dans les réponses de ChatGPT ?</summary><div class="rep"><p>La publicité dans ChatGPT existe désormais, mais elle est distincte des citations organiques : une annonce est identifiée comme telle. Être nommé dans le corps d’une réponse ne s’achète pas, cela se travaille.</p></div></details>
@@ -91,16 +93,16 @@
 <details><summary>Mon site est bien placé sur Google, suis-je cité par ChatGPT ?</summary><div class="rep"><p>Pas automatiquement. Les deux systèmes se recoupent sans se confondre. Un site très bien positionné peut rester absent des réponses générées s’il ne répond pas directement aux questions posées, ou si les sources tierces parlent surtout de ses concurrents.</p></div></details>
 <details><summary>Comment savoir si ChatGPT me cite aujourd’hui ?</summary><div class="rep"><p>En posant les questions que posent vos acheteurs et en relevant les réponses, de façon systématique et répétée. C’est exactement l’objet de l’audit GEO gratuit de NAZAR.</p></div></details>
 </div></section>
-<section class="bloc">
+<section class="bloc rv">
 <h2>À lire aussi</h2>
 <div class="voisins">
-<a href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
-<a href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
-<a href="/consultant-geo"><b>Consultant GEO</b><span>Le métier, ses livrables, et quand y faire appel.</span></a>
-<a href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
+<a class="rv d1" href="/audit-geo"><b>Audit GEO gratuit</b><span>Le relevé de ce que les IA répondent sur votre marché.</span></a>
+<a class="rv d2" href="/agence-geo"><b>Agence GEO</b><span>Ce que fait une agence GEO, et comment en choisir une.</span></a>
+<a class="rv d3" href="/consultant-geo"><b>Consultant GEO</b><span>Le métier, ses livrables, et quand y faire appel.</span></a>
+<a class="rv d4" href="/referencement-ia"><b>Référencement IA</b><span>La méthode : comment un modèle choisit ses sources.</span></a>
 </div></section>
 </div></main>
-<section class="cend"><div class="narrow">
+<section class="cend"><div class="narrow rv">
 <h2>Que répond ChatGPT quand on cherche votre métier ?</h2>
 <p>Nous posons la question devant vous, en direct, et vous repartez avec le relevé. Gratuit, sans engagement.</p>
 <a class="btn btn-dark" href="/audit-gratuit">Savoir ce que ChatGPT dit de moi<span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span></a>
