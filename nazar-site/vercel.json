@@ -275,6 +275,14 @@
     {
       "source": "/blog/meilleures-agences-geo/",
       "destination": "/blog/meilleures-agences-geo.html"
+    },
+    {
+      "source": "/formation-geo",
+      "destination": "/formation-geo.html"
+    },
+    {
+      "source": "/formation-geo/",
+      "destination": "/formation-geo.html"
     }
   ],
   "functions": {

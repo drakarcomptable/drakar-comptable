@@ -1492,3 +1492,147 @@ PAGES += [
    'bouton': 'Faire mesurer mon entreprise'},
 },
 ]
+
+
+PAGES += [
+
+# --------------------------------------------------------------------------
+# Rien n'est invente ici sur le format, la duree, le prix ni le statut
+# d'organisme de formation : ces elements n'ont pas ete fournis. La page
+# decrit ce que la formation couvre et ce qu'on sait faire a la fin, et
+# renvoie vers un echange ou le format se definit. Aucune mention de
+# Qualiopi ni de financement : ce serait une affirmation reglementee.
+{
+ 'slug': 'formation-geo',
+ 'cible': {'mot': 'formation geo', 'volume': 390, 'kd': '0',
+           'notes': 'formation referencement ia, formation seo ia'},
+ 'fil': 'Formation GEO',
+ 'titre': 'Formation GEO : rendre votre entreprise citable par les IA',
+ 'desc': 'Formation au référencement dans les IA génératives : comprendre '
+         'comment un modèle choisit ses sources, produire du contenu citable '
+         'et mesurer sa visibilité. Programme sur mesure.',
+ 'kick': 'Pour vos équipes',
+ 'h1': 'Former vos équipes au référencement dans les IA',
+ 'chapo': 'Le GEO n’est pas un outil à acheter, c’est une façon d’écrire, de '
+          'structurer et de mesurer. Une équipe formée l’applique à chaque '
+          'page qu’elle publie, sans prestataire.',
+ 'bouton': 'Parler de mon besoin',
+ 'prio': '0.8',
+ 'llms': 'Formation GEO : ce que couvre une formation au referencement dans '
+         'les IA generatives, pour qui, et ce que les participants savent '
+         'faire a la fin.',
+ 'service': 'Formation GEO',
+ 'blocs': [
+   {'note': 'Définition',
+    'h2': 'Qu’est-ce qu’une formation GEO ?',
+    'tete': 'Une formation GEO apprend à une équipe à rendre son entreprise '
+            'citable par les moteurs génératifs : comprendre comment un '
+            'modèle sélectionne ses sources, écrire dans la forme qu’il '
+            'extrait, et mesurer le résultat dans le temps.',
+    'corps': [
+      'Elle se distingue d’une formation au référencement classique sur un '
+      'point : l’objectif n’est pas une position dans une liste de liens, '
+      'mais une citation dans une réponse rédigée. Les fondamentaux '
+      'techniques se recoupent, la façon d’écrire et de mesurer change.',
+      'Elle s’adresse aux équipes qui publient déjà : marketing, '
+      'communication, contenu. Pas besoin de savoir coder. Il faut en '
+      'revanche avoir la main sur ce qui se publie, sans quoi la formation '
+      'reste théorique.']},
+
+   ENJEUX,
+
+   {'note': 'Objectifs',
+    'h2': 'Ce que vos équipes savent faire à la fin',
+    'tete': 'Cinq capacités, vérifiables sur les pages qu’elles publient '
+            'ensuite.',
+    'pts': [
+      '<b>Relever ce que les moteurs répondent.</b> Construire le corpus de '
+      'questions d’achat de votre marché, interroger les moteurs, compter '
+      'les citations. C’est la base de tout le reste.',
+      '<b>Reconnaître une page citable.</b> Savoir dire, en lisant une page, '
+      'si un modèle peut en extraire une réponse, et pourquoi pas le cas '
+      'échéant.',
+      '<b>Écrire pour l’extraction.</b> La question en titre, la réponse '
+      'complète dans les deux phrases qui suivent, les entités nommées '
+      'explicitement, des faits datés plutôt que des promesses.',
+      '<b>Vérifier le socle technique.</b> Accès des robots des IA, données '
+      'structurées cohérentes avec la page, fichier llms.txt, temps de '
+      'réponse. Savoir repérer ce qui retire un site du jeu.',
+      '<b>Identifier les sources tierces à travailler.</b> Comprendre où les '
+      'modèles vont lire sur votre secteur, et ce qui s’y joue.']},
+
+   {'note': 'Programme',
+    'h2': 'Ce que couvre la formation',
+    'tete': 'Quatre temps, dans cet ordre, parce que chacun conditionne le '
+            'suivant.',
+    'etapes': [
+      {'t': 'Comment un moteur génératif choisit ses sources',
+       'd': 'Le mécanisme de reformulation, de récupération et d’extraction. '
+            'Sans ce modèle mental, le reste se retient par cœur au lieu de '
+            'se comprendre.',
+       'part': '100%'},
+      {'t': 'Mesurer avant d’agir',
+       'd': 'Construire le corpus de questions, relever les réponses, lire '
+            'les résultats. Les participants repartent avec le relevé de '
+            'leur propre marché.',
+       'part': '78%', 'cle': True,
+       'ici': 'Sur vos questions, pas sur un cas d’école'},
+      {'t': 'Écrire et structurer',
+       'd': 'La forme qu’un modèle extrait, appliquée à vos pages '
+            'existantes. Atelier de réécriture sur votre contenu réel.',
+       'part': '62%'},
+      {'t': 'Tenir dans la durée',
+       'd': 'Répéter la mesure, lire une évolution, arbitrer. Ce qui '
+            'distingue une opération ponctuelle d’un travail continu.',
+       'part': '40%'}],
+    'fin': [
+      'Le format, la durée et le nombre de participants se définissent avant, '
+      'lors d’un échange. Une équipe de trois personnes qui publie un article '
+      'par mois et une direction marketing de vingt personnes n’ont pas '
+      'besoin de la même chose, et vendre le même programme aux deux serait '
+      'malhonnête.']},
+
+   {'note': 'Pour qui',
+    'h2': 'À qui s’adresse cette formation',
+    'tete': 'Aux équipes qui publient, et qui ont la main sur ce qui se '
+            'publie.',
+    'pts': [
+      '<b>Équipes marketing et communication.</b> Celles qui produisent le '
+      'contenu et décident de ce qui part en ligne.',
+      '<b>Responsables SEO.</b> Qui maîtrisent déjà les fondamentaux et '
+      'veulent la couche générative, sans repartir de zéro.',
+      '<b>Dirigeants de petites structures.</b> Quand la personne qui décide '
+      'est aussi celle qui écrit.'],
+    'fin': [
+      'Elle convient moins à une équipe qui externalise entièrement sa '
+      'production de contenu : dans ce cas, c’est le prestataire qu’il faut '
+      'former, ou l’accompagnement qu’il faut envisager.']},
+ ],
+ 'faq': [
+   ('Quelle est la durée de la formation ?',
+    'Elle se définit avec vous. Le contenu couvre quatre temps, de la '
+    'compréhension du mécanisme à la mesure continue, et leur profondeur '
+    'dépend du niveau de départ de l’équipe et de ce qu’elle publie.'),
+   ('Faut-il des connaissances techniques ?',
+    'Non. Il faut savoir publier sur son site, pas savoir coder. Les points '
+    'techniques abordés, comme l’accès des robots ou les données '
+    'structurées, sont traités du point de vue de ce qu’il faut vérifier et '
+    'demander, pas de la mise en œuvre.'),
+   ('La formation se fait-elle sur notre propre contenu ?',
+    'Oui, c’est le principe. Le relevé se fait sur les questions de votre '
+    'marché et les ateliers de réécriture portent sur vos pages existantes. '
+    'Un cas d’école ne produit aucun changement une fois la session finie.'),
+   ('Quelle différence avec l’accompagnement GEO ?',
+    'La formation rend votre équipe autonome ; l’accompagnement fait le '
+    'travail avec vous dans la durée. Les deux se combinent souvent : former '
+    'd’abord, puis accompagner sur les chantiers qui demandent du temps, '
+    'comme les sources tierces.'),
+ ],
+ 'voisins': voisins('audit-geo', 'agence-geo', 'referencement-ia'),
+ 'cend': {
+   'h2': 'Parlons de ce que votre équipe doit savoir faire',
+   'p': 'Un échange de trente minutes avec un consultant pour cadrer le '
+        'besoin, le niveau de départ et le format. Sans engagement.',
+   'bouton': 'Parler de mon besoin'},
+},
+]

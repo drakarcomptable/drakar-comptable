@@ -109,7 +109,9 @@ header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-conte
 .nav a.nl{text-decoration:none;font-size:.9rem;font-weight:500;color:var(--ink-2);padding:.55rem .72rem;
   border-radius:999px;white-space:nowrap;transition:background .2s}
 .nav a.nl:hover{background:rgba(227,247,254,.95)}
-@media(max-width:1080px){.nav a.nl{display:none}}
+@media(max-width:1080px){.nav a.nl:not(.np){display:none}
+  .nav a.np{padding:.55rem .5rem;font-size:.84rem}}
+@media(max-width:380px){.nav a.np{padding:.55rem .34rem;font-size:.8rem}}
 
 .sky{position:absolute;inset:0;overflow:hidden;z-index:0;
   background:linear-gradient(175deg,#f7fdff 0%,#e0f4fd 38%,#c7e9f7 68%,#abdaec 100%)}
@@ -632,6 +634,8 @@ footer{background:#001923;color:var(--dim);padding-block:clamp(38px,4.6vw,58px);
     <a class="nl" href="#audit">L'audit</a>
     <a class="nl" href="#consultant">Vos consultants</a>
     <a class="nl" href="#cas">Résultats</a>
+    <a class="nl np" href="/agence-geo">Le GEO</a>
+    <a class="nl np" href="/blog">Blog</a>
     <a class="btn btn-dark" href="https://meetings-eu1.hubspot.com/mael-gallais/auditgeonazar?uuid=35289a56-0d65-4dc5-8725-29da4834660a" target="_blank" rel="noopener">Audit gratuit
       <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
   </div>
