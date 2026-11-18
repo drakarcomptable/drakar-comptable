@@ -81,6 +81,8 @@ PAGES = [
 # --------------------------------------------------------------------------
 {
  'slug': 'audit-geo',
+ 'cible': {'mot': 'audit geo', 'volume': 320, 'kd': '0',
+           'notes': 'audit geo gratuit (50), audit seo ia'},
  'fil': 'Audit GEO',
  'titre': 'Audit GEO gratuit : ce que les IA disent de vous | NAZAR',
  'desc': 'Audit GEO gratuit en 9 minutes : le relevé de ce que ChatGPT, '
@@ -206,6 +208,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'agence-geo',
+ 'cible': {'mot': 'agence geo', 'volume': 1600, 'kd': '2',
+           'notes': 'agence seo ia (260), agence geo france (20)'},
  'fil': 'Agence GEO',
  'titre': 'Agence GEO : soyez cité par ChatGPT, Gemini et Perplexity',
  'desc': 'Agence GEO française : NAZAR travaille la visibilité de votre '
@@ -353,6 +357,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'consultant-geo',
+ 'cible': {'mot': 'consultant geo', 'volume': 210, 'kd': '0',
+           'notes': 'expert geo (50)'},
  'fil': 'Consultant GEO',
  'titre': 'Consultant GEO : le métier, ses livrables, quand y recourir',
  'desc': 'Un consultant GEO travaille la citabilité d’une entreprise dans les '
@@ -455,6 +461,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'referencement-ia',
+ 'cible': {'mot': 'referencement ia', 'volume': 390, 'kd': 'n/a',
+           'notes': 'seo ia (480, KD 0)'},
  'fil': 'Référencement IA',
  'titre': 'Référencement IA : comment un modèle choisit ses sources',
  'desc': 'Référencement IA et SEO IA : comment ChatGPT, Perplexity et Gemini '
@@ -586,6 +594,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'referencement-chatgpt',
+ 'cible': {'mot': 'referencement chatgpt', 'volume': 210, 'kd': 'n/a',
+           'notes': 'etre cite par chatgpt'},
  'fil': 'Référencement ChatGPT',
  'titre': 'Référencement ChatGPT : comment être cité dans ses réponses',
  'desc': 'Comment ChatGPT choisit les sites qu’il cite, ce qui fonctionne '
@@ -702,6 +712,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'blog',
+ 'cible': {'mot': None, 'volume': 0, 'kd': 'n/a',
+           'notes': "page d'index : navigation, aucune cible"},
  'fil': 'Blog',
  'titre': 'Blog : comprendre le référencement dans les IA | NAZAR',
  'desc': 'Articles de fond sur le GEO et le référencement dans les IA '
@@ -729,6 +741,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'generative-engine-optimization',
+ 'cible': {'mot': 'generative engine optimization', 'volume': 720, 'kd': '32',
+           'notes': 'definition geo'},
  'parent': 'blog', 'date': JOUR,
  'fil': 'Generative engine optimization',
  'titre': 'Generative Engine Optimization : définition et méthode',
@@ -854,6 +868,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'llms-txt',
+ 'cible': {'mot': 'llms.txt', 'volume': 720, 'kd': 'n/a',
+           'notes': 'llms txt fichier'},
  'parent': 'blog', 'date': JOUR,
  'fil': 'llms.txt',
  'titre': 'llms.txt : à quoi ça sert et comment le créer | NAZAR',
@@ -961,6 +977,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'geo-vs-seo',
+ 'cible': {'mot': 'geo seo', 'volume': 2900, 'kd': '8',
+           'notes': 'seo geo (2900, KD 14). Volume en partie ambigu'},
  'parent': 'blog', 'date': JOUR,
  'fil': 'GEO et SEO',
  'titre': 'GEO et SEO : quelle différence, et faut-il choisir ?',
@@ -1055,6 +1073,8 @@ PAGES += [
 # --------------------------------------------------------------------------
 {
  'slug': 'aeo-geo-llmo',
+ 'cible': {'mot': 'aeo', 'volume': 1900, 'kd': '0',
+           'notes': 'llmo (90). Sigle partage, volume a prendre avec prudence'},
  'parent': 'blog', 'date': JOUR,
  'fil': 'AEO, GEO, LLMO',
  'titre': 'AEO, GEO, LLMO : le lexique du référencement IA | NAZAR',
@@ -1163,6 +1183,8 @@ PAGES += [
 # ici, pour ne pas perdre ce classement.
 {
  'slug': 'fil-ariane-seo',
+ 'cible': {'mot': 'fil d ariane seo', 'volume': 70, 'kd': 'n/a',
+           'notes': 'recupere un classement existant en position 36'},
  'parent': 'blog', 'date': JOUR,
  'fil': 'Le fil d’Ariane',
  'titre': 'Le fil d’Ariane en SEO : à quoi il sert et comment le baliser',
@@ -1305,6 +1327,8 @@ def _rangs():
 PAGES += [
 {
  'slug': 'meilleures-agences-geo',
+ 'cible': {'mot': 'meilleure agence geo', 'volume': 170, 'kd': '0',
+           'notes': 'classement agence geo'},
  'parent': 'blog', 'date': '2026-11-18',
  'fil': 'Meilleures agences GEO',
  'titre': 'Meilleures agences GEO : ce que les IA répondent vraiment',

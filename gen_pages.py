@@ -389,8 +389,36 @@ def adresses():
     return len(c['rewrites'])
 
 
+def cibles():
+    """Le tableau des mots-cles vises, imprime a chaque construction.
+
+    Une page sans cible declaree fait echouer la construction : on ne cree
+    pas une page « pour voir ». Le champ 'cible' peut valoir None pour une
+    page de navigation, mais il doit etre present et ce choix doit etre
+    explicite.
+    """
+    orphelines = [p['slug'] for p in PAGES if 'cible' not in p]
+    if orphelines:
+        raise SystemExit(
+            "Construction interrompue : ces pages ne declarent aucune cible "
+            "de referencement : " + ', '.join(orphelines))
+    print('')
+    print('  cible de referencement de chaque page :')
+    total = 0
+    for p in PAGES:
+        c = p['cible']
+        if c['mot']:
+            total += c['volume']
+            print('    %-32s %-32s %5d/mois  KD %s'
+                  % (adr(p), c['mot'], c['volume'], c['kd']))
+        else:
+            print('    %-32s %-32s      -' % (adr(p), '(navigation)'))
+    print('    %-32s %-32s %5d/mois' % ('', 'TOTAL ADRESSE', total))
+
+
 def main():
     jour = datetime.date.today().isoformat()
+    cibles()
     for p in PAGES:
         chemin = os.path.join(SORTIE, adr(p) + '.html')
         d = os.path.dirname(chemin)
