@@ -126,3 +126,66 @@ estimé est de 3 800 à 4 500 annonceurs sur la liste de mots-clés actuelle.
 **Livré — `crm/equipe/`** : 178 tâches d'appel jamais faites par Tyliann
 (100 % mobiles, 96 % dirigeants, 10 opportunités) et les 3 listes issues de la
 séquence de Maël.
+
+---
+
+## Les listes HubSpot existent déjà — mais c'est la version non vérifiée
+
+**Question posée** : les contacts sont-ils déjà inscrits dans des listes ? Si oui,
+la mission « OKAY PROSP » est-elle déjà faite ?
+
+**Réponse : à moitié.** La liste existe et les commerciaux travaillent dessus,
+mais c'est la version **d'avant** la passe « encore en poste ».
+
+### Ce qui existe dans le portail
+
+| ID | Liste | Type | Taille |
+|---|---|---|---|
+| 318 | `LISTE-A1-JAMAIS-APPELES.csv` | DYNAMIQUE | **125** |
+| 240 | `OKAY Prosp Nazar From Scratch to 30 juin 2025` | DYNAMIQUE | **4 068** |
+| 311–316 | `OKP-P1` à `OKP-P6` | DYNAMIQUES | — |
+| 323 | `DON'T TOUCH-LISTE-1-CLIENTS-ET-ANCIENS` | STATIQUE | importée |
+| 284 | `NE PAS PROSPECTER` | DYNAMIQUE | — |
+
+`LISTE-2-CONCURRENTS` n'est **pas** encore importée.
+
+Filtre de la 318 : `IN_LIST(import = '180801297')` + pas d'inscription en séquence
+en cours. L'import 180801297, c'est **les 168 contacts non vérifiés**, pas les 68
+certifiés. D'où le problème.
+
+### Décomposition exacte des 125 membres de la liste 318
+
+| Origine | Dans la 318 | Absents |
+|---|---|---|
+| `A1-VERIFIEE-A-APPELER.csv` (68) | **53** | 15 |
+| `A1-A-SORTIR.csv` (40) | **32** | 8 |
+| `A1-NON-VERIFIABLES.csv` (50) | 32 | 18 |
+| `A1-A-ARBITRER.csv` (10) | 8 | 2 |
+
+53 + 32 + 32 + 8 = 125. Tout est tracé, rien d'inexpliqué.
+
+Les **15 bons contacts absents** ne sont pas perdus : ils ont tous été inscrits
+dans une séquence le **10/11/2026**, donc le filtre dynamique les sort. Ils sont
+déjà travaillés.
+
+### Ce qui reste à faire
+
+**32 fiches mortes sont dans la liste que les commerciaux appellent.**
+Livré : `crm/listes-appel/A1-FICHES-MORTES-ENCORE-DANS-LES-LISTES.csv`.
+
+- **16 d'entre elles sont aussi dans la liste 240** (4 068 contacts) — donc elles
+  circulent dans plus d'une liste de travail.
+- **7 ne sont pas inscriptibles en séquence** (e-mail `@fake-linkedin.com`).
+
+**Le levier** : les listes 318 et OKP-P1→P6 excluent les contacts inscrits en
+séquence. Inscrire ces fiches dans la séquence de blocage de Maël (§3 de
+`CLAUDE.md`) les fait **tomber automatiquement** de ces listes — vérifié par
+simulation : la 318 passerait de 125 à 93.
+
+⚠️ **La liste 240 ne se nettoie pas comme ça** : son filtre est
+`notes_last_updated < '2025-07-02' AND IN_LIST(import = '176883042')`, il ne
+regarde pas les séquences. Les 16 doivent y être retirées à la main
+(exclusion de fiches dans les réglages de la liste).
+
+Les 7 fiches à e-mail bidon ne sont joignables par aucun des deux mécanismes :
+elles demandent une décision (suppression de la fiche, ou exclusion manuelle).
