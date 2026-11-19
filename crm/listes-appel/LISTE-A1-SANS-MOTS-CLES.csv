@@ -1,0 +1,5 @@
+﻿origine,secteur_ou_source,prenom,nom,fonction,entreprise,mobile,email,mots_cles,mots_cles_presents,statut_societe,siren,doute,jamais_contacte,contact_id,statut_appel
+tache 000,SERVICES-ENTREPRISES,Frederic,Benacin,Associé,Leed Consulting France,+33672889931,frederic.benacin@leed-consulting.fr,,NON - a regenerer,introuvable au SIREN,,non retrouvee au SIREN (societe etrangere ou nom commercial different) - non verifiable,,12300166131,JAMAIS APPELE - aucune tache d appel terminee
+ColdCall-Mael,B2C-COMMERCE,Eric,Tosti,Co-Fondateur,Tat Productions,+33561620311,eric.tosti@tatprod.com,,NON - a regenerer,,,,OUI,9444464103,JAMAIS APPELE - aucune tache d appel terminee
+ColdCall-Charles,,Laurent,Dureau,Co-Fondateur PREVIEW,Preview Studio,+33607769944,laurent.dureau@preview-gr.fr,,NON - a regenerer,introuvable,,societe non retrouvee au SIREN - non verifiable,OUI,9440694213,JAMAIS APPELE - aucune tache d appel terminee
+ColdCall-Charles,,Isabelle,Isabelle Villey,CEO,Mapreg,+33674940797,isabelle.villey@mapreg.com,,NON - a regenerer,ACTIVE,433430386,,OUI,111809042638,JAMAIS APPELE - aucune tache d appel terminee

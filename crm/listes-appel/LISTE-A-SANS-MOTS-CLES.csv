@@ -1,0 +1,12 @@
+﻿origine,secteur_ou_source,prenom,nom,fonction,entreprise,mobile,email,mots_cles,mots_cles_presents,statut_societe,siren,doute,jamais_contacte,contact_id
+tache 000,SERVICES-ENTREPRISES,Frederic,Benacin,Associé,Leed Consulting France,+33672889931,frederic.benacin@leed-consulting.fr,,NON - a regenerer,introuvable au SIREN,,non retrouvee au SIREN (societe etrangere ou nom commercial different) - non verifiable,,12300166131
+ColdCall-Mael,B2C-COMMERCE,Eric,Tosti,Co-Fondateur,Tat Productions,+33561620311,eric.tosti@tatprod.com,,NON - a regenerer,,,,OUI,9444464103
+ColdCall-Charles,,Laurent,Dureau,Co-Fondateur PREVIEW,Preview Studio,+33607769944,laurent.dureau@preview-gr.fr,,NON - a regenerer,introuvable,,societe non retrouvee au SIREN - non verifiable,OUI,9440694213
+ColdCall-Charles,,Laurent,Guittard,CEO,Karlab,+33620621815,laurent@karlab.fr,,NON - a regenerer,ACTIVE,818625345,,OUI,9440747743
+ColdCall-Charles,,Jeremy,Delobel,Gérant Beecity Bretagne,Beecity,+33628051298,jeremy.delobel@beecity.fr,,NON - a regenerer,ACTIVE,791831175,,OUI,9441755882
+ColdCall-Charles,,Sebastien,Durand-Viel,Cofondateur et formateur,Académie Des Vins Et Spiritueux,+33621542351,sebastien.durand-viel@fake-linkedin.com,,NON - a regenerer,introuvable,,societe non retrouvee au SIREN - non verifiable | email placeholder : a enrichir avant tout envoi,OUI,20418059712
+ColdCall-Charles,,Isabelle,Isabelle Villey,CEO,Mapreg,+33674940797,isabelle.villey@mapreg.com,,NON - a regenerer,ACTIVE,433430386,,OUI,111809042638
+ColdCall-Tyliann,,Arnaud,Cerise,Business developer Gérant,D2B Consulting,+33615928828,arnaud.cerise@d2bconsulting.fr,,NON - a regenerer,ACTIVE,791772171,,OUI,9444143083
+ColdCall-Tyliann,,Thibaut,Guérout,Cofondateur,Gudule,+33664196364,thibaut.guerout@fake-linkedin.com,,NON - a regenerer,ACTIVE,938279619,email placeholder : a enrichir avant tout envoi,OUI,20418996978
+ColdCall-Tyliann,,Alban,Jurado,Directeur Général Associé,Keller Williams Millenium,+33635149291,alban.jurado@fake-linkedin.com,,NON - a regenerer,introuvable,,societe non retrouvee au SIREN - non verifiable | email placeholder : a enrichir avant tout envoi,OUI,36205671402
+ColdCall-Tyliann,,Sarah,Labry,Fondatrice & CEO Umã powered by Les Hermines,Les Hermines,+33607120256,sarah.labry@leshermines.fr,,NON - a regenerer,ACTIVE,803373372,,OUI,36211059436

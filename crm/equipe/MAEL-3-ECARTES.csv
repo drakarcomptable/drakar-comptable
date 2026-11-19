@@ -1,0 +1,16 @@
+﻿motif,explication,prenom,nom,fonction,entreprise,phone,email,motscles,mots_cles_presents,jamais_contacte,nbcontact,lifecycle,seq,id
+OPPORTUNITY,deal ouvert - ne pas cold-caller,Gabriel,Chinarro,Co-Founder,Groopay,+33631793725,gabriel@groopay.fr,,,,2,Opportunity,false,9444463307
+HORS FRANCE,societe americaine (.us),Rosa,Whitaker,CEO,The Whitaker Group,,rosa@thewhitakergroup.us,,,,0,Lead,false,9444463329
+ESN,conseil et integration IT,Christophe,Viarnaud,CEO & Co-Founder,Methys,,cviarnaud@methys.com,,,,0,Lead,false,9444463548
+CONCURRENT,agence digitale,Florent,Bronchain,Chief Executive Officer,Abc Digital Touch,,florent@abcdigitaltouch.fr,,,,2,Lead,false,9444464059
+HORS FRANCE,".eu, structure hors France",Stefano,Tirati,CEO,Learningdigital,,st@learningdigital.eu,,,,0,Lead,false,9444464077
+ESN,infogerance informatique et cybersecurite manages,Bruno,Seux,Chief Executive Officer,Iceb,+33687400806,bseux@iceb.com,"Logiciel ERP/BPM, Infogérance informatique, Cybersécurité managed",,,1,Lead,false,9444464090
+OPPORTUNITY,deal ouvert - ne pas cold-caller,Pauline,Alexandre,Co-Founder Kali Group,Kali Group,,p.alexandre@kali-group.fr,2,,,Opportunity,true,,9444464092
+ESN,conseil IT,Joachim,Tordjman,Co-Founder,Artik Consulting,,joachim.tordjman@artik-consulting.com,,,,0,Lead,false,9444464113
+HORS FRANCE,societe italienne (.it),Fausto,Bianchi,Owner,Bianchi Assicurazioni,,fausto.bianchi@bianchiassicurazioni.it,,,,0,Lead,false,9444464114
+CONCURRENT,editeur de medias en ligne : publicite digitale et affiliation dans les mots-cles,Baptiste,Michaud,Co-Founder Président,Humanoid,+33610449831,baptiste.michaud@humanoid.fr,"Édition médias en ligne, publicité digitale et affiliation, comparateurs de services",,,0,Lead,true,9444464115
+ESN,conseil IT,Frank,Bacquart,Gérant,Maya Consulting,,f.bacquart@maya-consulting.com,,,,0,Lead,true,9444464116
+ASSOCIATION,"association (.org), lutte contre le cancer pediatrique",Patricia,Blanc,Présidente Fondatrice,Imagine For Margo,,patricia.blanc@imagineformargo.org,,,,0,Lead,false,9444464119
+CONCURRENT,"optimisation de creatives publicitaires, scoring de pubs",Yannick,Wittenauer,Co-Fondateur & COO,Videorunrun,+33650652336,yannick@videorunrun.com,"Optimisation créatives vidéo, Scoring prédictif publicités, Intelligence données campagnes vidéo",,,0,Lead,false,9444464120
+CONCURRENT,le nom contient Agency,Karim,Bachar,CEO,Mydear Agency,,kb@mydear-agency.com,,,,0,Lead,true,9444464319
+HORS FRANCE,laboratoire suisse,Franck,Notari,Director & Co-Founder,Ggtl Laboratories Switzerland,,franck.notari@ggtl-lab.org,,,,0,Lead,false,9444464342

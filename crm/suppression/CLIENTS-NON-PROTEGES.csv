@@ -1,0 +1,12 @@
+﻿categorie,entreprise,prenom,nom,email,telephone,raison_non_inscrit,contact_id
+CLIENT,(vide dans le CRM),Nicolas,Meliand,nicolas@framesdealer.com,,Rejete - liste noire globale HubSpot,3920
+CLIENT,energy way,Florent,Brecy,fbrecy@energyway.fr,+33632662378,Deja inscrit dans une autre sequence,9480367587
+CLIENT,Eventtia,Mauricio,Palacio,mauricio@eventtia.com,+33612855020,Deja inscrit dans une autre sequence,5451
+ANCIEN CLIENT,Ideta,Yanis,Kerdjana,yanis@ideta.io,+33757905217,Rejete - liste noire globale HubSpot,9440699834
+CLIENT,Kairntech,Bruno,Freudensprung,bruno.freudensprung@kairntech.com,+33677847879,Deja inscrit dans une autre sequence,196728527046
+CLIENT,Publidata,Julian,Nacci,julian@publidata.io,,Deja inscrit dans une autre sequence,9444201427
+CLIENT,Skyted,Stephane,Hersen,stephane.hersen@skyted.fr,+33609343416,Rejete - liste noire globale HubSpot,20407345091
+CLIENT,Skyted,Stephane,HERSEN,,,Aucune adresse e-mail - fiche doublon de stephane.hersen@skyted.fr,
+CLIENT,spinalcom,Jérémie,Bellec,j.bellec@spinalcom.com,+33603724020,Deja inscrit dans une autre sequence,17137925346
+ANCIEN CLIENT,Ubigreen,Caroline,Vong Legrand,cvonglegrand@ubigreen.com,,Rejete - liste noire globale HubSpot,9442364149
+CLIENT,Ubigreen,Julien,Meriaudeau,jmeriaudeau@ubigreen.com,+33673332753,Rejete - liste noire globale HubSpot,9443545323

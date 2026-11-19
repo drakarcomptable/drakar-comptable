@@ -1,0 +1,21 @@
+﻿secteur,prenom,nom,fonction,entreprise,phone,email,motscles,mots_cles_presents,jamais_contacte,nbcontact,lifecycle,seq,id
+B2C-COMMERCE,Tina,Paillet,Co-Founder,Circotrade,,tina.paillet@circotrade.fr,,NON - a regenerer,OUI,0,Lead,false,9444463316
+B2C-COMMERCE,Florent,Blanc,Co-Fondateur & Directeur Général,Wellington France,,florent.blanc@wellington-france.com,,NON - a regenerer,OUI,0,Lead,false,9444464107
+B2C-COMMERCE,Florian,Jarre,Associé Gérant,Connexion Immobilier,,f.jarre@connexion.immo,,NON - a regenerer,OUI,0,Lead,false,9444464327
+B2C-COMMERCE,Chloe,Jin,CEO,Frnch,,chloe@frnch.fr,,NON - a regenerer,OUI,0,Lead,false,9444464328
+FINANCE-FINTECH,Emmanuel,Dampoux,Associé - Partner M&A Solutions,Oneida Associés,,edampoux@oneida-associes.com,,NON - a regenerer,non (1 prises de contact),1,Lead,false,9444463319
+FINANCE-FINTECH,Jean,Semo,Gérant,Avea Partners,,j.semo@aveapartners.com,,NON - a regenerer,OUI,0,Lead,false,9444464093
+FORMATION,Anaïs,Georgelin,Fondatrice & CEO,Somanyways,,anais.georgelin@somanyways.co,,NON - a regenerer,OUI,0,Lead,true,9444463312
+FORMATION,Joëlle,Mandel,Fondatrice et PDG,Doxa,,joelle.mandel@doxaformation.com,,NON - a regenerer,OUI,0,Lead,true,9444464117
+INDUSTRIE-ENERGIE,Rafael,Imane,CEO,Multi Pack,,rafael.imane@multipack.fr,,NON - a regenerer,OUI,0,Lead,true,9444464082
+INDUSTRIE-ENERGIE,Jean-Baptiste,Frey,CEO,Pm-Sa,,jean-baptiste.frey@pm-sa.fr,,NON - a regenerer,OUI,0,Lead,true,9444464326
+SANTE,Alexandre,Azria,Co-Fondateur et Medical Chief Officer,Instacare,,alexandre@instacare.fr,,NON - a regenerer,OUI,0,Lead,false,9444463309
+SERVICES-ENTREPRISES,Eric,Bourdaud'Hui,Associé Gérant,Cabinet Bbr,,eb@bbr-conseils.com,,NON - a regenerer,OUI,0,Lead,true,9444463549
+SERVICES-ENTREPRISES,Stéphane,Dalbera,Founder & Owner,Atopos,,sdalbera@atopos.fr,,NON - a regenerer,OUI,0,Lead,false,9444464079
+SERVICES-ENTREPRISES,Gilles,Pimort,CEO & Founder,Norman Taylor,,gpimort@normantaylor.fr,,NON - a regenerer,OUI,0,Lead,true,9444464111
+TECH-SAAS,Maël,Vincent,CEO,Mvlabs,,mael@mvlabs.fr,,NON - a regenerer,OUI,0,Lead,false,9444463311
+TECH-SAAS,Jonathan,Siboni,CEO & Founder,Luxurynsight,,jonathan.siboni@luxurynsight.com,,NON - a regenerer,OUI,0,Lead,false,9444463320
+TECH-SAAS,Lise,C.,CEO,Agorapulse,,lise@agorapulse.com,,NON - a regenerer,OUI,0,Lead,true,9444463556
+TECH-SAAS,Nicolas,Dumont,Co-founder & CPO,Amblea,,nicolas.dumont@amblea.fr,,NON - a regenerer,non (2 prises de contact),2,Lead,false,9444464096
+TECH-SAAS,Rob,Zesch,President,Traceparts,,rzesch@traceparts.com,,NON - a regenerer,OUI,0,Lead,false,9444464108
+TECH-SAAS,Valentin,Gloux,Co-Founder,Rokett,,valentin@rokett.fr,,NON - a regenerer,OUI,0,Lead,false,9444464345
