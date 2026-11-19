@@ -189,3 +189,79 @@ regarde pas les séquences. Les 16 doivent y être retirées à la main
 
 Les 7 fiches à e-mail bidon ne sont joignables par aucun des deux mécanismes :
 elles demandent une décision (suppression de la fiche, ou exclusion manuelle).
+
+---
+
+## Liste d'emailing — 1 062 adresses prêtes
+
+**Demande** : 1 000 à 1 200 adresses e-mail pour une campagne, tirées de la data
+la plus récente, dans les secteurs cibles, en évitant les concurrents, les
+clients et les `@fake-linkedin.com`.
+
+### Correction d'une prémisse
+
+La consigne de départ était « des contacts frais, **sans numéro de téléphone** ».
+Mesuré : **sur les 14 961 contacts du CRM qui ont un e-mail et aucun téléphone,
+32 seulement ont été créés dans les 12 derniers mois — et 1 seul dans les 60
+derniers jours.** Le « sans téléphone » ne sélectionne pas la data fraîche, il
+sélectionne la plus vieille. Les scrapes récents sont **tous** livrés avec un
+mobile, parce qu'ils ont été faits pour le cold call.
+
+Le bon critère de fraîcheur, c'est la date de création de la fiche et la date du
+dernier appel, pas l'absence de téléphone.
+
+### Source retenue
+
+Les 7 listes travaillées depuis septembre (hors OKAY Prosp, qui est de la vieille
+data — sauf OKP-P2 qui a été retravaillée) :
+
+`301` LISTE-A-TECH-SAAS-B2B · `302` LISTE-B-FINTECH-FINANCE · `303` LISTE-C-ENERGIE ·
+`304` LISTE-D-ALARME-SECURITE · `291` Data Tech B2B + autres · `281` SaaS et Tech ·
+`312` OKP-P2-Tech-SaaS
+
+**2 420 contacts**, dont 974 créés en novembre 2026. Aucun n'a jamais reçu
+d'e-mail de notre part et aucun n'est désinscrit.
+
+### Filtrage
+
+| Écarté | Nombre |
+|---|---|
+| e-mail `@fake-linkedin.com` | 173 |
+| aucun e-mail | 138 |
+| mots-clés = concurrent | 68 |
+| fiche de la liste de suppression (client / ancien / concurrent) | 29 |
+| fiche morte identifiée sur A1 | 12 |
+| société cliente ou concurrente | 5 |
+| hors cible (fédération, association, ordre…) | 5 |
+| **a déjà décroché** (appel connecté entre le 01/09 et le 18/11/2026) | 112 |
+
+Reste **1 878**, répartis en trois lots par fraîcheur.
+
+### Livré — `crm/emailing/`
+
+| Fichier | Lignes | Contenu |
+|---|---|---|
+| `EMAIL-LOT1-1062-PRETS.csv` | **1 062** | prêts à shooter |
+| `EMAIL-LOT2-816-A-VERIFIER.csv` | 816 | réserve, dernier contact avril–juin 2025 |
+
+Lot 1 = **A** (759 fiches créées en oct/nov 2026) + **B** (303 fiches plus
+anciennes mais rappelées entre le 01/09 et le 18/11/2026 sans jamais décrocher).
+Dans les deux cas la fiche a été touchée il y a moins de trois mois.
+
+1 049 domaines distincts sur 1 062 adresses, 3 adresses génériques seulement.
+
+Répartition : Industrie/Services 508 · Tech/SaaS/B2B 370 · Formation 99 ·
+Énergie/Renouvelable 54 · Sécurité/Alarme 31.
+
+### Reste ouvert
+
+Le **lot 2 (816)** n'a pas eu la passe « encore en poste ». Dernier contact
+avril–juin 2025 : au taux constaté sur A1 (24 % de fiches mortes), il faut
+compter ~200 fiches à sortir avant de s'en servir.
+
+### Limite de méthode à connaître
+
+Le filtre « a déjà décroché » couvre les appels connectés du **01/09 au
+18/11/2026**. Pour le lot 1 c'est complet (les fiches sont plus récentes que ça
+ou ont été rappelées dans cette fenêtre). Pour le lot 2, un contact qui aurait
+décroché avant septembre 2026 n'est pas détecté.
