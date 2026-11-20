@@ -265,3 +265,43 @@ Le filtre « a déjà décroché » couvre les appels connectés du **01/09 au
 18/11/2026**. Pour le lot 1 c'est complet (les fiches sont plus récentes que ça
 ou ont été rappelées dans cette fenêtre). Pour le lot 2, un contact qui aurait
 décroché avant septembre 2026 n'est pas détecté.
+
+---
+
+## Taxonomie de mots-clés et références clients
+
+**But** : qu'un commercial en call puisse dire « on travaille déjà là-dessus, par
+exemple avec X » dès que le prospect se décrit avec un mot-clé donné.
+
+**Livré — `crm/references/REFERENCES-CLIENTS-PAR-MOT-CLE.xlsx`**
+
+**20 catégories chapeau**, construites sur le comptage réel des mots-clés des
+2 420 contacts des listes scrapées (A, B, C, D, Data Tech B2B, SaaS et Tech,
+OKP-P2), pas sur une intuition. Pour chacune : les mots-clés qui la déclenchent,
+la fréquence à laquelle le sujet tombe en prospection, et **31 clients à citer**
+(actifs et anciens), avec leur activité.
+
+Le fichier ne contient **aucun montant** : c'est un outil de call, pas un reporting.
+
+### Les quatre trous
+
+Quatre catégories n'ont aucune référence client identifiée :
+
+| Catégorie | Fréquence en prospection |
+|---|---|
+| **Formation professionnelle** | **247** |
+| **Cybersécurité** | **184** |
+| Sûreté & sécurité des sites | 93 |
+| (Cloud, couvert seulement via Allance) | 166 |
+
+La formation est le 4ᵉ sujet le plus fréquent dans la data et on n'a rien à
+citer dessus. C'est le trou le plus coûteux.
+
+### Pourquoi ce n'est pas plus complet
+
+**54 des 76 lignes de MRR Pilot n'ont aucun mot-clé dans HubSpot.** Rien n'a été
+inventé pour combler : un commercial qui cite une référence à côté se fait
+reprendre. Pour les compléter il faut ouvrir les sites un par un.
+
+Host ajouté à l'allowlist de l'environnement : `mrr-pilot.onrender.com`.
+Un point de sécurité sur cet outil a été signalé directement à Brice.

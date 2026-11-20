@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Fichier de references clients : liste nominative, garde hors depot
+crm/references/
