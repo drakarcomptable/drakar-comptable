@@ -305,3 +305,42 @@ reprendre. Pour les compléter il faut ouvrir les sites un par un.
 
 Host ajouté à l'allowlist de l'environnement : `mrr-pilot.onrender.com`.
 Un point de sécurité sur cet outil a été signalé directement à Brice.
+
+---
+
+## OKAY PROSP : les 68 répartis par industrie
+
+**Demande** : caler les 68 contacts vérifiés sur le découpage OKP-P2 à P6 déjà en
+place dans le portail.
+
+**Livré — `crm/okay-prosp/`**
+
+| Fichier | Contacts |
+|---|---|
+| `OKP-P2-Tech-SaaS-68.csv` | 21 |
+| `OKP-P3-Formation-68.csv` | **1** |
+| `OKP-P4-Services-entreprises-68.csv` | 17 |
+| `OKP-P5-Industrie-Energie-68.csv` | 11 |
+| `OKP-P6-B2C-Commerce-68.csv` | 18 |
+
+Chaque ligne porte le mobile, les mots-clés, le poste vérifié et la provenance
+(tâche 000 / ColdCall-Charles / ColdCall-Tyliann / ColdCall-Maël).
+
+**La colonne `secteur` du fichier source était fausse sur 11 fiches** et a été
+reprise à la main : Deyrolle et Murati Merchandising étaient classés en
+« Formation », Aktea et Medecom en « Tech-SaaS », Beau Comme Un Camion en
+« Industrie-Énergie »… Les cas réellement limites (biotech, medtech, financement
+auto, promotion immobilière, gestion de flotte) portent « à confirmer » dans la
+colonne `Note de classement` : 5 fiches.
+
+**P3-Formation ne contient qu'un seul contact.** Cohérent avec le constat fait sur
+les références clients : la formation est le 4ᵉ sujet le plus fréquent de la data
+de prospection et c'est le secteur où l'on est le plus démuni.
+
+**Point de vigilance** : Hello Business (`hellobusiness.agency`) a un domaine en
+`.agency`. Ses mots-clés parlent de prospection commerciale et de closing, pas de
+marketing ni de SEO — ce n'est donc pas un concurrent au sens de la règle, mais la
+fiche mérite un coup d'œil avant l'appel.
+
+**Reste ouvert** : les **9 contacts encore attribués à Tyliann** (2 en P2, 1 en P4,
+1 en P5, 5 en P6) doivent être réattribués, il a quitté la société.
