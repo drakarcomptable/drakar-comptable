@@ -344,3 +344,32 @@ fiche mérite un coup d'œil avant l'appel.
 
 **Reste ouvert** : les **9 contacts encore attribués à Tyliann** (2 en P2, 1 en P4,
 1 en P5, 5 en P6) doivent être réattribués, il a quitté la société.
+
+---
+
+## Règle finance appliquée aux lots d'emailing
+
+Nouvelle règle permanente (§2.7 de `CLAUDE.md`) : en finance, écarter banque
+d'affaires, M&A, capital-investissement, capital-risque et family office pur ;
+garder la gestion de patrimoine et toute boîte tech / SaaS du secteur.
+
+Appliquée aux deux lots. **9 fiches sorties du lot 1**, toutes des cabinets de
+conseil en opérations : Canovia, Sycomore Corporate Finance, Trianon Corporate
+Finance, MGT Partners, LT Capital, La Baume Finance, Euro Latina Finance,
+Aertus Finance, Arlane.
+
+**Gardés volontairement** parce que ce sont des éditeurs de logiciel qui servent
+ce secteur, pas des conseils : Eurostep Digital et PE Cube (plateformes de
+gestion de fonds), Edda (gestion de dealflow). Même logique pour Champeil
+(gestion de portefeuille) et Sydel, qui relèvent de la gestion de patrimoine.
+
+**6 fiches en arbitrage** (`FINANCE-ECARTES-LOT1.csv` / `-LOT2.csv`, colonne
+`Décision`) : Eurallia Finance, Delta Alternative Management, Fin'Up,
+Baseqamper, Gololutic, Arcéane. Elles parlent de levée de fonds ou de
+transmission sans être clairement des banques d'affaires. Elles sont **hors**
+des lots à shooter tant que ce n'est pas tranché.
+
+| Fichier | Avant | Après |
+|---|---|---|
+| `EMAIL-LOT1-1048-PRETS.csv` | 1 062 | **1 048** |
+| `EMAIL-LOT2-815-A-VERIFIER.csv` | 816 | 815 |

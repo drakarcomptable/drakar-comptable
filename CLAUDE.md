@@ -44,6 +44,18 @@ chantier avance, modifier ce fichier et committer.
 5. **FullEnrich** : n'enrichir que `contact.phones`.
 6. Cible de prospection : dirigeants / C-level, sociétés d'environ 3 à 60
    salariés.
+7. **Finance — à écarter** : banque d'affaires, conseil en fusion-acquisition
+   (M&A), capital-investissement / private equity / LBO, capital-risque,
+   family office « pur ». Ces métiers ne recrutent pas par le référencement.
+   **À garder** : la gestion de patrimoine (CGP, gestion privée, courtage,
+   placements, défiscalisation, expertise comptable) **et toute boîte tech du
+   secteur** — éditeur de logiciel, plateforme ou SaaS financier, service
+   financier digitalisé. Celles-là ont un vrai besoin de leads SEO / GEO.
+   Le marqueur qui tranche : *éditeur d'un outil pour le secteur* → garder ;
+   *cabinet qui conseille sur des opérations* → écarter.
+   Exemples arbitrés : Eurostep Digital, PE Cube et Edda (logiciels pour fonds)
+   sont **gardés** ; Canovia, Sycomore Corporate Finance, LT Capital et MGT
+   Partners sont **écartés**.
 
 ---
 
