@@ -26,3 +26,4 @@ dist-ssr
 # Fichier de references clients : liste nominative, garde hors depot
 crm/references/
 crm/okay-prosp/
+crm/emailing/

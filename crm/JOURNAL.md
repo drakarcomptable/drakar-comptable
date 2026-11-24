@@ -373,3 +373,31 @@ des lots à shooter tant que ce n'est pas tranché.
 |---|---|---|
 | `EMAIL-LOT1-1048-PRETS.csv` | 1 062 | **1 048** |
 | `EMAIL-LOT2-815-A-VERIFIER.csv` | 816 | 815 |
+
+---
+
+## Quelle liste produit réellement des transactions
+
+**Mesure sur les 22 transactions créées du 17 au 23 novembre 2026.**
+
+| Liste | Taille | Transactions | Taux |
+|---|---|---|---|
+| **`LISTE-A-TECH-SAAS-B2B` (301)** | 533 | **12** | **2,25 %** |
+| Les 5 autres listes récentes, hors doublons avec la 301 | 1 096 | 3 | 0,27 % |
+| `OKP-P2-Tech-SaaS` (312) | 768 | 0 | 0 % |
+| `OKAY Prosp Nazar` (240) | 4 068 | 0 | 0 % |
+
+**La 301 porte 55 % des transactions de la semaine et convertit 8 fois mieux
+que les autres listes récentes.** Les deux gros stocks n'ont rien produit :
+OKAY Prosp et ses 4 068 contacts ont fait zéro.
+
+Les 7 transactions restantes viennent d'ailleurs : Bsecure et Beapi par mail,
+Damien Féraud via ChatGPT Ads, plus Hyperion, Contours, Micelia et Blitz.
+
+**Réserves** : « transaction créée » = rendez-vous pris, pas affaire signée —
+sur les 12 il y a déjà 3 no-shows. Et une semaine de 22 transactions reste un
+petit échantillon : le chiffre peut bouger nettement la semaine suivante.
+
+**Conséquence pratique** : pour refaire du volume, relancer un scrape du même
+type que la 301 (novembre 2026, mots-clés propres sur chaque fiche) plutôt que
+de puiser dans les anciens stocks.
