@@ -401,3 +401,64 @@ petit échantillon : le chiffre peut bouger nettement la semaine suivante.
 **Conséquence pratique** : pour refaire du volume, relancer un scrape du même
 type que la 301 (novembre 2026, mots-clés propres sur chaque fiche) plutôt que
 de puiser dans les anciens stocks.
+
+---
+
+## Transactions No Show 2024-2025 à rappeler
+
+**Demande** : les transactions encore en phase No Show sur les pipelines
+antérieurs, avec le contact rattaché et son numéro, filtrées par tous les
+critères en vigueur, et en sachant qui est encore en poste.
+
+**Périmètre** : phases `No Show` (`1556262136`, `3127957711`) et `R2 No Show`
+(`1750771918`, `3127957713`) sur les pipelines CA Nazar 2023-2024, 2024-2025 et
+2025-2026. **226 transactions**, 155 sur le pipeline 2025-2026 et 71 sur
+2024-2025. Aucune sur 2023-2024.
+
+### Filtrage
+
+| Écarté | |
+|---|---|
+| e-mail `@fake-linkedin.com` | 17 |
+| concurrent (règle mots-clés) | 9 |
+| pas de numéro de téléphone | 7 |
+| client, ancien client ou concurrent déjà listé | 3 |
+| hors cible (organisme, ESN) | 1 |
+| transaction sans contact rattaché | 14 |
+
+Après dédoublonnage par contact (la transaction la plus récente est conservée) :
+**176 contacts rappelables**.
+
+### Classement
+
+Le rang A reprend le profil qui a réellement converti la semaine du 17 au 23
+novembre sur la liste 301 : infogérance, maintenance informatique,
+cybersécurité, télécom, cloud, développement logiciel sur mesure, transformation
+digitale, formation professionnelle, paie et facturation.
+
+| Rang | Contacts |
+|---|---|
+| **A — profil qui convertit + dirigeant** | 12 |
+| **A — profil qui convertit** | 3 |
+| B — dirigeant, autre secteur | 89 |
+| B — autre | 8 |
+| C — mots-clés manquants dans le CRM | 64 |
+
+Répartition OKP : P4 Services-entreprises 106 · P2 Tech-SaaS 46 ·
+P5 Industrie-Énergie 12 · P3 Formation 8 · P6 B2C-Commerce 4.
+
+### Vérification « encore en poste »
+
+Passe FullEnrich sur le rang A : **15 sur 15 encore en poste**, aucune fiche
+morte. Cohérent avec l'âge des transactions (2025-2026), bien plus récentes que
+la liste A1 où le taux de mortalité était de 24 %.
+
+Deux corrections de données au passage : le domaine réel d'Optimistik est
+`optimistik.com` et non `.fr`, celui de Smart Booster est `smartbooster.io`.
+
+**Reste ouvert** : les rangs B (97) et C (64) n'ont pas eu la passe « encore en
+poste ». Et les 64 du rang C n'ont aucun mot-clé dans HubSpot, donc aucun angle
+d'accroche : il faut les enrichir avant de les appeler.
+
+**Livré** (hors dépôt, fichiers nominatifs) : `NO-SHOW-A-RAPPELER-176.csv` et
+`NO-SHOW-RANG-A-15-VERIFIES.csv`.
