@@ -275,3 +275,63 @@ footer .fadr{font-style:normal;color:var(--dim)}
 @media(prefers-reduced-motion:reduce){
   .anim .rv{opacity:1;transform:none;transition:none}
 }
+
+/* ------------------------------------------------------------------
+   Document commercial : couverture, photos, bande de references.
+   ------------------------------------------------------------------ */
+.couv{background:var(--night);color:#fff;padding-block:clamp(54px,8vw,110px)}
+.couv .couv-logo{width:clamp(54px,6vw,70px);height:auto;margin-bottom:clamp(26px,3vw,38px)}
+.couv .kick{color:var(--acc)}
+.couv h1{color:#fff;font-size:clamp(2.1rem,5vw,3.6rem);max-width:17ch;margin-top:14px}
+.couv .chapo{margin-top:20px;max-width:56ch;font-size:clamp(1.04rem,1.5vw,1.2rem);
+  line-height:1.6;color:var(--on-night);opacity:.92}
+.couv .couv-pied{margin-top:clamp(32px,4vw,52px);font-family:var(--mono);
+  font-size:.7rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--on-night);opacity:.62}
+
+.bphoto{margin:0 0 1.05em;border-radius:14px;overflow:hidden}
+/* une photo de brochure est une bande, pas une pleine page : la source
+   est en portrait (896x1120), on la recadre. Le point de mire est haut,
+   la ou se trouve un visage. */
+.bphoto img{width:100%;display:block;height:clamp(220px,30vw,360px);
+  object-fit:cover;object-position:center 62%}
+@media print{.bphoto img{height:150px}}
+.bphoto figcaption{padding-top:10px;font-size:.88rem;color:var(--steel);line-height:1.5}
+
+.blogos{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
+  gap:clamp(18px,3vw,38px);align-items:center;margin:4px 0 1.05em}
+.blogos img{width:100%;height:auto;max-height:46px;object-fit:contain;
+  filter:grayscale(1);opacity:.62}
+.sombre .blogos img{filter:grayscale(1) invert(1) brightness(2);opacity:.78}
+
+/* ------------------------------------------------------------------
+   Impression. Un document envoye par lien finit souvent en PDF, et les
+   navigateurs n'impriment PAS les fonds par defaut : un bloc sombre
+   deviendrait du blanc sur blanc. On ne force donc pas les fonds, on
+   repasse ces blocs en clair, ce qui fonctionne dans tous les cas.
+   ------------------------------------------------------------------ */
+@media print{
+  .topbar,.cend .btn,.couv .btn,.voisins{display:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  .couv,.bloc.sombre,.cend{background:#fff!important;color:#000!important}
+  .couv h1,.couv .chapo,.bloc.sombre h2,.bloc.sombre p,.bloc.sombre b,
+  .bloc.sombre span,.cend h2,.cend p{color:#000!important;opacity:1}
+  .couv .kick,.bloc.sombre .note,.couv .couv-pied{color:#555!important;opacity:1}
+  .couv{border-bottom:2px solid #000;padding-block:0 28px;margin-bottom:28px}
+  .bloc{box-shadow:none;border:1px solid #ccc;padding:16px 18px;
+    margin-bottom:14px;break-inside:avoid;page-break-inside:avoid}
+  .bloc h2{break-after:avoid;page-break-after:avoid}
+  .et,.et.cle{background:#f3f3f3!important;color:#000!important}
+  .et.cle b,.et.cle span,.et .n{color:#000!important;background:none!important}
+  .et .jauge{display:none}
+  .faq details{box-shadow:none;border:1px solid #ddd;padding:2px 14px}
+  .faq details[open] summary::after,.faq summary::after{display:none}
+  .blogos img{filter:grayscale(1)!important;opacity:.85!important}
+  /* un lien imprime ne sert a rien si son adresse n'apparait pas */
+  .bloc a[href^="http"]::after,.bloc a[href^="/"]::after{
+    content:" (" attr(href) ")";font-size:.82em;color:#555;word-break:break-all}
+  footer{background:#fff!important;color:#000!important;
+    border-top:1px solid #ccc;padding-block:14px}
+  footer a{color:#000!important}
+  @page{margin:16mm 14mm}
+}

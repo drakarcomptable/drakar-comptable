@@ -283,6 +283,14 @@
     {
       "source": "/formation-geo/",
       "destination": "/formation-geo.html"
+    },
+    {
+      "source": "/brochure",
+      "destination": "/brochure.html"
+    },
+    {
+      "source": "/brochure/",
+      "destination": "/brochure.html"
     }
   ],
   "functions": {

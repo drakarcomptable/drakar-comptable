@@ -1636,3 +1636,141 @@ PAGES += [
    'bouton': 'Parler de mon besoin'},
 },
 ]
+
+
+# --------------------------------------------------------------------------
+# Brochure commerciale
+# --------------------------------------------------------------------------
+# Document envoye par lien a un prospect, pas page de referencement. Elle
+# est donc 'prive' : noindex, hors du plan du site et hors du llms.txt.
+# Ce n'est pas un detail, c'est ce qui evite que Google serve a tout le
+# monde un document destine a une personne.
+#
+# Les chiffres repris ici sont ceux du releve publie et de la fiche Google.
+# Les avis sont recopies mot pour mot depuis ceux qui figurent deja sur la
+# page d'accueil. Les logos sont des images sans nom dans le source.
+
+PAGES += [
+{
+ 'slug': 'brochure',
+ 'prive': True,
+ 'cible': {'mot': None, 'volume': 0, 'kd': 'n/a',
+           'notes': 'document commercial envoye par lien : aucune cible, '
+                    'et volontairement exclu du plan du site'},
+ 'fil': 'Brochure',
+ 'titre': 'NAZAR, référencement sur Google et sur les IA génératives',
+ 'desc': 'Présentation de NAZAR : ce que change la recherche par IA, ce que '
+         'nous faisons, nos résultats et comment démarre un accompagnement.',
+ 'kick': 'Présentation',
+ 'h1': 'Vos prochains clients vous cherchent sur les IA',
+ 'chapo': 'NAZAR est un collectif de consultants en référencement. Nous '
+          'relevons ce que les moteurs génératifs répondent sur votre '
+          'marché, et nous faisons entrer votre nom dans la réponse.',
+ 'bouton': 'Réserver un audit gratuit',
+ 'prio': '0.0',
+ 'llms': '',
+ 'couverture': {
+   'kick': 'Présentation',
+   'pied': 'NAZAR · Collectif SEO et GEO · nazar-seo.fr'},
+ 'blocs': [
+   {'note': 'Le constat',
+    'h2': 'La recherche d’achat est en train de changer de porte d’entrée',
+    'tete': 'Une part croissante des recherches d’achat commence désormais '
+            'dans un assistant génératif plutôt que dans un moteur de '
+            'recherche. Et un assistant ne propose pas dix résultats : il '
+            'rédige une réponse et nomme deux ou trois acteurs.',
+    'fin': [
+      'Être absent de cette réponse, ce n’est pas être mal classé. C’est ne '
+      'pas exister pour la personne qui pose la question. Il n’y a ni '
+      'deuxième page, ni dixième place.']},
+
+   ENJEUX,
+
+   {'note': 'Notre métier',
+    'h2': 'Ce que fait NAZAR concrètement',
+    'tete': 'Cinq chantiers, dans cet ordre, parce que chacun conditionne le '
+            'suivant.',
+    'pts': [
+      '<b>Cartographier les questions d’achat.</b> Pas des mots-clés, des '
+      'questions. Celles que vos acheteurs posent réellement avant de vous '
+      'contacter.',
+      '<b>Rendre le site lisible par les modèles.</b> Structure des pages, '
+      'données structurées, fichier llms.txt, accès des robots d’indexation '
+      'des IA.',
+      '<b>Produire le contenu qu’un modèle peut citer.</b> La réponse '
+      'complète dès les premières phrases, les entités nommées '
+      'explicitement, des faits vérifiables.',
+      '<b>Travailler les sources tierces.</b> Un modèle ne cite pas que '
+      'votre site : il reprend ce qui se dit de vous ailleurs. C’est le '
+      'chantier le plus négligé, et souvent le plus déterminant.',
+      '<b>Mesurer chaque semaine.</b> Même corpus de questions, même '
+      'intervalle, pour que le progrès soit opposable et non ressenti.'],
+    'photo': {'src': '/consultant-seo-nazar.jpg',
+              'alt': 'Un consultant NAZAR au travail',
+              'legende': 'Nos consultants interrogent les moteurs devant '
+                         'vous, sur les questions de votre marché.'}},
+
+   {'note': 'La preuve',
+    'sombre': True,
+    'h2': 'Nous mesurons, y compris quand le résultat nous dessert',
+    'tete': 'Le 13 novembre 2026, nous avons posé six questions d’achat à '
+            'quatre moteurs génératifs et compté les agences citées sur '
+            'vingt-quatre réponses. Nous avons publié le relevé entier, '
+            'méthode et limites comprises.',
+    'corps': [
+      'Dix-neuf domaines y figurent. NAZAR n’en fait pas partie, et nous '
+      'l’écrivons sur notre propre site. Un classement dont l’auteur sort '
+      'premier ne vaut rien, et nous demandons à nos clients d’accepter le '
+      'même traitement : un relevé se lit tel qu’il sort.',
+      'C’est exactement la mesure que nous appliquons à votre marché, et '
+      'c’est ce qui distingue un accompagnement d’une promesse.']},
+
+   {'note': 'Ils en parlent',
+    'h2': 'Ce que disent nos clients',
+    'tete': 'Avis publics, repris mot pour mot. Note de 4,9 sur 36 avis sur '
+            'notre fiche Google.',
+    'pts': [
+      '<b>Keita Isaac, directeur commercial et marketing.</b> « Merci '
+      'beaucoup à l’équipe de Nazar pour avoir apporté une assistance et un '
+      'savoir-faire de pointe dans le cadre de l’intégration de notre '
+      'nouvelle marque au catalogue, ainsi que pour la formation de nos '
+      'équipes au référencement IA. »',
+      '<b>Sylvain Paycieux, co-fondateur.</b> « Non seulement ils ont su '
+      'optimiser la visibilité de notre site, mais ils ont aussi su '
+      's’adapter à notre secteur pour créer du contenu qualitatif qui nous a '
+      'permis de générer des leads qualifiés. »',
+      '<b>Imane Aitbaady, head of marketing.</b> « Clément est disponible, '
+      'clair dans ses explications et propose des actions concrètes adaptées '
+      'à notre activité. Les backlinks proposés sont de bonne qualité et on '
+      'commence à voir des résultats. »']},
+
+   {'note': 'Références',
+    'h2': 'Ils nous font confiance',
+    'tete': 'NAZAR accompagne plus de 100 entreprises B2B dans leur '
+            'positionnement sur Google et sur les principales IA.',
+    'logos': ['ref-01.webp', 'ref-02.webp', 'ref-03.webp', 'ref-04.webp',
+              'ref-08.webp', 'ref-09.webp', 'ref-10.webp', 'ref-13.webp']},
+
+   {'note': 'Démarrer',
+    'h2': 'Comment commence un accompagnement',
+    'tete': 'Par un audit gratuit, en visioconférence, sans préparation de '
+            'votre côté.',
+    'ol': [
+      'Vous choisissez un créneau. Le rendez-vous dure trente minutes, '
+      'l’audit lui-même en prend neuf : le reste est là pour vos questions.',
+      'Un consultant interroge les moteurs en direct, devant vous, sur les '
+      'questions que posent vos acheteurs.',
+      'Vous repartez avec le relevé, les concurrents cités nommément et une '
+      'feuille de route. Sans engagement, et sans obligation de travailler '
+      'avec NAZAR ensuite.'],
+    'fin': [
+      'Le périmètre d’un accompagnement se décide après cet audit, jamais '
+      'avant : un marché où trois acteurs sont déjà cités partout ne demande '
+      'pas le même travail qu’un marché où les modèles hésitent encore.']},
+ ],
+ 'cend': {
+   'h2': 'Voyons ce que les IA répondent sur votre marché',
+   'p': 'contact@seo-nazar.fr · +33 7 43 39 25 74 · nazar-seo.fr',
+   'bouton': 'Réserver un audit gratuit'},
+},
+]

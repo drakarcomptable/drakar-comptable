@@ -73,7 +73,8 @@ def tete(p):
          u'<meta name="viewport" content="width=device-width,initial-scale=1">',
          u'<title>%s</title>' % p['titre'],
          u'<meta name="description" content="%s">' % p['desc'],
-         u'<meta name="robots" content="index,follow">',
+         u'<meta name="robots" content="%s">'
+         % ('noindex,follow' if p.get('prive') else 'index,follow'),
          u'<link rel="canonical" href="%s">' % url,
          u'<meta property="og:type" content="website">',
          u'<meta property="og:title" content="%s">' % p['titre'],
@@ -137,6 +138,18 @@ def entete(p):
     return L
 
 
+def couverture(p):
+    c = p['couverture']
+    L = [u'<header class="couv"><div class="rail">',
+         u'<img class="couv-logo" src="/logo.png" width="64" height="64" alt="NAZAR">',
+         u'<span class="kick">%s</span>' % c['kick'],
+         u'<h1>%s</h1>' % p['h1'],
+         u'<p class="chapo">%s</p>' % p['chapo'],
+         u'<p class="couv-pied">%s</p>' % c['pied'],
+         u'</div></header>']
+    return L
+
+
 def corps(p):
     L = [u'<main class="cbody"><div class="rail">']
     for b in p['blocs']:
@@ -165,6 +178,20 @@ def corps(p):
                     L.append(u'<span class="ici">%s</span>' % e['ici'])
                 L.append(u'</div><div class="jauge"><i style="width:%s"></i></div>'
                          u'</div>' % e['part'])
+            L.append(u'</div>')
+        if b.get('photo'):
+            ph = b['photo']
+            L.append(u'<figure class="bphoto"><img src="%s" alt="%s" '
+                     u'loading="lazy" decoding="async">%s</figure>'
+                     % (ph['src'], ph.get('alt', ''),
+                        (u'<figcaption>%s</figcaption>' % ph['legende'])
+                        if ph.get('legende') else u''))
+        if b.get('logos'):
+            # les visuels portent un en-tete noindex (voir vercel.json) et
+            # aucun nom de client n'apparait dans le source
+            L.append(u'<div class="blogos">')
+            L += [u'<img src="/%s" alt="" loading="lazy" decoding="async">' % f
+                  for f in b['logos']]
             L.append(u'</div>')
         if b.get('tableau'):
             t = b['tableau']
@@ -293,7 +320,8 @@ def donnees(p):
 
 
 def page(p):
-    L = tete(p) + barre() + entete(p) + corps(p) + fin(p) + pied() + donnees(p)
+    haut = couverture(p) if p.get('couverture') else barre() + entete(p)
+    L = tete(p) + haut + corps(p) + fin(p) + pied() + donnees(p)
     L += [u'</body>', u'</html>']
     return u'\n'.join(L) + u'\n'
 
@@ -307,7 +335,8 @@ def plan(jour):
     entrees = [('', '1.0', u'NAZAR SEO & GEO',
                 u'Collectif de consultants en référencement sur Google et sur '
                 u'les IA génératives. Audit GEO gratuit en 9 minutes.')]
-    entrees += [(adr(p), p['prio'], p['fil'], p['llms']) for p in PAGES]
+    entrees += [(adr(p), p['prio'], p['fil'], p['llms'])
+                for p in PAGES if not p.get('prive')]
 
     x = [u'<?xml version="1.0" encoding="UTF-8"?>',
          u'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
