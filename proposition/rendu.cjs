@@ -538,6 +538,15 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
     <style>${STYLE}</style></head><body>${pages(cap)}</body></html>`;
   const page = await nav.newPage({ viewport: { width: L, height: H } });
   await page.goto('http://127.0.0.1:8793/__vide', { waitUntil: 'domcontentloaded' }).catch(() => {});
+  // Ce qui n'arrive pas a se charger explique souvent un rendu rate :
+  // une police absente, une image hors du conteneur.
+  const manque = [];
+  page.on('requestfailed', r => manque.push(r.url() + ' : ' +
+    (r.failure() && r.failure().errorText)));
+  page.on('response', r => { if (r.status() >= 400) manque.push(r.url() + ' : ' + r.status()); });
+  page.on('pageerror', e => manque.push('erreur dans la page : ' + e.message));
+  page.on('crash', () => manque.push('la page a plante (memoire ?)'));
+
   await page.setContent(html, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   // Les reperes sont donnes en pourcentage de l'IMAGE. Le cadre, lui, a le
@@ -560,8 +569,26 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
       b.style.height = (h * q('h') / 100) + 'px';
     });
   });
-  await page.pdf({ path: path.join(SORTIE, p.slug + '.pdf'),
-                   width: L + 'px', height: H + 'px', printBackground: true });
+  try {
+    await page.pdf({ path: path.join(SORTIE, p.slug + '.pdf'),
+                     width: L + 'px', height: H + 'px', printBackground: true });
+  } catch (e) {
+    // Un echec ici est presque toujours une page tuee faute de memoire.
+    // On le dit, avec de quoi trancher, plutot que de sortir en silence.
+    const m = process.memoryUsage();
+    console.error('Impression du PDF impossible : ' + e.message);
+    console.error('memoire node : rss %d Mo, tas %d Mo',
+      Math.round(m.rss / 1048576), Math.round(m.heapUsed / 1048576));
+    if (manque.length) {
+      console.error('ressources en echec (%d) :', manque.length);
+      manque.slice(0, 12).forEach(x => console.error('  ' + x));
+    }
+    throw e;
+  }
+  if (manque.length) {
+    console.log('  ressources en echec : ' + manque.length);
+    manque.slice(0, 6).forEach(x => console.log('    ' + x));
+  }
   await page.close();
   srv.close();
   await nav.close();
