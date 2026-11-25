@@ -659,3 +659,48 @@ HubSpot et 51 une description, de quoi recouper le résultat de l'outil.
 rend le résultat, je le fusionne sur le `Record ID contact` et je régénère les
 trois listes avec un classement fondé sur la donnée réelle plutôt que sur le
 secteur HubSpot.
+
+---
+
+## No Show : fusion des mots-clés de l'outil de Brice
+
+Fichier reçu : `A-ENRICHIR-MOTS-CLES-56_enriched.csv`, clé de fusion `Record ID`.
+
+**48 mots-clés sur 56 exploitables.** Les 8 autres sont des artefacts de
+l'outil, pas des mots-clés : « vos services » (One Lease), « traductions »
+(Weedoohub, Delbert), « documentation technique GA4 » (Bio-Meca, FnB Crew),
+« Cependant, références de produits » (UKB), « Cependant, selon les règles
+strictes énoncées » (Cantoo), « solutions numériques » (Robinswood). Traités
+comme vides.
+
+À repérer sur les prochains passages : quand l'outil ne trouve rien, il rend
+une bribe de la page au lieu de rendre vide. Filtrer sur ces motifs.
+
+### Reclassement sur les mots-clés réels
+
+| Degré | Avant (secteur HubSpot) | Après (mots-clés) |
+|---|---|---|
+| **P1** | 71 | **75** |
+| **P2** | 28 | **33** |
+| **P3** | 49 | **40** |
+
+Le classement repose maintenant sur les mots-clés pour **141 des 148** fiches,
+contre 57 avant. Seules 8 restent sans mots-clés exploitables.
+
+**Coopeo et Bouture**, les deux cas douteux signalés — classés P1 sur le seul
+secteur HubSpot alors que leurs mots-clés parlaient de boulangerie et de
+paysagisme — sont désormais tranchés par leurs mots-clés réels.
+
+### Livré
+
+| Fichier | |
+|---|---|
+| `NO-SHOW-P1-75.csv` | à appeler en premier |
+| `NO-SHOW-P2-33.csv` | services B2B, ni tech ni secteur froid |
+| `NO-SHOW-P3-40.csv` | finance, énergie, construction, B2C |
+| `MOTS-CLES-TOUJOURS-MANQUANTS-8.csv` | les 8 artefacts |
+| `IMPORT-HUBSPOT-MOTS-CLES-48.csv` | `Record ID` + `Notes sur l'inscription`, à réimporter dans HubSpot |
+
+**Important** : les 48 mots-clés ne sont pour l'instant que dans ces fichiers.
+Tant que l'import HubSpot n'est pas fait, le CRM reste vide sur ces fiches et le
+prochain export repartira de zéro.
