@@ -3,15 +3,69 @@
   "url": "https://www.bsecure.fr/",
   "marche": "B2B",
   "exemple": true,
-  "taux_contact": 0.005,
+  "taux_contact": 0.004,
   "agenda": "https://nazar-seo.fr/audit-gratuit",
   "requetes": [
-    { "mot": "test d’intrusion entreprise", "volume": 480, "intention": "Transactionnelle" },
-    { "mot": "audit cybersécurité entreprise", "volume": 390, "intention": "Commerciale" },
-    { "mot": "prestataire pentest", "volume": 320, "intention": "Transactionnelle" },
-    { "mot": "mise en conformité RGPD", "volume": 260, "intention": "Résolution" },
-    { "mot": "audit de code sécurité", "volume": 170, "intention": "Informationnelle" },
-    { "mot": "red team entreprise", "volume": 140, "intention": "Commerciale" },
-    { "mot": "sécurisation système d’information", "volume": 110, "intention": "Création" }
+    {
+      "mot": "test d’intrusion entreprise",
+      "volume": 480,
+      "intention": "Transactionnelle"
+    },
+    {
+      "mot": "audit cybersécurité entreprise",
+      "volume": 390,
+      "intention": "Commerciale"
+    },
+    {
+      "mot": "prestataire pentest",
+      "volume": 320,
+      "intention": "Transactionnelle"
+    },
+    {
+      "mot": "mise en conformité RGPD",
+      "volume": 260,
+      "intention": "Résolution"
+    },
+    {
+      "mot": "audit de code sécurité",
+      "volume": 170,
+      "intention": "Informationnelle"
+    },
+    {
+      "mot": "red team entreprise",
+      "volume": 140,
+      "intention": "Commerciale"
+    },
+    {
+      "mot": "sécurisation système d’information",
+      "volume": 110,
+      "intention": "Création"
+    }
+  ],
+  "annotations": [
+    {
+      "x": 34,
+      "y": 10,
+      "w": 26,
+      "h": 5,
+      "cote": "droite",
+      "texte": "Menu générique : aucune page ne cible une requête"
+    },
+    {
+      "x": 19,
+      "y": 24,
+      "w": 34,
+      "h": 19,
+      "cote": "droite",
+      "texte": "Titre sans requête : ni « pentest » ni « audit cybersécurité »"
+    },
+    {
+      "x": 30,
+      "y": 70,
+      "w": 39,
+      "h": 13,
+      "cote": "gauche",
+      "texte": "Chiffres forts, mais aucune donnée structurée à citer"
+    }
   ]
 }

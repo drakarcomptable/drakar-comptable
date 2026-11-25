@@ -32,27 +32,35 @@ const esc = s => String(s).replace(/[&<>"]/g, c =>
 /* Les quatre references affichees en bas de la page 3. Le texte decrit
    le secteur, jamais le client ; le logo est une image. */
 const EQUIPE_NAZAR = [
-  { ph: 'mael.jpg',     nom: 'Maël',     ro: 'Consultant senior SEO & GEO' },
-  { ph: 'clement.jpg',  nom: 'Clément',  ro: 'Lead consultant SEO & GEO' },
-  { ph: 'francois.jpg', nom: 'François', ro: '20 ans d’acquisition de trafic' },
-  { ph: 'florian.jpg',  nom: 'Florian',  ro: 'Consultant SEO & GEO' },
+  { ph: 'mael.jpg',    nom: 'Maël',    ro: 'Consultant senior',
+    an: '+ 12 ans d’expérience', ex: 'ex-Sanofi' },
+  { ph: 'clement.jpg', nom: 'Clément', ro: 'Consultant senior',
+    an: '+ 15 ans d’expérience', ex: 'ex-Yateo' },
+  { ph: 'francois.jpg', nom: 'François', ro: 'Consultant senior',
+    an: '+ 15 ans d’expérience', ex: 'ex-Welcome to the Jungle' },
+  // La photo de Celine n'est pas encore dans proposition/equipe/. Tant
+  // qu'elle manque, on montre Florian plutot qu'un trou : la proposition
+  // reste envoyable, et la console dit quoi deposer.
+  { ph: 'celine.jpg',  nom: 'Céline',  ro: 'Consultante senior',
+    an: '+ 11 ans d’expérience', ex: 'ex-Canal+',
+    repli: { ph: 'florian.jpg', nom: 'Florian', ro: 'Consultant senior',
+             an: '+ 8 ans d’expérience', ex: 'SEO & GEO' } },
 ];
 
 const CHIFFRES = [
-  { n: '+ de 80', q: 'entreprises accompagnées' },
-  { n: '+ 1 265', q: 'rendez-vous B2B générés' },
-  { n: '97 %',    q: 'de satisfaction client' },
-  { n: '+ de 150', q: 'sites optimisés' },
+  { n: '+ de 4 ans', q: 'd’existence' },
+  { n: '10 ans',     q: 'd’expérience en interne' },
+  { n: '+ de 80',    q: 'clients accompagnés' },
 ];
 
 const CAS = [
-  { kd: 'B2C local',  lg: 'cas-logo-01.webp', ti: '+192 %',
+  { kd: 'B2C local',  lg: 'cas-logo-01.webp', ph: 'cas-01.webp', ti: '+192 %',
     sb: 'de leads issus du SEO pour un chasseur immobilier parisien, passé premier sur sa requête principale.' },
-  { kd: 'Agence',     lg: 'cas-logo-02.svg',  ti: 'Top 1', clair: true,
+  { kd: 'Agence',     lg: 'cas-logo-02.svg',  ph: 'cas-02.webp', ti: 'Top 1',
     sb: 'sur « agence powerpoint », repris en un mois de mission et tenu depuis un an.' },
-  { kd: 'IoT B2B',    lg: 'cas-logo-03.webp', ti: '9 RDV',
+  { kd: 'IoT B2B',    lg: 'cas-logo-03.webp', ph: 'cas-03.webp', ti: '9 RDV', plaque: true,
     sb: 'générés chaque mois en moyenne, sur des paniers moyens à 32 000 €.' },
-  { kd: 'E-commerce', lg: 'cas-logo-04.webp', ti: '1 M', clair: true,
+  { kd: 'E-commerce', lg: 'cas-logo-04.webp', ph: 'cas-04.webp', ti: '1 M',
     sb: 'de visites annuelles issues du SEO, sur le marché français de la sneaker.' },
 ];
 
@@ -103,6 +111,18 @@ function pages(cap) {
   const qui = p.marche === 'B2C' ? 'De potentiels consommateurs'
                                  : 'Des professionnels';
   const marque = p.exemple ? '<div class="exemple">Données d’exemple</div>' : '';
+  // Une fiche dont la photo n'est pas encore deposee bascule sur son repli :
+  // la proposition reste envoyable, et la console dit quoi fournir.
+  const equipe = EQUIPE_NAZAR.map(m => {
+    if (fs.existsSync(path.join(EQUIPE, m.ph))) return m;
+    if (m.repli) {
+      console.log('  photo absente : equipe/' + m.ph + ', ' + m.repli.nom +
+                  ' affiche a la place');
+      return m.repli;
+    }
+    console.log('  photo absente : equipe/' + m.ph);
+    return m;
+  });
   const avecDiag = !!(p.annotations && p.annotations.length && (analyse || cap.ok));
   const total = avecDiag ? 5 : 4;
   const pied = n => `<div class="pied"><span>NAZAR × ${esc(p.entreprise)}</span>
@@ -134,10 +154,16 @@ function pages(cap) {
     </tr>`).join('');
 
   const cartes = CAS.map(c => `<article class="cas">
-      <span class="kd">${esc(c.kd)}</span>
-      <span class="plaque${c.clair ? ' sombre' : ''}"><img src="/${c.lg}" alt=""></span>
-      <b>${esc(c.ti)}</b>
-      <span class="sb">${esc(c.sb)}</span>
+      <div class="vis">
+        <img class="ph" src="/${c.ph}" alt="">
+        <span class="veil"></span>
+        <span class="kd">${esc(c.kd)}</span>
+        <span class="clg"><img class="${c.plaque ? 'plaque' : ''}" src="/${c.lg}" alt=""></span>
+      </div>
+      <div class="bd">
+        <b>${esc(c.ti)}</b>
+        <span class="sb">${esc(c.sb)}</span>
+      </div>
     </article>`).join('');
 
   const logos = (p.logos || ['ref-01.webp','ref-02.webp','ref-03.webp','ref-04.webp',
@@ -150,7 +176,7 @@ function pages(cap) {
   <div class="fond">${cap.ok ? '<img src="/__capture" alt="">' : '<div class="vide"></div>'}</div>
   <div class="txt">
     <img class="lg" src="/logo.png" alt="">
-    <h1>Proposition<br>d’audit GEO<br><span class="acc">pour ${esc(p.entreprise)}</span></h1>
+    <h1>Proposition d’audit<br>GEO gratuit<br><span class="acc">pour ${esc(p.entreprise)}</span></h1>
   </div>
   ${pied(1)}
 </section>
@@ -173,7 +199,8 @@ function pages(cap) {
       ? 'Volumes donnés à titre d’illustration, à remplacer par le relevé réel avant envoi.'
       : 'Ceci est un extrait de la vraie data sur votre marché.'}</p>
   </div>
-  <p class="concl">Cela pourrait générer entre <b>${e.bas} et ${e.haut} leads par mois</b>
+  <p class="concl">En ajoutant les taux de conversion GEO, cela pourrait généralement
+    vous générer entre <b>${e.bas} et ${e.haut} leads par mois</b>
     chez ${esc(p.entreprise)}.<span class="hyp">${ech(e.volume)} recherches mensuelles,
     à un taux de prise de contact de ${String(e.taux * 100).replace('.', ',')} %.
     Hypothèse de travail : c’est ce que l’audit sert à établir.</span></p>
@@ -187,18 +214,21 @@ ${diag}
   <h2 class="q">Qui sommes-nous ?</h2>
   <p class="rep">NAZAR est un collectif spécialisé en
     <b>référencement sur les IA.</b></p>
-  <div class="gens">${EQUIPE_NAZAR.map(m => `
+  <div class="gens">${equipe.map(m => `
     <figure class="g">
       <img src="/equipe/${m.ph}" alt="">
-      <figcaption><b>${esc(m.nom)}</b><span>${esc(m.ro)}</span></figcaption>
+      <figcaption>
+        <b>${esc(m.nom)}</b>
+        <span class="ro">${esc(m.ro)}</span>
+        <span class="an">${esc(m.an)}</span>
+        <span class="ex">${esc(m.ex)}</span>
+      </figcaption>
     </figure>`).join('')}
-    <p class="anciens">Anciens consultants chez
-      <b>Welcome to the Jungle</b>, <b>Sanofi</b> et <b>Canal+</b>.</p>
+    <div class="trio">${CHIFFRES.map(c => `
+      <div class="st"><b>${esc(c.n)}</b><span>${esc(c.q)}</span></div>`).join('')}
+    </div>
   </div>
-  <div class="quatre">${CHIFFRES.map(c => `
-    <div class="st"><b>${esc(c.n)}</b><span>${esc(c.q)}</span></div>`).join('')}
-  </div>
-  <p class="kick kick-cas">Nous sommes fiers d’avoir contribué à ces projets</p>
+  <p class="rep rep-cas">Quelques résultats <b>obtenus pour nos clients.</b></p>
   <div class="cas-grille">${cartes}</div>
   ${pied(total - 1)}
 </section>
@@ -216,9 +246,9 @@ ${diag}
       </a>
     </span>
     <div class="dit">
-      <p><b>Je m’appelle Maël Gallais.</b> Ça fait plus de 10 ans que je fais
-        du SEO et du GEO. Je travaille autant avec des grands groupes qu’avec
-        des TPE et des PME que j’accompagne au quotidien.</p>
+      <p><b>Je suis Maël Gallais, cofondateur de NAZAR SEO.</b> Ça fait 12 ans
+        que je fais du SEO et du GEO. Je travaille autant avec des grands groupes
+        qu’avec des TPE et des PME que j’accompagne au quotidien.</p>
       <p>Pendant ces 9 minutes, je vous demanderai <b>qui sont vos
         concurrents</b>, <b>quelle est votre cible</b> et <b>quel est votre
         panier moyen</b>. C’est ce qui me permet de calculer votre retour sur
@@ -226,7 +256,7 @@ ${diag}
       <span class="sign">${esc(p.nazar.mail)} · ${esc(p.nazar.tel)}</span>
     </div>
   </div>
-  <p class="kick kick-logos">Les entreprises que nous accompagnons</p>
+  <p class="rep rep-logos">Les entreprises <b>que nous accompagnons.</b></p>
   <div class="logos">${logos}</div>
   ${pied(total)}
 </section>`;
@@ -264,10 +294,9 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 /* 1 */
 .couv{background:#00212c;color:#fff;padding:0;display:block}
 .couv .fond{position:absolute;inset:0}
-.couv .fond img{width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.62}
-.couv .fond .vide{width:100%;height:100%;background:linear-gradient(135deg,#0a3544,#052b38)}
-.couv::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(100deg,#00212c 46%,rgba(0,33,44,.9) 61%,rgba(0,33,44,.3) 100%)}
+.couv .fond img{width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.24}
+.couv .fond .vide{width:100%;height:100%;background:#0a3544}
+.couv::after{content:"";position:absolute;inset:0;background:rgba(0,33,44,.72)}
 .couv .txt{position:absolute;inset:0;z-index:2;padding:58px 70px;
   display:flex;flex-direction:column;justify-content:center}
 .couv .lg{width:56px;margin-bottom:38px}
@@ -285,41 +314,46 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .tab table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 .tab th{background:#1c5570;color:#fff;font-size:10.5px;font-weight:800;
   letter-spacing:.05em;text-transform:uppercase;text-align:left;padding:9px 22px}
-.tab td{padding:9px 22px;border-bottom:1px solid #eaf4f8;color:#0e4e62;font-weight:600}
+.tab td{padding:7px 22px;border-bottom:1px solid #eaf4f8;color:#0e4e62;font-weight:600}
 .tab tbody tr:nth-child(even) td{background:#f6fbfd}
 .tab .ast{color:#e01b24;font-size:15px;font-weight:800}
 .extrait{display:flex;align-items:center;gap:8px;background:#fff4f3;
-  border-top:1px solid #f3cdc8;padding:10px 22px;font-size:12.5px;
-  font-weight:600;color:#9c2b1c}
+  border-top:1px solid #f3cdc8;padding:8px 22px;font-size:12px;
+  font-weight:600;color:#9c2b1c;flex:none}
 .extrait b{color:#e01b24;font-size:16px}
 .tab .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tab td.i{font-weight:800}
 .i-commerciale{color:#1b63c4}.i-transactionnelle{color:#108a7a}
 .i-informationnelle{color:#7a4bc4}.i-resolution{color:#c2681a}
 .i-creation{color:#1f8a3b}.i-personnalisation{color:#c2186b}
-.concl{margin-top:auto;font-size:20px;line-height:1.4;color:#004358}
+.concl{margin-top:auto;padding-top:16px;font-size:19px;line-height:1.4;color:#004358}
 .concl b{font-weight:800}
 .concl .hyp{display:block;margin-top:9px;font-size:11.5px;line-height:1.6;color:#6d93a1}
 
 /* 3 */
-.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
-.st{background:#0a3544;border-radius:13px;padding:19px 20px}
-.st b{display:block;font-size:25px;font-weight:800;letter-spacing:-.03em;color:#7fd8ee}
-.st span{display:block;margin-top:5px;font-size:12.5px;color:#dff2f9;opacity:.74}
+
 .anciens{font-size:16px;color:#dff2f9;opacity:.9}
 .anciens b{color:#fff;font-weight:800}
 .kick-cas{padding-top:22px}
 .cas-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:11px}
-.cas{background:#0a3544;border-radius:13px;padding:15px 15px 17px;
-  display:flex;flex-direction:column;gap:7px}
-.cas .kd{font-family:'MO',monospace;font-size:8px;letter-spacing:.14em;
-  text-transform:uppercase;color:#7fd8ee}
-.cas .plaque{background:#fff;border-radius:6px;padding:5px 8px;
-  align-self:flex-start;display:flex;margin:1px 0}
-.cas .plaque img{height:17px;width:auto;max-width:128px;object-fit:contain}
-.cas .plaque.sombre{background:#06283a;box-shadow:inset 0 0 0 1px rgba(123,208,230,.22)}
-.cas b{font-size:22px;font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1}
-.cas .sb{font-size:10.5px;line-height:1.45;color:#dff2f9;opacity:.72}
+.cas-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  margin:0;flex:1;min-height:0}
+.cas{background:#fff;border-radius:15px;overflow:hidden;
+  box-shadow:0 26px 54px -38px rgba(0,0,0,.9);display:flex;flex-direction:column}
+.cas .vis{position:relative;flex:1;min-height:0;overflow:hidden;background:#06283a}
+.cas .vis .ph{width:100%;height:100%;object-fit:cover;display:block}
+/* veil en aplat : un degrade sort mal dans certains lecteurs de PDF */
+.cas .veil{position:absolute;inset:0;z-index:1;background:rgba(0,33,44,.68)}
+.cas .kd{position:absolute;top:9px;left:9px;z-index:3;background:#7bd0e6;color:#00212c;
+  border-radius:6px;padding:3px 7px;font-size:8px;font-weight:800;
+  letter-spacing:.05em;text-transform:uppercase}
+.cas .clg{position:absolute;inset:0;z-index:3;display:grid;place-items:center;padding:0 16%}
+.cas .clg img{width:100%;height:auto;max-height:34px;object-fit:contain}
+.cas .clg img.plaque{background:#fff;border-radius:7px;padding:5px 8px;max-height:36px}
+.cas .bd{padding:14px 15px 16px;flex:none}
+.cas b{display:block;font-size:24px;font-weight:800;letter-spacing:-.04em;
+  color:#1c5570;line-height:1;margin-bottom:6px}
+.cas .sb{display:block;font-size:10.5px;line-height:1.45;color:#3e6f80}
 
 /* diagnostic */
 .diag{position:relative;margin-top:24px;border-radius:12px;overflow:hidden;
@@ -339,23 +373,28 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .diag .lab-g{right:calc(100% + 26px)}
 
 /* equipe et chiffres, page qui sommes-nous */
-.gens{display:grid;grid-template-columns:repeat(4,1fr) 1.45fr;gap:16px;
-  align-items:start;margin-top:24px;margin-bottom:auto}
+.gens{display:grid;grid-template-columns:repeat(4,1fr) 1.5fr;gap:16px;
+  align-items:center;margin-top:18px;flex:none}
 .gens .g{margin:0;text-align:center}
-.gens .g img{width:86px;height:86px;border-radius:50%;object-fit:cover;
-  object-position:center 18%;border:2px solid rgba(123,208,230,.5);
-  background:#06283a;display:block;margin:0 auto 9px}
-.gens .g b{display:block;font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
-.gens .g span{display:block;font-size:10.5px;line-height:1.35;color:#9fc6d8}
-.gens .anciens{margin:0;align-self:center;padding-left:18px;font-size:12.5px;
-  line-height:1.6;border-left:1px solid rgba(123,208,230,.28);opacity:1}
+.gens .g img{width:66px;height:66px;border-radius:50%;object-fit:cover;
+  border:2px solid rgba(123,208,230,.5);background:#06283a;display:block;
+  margin:0 auto 8px}
+.gens .g b{display:block;font-size:14px;font-weight:800;color:#fff;margin-bottom:3px}
+.gens .g .ro{display:block;font-size:10px;line-height:1.3;color:#7bd0e6;
+  font-weight:700;letter-spacing:.01em;margin-bottom:3px}
+.gens .g .an{display:block;font-size:10.5px;line-height:1.3;color:#dff2f9}
+.gens .g .ex{display:block;font-size:10.5px;line-height:1.3;color:#9fc6d8}
 
-.quatre{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;
-  margin-top:24px;margin-bottom:auto}
-.quatre .st{background:#0a3544;border-radius:11px;padding:13px 15px}
-.quatre .st b{display:block;font-size:21px;font-weight:800;letter-spacing:-.03em;
-  color:#7bd0e6;line-height:1;margin-bottom:5px}
-.quatre .st span{font-size:10.5px;line-height:1.35;color:#cfe6ef}
+.gens .trio{display:grid;grid-template-columns:1fr;gap:11px;padding-left:20px;
+  border-left:1px solid rgba(123,208,230,.28)}
+.gens .trio .st{background:none;padding:0;border-radius:0}
+.gens .trio .st b{display:block;font-size:19px;font-weight:800;letter-spacing:-.03em;
+  color:#7bd0e6;line-height:1;margin-bottom:3px}
+.gens .trio .st span{display:block;font-size:11px;line-height:1.3;color:#cfe6ef}
+
+/* titre au-dessus des cas : la typo de la page, pas le petit mono */
+.rep-cas{margin-top:22px;margin-bottom:12px;font-size:19px}
+.rep-logos{margin-top:auto;margin-bottom:14px;font-size:17px;text-align:center}
 
 /* bulle de Mael */
 .bulle{display:flex;gap:24px;align-items:flex-start;margin-top:auto;
