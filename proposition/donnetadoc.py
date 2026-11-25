@@ -59,11 +59,32 @@ def _slug(nom):
     return s or 'prospect'
 
 
+def utile(sortie, n=1600):
+    """Garde la partie d'un journal d'erreur qui dit quelque chose.
+
+    Une trace Python se termine par l'appel qui a echoue, pas par la
+    cause : quand un script Node echoue sous gen.py, le vrai message est
+    AVANT la trace. Couper la fin cachait donc l'essentiel.
+    """
+    t = (sortie or '').strip()
+    if len(t) <= n:
+        return t
+    lignes = t.split('\n')
+    # on ecarte la mecanique de subprocess, qui ne renseigne personne
+    bruit = ('Traceback (most recent call last)', 'File "', '    ',
+             'subprocess.CalledProcessError', 'raise CalledProcessError')
+    garde = [l for l in lignes if not l.startswith(bruit)]
+    t2 = '\n'.join(garde).strip()
+    if 40 < len(t2) <= n:
+        return t2
+    return (t2 or t)[:n]
+
+
 def _node(script, *args, timeout=240):
     r = subprocess.run(['node', os.path.join(ICI, script)] + list(args),
                        capture_output=True, text=True, timeout=timeout)
     if r.returncode != 0:
-        raise RuntimeError((r.stderr or r.stdout or '').strip()[-300:] or
+        raise RuntimeError(utile(r.stderr or r.stdout) or
                            'le script a échoué sans rien dire')
     return r.stdout
 
@@ -83,7 +104,7 @@ def _fabrique(ident, p):
     r = subprocess.run([sys.executable, os.path.join(ICI, 'gen.py'), f],
                        capture_output=True, text=True, timeout=300)
     if r.returncode != 0:
-        raise RuntimeError((r.stderr or r.stdout or '').strip()[-400:])
+        raise RuntimeError(utile(r.stderr or r.stdout))
     return os.path.join(SORTIE, p['slug'] + '.pdf'), r.stdout.strip()
 
 
@@ -156,7 +177,7 @@ def _depart(ident, url, captures=None):
              pdf='/pdf/' + os.path.basename(chemin))
     except Exception as e:
         _maj(ident, etat='echec', message='La fabrication a échoué.',
-             detail=str(e)[:400])
+             detail=str(e)[:1600])
 
 
 def reperes_section(sec):
