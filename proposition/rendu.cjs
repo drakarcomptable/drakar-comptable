@@ -16,8 +16,12 @@ const http = require('http');
 
 const ICI = __dirname;
 const SITE = path.join(ICI, '..', 'nazar-site');
+// Les portraits de l'equipe servent a la proposition, pas au site public :
+// ils vivent a cote du generateur et ne partent pas en ligne.
+const EQUIPE = path.join(ICI, 'equipe');
 const SORTIE = path.join(ICI, 'sortie');
 const p = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+let analyse = null;
 const IA = JSON.parse(fs.readFileSync(path.join(ICI, 'logos-ia.json'), 'utf8'));
 
 const L = 1280, H = 720;
@@ -27,19 +31,48 @@ const esc = s => String(s).replace(/[&<>"]/g, c =>
 
 /* Les quatre references affichees en bas de la page 3. Le texte decrit
    le secteur, jamais le client ; le logo est une image. */
+const EQUIPE_NAZAR = [
+  { ph: 'mael.jpg',     nom: 'Maël',     ro: 'Consultant senior SEO & GEO' },
+  { ph: 'clement.jpg',  nom: 'Clément',  ro: 'Lead consultant SEO & GEO' },
+  { ph: 'francois.jpg', nom: 'François', ro: '20 ans d’acquisition de trafic' },
+  { ph: 'florian.jpg',  nom: 'Florian',  ro: 'Consultant SEO & GEO' },
+];
+
+const CHIFFRES = [
+  { n: '+ de 80', q: 'entreprises accompagnées' },
+  { n: '+ 1 265', q: 'rendez-vous B2B générés' },
+  { n: '97 %',    q: 'de satisfaction client' },
+  { n: '+ de 150', q: 'sites optimisés' },
+];
+
 const CAS = [
   { kd: 'B2C local',  lg: 'cas-logo-01.webp', ti: '+192 %',
     sb: 'de leads issus du SEO pour un chasseur immobilier parisien, passé premier sur sa requête principale.' },
-  { kd: 'Agence',     lg: 'cas-logo-02.svg',  ti: 'Top 1',
+  { kd: 'Agence',     lg: 'cas-logo-02.svg',  ti: 'Top 1', clair: true,
     sb: 'sur « agence powerpoint », repris en un mois de mission et tenu depuis un an.' },
   { kd: 'IoT B2B',    lg: 'cas-logo-03.webp', ti: '9 RDV',
     sb: 'générés chaque mois en moyenne, sur des paniers moyens à 32 000 €.' },
-  { kd: 'E-commerce', lg: 'cas-logo-04.webp', ti: '1 M',
+  { kd: 'E-commerce', lg: 'cas-logo-04.webp', ti: '1 M', clair: true,
     sb: 'de visites annuelles issues du SEO, sur le marché français de la sneaker.' },
 ];
 
+function fourni(champ) {
+  if (!p[champ]) return null;
+  const f = path.isAbsolute(p[champ]) ? p[champ] : path.join(ICI, '..', p[champ]);
+  if (!fs.existsSync(f)) {
+    console.log('  image introuvable, ignoree : ' + p[champ]);
+    return null;
+  }
+  return f;
+}
+
 async function capture(nav) {
-  const f = path.join(SORTIE, p.slug + '-site.jpg');
+  // une image deposee a la main l'emporte : c'est la sortie de secours
+  // quand le site refuse la visite automatique
+  const main = fourni('capture_accueil');
+  if (main) return { ok: true, fichier: main, manuel: true };
+
+  const f = path.join(SORTIE, p.slug + '-site.png');
   const c = await nav.newContext({ viewport: { width: 1440, height: 900 },
                                    deviceScaleFactor: 2 });
   const pg = await c.newPage();
@@ -51,7 +84,9 @@ async function capture(nav) {
       if (await b.count()) { await b.first().click({ timeout: 1500 }).catch(() => {}); break; }
     }
     await pg.waitForTimeout(800);
-    await pg.screenshot({ path: f, type: 'jpeg', quality: 86 });
+    // PNG et non JPEG : certains lecteurs rendent un JPEG avec un espace
+    // colorimetrique inattendu, ce qui vire l'image au magenta
+    await pg.screenshot({ path: f, type: 'png' });
     await c.close();
     return { ok: true, fichier: f };
   } catch (e) {
@@ -68,20 +103,22 @@ function pages(cap) {
   const qui = p.marche === 'B2C' ? 'De potentiels consommateurs'
                                  : 'Des professionnels';
   const marque = p.exemple ? '<div class="exemple">Données d’exemple</div>' : '';
-  const total = (p.annotations && p.annotations.length) ? 5 : 4;
+  const avecDiag = !!(p.annotations && p.annotations.length && (analyse || cap.ok));
+  const total = avecDiag ? 5 : 4;
   const pied = n => `<div class="pied"><span>NAZAR × ${esc(p.entreprise)}</span>
     <span>0${n} / 0${total}</span></div>`;
 
-  const diag = (p.annotations && p.annotations.length && cap.ok) ? `
+  const src = analyse ? '/__analyse' : '/__capture';
+  const diag = avecDiag ? `
 <section class="pg">
   ${marque}
   <h2 class="q">Ce que nous avons vu sur votre site</h2>
   <p class="rep">${p.annotations.length} points qui vous
     <b>coûtent ces recherches.</b></p>
   <div class="diag">
-    <img src="/__capture" alt="">
+    <img src="${src}" alt="">
     ${p.annotations.map((a, i) => `
-      <span class="box" style="left:${a.x}%;top:${a.y}%;width:${a.w}%;height:${a.h}%">
+      <span class="box" data-x="${a.x}" data-y="${a.y}" data-w="${a.w}" data-h="${a.h}">
         <i class="num">${i + 1}</i>
         <i class="fl fl-${a.cote === 'gauche' ? 'g' : 'd'}"></i>
         <i class="lab lab-${a.cote === 'gauche' ? 'g' : 'd'}">${esc(a.texte)}</i>
@@ -98,7 +135,7 @@ function pages(cap) {
 
   const cartes = CAS.map(c => `<article class="cas">
       <span class="kd">${esc(c.kd)}</span>
-      <span class="plaque"><img src="/${c.lg}" alt=""></span>
+      <span class="plaque${c.clair ? ' sombre' : ''}"><img src="/${c.lg}" alt=""></span>
       <b>${esc(c.ti)}</b>
       <span class="sb">${esc(c.sb)}</span>
     </article>`).join('');
@@ -128,10 +165,13 @@ function pages(cap) {
       <span class="tt">Volume de recherche dans les réponses des IA</span>
     </div>
     <table>
-      <thead><tr><th>Mots-clés potentiels à exploiter</th>
+      <thead><tr><th>Mots-clés potentiels à exploiter <b class="ast">*</b></th>
         <th class="n">Vol/mois</th><th>Intention</th></tr></thead>
       <tbody>${lignes}</tbody>
     </table>
+    <p class="extrait"><b>*</b> ${p.exemple
+      ? 'Volumes donnés à titre d’illustration, à remplacer par le relevé réel avant envoi.'
+      : 'Ceci est un extrait de la vraie data sur votre marché.'}</p>
   </div>
   <p class="concl">Cela pourrait générer entre <b>${e.bas} et ${e.haut} leads par mois</b>
     chez ${esc(p.entreprise)}.<span class="hyp">${ech(e.volume)} recherches mensuelles,
@@ -147,13 +187,17 @@ ${diag}
   <h2 class="q">Qui sommes-nous ?</h2>
   <p class="rep">NAZAR est un collectif spécialisé en
     <b>référencement sur les IA.</b></p>
-  <div class="trio">
-    <div class="st"><b>+ de 4 ans</b><span>d’existence</span></div>
-    <div class="st"><b>10 ans</b><span>d’expérience en interne</span></div>
-    <div class="st"><b>+ de 50</b><span>clients accompagnés</span></div>
+  <div class="gens">${EQUIPE_NAZAR.map(m => `
+    <figure class="g">
+      <img src="/equipe/${m.ph}" alt="">
+      <figcaption><b>${esc(m.nom)}</b><span>${esc(m.ro)}</span></figcaption>
+    </figure>`).join('')}
+    <p class="anciens">Anciens consultants chez
+      <b>Welcome to the Jungle</b>, <b>Sanofi</b> et <b>Canal+</b>.</p>
   </div>
-  <p class="anciens">Anciens consultants chez
-    <b>Welcome to the Jungle</b>, <b>Sanofi</b> et <b>Canal+</b>.</p>
+  <div class="quatre">${CHIFFRES.map(c => `
+    <div class="st"><b>${esc(c.n)}</b><span>${esc(c.q)}</span></div>`).join('')}
+  </div>
   <p class="kick kick-cas">Nous sommes fiers d’avoir contribué à ces projets</p>
   <div class="cas-grille">${cartes}</div>
   ${pied(total - 1)}
@@ -161,13 +205,27 @@ ${diag}
 
 <section class="pg">
   ${marque}
-  <h2 class="q big">Pouvons-nous prendre <span class="acc">9 minutes</span><br>
-    pour vous donner l’audit GEO gratuit complet ?</h2>
+  <h2 class="q big">Pouvons-nous prendre <span class="acc">9 minutes</span> pour vous<br>
+    délivrer l’audit GEO gratuit complet ?</h2>
   <a class="cta" href="${esc(p.agenda)}">Réserver un créneau ici</a>
-  <p class="but">Le but sera de vous demander <b>qui sont vos concurrents</b>,
-    <b>votre cible de clients</b> et <b>vos paniers moyens</b>, afin de calculer
-    le retour sur investissement.</p>
-  <p class="coord">${esc(p.nazar.mail)} · ${esc(p.nazar.tel)} · ${esc(p.nazar.site)}</p>
+  <div class="bulle">
+    <span class="tete">
+      <img src="/hote-mael.webp" alt="Maël Gallais">
+      <a class="li" href="${esc(p.nazar.linkedin_mael)}" aria-label="LinkedIn de Maël Gallais">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0a66c2" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13M7.12 20.45H3.55V9h3.57zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0"/></svg>
+      </a>
+    </span>
+    <div class="dit">
+      <p><b>Je m’appelle Maël Gallais.</b> Ça fait plus de 10 ans que je fais
+        du SEO et du GEO. Je travaille autant avec des grands groupes qu’avec
+        des TPE et des PME que j’accompagne au quotidien.</p>
+      <p>Pendant ces 9 minutes, je vous demanderai <b>qui sont vos
+        concurrents</b>, <b>quelle est votre cible</b> et <b>quel est votre
+        panier moyen</b>. C’est ce qui me permet de calculer votre retour sur
+        investissement, et pas seulement de vous montrer des courbes.</p>
+      <span class="sign">${esc(p.nazar.mail)} · ${esc(p.nazar.tel)}</span>
+    </div>
+  </div>
   <p class="kick kick-logos">Les entreprises que nous accompagnons</p>
   <div class="logos">${logos}</div>
   ${pied(total)}
@@ -189,7 +247,7 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .sombre .kick{color:#7fd8ee}
 .q{font-size:40px;line-height:1.08;font-weight:800;letter-spacing:-.034em;color:#004358}
 .sombre .q{color:#fff}
-.q.big{font-size:44px;max-width:21ch}
+.q.big{font-size:44px;max-width:29ch}
 .q .acc{white-space:nowrap}
 .rep{margin-top:16px;font-size:25px;line-height:1.3;font-weight:400;color:#44798a}
 .rep b{color:#004358;font-weight:800}
@@ -229,6 +287,11 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   letter-spacing:.05em;text-transform:uppercase;text-align:left;padding:9px 22px}
 .tab td{padding:9px 22px;border-bottom:1px solid #eaf4f8;color:#0e4e62;font-weight:600}
 .tab tbody tr:nth-child(even) td{background:#f6fbfd}
+.tab .ast{color:#e01b24;font-size:15px;font-weight:800}
+.extrait{display:flex;align-items:center;gap:8px;background:#fff4f3;
+  border-top:1px solid #f3cdc8;padding:10px 22px;font-size:12.5px;
+  font-weight:600;color:#9c2b1c}
+.extrait b{color:#e01b24;font-size:16px}
 .tab .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tab td.i{font-weight:800}
 .i-commerciale{color:#1b63c4}.i-transactionnelle{color:#108a7a}
@@ -243,9 +306,9 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .st{background:#0a3544;border-radius:13px;padding:19px 20px}
 .st b{display:block;font-size:25px;font-weight:800;letter-spacing:-.03em;color:#7fd8ee}
 .st span{display:block;margin-top:5px;font-size:12.5px;color:#dff2f9;opacity:.74}
-.anciens{margin-top:17px;margin-bottom:auto;font-size:16px;color:#dff2f9;opacity:.9}
+.anciens{font-size:16px;color:#dff2f9;opacity:.9}
 .anciens b{color:#fff;font-weight:800}
-.kick-cas{padding-top:4px}
+.kick-cas{padding-top:22px}
 .cas-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:11px}
 .cas{background:#0a3544;border-radius:13px;padding:15px 15px 17px;
   display:flex;flex-direction:column;gap:7px}
@@ -254,13 +317,14 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .cas .plaque{background:#fff;border-radius:6px;padding:5px 8px;
   align-self:flex-start;display:flex;margin:1px 0}
 .cas .plaque img{height:17px;width:auto;max-width:128px;object-fit:contain}
+.cas .plaque.sombre{background:#06283a;box-shadow:inset 0 0 0 1px rgba(123,208,230,.22)}
 .cas b{font-size:22px;font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1}
 .cas .sb{font-size:10.5px;line-height:1.45;color:#dff2f9;opacity:.72}
 
 /* diagnostic */
 .diag{position:relative;margin-top:24px;border-radius:12px;overflow:hidden;
   box-shadow:0 22px 54px -34px rgba(0,67,88,.6);flex:1;min-height:0}
-.diag>img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.diag>img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
 .diag .box{position:absolute;border:2.5px solid #e01b24;border-radius:7px;
   box-shadow:0 0 0 3px rgba(224,27,36,.16)}
 .diag .num{position:absolute;top:-11px;left:-11px;width:22px;height:22px;
@@ -273,6 +337,44 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   padding:6px 11px;border-radius:5px;white-space:nowrap}
 .diag .lab-d{left:calc(100% + 26px)}
 .diag .lab-g{right:calc(100% + 26px)}
+
+/* equipe et chiffres, page qui sommes-nous */
+.gens{display:grid;grid-template-columns:repeat(4,1fr) 1.45fr;gap:16px;
+  align-items:start;margin-top:24px;margin-bottom:auto}
+.gens .g{margin:0;text-align:center}
+.gens .g img{width:86px;height:86px;border-radius:50%;object-fit:cover;
+  object-position:center 18%;border:2px solid rgba(123,208,230,.5);
+  background:#06283a;display:block;margin:0 auto 9px}
+.gens .g b{display:block;font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
+.gens .g span{display:block;font-size:10.5px;line-height:1.35;color:#9fc6d8}
+.gens .anciens{margin:0;align-self:center;padding-left:18px;font-size:12.5px;
+  line-height:1.6;border-left:1px solid rgba(123,208,230,.28);opacity:1}
+
+.quatre{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;
+  margin-top:24px;margin-bottom:auto}
+.quatre .st{background:#0a3544;border-radius:11px;padding:13px 15px}
+.quatre .st b{display:block;font-size:21px;font-weight:800;letter-spacing:-.03em;
+  color:#7bd0e6;line-height:1;margin-bottom:5px}
+.quatre .st span{font-size:10.5px;line-height:1.35;color:#cfe6ef}
+
+/* bulle de Mael */
+.bulle{display:flex;gap:24px;align-items:flex-start;margin-top:auto;
+  margin-bottom:auto;max-width:94ch}
+.bulle .tete{flex:none;display:block;text-align:center}
+.bulle .tete img{width:96px;height:96px;border-radius:50%;object-fit:cover;
+  border:3px solid #fff;box-shadow:0 12px 30px -16px rgba(0,67,88,.6);display:block}
+.bulle .li{display:inline-flex;margin-top:9px}
+.bulle .li svg{width:19px;height:19px;display:block}
+.bulle .dit{position:relative;background:#fff;border-radius:16px;padding:24px 28px;
+  box-shadow:0 20px 48px -34px rgba(0,67,88,.5)}
+.bulle .dit::before{content:"";position:absolute;left:-9px;top:28px;width:18px;
+  height:18px;background:#fff;transform:rotate(45deg)}
+.bulle .dit p{position:relative;font-size:15.5px;line-height:1.65;color:#0e4e62;
+  margin-bottom:11px}
+.bulle .dit p:last-of-type{margin-bottom:0}
+.bulle .dit b{color:#004358;font-weight:800}
+.bulle .sign{display:block;margin-top:13px;padding-top:11px;font-size:12px;
+  color:#44798a;border-top:1px solid rgba(0,67,88,.12)}
 
 /* 4 */
 .cta{display:inline-block;margin-top:30px;background:#00212c;color:#dff2f9;
@@ -290,18 +392,24 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   if (!fs.existsSync(SORTIE)) fs.mkdirSync(SORTIE, { recursive: true });
   const nav = await chromium.launch();
   const cap = await capture(nav);
+  analyse = fourni('capture_analyse');   // affecte la variable du module
   if (!cap.ok) console.log('  capture indisponible : ' + cap.raison);
 
   const TYPES = { '.woff2':'font/woff2', '.png':'image/png', '.webp':'image/webp',
-                  '.svg':'image/svg+xml', '.jpg':'image/jpeg' };
+                  '.svg':'image/svg+xml', '.jpg':'image/jpeg', '.jpeg':'image/jpeg' };
   const srv = http.createServer((req, res) => {
     const nom = decodeURIComponent(req.url.split('?')[0].slice(1));
     if (nom === '__capture' && cap.ok) {
-      res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+      res.writeHead(200, { 'Content-Type': TYPES[path.extname(cap.fichier)] || 'image/png' });
       return fs.createReadStream(cap.fichier).pipe(res);
     }
-    const f = path.join(SITE, nom);
-    if (!f.startsWith(SITE) || !fs.existsSync(f)) { res.writeHead(404); return res.end(); }
+    if (nom === '__analyse' && analyse) {
+      res.writeHead(200, { 'Content-Type': TYPES[path.extname(analyse)] || 'image/png' });
+      return fs.createReadStream(analyse).pipe(res);
+    }
+    const racine = nom.startsWith('equipe/') ? path.dirname(EQUIPE) : SITE;
+    const f = path.join(racine, nom);
+    if (!f.startsWith(racine) || !fs.existsSync(f)) { res.writeHead(404); return res.end(); }
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(f)] || 'application/octet-stream' });
     fs.createReadStream(f).pipe(res);
   }).listen(8793);
@@ -312,6 +420,26 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   await page.goto('http://127.0.0.1:8793/__vide', { waitUntil: 'domcontentloaded' }).catch(() => {});
   await page.setContent(html, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
+  // Les reperes sont donnes en pourcentage de l'IMAGE. Le cadre, lui, a le
+  // rapport de la page. Sans ce recalage ils glisseraient des que la capture
+  // n'a pas exactement le meme rapport que son cadre.
+  await page.evaluate(() => {
+    const d = document.querySelector('.diag');
+    if (!d) return;
+    const im = d.querySelector('img');
+    if (!im || !im.naturalWidth) return;
+    const cw = d.clientWidth, ch = d.clientHeight;
+    const e = Math.min(cw / im.naturalWidth, ch / im.naturalHeight);
+    const w = im.naturalWidth * e, h = im.naturalHeight * e;
+    const gx = (cw - w) / 2, gy = (ch - h) / 2;
+    d.querySelectorAll('.box').forEach(b => {
+      const q = n => parseFloat(b.dataset[n]) || 0;
+      b.style.left = (gx + w * q('x') / 100) + 'px';
+      b.style.top = (gy + h * q('y') / 100) + 'px';
+      b.style.width = (w * q('w') / 100) + 'px';
+      b.style.height = (h * q('h') / 100) + 'px';
+    });
+  });
   await page.pdf({ path: path.join(SORTIE, p.slug + '.pdf'),
                    width: L + 'px', height: H + 'px', printBackground: true });
   await page.close();

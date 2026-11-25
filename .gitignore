@@ -29,3 +29,7 @@ __pycache__/
 
 # Propositions generees : un livrable par prospect, pas du code
 proposition/sortie/
+
+# Captures deposees a la main dans l outil : donnees de prospects,
+# elles ne doivent pas partir dans le depot.
+proposition/depots/

@@ -1,0 +1,31 @@
+{
+  "entreprise": "Etalon",
+  "url": "http://127.0.0.1:8777/index.html",
+  "marche": "B2B",
+  "exemple": true,
+  "capture_analyse": "proposition/essais/etalon.png",
+  "requetes": [
+    {
+      "mot": "etalonnage",
+      "volume": 100
+    }
+  ],
+  "annotations": [
+    {
+      "x": 14,
+      "y": 22,
+      "w": 12,
+      "h": 16,
+      "cote": "droite",
+      "texte": "cible A"
+    },
+    {
+      "x": 64,
+      "y": 52,
+      "w": 12,
+      "h": 16,
+      "cote": "gauche",
+      "texte": "cible B"
+    }
+  ]
+}

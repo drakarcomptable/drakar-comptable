@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proposition d’audit GEO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:#eef7fb;color:#083947;padding:32px 20px 70px}
+.w{max-width:1020px;margin:0 auto}
+h1{font-size:28px;letter-spacing:-.03em;color:#004358;margin-bottom:5px}
+.sous{color:#4c7f91;margin-bottom:26px}
+fieldset{border:0;background:#fff;border-radius:14px;padding:22px 24px;
+  margin-bottom:16px;box-shadow:0 18px 40px -34px rgba(0,67,88,.55)}
+legend{font:600 11px/1 ui-monospace,monospace;letter-spacing:.16em;
+  text-transform:uppercase;color:#2c7f9b;padding:0 0 13px}
+label{display:block;font-size:12.5px;font-weight:600;color:#2c6274;margin-bottom:5px}
+input,select{width:100%;font:15px/1.4 inherit;color:#083947;padding:9px 12px;
+  border:1px solid #c6dfe8;border-radius:9px;background:#fbfeff}
+input:focus,select:focus{outline:2px solid #7bd0e6;outline-offset:-1px;border-color:#7bd0e6}
+.gr{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:2fr 1fr auto}
+.ligne{align-items:end}
+button{font:600 14px/1 inherit;cursor:pointer;border:0;border-radius:9px;
+  padding:11px 16px;background:#004358;color:#fff}
+button:hover{background:#015d79}
+button.sec{background:#dcecf3;color:#0d5165}
+button.sec:hover{background:#c8e2ec}
+button.sup{background:#fae3e0;color:#9c2b1c;padding:11px 13px}
+button.sup:hover{background:#f5cdc8}
+.aide{font-size:12.5px;color:#5d8899;margin:-4px 0 14px}
+.zone{border:2px dashed #a9cfdd;border-radius:12px;background:#f6fcfe;
+  padding:26px 18px;text-align:center;color:#4c7f91;cursor:pointer;
+  transition:background .15s,border-color .15s}
+.zone:hover,.zone.sur{background:#e6f5fb;border-color:#49a6c4}
+.zone b{display:block;color:#0d5165;font-size:14px;margin-bottom:3px}
+.zone small{font-size:12px}
+.apercu{position:relative;margin-top:12px;border-radius:10px;overflow:hidden;
+  box-shadow:0 14px 34px -26px rgba(0,67,88,.6);line-height:0}
+.apercu img{width:100%;display:block}
+.toile{position:absolute;inset:0;cursor:crosshair}
+.rep{position:absolute;border:2px solid #e23b2e;border-radius:4px;
+  background:rgba(226,59,46,.08);pointer-events:none}
+.rep i{position:absolute;top:-10px;left:-10px;width:20px;height:20px;
+  border-radius:50%;background:#e23b2e;color:#fff;font:700 11px/20px sans-serif;
+  text-align:center;font-style:normal}
+.liste{margin-top:12px;display:grid;gap:8px}
+.art{display:grid;grid-template-columns:26px 1fr auto auto;gap:10px;
+  align-items:center;background:#f6fcfe;border:1px solid #d6eaf2;
+  border-radius:9px;padding:8px 11px;font-size:13.5px}
+.art .num{width:22px;height:22px;border-radius:50%;background:#e23b2e;color:#fff;
+  font:700 11px/22px sans-serif;text-align:center}
+.art select{width:auto;font-size:12.5px;padding:5px 8px}
+.pied{display:flex;gap:14px;align-items:center;margin-top:8px}
+.msg{padding:13px 16px;border-radius:10px;font-size:14px;margin-top:16px;display:none}
+.msg.ko{display:block;background:#fae3e0;color:#8f2819}
+.msg.ok{display:block;background:#dff3e6;color:#1d6038}
+.msg pre{margin-top:8px;font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap}
+.msg a{color:inherit;font-weight:700}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Proposition d’audit GEO</h1>
+  <p class="sous">Remplir, déposer les captures, fabriquer le PDF.</p>
+
+  <fieldset>
+    <legend>Le prospect</legend>
+    <div class="gr g2">
+      <div><label for="e">Nom de l’entreprise</label>
+        <input id="e" placeholder="Bsecure"></div>
+      <div><label for="u">Adresse de son site</label>
+        <input id="u" placeholder="https://www.bsecure.fr/"></div>
+      <div><label for="m">Marché</label>
+        <select id="m"><option>B2B</option><option>B2C</option></select></div>
+      <div><label for="t">Taux de prise de contact retenu</label>
+        <select id="t">
+          <option value="0.003">0,3 % (prudent)</option>
+          <option value="0.005" selected>0,5 % (par défaut)</option>
+          <option value="0.008">0,8 %</option>
+          <option value="0.012">1,2 % (marché chaud)</option>
+        </select></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Les requêtes</legend>
+    <p class="aide">Le nombre de demandes par mois imprimé sur la proposition est
+      calculé à partir de ces volumes et du taux ci-dessus. Il n’est jamais saisi
+      à la main.</p>
+    <div class="liste" id="reqs"></div>
+    <div class="pied"><button type="button" class="sec" id="plus">Ajouter une requête</button>
+      <span class="aide" id="tot" style="margin:0"></span></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Capture de la page d’accueil</legend>
+    <p class="aide">Elle habille la couverture. Laissée vide, l’outil tente de
+      photographier le site tout seul.</p>
+    <div class="zone" data-role="accueil"><b>Déposer l’image ici</b>
+      <small>ou cliquer pour choisir un fichier · PNG, JPEG ou WebP</small></div>
+    <div class="apercu" id="ap-accueil" hidden><img alt=""></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Capture à annoter</legend>
+    <p class="aide">Une fois l’image déposée, tracer un rectangle dessus à la
+      souris pour poser un repère rouge, puis écrire ce qui ne va pas.</p>
+    <div class="zone" data-role="analyse"><b>Déposer l’image ici</b>
+      <small>ou cliquer pour choisir un fichier · PNG, JPEG ou WebP</small></div>
+    <div class="apercu" id="ap-analyse" hidden><img alt=""><div class="toile"></div></div>
+    <div class="liste" id="reps"></div>
+  </fieldset>
+
+  <div class="pied">
+    <button type="button" id="go">Fabriquer le PDF</button>
+    <label style="display:flex;gap:7px;align-items:center;margin:0;font-weight:500">
+      <input type="checkbox" id="ex" style="width:auto"> marquer « données d’exemple »
+    </label>
+  </div>
+  <div class="msg" id="msg"></div>
+</div>
+
+<input type="file" id="fichier" accept="image/png,image/jpeg,image/webp" hidden>
+
+<script>
+const $ = s => document.querySelector(s);
+const images = { accueil: null, analyse: null };
+let reperes = [];
+let roleEnCours = null;
+
+/* ---------- requetes ---------- */
+function ligneRequete(mot, vol) {
+  const d = document.createElement('div');
+  d.className = 'gr g3 ligne';
+  d.innerHTML = '<div><label>Requête</label><input class="mot"></div>' +
+    '<div><label>Recherches / mois</label><input class="vol" type="number" min="0" step="10"></div>' +
+    '<button type="button" class="sup">Retirer</button>';
+  d.querySelector('.mot').value = mot || '';
+  d.querySelector('.vol').value = vol == null ? '' : vol;
+  d.querySelector('.sup').onclick = () => { d.remove(); total(); };
+  d.querySelector('.vol').oninput = total;
+  $('#reqs').append(d);
+  total();
+}
+function requetes() {
+  return [...document.querySelectorAll('#reqs .gr')].map(d => ({
+    mot: d.querySelector('.mot').value.trim(),
+    volume: parseInt(d.querySelector('.vol').value, 10) || 0
+  })).filter(r => r.mot);
+}
+function total() {
+  const v = requetes().reduce((s, r) => s + r.volume, 0);
+  $('#tot').textContent = v ? v.toLocaleString('fr-FR') + ' recherches par mois au total' : '';
+}
+$('#plus').onclick = () => ligneRequete();
+ligneRequete(); ligneRequete();
+
+/* ---------- depot des images ---------- */
+function montre(role, url) {
+  const a = $('#ap-' + role);
+  a.hidden = false;
+  a.querySelector('img').src = url;
+  if (role === 'analyse') { reperes = []; dessine(); }
+}
+function lis(role, f) {
+  if (!f) return;
+  if (!/^image\/(png|jpeg|webp)$/.test(f.type))
+    return dis('ko', 'Format non accepté : ' + (f.type || 'inconnu') + '. PNG, JPEG ou WebP.');
+  const l = new FileReader();
+  l.onload = () => { images[role] = l.result; montre(role, l.result); };
+  l.readAsDataURL(f);
+}
+document.querySelectorAll('.zone').forEach(z => {
+  const role = z.dataset.role;
+  z.onclick = () => { roleEnCours = role; $('#fichier').value = ''; $('#fichier').click(); };
+  z.ondragover = e => { e.preventDefault(); z.classList.add('sur'); };
+  z.ondragleave = () => z.classList.remove('sur');
+  z.ondrop = e => {
+    e.preventDefault(); z.classList.remove('sur');
+    lis(role, e.dataTransfer.files[0]);
+  };
+});
+$('#fichier').onchange = e => lis(roleEnCours, e.target.files[0]);
+
+/* ---------- traces rouges ---------- */
+const toile = () => $('#ap-analyse .toile');
+function dessine() {
+  const a = $('#ap-analyse');
+  [...a.querySelectorAll('.rep')].forEach(r => r.remove());
+  reperes.forEach((r, i) => {
+    const d = document.createElement('div');
+    d.className = 'rep';
+    d.style.cssText = `left:${r.x}%;top:${r.y}%;width:${r.w}%;height:${r.h}%`;
+    d.innerHTML = '<i>' + (i + 1) + '</i>';
+    a.append(d);
+  });
+  const l = $('#reps');
+  l.innerHTML = '';
+  reperes.forEach((r, i) => {
+    const d = document.createElement('div');
+    d.className = 'art';
+    d.innerHTML = '<span class="num">' + (i + 1) + '</span>' +
+      '<input class="txt" placeholder="Ce qui ne va pas ici">' +
+      '<select class="cote"><option value="droite">étiquette à droite</option>' +
+      '<option value="gauche">étiquette à gauche</option></select>' +
+      '<button type="button" class="sup">Retirer</button>';
+    const t = d.querySelector('.txt');
+    t.value = r.texte || '';
+    t.oninput = () => { r.texte = t.value; };
+    const c = d.querySelector('.cote');
+    c.value = r.cote;
+    c.onchange = () => { r.cote = c.value; };
+    d.querySelector('.sup').onclick = () => { reperes.splice(i, 1); dessine(); };
+    l.append(d);
+  });
+}
+let debut = null, boite = null;
+document.addEventListener('mousedown', e => {
+  const t = toile();
+  if (!t || !t.contains(e.target)) return;
+  const b = t.getBoundingClientRect();
+  debut = { x: (e.clientX - b.left) / b.width * 100, y: (e.clientY - b.top) / b.height * 100 };
+  boite = document.createElement('div');
+  boite.className = 'rep';
+  $('#ap-analyse').append(boite);
+  e.preventDefault();
+});
+document.addEventListener('mousemove', e => {
+  if (!debut) return;
+  const b = toile().getBoundingClientRect();
+  const x = (e.clientX - b.left) / b.width * 100, y = (e.clientY - b.top) / b.height * 100;
+  boite.style.cssText = `left:${Math.min(x, debut.x)}%;top:${Math.min(y, debut.y)}%;` +
+    `width:${Math.abs(x - debut.x)}%;height:${Math.abs(y - debut.y)}%`;
+});
+document.addEventListener('mouseup', e => {
+  if (!debut) return;
+  const b = toile().getBoundingClientRect();
+  const x = (e.clientX - b.left) / b.width * 100, y = (e.clientY - b.top) / b.height * 100;
+  const r = { x: Math.min(x, debut.x), y: Math.min(y, debut.y),
+              w: Math.abs(x - debut.x), h: Math.abs(y - debut.y),
+              cote: x > 55 ? 'gauche' : 'droite', texte: '' };
+  debut = null; boite.remove(); boite = null;
+  if (r.w < 2 || r.h < 1.5) return dessine();   // simple clic, pas un trace
+  if (reperes.length >= 4) return dis('ko', 'Quatre repères au maximum, sinon la page devient illisible.');
+  reperes.push(r);
+  dessine();
+  const champs = document.querySelectorAll('#reps .txt');
+  champs[champs.length - 1].focus();
+});
+
+/* ---------- fabrication ---------- */
+function dis(genre, texte, detail) {
+  const m = $('#msg');
+  m.className = 'msg ' + genre;
+  m.innerHTML = texte + (detail ? '<pre></pre>' : '');
+  if (detail) m.querySelector('pre').textContent = detail;
+}
+$('#go').onclick = async () => {
+  const rq = requetes();
+  if (!$('#e').value.trim() || !$('#u').value.trim() || !rq.length)
+    return dis('ko', 'Il faut au minimum le nom, l’adresse du site et une requête.');
+  const vides = reperes.filter(r => !r.texte.trim()).length;
+  if (vides) return dis('ko', 'Un repère tracé sans texte ne veut rien dire. Il en reste ' + vides + '.');
+
+  const p = {
+    entreprise: $('#e').value.trim(), url: $('#u').value.trim(),
+    marche: $('#m').value, taux_contact: parseFloat($('#t').value),
+    exemple: $('#ex').checked, requetes: rq, annotations: reperes
+  };
+  if (images.accueil) p.capture_accueil = images.accueil;
+  if (images.analyse) p.capture_analyse = images.analyse;
+
+  $('#go').disabled = true;
+  dis('ok', 'Fabrication en cours…');
+  try {
+    const r = await fetch('/fabrique', { method: 'POST', body: JSON.stringify(p) });
+    const d = await r.json();
+    if (!r.ok) dis('ko', d.erreur || 'Échec.', d.detail);
+    else dis('ok', 'PDF prêt : <a href="' + d.pdf + '" target="_blank">ouvrir</a>', d.journal);
+  } catch (err) {
+    dis('ko', 'L’outil ne répond pas : ' + err.message);
+  }
+  $('#go').disabled = false;
+};
+</script>
+</body>
+</html>

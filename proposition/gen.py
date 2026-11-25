@@ -31,6 +31,7 @@ NAZAR = {
     'mail': 'contact@seo-nazar.fr',
     'tel': '+33 7 43 39 25 74',
     'site': 'nazar-seo.fr',
+    'linkedin_mael': 'https://www.linkedin.com/in/mael-gallais-0b0a031ba/',
 }
 
 
