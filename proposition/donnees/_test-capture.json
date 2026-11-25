@@ -4,7 +4,39 @@
   "marche": "B2B",
   "exemple": true,
   "requetes": [
-    { "mot": "agence geo", "volume": 1600 },
-    { "mot": "audit geo", "volume": 320 }
+    {
+      "mot": "agence geo",
+      "volume": 1600
+    },
+    {
+      "mot": "audit geo",
+      "volume": 320
+    }
+  ],
+  "annotations": [
+    {
+      "x": 6,
+      "y": 22,
+      "w": 34,
+      "h": 13,
+      "cote": "droite",
+      "texte": "Titre non optimisé : aucune requête cible"
+    },
+    {
+      "x": 50,
+      "y": 40,
+      "w": 32,
+      "h": 16,
+      "cote": "gauche",
+      "texte": "Ne répond pas à l’intention de recherche"
+    },
+    {
+      "x": 8,
+      "y": 62,
+      "w": 26,
+      "h": 11,
+      "cote": "droite",
+      "texte": "Aucune donnée structurée exploitable"
+    }
   ]
 }

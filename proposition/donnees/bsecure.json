@@ -6,10 +6,12 @@
   "taux_contact": 0.005,
   "agenda": "https://nazar-seo.fr/audit-gratuit",
   "requetes": [
-    { "mot": "audit cybersécurité entreprise", "volume": 480 },
-    { "mot": "prestataire cybersécurité", "volume": 320 },
-    { "mot": "mise en conformité RGPD", "volume": 390 },
-    { "mot": "test d’intrusion entreprise", "volume": 260 },
-    { "mot": "sécurisation système d’information", "volume": 170 }
+    { "mot": "test d’intrusion entreprise", "volume": 480, "intention": "Transactionnelle" },
+    { "mot": "audit cybersécurité entreprise", "volume": 390, "intention": "Commerciale" },
+    { "mot": "prestataire pentest", "volume": 320, "intention": "Transactionnelle" },
+    { "mot": "mise en conformité RGPD", "volume": 260, "intention": "Résolution" },
+    { "mot": "audit de code sécurité", "volume": 170, "intention": "Informationnelle" },
+    { "mot": "red team entreprise", "volume": 140, "intention": "Commerciale" },
+    { "mot": "sécurisation système d’information", "volume": 110, "intention": "Création" }
   ]
 }
