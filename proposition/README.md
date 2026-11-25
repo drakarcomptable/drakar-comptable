@@ -63,6 +63,26 @@ Il fabrique une proposition a partir d'une image d'etalonnage portant des
 pastilles vertes a des pourcentages connus, puis mesure en pixels si les
 cadres rouges tombent bien dessus.
 
+## Le poids du fichier
+
+Chromium ne recopie pas une image WebP telle quelle dans un PDF : il la
+decode et la re-encode **sans compression**. Les quatre photos de cas
+pesaient 184 Ko en WebP et ressortaient a 3,2 Mo dans le fichier. Un JPEG,
+lui, est recopie tel quel.
+
+`proposition/visuels.cjs` fabrique les copies JPEG allegees utilisees par
+le rendu, dans `proposition/visuels/` :
+
+    node proposition/visuels.cjs
+
+Le rendu prend le visuel allege s'il existe, sinon la source. Deposer une
+photo dans `proposition/equipe/` suffit donc a la voir apparaitre ; la
+passer dans `visuels.cjs` ne fait que l'alleger. A relancer apres avoir
+ajoute ou remplace une photo.
+
+Pour la meme raison, la capture automatique est enregistree en JPEG et pas
+en PNG : une capture de site est une photo.
+
 ## Le nombre de demandes par mois n'est pas un chiffre magique
 
 Il est calcule, jamais saisi a la main :

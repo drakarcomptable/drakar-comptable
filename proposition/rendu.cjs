@@ -19,6 +19,14 @@ const SITE = path.join(ICI, '..', 'nazar-site');
 // Les portraits de l'equipe servent a la proposition, pas au site public :
 // ils vivent a cote du generateur et ne partent pas en ligne.
 const EQUIPE = path.join(ICI, 'equipe');
+// Copies allegees produites par visuels.cjs. Chromium recopie un JPEG tel
+// quel dans le PDF, mais re-encode un WebP sans compression : les quatre
+// photos de cas pesaient 3,2 Mo dans le fichier au lieu de 213 Ko.
+const VISUELS = path.join(ICI, 'visuels');
+// un visuel allege s'il existe, sinon la source : deposer une photo suffit,
+// la passer dans visuels.cjs ne fait que l'alleger.
+const visuel = (nom, secours) =>
+  fs.existsSync(path.join(VISUELS, nom)) ? '/visuels/' + nom : secours;
 const SORTIE = path.join(ICI, 'sortie');
 const p = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 let analyse = null;
@@ -80,7 +88,7 @@ async function capture(nav) {
   const main = fourni('capture_accueil');
   if (main) return { ok: true, fichier: main, manuel: true };
 
-  const f = path.join(SORTIE, p.slug + '-site.png');
+  const f = path.join(SORTIE, p.slug + '-site.jpg');
   const c = await nav.newContext({ viewport: { width: 1440, height: 900 },
                                    deviceScaleFactor: 2 });
   const pg = await c.newPage();
@@ -94,7 +102,7 @@ async function capture(nav) {
     await pg.waitForTimeout(800);
     // PNG et non JPEG : certains lecteurs rendent un JPEG avec un espace
     // colorimetrique inattendu, ce qui vire l'image au magenta
-    await pg.screenshot({ path: f, type: 'png' });
+    await pg.screenshot({ path: f, type: 'jpeg', quality: 86 });
     await c.close();
     return { ok: true, fichier: f };
   } catch (e) {
@@ -155,7 +163,7 @@ function pages(cap) {
 
   const cartes = CAS.map(c => `<article class="cas">
       <div class="vis">
-        <img class="ph" src="/${c.ph}" alt="">
+        <img class="ph" src="${visuel(c.ph.replace('.webp', '.jpg'), '/' + c.ph)}" alt="">
         <span class="veil"></span>
         <span class="kd">${esc(c.kd)}</span>
         <span class="clg"><img class="${c.plaque ? 'plaque' : ''}" src="/${c.lg}" alt=""></span>
@@ -216,7 +224,7 @@ ${diag}
     <b>référencement sur les IA.</b></p>
   <div class="gens">${equipe.map(m => `
     <figure class="g">
-      <img src="/equipe/${m.ph}" alt="">
+      <img src="${visuel(m.ph, '/equipe/' + m.ph)}" alt="">
       <figcaption>
         <b>${esc(m.nom)}</b>
         <span class="ro">${esc(m.ro)}</span>
@@ -446,7 +454,8 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
       res.writeHead(200, { 'Content-Type': TYPES[path.extname(analyse)] || 'image/png' });
       return fs.createReadStream(analyse).pipe(res);
     }
-    const racine = nom.startsWith('equipe/') ? path.dirname(EQUIPE) : SITE;
+    const racine = (nom.startsWith('equipe/') || nom.startsWith('visuels/'))
+      ? path.dirname(EQUIPE) : SITE;
     const f = path.join(racine, nom);
     if (!f.startsWith(racine) || !fs.existsSync(f)) { res.writeHead(404); return res.end(); }
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(f)] || 'application/octet-stream' });
