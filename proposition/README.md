@@ -178,6 +178,22 @@ largeur et contient du texte ; dix au maximum. La page est parcourue de haut
 en bas avant la prise de vue, parce que beaucoup de sites ne chargent leurs
 images qu'au passage du lecteur.
 
+## Savoir si la mise en ligne est passee
+
+`autoDeploy` est a `false` : une mise a jour du depot ne part pas toute
+seule, il faut la declencher. Restait a savoir ce qui tourne reellement,
+et la seule facon etait de fabriquer un document entier pour lire son
+journal.
+
+`/sante` rend maintenant `ok` suivi d'une empreinte des sources :
+
+    curl -s https://donetadoc.onrender.com/sante
+    python3 -c "import sys;sys.path.insert(0,'proposition');import outil;print(outil.empreinte())"
+
+Meme empreinte, le code en ligne est celui du depot. Empreinte
+differente, la mise en ligne n'est pas passee. C'est une requete au lieu
+de deux minutes.
+
 ## Quand ca marche ici et pas en ligne
 
 C'est arrive, et le journal du travail n'en disait rien : couverture

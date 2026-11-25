@@ -18,6 +18,7 @@ import re
 import subprocess
 import sys
 import base64
+import hashlib
 import hmac
 from urllib.parse import quote
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -149,7 +150,8 @@ class Poste(BaseHTTPRequestHandler):
         # L'hebergeur verifie que le service est vivant : il ne peut pas
         # presenter de mot de passe, et cette reponse ne divulgue rien.
         if chemin == '/sante':
-            return self._envoie(200, 'text/plain; charset=utf-8', 'ok')
+            return self._envoie(200, 'text/plain; charset=utf-8',
+                                'ok ' + empreinte())
         if chemin.startswith('/icone-') and chemin.endswith('.png'):
             g = os.path.join(ICI, 'outil', nom_sur(chemin[1:]))
             if os.path.exists(g):
@@ -354,6 +356,33 @@ class Poste(BaseHTTPRequestHandler):
             v['depot'] = os.path.basename(v.pop('fichier'))
         return self._envoie(200, 'application/json',
                             json.dumps({'vues': vues}, ensure_ascii=False))
+
+
+_EMPREINTE = None
+_SOURCES = ('donnetadoc.py', 'sections.cjs', 'rendu.cjs', 'gen.py',
+            'analyse.cjs', 'outil.py', 'outil/donetadoc.html')
+
+
+def empreinte():
+    """Les huit premiers caracteres d'une empreinte des sources.
+
+    « Je ne sais pas si la derniere mise a jour est passee » n'a pas de
+    reponse quand la seule facon de le savoir est de fabriquer un document
+    entier et d'en lire le journal. /sante la donne en une requete : si
+    l'empreinte en ligne est celle du depot, le code est a jour.
+    """
+    global _EMPREINTE
+    if _EMPREINTE is None:
+        h = hashlib.sha256()
+        for nom in _SOURCES:
+            c = os.path.join(ICI, nom)
+            try:
+                with open(c, 'rb') as src:
+                    h.update(src.read())
+            except OSError:
+                h.update(b'absent')
+        _EMPREINTE = h.hexdigest()[:8]
+    return _EMPREINTE
 
 
 class Serveur(ThreadingMixIn, HTTPServer):
