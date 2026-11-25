@@ -179,6 +179,24 @@ function pages(cap) {
     .map(f => `<img src="/${f}" alt="">`).join('');
 
   return `
+${(p.couverture || 'centre') === 'portable' ? `
+<section class="pg couv couv-portable">
+  ${marque}
+  <div class="scene">
+    <div class="portable">
+      <div class="ecran">${cap.ok
+        ? '<img src="/__capture" alt="">'
+        : '<div class="vide"></div>'}</div>
+      <div class="socle"></div>
+    </div>
+  </div>
+  <div class="bandeau">
+    <h1>Proposition d’audit GEO gratuit
+      <span class="acc">pour ${esc(p.entreprise)}</span></h1>
+    <span class="ecusson"><img class="lg" src="/logo.png" alt=""></span>
+  </div>
+  ${pied(1)}
+</section>` : `
 <section class="pg couv couv-${esc(p.couverture || 'centre')}">
   ${marque}
   <div class="fond">${cap.ok ? '<img src="/__capture" alt="">' : '<div class="vide"></div>'}</div>
@@ -189,7 +207,7 @@ function pages(cap) {
     </div>
   </div>
   ${pied(1)}
-</section>
+</section>`}
 
 <section class="pg">
   ${marque}
@@ -322,6 +340,39 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .couv-centre .txt{align-items:center;justify-content:center}
 .couv-centre .plaque-titre{max-width:74%;text-align:center}
 .couv-centre .ecusson{margin-left:auto;margin-right:auto}
+
+/* 1c. le site dans un portable, le titre sur une ligne en bas */
+.couv-portable{background:#071d28;display:block}
+.couv-portable::after{display:none}
+.couv-portable .scene{position:absolute;left:0;right:0;top:0;bottom:126px;
+  display:flex;align-items:center;justify-content:center;padding:30px 70px 16px}
+/* le portable tient entierement dans la scene, socle compris : a 76 % il
+   depassait et le bandeau lui coupait les pieds */
+.couv-portable .portable{width:66%}
+/* l'ecran : un cadre sombre, une encoche de camera, l'image dedans */
+.couv-portable .ecran{background:#17171c;border-radius:13px 13px 3px 3px;
+  padding:15px 15px 17px;position:relative}
+.couv-portable .ecran::before{content:"";position:absolute;top:6px;left:50%;
+  width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#43434d}
+.couv-portable .ecran img{width:100%;display:block;border-radius:3px;
+  aspect-ratio:16/10;object-fit:cover;object-position:top center}
+.couv-portable .ecran .vide{width:100%;aspect-ratio:16/10;border-radius:3px;
+  background:#0a3544}
+/* le socle deborde de chaque cote, comme la base d'un portable */
+.couv-portable .socle{height:14px;margin:0 -9%;background:#202028;
+  border-radius:0 0 11px 11px;position:relative}
+.couv-portable .socle::after{content:"";position:absolute;top:0;left:50%;
+  width:13%;height:5px;margin-left:-6.5%;background:#101016;
+  border-radius:0 0 6px 6px}
+
+.couv-portable .bandeau{position:absolute;left:0;right:0;bottom:0;height:126px;
+  background:#00212c;display:flex;align-items:center;gap:28px;
+  padding:0 70px 30px;z-index:2}
+.couv-portable .bandeau h1{flex:1;font-size:33px;line-height:1.18;
+  letter-spacing:-.03em}
+.couv-portable .bandeau .ecusson{margin:0;flex:none;padding:7px 9px;border-radius:11px}
+.couv-portable .bandeau .lg{width:32px}
+.couv-portable .pied{bottom:12px;color:rgba(223,242,249,.5);border-color:transparent}
 
 /* 1b. un bandeau qui monte du bas jusqu'au quart haut */
 .couv-bande .txt{padding:0;align-items:stretch;justify-content:flex-end}
