@@ -757,9 +757,31 @@ mots-clés avant l'enrichissement. Écartée.
 les règles d'exclusion. L'enrichissement n'est pas qu'un confort de ciblage, il
 est nécessaire pour que les garde-fous fonctionnent.
 
-| Degré | Contacts |
-|---|---|
-| **P1** | **78** |
-| **P2** | 17 |
-| **P3** | 44 |
-| écartés au total | 11 |
+### Dernier tour : les six cas restants
+
+Six fiches que je ne savais pas trancher seul ont été soumises à Brice.
+Sa réponse : **Efficio, Gym Compagnie et Linote hors cible**, le reste garde.
+
+- **Efficio** — conseil en performance / achats, structure solo.
+- **Gym Compagnie** — déjà le faux positif de la règle §2.8 (le terme
+  « bien-être » venait de la description, pas du contact) ; Brice l'écarte sur
+  le fond : c'est bien du bien-être.
+- **Linote** — téléphone simplifié pour seniors, B2C.
+- Gardés en P2 : **Alatis** (dépôt de marques), **Kaba Impact** (RSE,
+  sensibilisation climat), **Capta Prod**.
+
+| Degré | Contacts | dont R2 No Show |
+|---|---|---|
+| **P1** | **78** | 21 |
+| **P2** | 14 | 2 |
+| **P3** | 44 | 10 |
+| écartés au total | 14 | — |
+
+**Livré** : `NO-SHOW-P1-78.csv`, `NO-SHOW-P2-14.csv`, `NO-SHOW-P3-44.csv`,
+`NO-SHOW-ECARTES-14.csv` — 19 colonnes chacun (ID HubSpot, nom, téléphone,
+e-mail, société, site, fonction, effectif, mots-clés, phase, date et ID de la
+transaction, déjà en séquence ou non).
+
+**Reste à faire côté Brice** : importer `IMPORT-HUBSPOT-MOTS-CLES-48.csv` dans
+HubSpot. Les 48 mots-clés récupérés n'existent que dans les fichiers livrés —
+le prochain export repartirait de zéro.
