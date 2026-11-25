@@ -151,9 +151,12 @@ def _depart(ident, url, captures=None):
                                        _slug(nom), timeout=300)
                 vues = json.loads(sortie)
             except Exception as e:
+                # Pas de coupe a 300 caracteres : le releve passe
+                # d'abord et la cause vient en dernier, donc couper par
+                # le debut gardait le preambule et jetait la raison.
                 _maj(ident, etat='pause_images', pct=30,
                      message='Le site n’a pas pu être photographié.',
-                     detail=str(e)[:300],
+                     detail=utile(str(e), 1200),
                      besoin='Déposez deux captures : la page d’accueil, '
                             'et la section à annoter.')
                 return

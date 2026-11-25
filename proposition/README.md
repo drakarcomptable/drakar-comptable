@@ -194,6 +194,29 @@ Meme empreinte, le code en ligne est celui du depot. Empreinte
 differente, la mise en ligne n'est pas passee. C'est une requete au lieu
 de deux minutes.
 
+## Une page vide n'est pas une page
+
+Mesure faite sur chromaction.fr depuis le serveur en ligne :
+
+    reponse : 200 OK, servie par LiteSpeed
+    page servie : «  », 0 caracteres de texte
+    mise en page : 0 blocs mesurables, hauteur 0
+    couverture : PRESQUE VIDE, 8 Ko apres 3 essais
+
+Le site repond, la navigation aboutit, et la page reste sans un
+caractere ni un bloc. Depuis un poste ordinaire le meme site rend 3 253
+caracteres et 107 blocs. La lecture du site par `analyse.cjs` passe dans
+les deux cas : c'est la visite au navigateur qui ne recoit rien.
+
+Le decoupage s'arrete donc net quand la page arrive vide, au lieu de
+livrer une couverture grise et un document sans page de diagnostic. On
+bascule sur le depot des deux captures a la main, qui existe pour ce cas.
+
+Il serait possible de se presenter au site sous une autre identite que
+celle d'un navigateur automatique. Ce n'est pas fait : un site qui ne
+sert rien a une visite automatique a pris une decision, et la contourner
+n'est pas une decision technique.
+
 ## Quand ca marche ici et pas en ligne
 
 C'est arrive, et le journal du travail n'en disait rien : couverture

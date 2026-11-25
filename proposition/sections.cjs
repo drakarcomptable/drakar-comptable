@@ -177,8 +177,12 @@ async function sections(url, dossier, prefixe) {
   }
   const sortie = [];
   try {
-    await pg.goto(url, { waitUntil: 'load', timeout: 25000 });
+    const rep = await pg.goto(url, { waitUntil: 'load', timeout: 25000 });
     await pg.waitForTimeout(1500);
+    if (rep) {
+      TRACE.push('reponse : ' + rep.status() + ' ' + rep.statusText() +
+                 ', servie par ' + (rep.headers()['server'] || 'inconnu'));
+    }
 
     /* Dire quelle page est reellement arrivee.
 
@@ -195,7 +199,22 @@ async function sections(url, dossier, prefixe) {
     TRACE.push('page servie : « ' + vu.titre + ' », ' + vu.texte +
                ' caracteres de texte, ' + vu.adresse);
 
-    await pose(pg);
+    const mep = await pose(pg);
+
+    /* Une page vide n'est pas une page.
+
+       Le site repondait, la navigation aboutissait, et la page restait
+       sans un caractere ni un bloc : la couverture sortait grise et le
+       document sans sa page de diagnostic, sans que rien ne le signale.
+       Mieux vaut s'arreter ici. L'outil demande alors les deux captures
+       a deposer a la main, ce qui est prevu et reversible, plutot que de
+       livrer un document commercial abime. */
+    if (vu.texte < 40 && mep.gros === 0) {
+      throw new Error('la page est arrivee vide (' + vu.texte +
+        ' caractere(s), aucun bloc mesurable). Le site a repondu, mais ' +
+        'il ne sert rien a une visite automatique. Deposez les deux ' +
+        'captures a la main.');
+    }
 
     // La couverture d'abord, avant d'avoir touche a quoi que ce soit.
     // Prise en dernier, apres le parcours et dix changements de taille de
