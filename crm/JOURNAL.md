@@ -570,3 +570,55 @@ critère de fraîcheur de fiche, qui est le plus fort (×6,6), ne s'applique pas
 ici puisque tous les no-shows sont des fiches anciennes par construction. Il a
 été remplacé par la date du rendez-vous manqué, qui n'a pas été validée comme
 prédicteur.
+
+---
+
+## No Show : reclassement par secteur (et non par date)
+
+Brice a tranché : **la date du rendez-vous manqué ne compte pas**, seul le type
+d'entreprise compte. P1 = tech, SaaS, logiciel, data, service tech B2B et
+formation. P3 = finance, énergies renouvelables, construction, B2C. Et un P3
+doit rester prospectable, pas hors cible.
+
+| Degré | Contacts | dont R2 No Show |
+|---|---|---|
+| **P1** — tech / SaaS / data / formation | **71** | 16 |
+| **P2** — B2B à trancher | **29** | 7 |
+| **P3** — finance, énergie, construction, B2C | **50** | 13 |
+
+### Sur quoi repose le classement
+
+Trois sources, dans cet ordre : mots-clés du contact, puis `industry` de
+l'entreprise dans HubSpot, puis sa `description`.
+
+| Source | P1 | P3 |
+|---|---|---|
+| mots-clés du contact | 41 | 16 |
+| secteur HubSpot | 20 | 29 |
+| description de la société | 6 | 1 |
+| relecture manuelle | 4 | — |
+| aucune information | — | 4 |
+
+**Seules 4 fiches sur 150 n'ont aucune des trois sources** : Q7leader,
+Kaba Impact et deux fiches sans nom de société. Elles sont en P3 par défaut,
+signalées comme telles dans la colonne `Base du classement` — ce n'est pas un
+jugement sur elles.
+
+Le chiffre de « 121 non classables » annoncé la veille était faux : il ne
+regardait que les mots-clés du contact et ignorait les deux autres sources.
+
+### Composition du P3
+
+Construction 10 · Vêtements et mode 5 · Génie mécanique 5 · Immobilier 3 ·
+Services financiers 3 · Assurance 2 · Tourisme 2 · Génie civil 2 ·
+secteur non renseigné 8 · divers 8.
+
+Aucun concurrent, aucun organisme, aucun indépendant : ils ont été écartés en
+amont. **Le P3 reste intégralement prospectable**, il est juste plus loin du
+profil qui convertit.
+
+### Défaut de données repéré
+
+Quelques fiches ont un champ mots-clés contenant une phrase d'IA au lieu de
+mots-clés (« Je ne dispose pas d'informations suffisantes sur… » — Robinswood).
+Colonne `Mots-clés cassés` dans les fichiers livrés.
