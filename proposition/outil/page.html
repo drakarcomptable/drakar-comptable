@@ -46,6 +46,20 @@ button.sup:hover{background:#f5cdc8}
 .rep i{position:absolute;top:-10px;left:-10px;width:20px;height:20px;
   border-radius:50%;background:#e23b2e;color:#fff;font:700 11px/20px sans-serif;
   text-align:center;font-style:normal}
+.vues{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));
+  gap:12px;margin-top:14px}
+.vue{border:1px solid #d6eaf2;border-radius:10px;overflow:hidden;background:#fff}
+.vue img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover;
+  object-position:top center}
+.vue .ti{font-size:11.5px;font-weight:700;color:#0d5165;padding:8px 10px 0;
+  line-height:1.35;height:44px;overflow:hidden}
+.vue .bt{display:flex;gap:6px;padding:7px 8px 8px}
+.vue .bt button{flex:1;font-size:11px;padding:6px 4px;border-radius:7px;
+  background:#dcecf3;color:#0d5165;font-weight:700}
+.vue .bt button:hover{background:#c8e2ec}
+.vue.pris-a{border-color:#2c9ec0;box-shadow:inset 0 0 0 2px #7bd0e6}
+.vue.pris-b{border-color:#e23b2e;box-shadow:inset 0 0 0 2px #f2a79f}
+
 .liste{margin-top:12px;display:grid;gap:8px}
 .art{display:grid;grid-template-columns:26px 1fr auto auto;gap:10px;
   align-items:center;background:#f6fcfe;border:1px solid #d6eaf2;
@@ -93,6 +107,18 @@ button.sup:hover{background:#f5cdc8}
     <div class="liste" id="reqs"></div>
     <div class="pied"><button type="button" class="sec" id="plus">Ajouter une requête</button>
       <span class="aide" id="tot" style="margin:0"></span></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Photographier le site</legend>
+    <p class="aide">L’outil parcourt la page et la découpe en sections. Le haut
+      d’une page d’accueil est l’endroit où un site est à son avantage : les
+      défauts qui nous intéressent sont plus bas. Choisir la section à annoter.</p>
+    <div class="pied">
+      <button type="button" class="sec" id="shoot">Photographier le site</button>
+      <span class="aide" id="shootmsg" style="margin:0"></span>
+    </div>
+    <div class="vues" id="vues"></div>
   </fieldset>
 
   <fieldset>
@@ -185,6 +211,58 @@ document.querySelectorAll('.zone').forEach(z => {
 });
 $('#fichier').onchange = e => lis(roleEnCours, e.target.files[0]);
 
+/* ---------- photographier le site, section par section ---------- */
+let vues = [];
+$('#shoot').onclick = async () => {
+  const url = $('#u').value.trim();
+  if (!url) return dis('ko', 'Il faut d’abord l’adresse du site.');
+  $('#shoot').disabled = true;
+  $('#shootmsg').textContent = 'parcours de la page, une minute environ…';
+  try {
+    const r = await fetch('/capturer', { method: 'POST', body: JSON.stringify(
+      { url, entreprise: $('#e').value.trim() }) });
+    const d = await r.json();
+    if (!r.ok) { dis('ko', d.erreur || 'Échec.', d.detail); $('#shootmsg').textContent = ''; }
+    else {
+      vues = d.vues;
+      $('#shootmsg').textContent = vues.length + ' vues';
+      montreVues();
+    }
+  } catch (err) {
+    dis('ko', 'L’outil ne répond pas : ' + err.message);
+    $('#shootmsg').textContent = '';
+  }
+  $('#shoot').disabled = false;
+};
+
+function montreVues() {
+  const z = $('#vues');
+  z.innerHTML = '';
+  vues.forEach((v, i) => {
+    const d = document.createElement('div');
+    d.className = 'vue';
+    d.dataset.i = i;
+    d.innerHTML = '<img src="/depot/' + v.depot + '" alt="">' +
+      '<div class="ti"></div>' +
+      '<div class="bt"><button type="button" class="a">couverture</button>' +
+      '<button type="button" class="b">à annoter</button></div>';
+    d.querySelector('.ti').textContent = v.titre;
+    d.querySelector('.a').onclick = () => prend(i, 'accueil');
+    d.querySelector('.b').onclick = () => prend(i, 'analyse');
+    z.append(d);
+  });
+}
+
+function prend(i, role) {
+  const v = vues[i];
+  images[role] = 'depot:' + v.depot;
+  montre(role, '/depot/' + v.depot);
+  document.querySelectorAll('.vue').forEach(e => {
+    const k = role === 'accueil' ? 'pris-a' : 'pris-b';
+    e.classList.toggle(k, +e.dataset.i === i);
+  });
+}
+
 /* ---------- traces rouges ---------- */
 const toile = () => $('#ap-analyse .toile');
 function dessine() {
@@ -270,7 +348,7 @@ $('#go').onclick = async () => {
     marche: $('#m').value, taux_contact: parseFloat($('#t').value),
     exemple: $('#ex').checked, requetes: rq, annotations: reperes
   };
-  if (images.accueil) p.capture_accueil = images.accueil;
+  if (images.accueil) p.capture_accueil = images.accueil;   // data: ou depot:
   if (images.analyse) p.capture_analyse = images.analyse;
 
   $('#go').disabled = true;

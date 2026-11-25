@@ -183,8 +183,10 @@ function pages(cap) {
   ${marque}
   <div class="fond">${cap.ok ? '<img src="/__capture" alt="">' : '<div class="vide"></div>'}</div>
   <div class="txt">
-    <img class="lg" src="/logo.png" alt="">
-    <h1>Proposition d’audit<br>GEO gratuit<br><span class="acc">pour ${esc(p.entreprise)}</span></h1>
+    <div class="plaque-titre">
+      <img class="lg" src="/logo.png" alt="">
+      <h1>Proposition d’audit<br>GEO gratuit<br><span class="acc">pour ${esc(p.entreprise)}</span></h1>
+    </div>
   </div>
   ${pied(1)}
 </section>
@@ -302,12 +304,15 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 /* 1 */
 .couv{background:#00212c;color:#fff;padding:0;display:block}
 .couv .fond{position:absolute;inset:0}
-.couv .fond img{width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.24}
+.couv .fond img{width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.96}
 .couv .fond .vide{width:100%;height:100%;background:#0a3544}
-.couv::after{content:"";position:absolute;inset:0;background:rgba(0,33,44,.72)}
+.couv::after{content:"";position:absolute;inset:0;background:rgba(0,33,44,.22)}
+.couv .txt{align-items:flex-start}
+.couv .plaque-titre{background:rgba(0,28,38,.86);border-radius:18px;
+  padding:34px 40px 38px;max-width:60%}
 .couv .txt{position:absolute;inset:0;z-index:2;padding:58px 70px;
   display:flex;flex-direction:column;justify-content:center}
-.couv .lg{width:56px;margin-bottom:38px}
+.couv .lg{width:50px;margin-bottom:24px}
 .couv h1{font-size:60px;line-height:1.04;font-weight:800;letter-spacing:-.035em;color:#fff}
 .couv .pied{z-index:3;color:rgba(223,242,249,.66);border-color:rgba(255,255,255,.2)}
 

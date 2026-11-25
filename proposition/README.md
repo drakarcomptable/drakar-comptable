@@ -32,6 +32,30 @@ telle quelle en ligne de commande.
 Ni `sortie/` ni `depots/` ne partent dans le depot git : ce sont des
 donnees de prospects, pas du code.
 
+## Photographier le site du prospect
+
+Dans l'interface, un bouton parcourt la page du prospect et la **decoupe en
+sections**, puis les propose en vignettes. On choisit celle qui habille la
+couverture et celle qu'on va annoter.
+
+Pourquoi decouper plutot que prendre le haut de la page : le haut d'une page
+d'accueil est l'endroit ou un site est a son avantage, grand titre, boutons,
+chiffres. Les defauts qui nous interessent sont plus bas, dans les blocs de
+contenu, la ou le site repond ou ne repond pas a une intention de recherche.
+
+Le script ne juge pas quelle section merite d'etre annotee : c'est du
+conseil, pas de la mecanique. Il les decoupe toutes et laisse choisir.
+
+En ligne de commande :
+
+    node proposition/sections.cjs <url> <dossier> [prefixe]
+
+Il ecrit les images et decrit chaque vue en JSON. Une section est retenue si
+elle fait plus de 260 px de haut, moins de 1500, occupe au moins 60 % de la
+largeur et contient du texte ; dix au maximum. La page est parcourue de haut
+en bas avant la prise de vue, parce que beaucoup de sites ne chargent leurs
+images qu'au passage du lecteur.
+
 ## Les captures
 
 La capture automatique demande un acces reseau sortant vers le site du

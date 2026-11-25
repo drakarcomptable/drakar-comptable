@@ -69,6 +69,13 @@ class Poste(BaseHTTPRequestHandler):
             page = io.open(os.path.join(ICI, 'outil', 'page.html'),
                            encoding='utf-8').read()
             return self._envoie(200, 'text/html; charset=utf-8', page)
+        if chemin.startswith('/depot/'):
+            f = os.path.join(DEPOTS, nom_sur(chemin[7:]))
+            if not os.path.exists(f):
+                return self._envoie(404, 'text/plain; charset=utf-8', 'absent')
+            t = 'image/jpeg' if f.endswith(('.jpg', '.jpeg')) else 'image/png'
+            with open(f, 'rb') as src:
+                return self._envoie(200, t, src.read())
         if chemin.startswith('/pdf/'):
             f = os.path.join(SORTIE, nom_sur(chemin[5:]))
             if not os.path.exists(f):
@@ -78,8 +85,11 @@ class Poste(BaseHTTPRequestHandler):
         self._envoie(404, 'text/plain; charset=utf-8', 'absent')
 
     def do_POST(self):
+        if self.path == '/capturer':
+            return self._capture()
         if self.path != '/fabrique':
             return self._envoie(404, 'text/plain; charset=utf-8', 'absent')
+
         n = int(self.headers.get('Content-Length') or 0)
         try:
             p = json.loads(self.rfile.read(n).decode('utf-8'))
@@ -99,8 +109,16 @@ class Poste(BaseHTTPRequestHandler):
         try:
             for role, champ in (('accueil', 'capture_accueil'),
                                 ('analyse', 'capture_analyse')):
-                if p.get(champ, '').startswith('data:'):
-                    p[champ] = ecrit_depot(slug, role, p[champ])
+                val = p.get(champ, '')
+                if val.startswith('data:'):
+                    p[champ] = ecrit_depot(slug, role, val)
+                elif val.startswith('depot:'):
+                    # vignette choisie : le fichier est deja range
+                    f = os.path.join(DEPOTS, nom_sur(val[6:]))
+                    if os.path.exists(f):
+                        p[champ] = os.path.relpath(f, os.path.dirname(ICI))
+                    else:
+                        p.pop(champ, None)
                 else:
                     p.pop(champ, None)
         except ValueError as e:
@@ -125,6 +143,46 @@ class Poste(BaseHTTPRequestHandler):
             {'pdf': '/pdf/' + slug + '.pdf', 'journal': r.stdout.strip(),
              'fiche': os.path.relpath(fiche, os.path.dirname(ICI))},
             ensure_ascii=False))
+
+    def _capture(self):
+        """Photographie le site du prospect, section par section.
+
+        Le haut d'une page d'accueil est l'endroit ou un site est a son
+        avantage. Les defauts qui nous interessent sont plus bas. On
+        decoupe donc tout, et c'est le consultant qui choisit.
+        """
+        n = int(self.headers.get('Content-Length') or 0)
+        try:
+            q = json.loads(self.rfile.read(n).decode('utf-8'))
+        except Exception as e:
+            return self._envoie(400, 'application/json',
+                                json.dumps({'erreur': 'données illisibles : %s' % e}))
+        url = str(q.get('url', '')).strip()
+        if not url.startswith(('http://', 'https://')):
+            return self._envoie(400, 'application/json', json.dumps(
+                {'erreur': 'Adresse invalide : il faut un http:// ou https://'},
+                ensure_ascii=False))
+        slug = ''.join(c if c.isalnum() else '-'
+                       for c in str(q.get('entreprise', 'site')).lower()).strip('-') or 'site'
+        if not os.path.isdir(DEPOTS):
+            os.makedirs(DEPOTS)
+        r = subprocess.run(
+            ['node', os.path.join(ICI, 'sections.cjs'), url, DEPOTS, slug],
+            capture_output=True, text=True, timeout=180)
+        if r.returncode != 0:
+            return self._envoie(502, 'application/json', json.dumps(
+                {'erreur': 'Le site n’a pas pu être photographié.',
+                 'detail': (r.stderr or r.stdout).strip()[-400:]}, ensure_ascii=False))
+        try:
+            vues = json.loads(r.stdout)
+        except Exception:
+            return self._envoie(502, 'application/json', json.dumps(
+                {'erreur': 'Réponse illisible du photographe.',
+                 'detail': r.stdout[-400:]}, ensure_ascii=False))
+        for v in vues:
+            v['depot'] = os.path.basename(v.pop('fichier'))
+        return self._envoie(200, 'application/json',
+                            json.dumps({'vues': vues}, ensure_ascii=False))
 
 
 def main():
