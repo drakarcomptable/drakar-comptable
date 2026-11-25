@@ -141,8 +141,8 @@ function pages(cap) {
 <section class="pg">
   ${marque}
   <h2 class="q">Ce que nous avons vu sur votre site</h2>
-  <p class="rep">${p.annotations.length} points qui vous
-    <b>coûtent ces recherches.</b></p>
+  <p class="rep">${p.annotations.length} point${p.annotations.length > 1 ? 's' : ''} qui vous
+    <b>coûte${p.annotations.length > 1 ? 'nt' : ''} ces recherches.</b></p>
   <div class="diag">
     <img src="${src}" alt="">
     ${p.annotations.map((a, i) => `

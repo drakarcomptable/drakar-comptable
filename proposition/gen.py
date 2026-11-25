@@ -37,6 +37,19 @@ NAZAR = {
 }
 
 
+def nom_lisible(entreprise):
+    """Le nom du fichier tel que le prospect le verra dans ses telechargements.
+
+    Un « Proposition audit GEO gratuit B.Secure.pdf » se retrouve dans un
+    dossier de telechargements ; un « b-secure.pdf » s'y perd.
+    """
+    propre = ' '.join(str(entreprise).split())
+    # les caracteres qu'un systeme de fichiers refuse ou qui cassent un en-tete
+    for mauvais in '/\\:*?"<>|\r\n':
+        propre = propre.replace(mauvais, '-')
+    return ('Proposition audit GEO gratuit %s' % propre).strip()[:120] + '.pdf'
+
+
 def date_fr(d):
     return u'%d %s %d' % (d.day, MOIS[d.month - 1], d.year)
 
@@ -85,6 +98,13 @@ def main(chemin):
             os.remove(tmp)
 
     f = os.path.join(SORTIE, p['slug'] + '.pdf')
+
+    # Le fichier sur le disque garde un nom d'identifiant, sans accent ni
+    # espace : c'est lui qui sert d'adresse. Le nom que lira le prospect
+    # est ecrit a cote, et c'est celui que le telechargement porte.
+    io.open(os.path.join(SORTIE, p['slug'] + '.nom'), 'w',
+            encoding='utf-8').write(nom_lisible(p['entreprise']))
+
     e = p['estimation']
     print('')
     print('  %s' % f)

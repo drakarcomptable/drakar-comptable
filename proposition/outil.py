@@ -19,6 +19,7 @@ import subprocess
 import sys
 import base64
 import hmac
+from urllib.parse import quote
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 
@@ -37,6 +38,20 @@ MDP = os.environ.get('DONETADOC_MDP', '')
 UTILISATEUR = os.environ.get('DONETADOC_UTILISATEUR', 'nazar')
 
 TYPES = {'image/png': '.png', 'image/jpeg': '.jpg', 'image/webp': '.webp'}
+
+
+def nom_telecharge(chemin_pdf):
+    """Le nom que portera le fichier chez celui qui le telecharge.
+
+    gen.py l'ecrit a cote du PDF. S'il manque, on retombe sur le nom du
+    fichier : mieux vaut un telechargement banal qu'un telechargement rate.
+    """
+    cote = os.path.splitext(chemin_pdf)[0] + '.nom'
+    if os.path.exists(cote):
+        n = io.open(cote, encoding='utf-8').read().strip()
+        if n:
+            return n
+    return os.path.basename(chemin_pdf)
 
 
 def nom_sur(nom):
@@ -84,12 +99,19 @@ class Poste(BaseHTTPRequestHandler):
         self.end_headers()
         return False
 
-    def _envoie(self, code, type_, corps):
+    def _envoie(self, code, type_, corps, nom=None):
         if isinstance(corps, str):
             corps = corps.encode('utf-8')
         self.send_response(code)
         self.send_header('Content-Type', type_)
         self.send_header('Content-Length', str(len(corps)))
+        if nom:
+            # filename* porte les accents ; filename reste la pour les
+            # clients qui ne connaissent pas la forme etendue.
+            simple = nom.encode('ascii', 'replace').decode('ascii').replace('"', '')
+            self.send_header('Content-Disposition',
+                             'attachment; filename="%s"; filename*=UTF-8\'\'%s'
+                             % (simple, quote(nom)))
         self.end_headers()
         self.wfile.write(corps)
 
@@ -149,8 +171,10 @@ class Poste(BaseHTTPRequestHandler):
             f = os.path.join(SORTIE, nom_sur(chemin[5:]))
             if not os.path.exists(f):
                 return self._envoie(404, 'text/plain; charset=utf-8', 'absent')
-            with open(f, 'rb') as s:
-                return self._envoie(200, 'application/pdf', s.read())
+            with open(f, 'rb') as src:
+                corps = src.read()
+            return self._envoie(200, 'application/pdf', corps,
+                                nom=nom_telecharge(f))
         self._envoie(404, 'text/plain; charset=utf-8', 'absent')
 
     def do_POST(self):

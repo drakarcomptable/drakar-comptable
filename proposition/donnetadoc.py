@@ -136,8 +136,12 @@ def _depart(ident, url, captures=None):
                 return
             for v in vues:
                 v['depot'] = os.path.basename(v['fichier'])
+            notees = [v for v in vues if v.get('note') is not None]
+            mieux = max(notees, key=lambda v: v['note'])['titre'] if notees else None
             _maj(ident, pct=58, vues=vues,
-                 message='%d sections photographiées.' % len(vues))
+                 message='%d sections photographiées%s.' % (
+                     len(vues),
+                     ', retenue : « %s »' % mieux if mieux else ''))
 
         # ---- montage ----
         _maj(ident, etape='montage', pct=62, message='Montage de la proposition…')
@@ -155,6 +159,44 @@ def _depart(ident, url, captures=None):
              detail=str(e)[:400])
 
 
+def reperes_section(sec):
+    """Ce qu'on peut reprocher a la section montree, et rien d'autre.
+
+    Chaque repere s'appuie sur un comptage fait sur ce bloc precis :
+    combien de puces, combien de phrases, combien de chiffres. Un
+    consultant les deplace et les reecrit ensuite s'il veut.
+    """
+    if not sec:
+        return []
+    mots = sec.get('mots') or 0
+    puces = sec.get('puces') or 0
+    phrases = sec.get('phrases') or 0
+    chiffres = sec.get('chiffres') or 0
+    questions = sec.get('questions') or 0
+
+    trouves = []
+    if puces >= 5 and (not mots or phrases / max(mots, 1) < 0.03):
+        trouves.append('%d puces, aucune phrase qu’une IA puisse citer' % puces)
+    if chiffres == 0 and mots >= 40:
+        trouves.append('Aucun chiffre dans ce bloc : rien de vérifiable à reprendre')
+    if questions == 0 and mots >= 40:
+        trouves.append('Ce bloc ne répond à aucune question posée par vos clients')
+    if not trouves and mots:
+        trouves.append('Ce bloc décrit une offre sans la rattacher à une requête')
+
+    # Emplacements par defaut : le titre du bloc, puis le contenu a gauche
+    # et a droite. Ce sont des reperes a deplacer, pas des mesures : le
+    # formulaire detaille permet de les retracer a la souris.
+    zones = [(28, 14, 44, 12, 'droite'),
+             (6, 32, 42, 22, 'droite'),
+             (52, 56, 42, 22, 'gauche')]
+    out = []
+    for i, t in enumerate(trouves[:3]):
+        x, y, w, h, cote = zones[i]
+        out.append({'x': x, 'y': y, 'w': w, 'h': h, 'cote': cote, 'texte': t})
+    return out
+
+
 def monte(nom, url, a, vues, captures):
     """Assemble la fiche a partir des faits releves. Rien d'invente ici.
 
@@ -164,6 +206,12 @@ def monte(nom, url, a, vues, captures):
     """
     pistes = (a.get('pistes') or [])[:7] or ['à compléter']
     requetes = [{'mot': m, 'volume': 0, 'intention': 'Commerciale'} for m in pistes]
+
+    choisie = None
+    if vues:
+        notees = [v for v in vues if v.get('note') is not None]
+        if notees:
+            choisie = max(notees, key=lambda v: v['note'])
 
     p = {
         'entreprise': nom,
@@ -177,14 +225,10 @@ def monte(nom, url, a, vues, captures):
         '_pistes': pistes,
     }
 
-    # les constats mecaniques deviennent des reperes, poses sur des zones
-    # neutres de la capture : le consultant les deplace s'il veut
-    zones = [(8, 10, 40, 12), (52, 32, 40, 12), (8, 58, 40, 12)]
-    for i, c in enumerate((a.get('constats') or [])[:3]):
-        x, y, w, h = zones[i]
-        p['annotations'].append({'x': x, 'y': y, 'w': w, 'h': h,
-                                 'cote': 'droite' if x < 40 else 'gauche',
-                                 'texte': c})
+    # Les reperes doivent parler de ce qu'on voit. Un constat qui vaut
+    # pour tout le site (« pas de llms.txt ») pointe sur un titre au
+    # hasard et decredibilise la page : il reste hors des fleches.
+    p['annotations'] = reperes_section(choisie)
 
     if captures:
         if captures.get('accueil'):
@@ -194,10 +238,13 @@ def monte(nom, url, a, vues, captures):
     elif vues:
         p['capture_accueil'] = os.path.relpath(
             os.path.join(DEPOTS, vues[0]['depot']), os.path.dirname(ICI))
-        # pour l'annotation, une section de contenu plutot que le haut de page
-        i = min(len(vues) - 1, 3 if len(vues) > 3 else len(vues) - 1)
-        p['capture_analyse'] = os.path.relpath(
-            os.path.join(DEPOTS, vues[i]['depot']), os.path.dirname(ICI))
+        # Pour l'annotation, la section la mieux notee : celle qui vend
+        # quelque chose sous une forme qu'aucune IA ne peut reprendre. Le
+        # detail du calcul est dans sections.cjs.
+        if choisie:
+            p['_section'] = {'titre': choisie.get('titre'), 'note': choisie['note']}
+            p['capture_analyse'] = os.path.relpath(
+                os.path.join(DEPOTS, choisie['depot']), os.path.dirname(ICI))
     return p
 
 

@@ -130,8 +130,37 @@ d'accueil est l'endroit ou un site est a son avantage, grand titre, boutons,
 chiffres. Les defauts qui nous interessent sont plus bas, dans les blocs de
 contenu, la ou le site repond ou ne repond pas a une intention de recherche.
 
-Le script ne juge pas quelle section merite d'etre annotee : c'est du
-conseil, pas de la mecanique. Il les decoupe toutes et laisse choisir.
+Chaque section recoit une **note de merite**, batie sur des comptages et
+non sur un avis : un titre qui annonce une offre, beaucoup de puces, peu
+de phrases, aucun chiffre. Autrement dit le bloc qui vend quelque chose
+sous une forme qu'aucune IA ne peut reprendre. Le haut de page est penalise
+(il flatte toujours), les pieds de page et les mentions le sont aussi.
+
+Sur bsecure.fr : « Nos expertises Pentest & Audit » note 64, le slogan
+d'accueil −25, « Contactez-nous » −50.
+
+DONETADOC retient automatiquement la mieux notee. Le formulaire detaille
+montre les vignettes et laisse choisir a la main.
+
+### Les reperes rouges automatiques
+
+Ils parlent de la section montree, et d'elle seule : combien de puces,
+combien de phrases, combien de chiffres, combien de questions. Un constat
+qui vaut pour tout le site, comme l'absence de `llms.txt`, ne devient pas
+une fleche : elle designerait un titre au hasard et decredibiliserait la
+page. Les emplacements sont des defauts a deplacer, pas des mesures.
+
+## Le nom du fichier telecharge
+
+Un « b-secure.pdf » se perd dans un dossier de telechargements. Le
+document part donc sous le nom **Proposition audit GEO gratuit
+&lt;Entreprise&gt;.pdf**.
+
+Sur le disque le fichier garde son nom d'identifiant, sans accent ni
+espace, parce que c'est lui qui sert d'adresse. `gen.py` ecrit le nom
+lisible dans un fichier `.nom` a cote, et le serveur le pose dans
+l'en-tete de telechargement, sous les deux formes que les navigateurs
+attendent pour que les accents passent.
 
 En ligne de commande :
 

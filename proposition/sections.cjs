@@ -50,6 +50,43 @@ async function sections(url, dossier, prefixe) {
     const blocs = await pg.evaluate((bornes) => {
       const [min, max] = bornes;
       const vus = [];
+
+      /* Quelle section merite d'etre optimisee ?
+
+         Celle qui vend quelque chose, mais sous une forme qu'aucune IA ne
+         peut reprendre : un titre de service, puis une bouillie de puces
+         courtes, sans phrase a citer et sans chiffre a verifier. C'est le
+         cas typique du bloc « nos expertises » : commercialement central,
+         et invisible dans une reponse generative.
+
+         Aucun de ces signaux n'est un jugement : ce sont des comptages. */
+      const SERVICE = new RegExp([
+        'service', 'expertise', 'solution', 'offre', 'prestation', 'produit',
+        'accompagn', 'm[ée]tier', 'savoir.?faire', 'ce que nous',
+        'nos domaines', 'nos p[ôo]les'].join('|'), 'i');
+      const ECARTE = new RegExp([
+        'contact', 'mentions', 'l[ée]gal', 'cookie', 'confidentialit',
+        'newsletter', 'recrut', 'carri[èe]re', 'plan du site', 'suivez',
+        'r[ée]seaux'].join('|'), 'i');
+
+      const note = (el, titre, haut) => {
+        const txt = (el.innerText || '').trim();
+        const mots = txt.split(/\s+/).filter(Boolean).length;
+        const puces = el.querySelectorAll('li').length;
+        const phrases = (txt.match(/[.!?](\s|$)/g) || []).length;
+        const chiffres = (txt.match(/\d/g) || []).length;
+
+        let n = 0;
+        if (SERVICE.test(titre)) n += 30;          // le bloc vend quelque chose
+        n += Math.min(puces, 12) * 2;              // des puces, pas des phrases
+        if (mots > 80 && phrases / mots < 0.02) n += 15;   // rien a citer
+        if (chiffres === 0) n += 10;               // rien de verifiable
+        if (mots >= 60) n += 10;                   // assez de matiere
+        if (ECARTE.test(titre)) n -= 60;           // pied de page, mentions
+        if (haut < 400) n -= 25;                   // le haut de page flatte
+        return { note: n, mots, puces, phrases, chiffres,
+                 questions: (txt.match(/\?/g) || []).length };
+      };
       const candidats = document.querySelectorAll(
         'body > section, body > div > section, main > section, main > div, ' +
         'body > div > div[class], body > main > div, section');
@@ -61,9 +98,10 @@ async function sections(url, dossier, prefixe) {
         if (vus.some(v => Math.abs(v.t - t) < 80)) continue;
         const txt = (el.innerText || '').trim().replace(/\s+/g, ' ');
         if (txt.length < 40) continue;      // un bloc sans texte n'a rien a dire
-        vus.push({ t: Math.round(t), h: Math.round(h),
-                   titre: (el.querySelector('h1,h2,h3')?.innerText || txt)
-                            .trim().replace(/\s+/g, ' ').slice(0, 70) });
+        const titre = (el.querySelector('h1,h2,h3')?.innerText || txt)
+                        .trim().replace(/\s+/g, ' ').slice(0, 70);
+        vus.push(Object.assign({ t: Math.round(t), h: Math.round(h), titre },
+                               note(el, titre, t)));
       }
       vus.sort((a, b) => a.t - b.t);
       return vus;
@@ -78,7 +116,9 @@ async function sections(url, dossier, prefixe) {
       await pg.waitForTimeout(250);
       await pg.screenshot({ path: f, type: 'jpeg', quality: 84 });
       sortie.push({ fichier: f, titre: b.titre, haut: b.t, hauteur: b.h,
-                    octets: fs.statSync(f).size });
+                    note: b.note, mots: b.mots, puces: b.puces,
+                    phrases: b.phrases, chiffres: b.chiffres,
+                    questions: b.questions, octets: fs.statSync(f).size });
     }
 
     // et la page d'accueil telle qu'on la decouvre, pour la couverture
@@ -87,8 +127,10 @@ async function sections(url, dossier, prefixe) {
     await pg.waitForTimeout(250);
     const acc = path.join(dossier, prefixe + '-accueil.jpg');
     await pg.screenshot({ path: acc, type: 'jpeg', quality: 86 });
+    // La couverture, qui n'est jamais candidate a l'annotation.
     sortie.unshift({ fichier: acc, titre: 'Haut de la page d’accueil',
-                     haut: 0, hauteur: HAUT, octets: fs.statSync(acc).size });
+                     haut: 0, hauteur: HAUT, note: null, couverture: true,
+                     octets: fs.statSync(acc).size });
   } finally {
     await nav.close();
   }
