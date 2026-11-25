@@ -80,7 +80,13 @@ clients. Un lien ouvert a tout vent les donnerait a qui le devine.
     HOTE=0.0.0.0      ouvert au reseau, mot de passe EXIGE
 
 Sans `DONETADOC_MDP`, l'outil **refuse de demarrer** sur `0.0.0.0` plutot
-que de s'ouvrir. L'authentification est une authentification HTTP simple,
+que de s'ouvrir. Pour assumer un acces libre il faut le dire :
+`DONETADOC_OUVERT=oui`. Un garde-fou qui s'enleve par accident n'en est
+pas un ; celui-la ne s'enleve qu'exprès.
+
+Le service en ligne tourne aujourd'hui en acces libre, par choix.
+Quiconque connait l'adresse peut fabriquer un document au nom de NAZAR,
+avec les logos des clients dessus. L'authentification est une authentification HTTP simple,
 comparee a temps constant pour qu'un temps de reponse ne trahisse pas
 combien de caracteres du mot de passe sont justes.
 
