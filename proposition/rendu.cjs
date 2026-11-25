@@ -179,12 +179,12 @@ function pages(cap) {
     .map(f => `<img src="/${f}" alt="">`).join('');
 
   return `
-<section class="pg couv">
+<section class="pg couv couv-${esc(p.couverture || 'centre')}">
   ${marque}
   <div class="fond">${cap.ok ? '<img src="/__capture" alt="">' : '<div class="vide"></div>'}</div>
   <div class="txt">
     <div class="plaque-titre">
-      <img class="lg" src="/logo.png" alt="">
+      <span class="ecusson"><img class="lg" src="/logo.png" alt=""></span>
       <h1>Proposition d’audit<br>GEO gratuit<br><span class="acc">pour ${esc(p.entreprise)}</span></h1>
     </div>
   </div>
@@ -206,8 +206,8 @@ function pages(cap) {
       <tbody>${lignes}</tbody>
     </table>
     <p class="extrait"><b>*</b> ${p.exemple
-      ? 'Volumes donnés à titre d’illustration, à remplacer par le relevé réel avant envoi.'
-      : 'Ceci est un extrait de la vraie data sur votre marché.'}</p>
+      ? 'Volumes donnés à titre d’illustration, à remplacer avant envoi.'
+      : 'Extrait de la data sur votre marché.'}</p>
   </div>
   <p class="concl">En ajoutant les taux de conversion GEO, cela pourrait généralement
     vous générer entre <b>${e.bas} et ${e.haut} leads par mois</b>
@@ -307,12 +307,27 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .couv .fond img{width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.96}
 .couv .fond .vide{width:100%;height:100%;background:#0a3544}
 .couv::after{content:"";position:absolute;inset:0;background:rgba(0,33,44,.22)}
-.couv .txt{align-items:flex-start}
-.couv .plaque-titre{background:rgba(0,28,38,.86);border-radius:18px;
-  padding:34px 40px 38px;max-width:60%}
 .couv .txt{position:absolute;inset:0;z-index:2;padding:58px 70px;
-  display:flex;flex-direction:column;justify-content:center}
-.couv .lg{width:50px;margin-bottom:24px}
+  display:flex;flex-direction:column}
+.couv .plaque-titre{background:rgba(0,28,38,.88);border-radius:18px;
+  padding:34px 40px 38px}
+
+/* Le logo est sombre : sur le navy il disparaitrait. Un ecusson bleu
+   ciel lui rend ses couleurs, comme sur le site. */
+.couv .ecusson{display:inline-flex;background:#cfeaf4;border-radius:14px;
+  padding:9px 11px;margin-bottom:24px}
+.couv .lg{width:44px;display:block}
+
+/* 1a. la plaque au milieu */
+.couv-centre .txt{align-items:center;justify-content:center}
+.couv-centre .plaque-titre{max-width:74%;text-align:center}
+.couv-centre .ecusson{margin-left:auto;margin-right:auto}
+
+/* 1b. un bandeau qui monte du bas jusqu'au quart haut */
+.couv-bande .txt{padding:0;align-items:stretch;justify-content:flex-end}
+.couv-bande .plaque-titre{background:#00212c;border-radius:0;
+  max-width:none;padding:44px 70px 76px}
+.couv-bande::after{background:rgba(0,33,44,.12)}
 .couv h1{font-size:60px;line-height:1.04;font-weight:800;letter-spacing:-.035em;color:#fff}
 .couv .pied{z-index:3;color:rgba(223,242,249,.66);border-color:rgba(255,255,255,.2)}
 

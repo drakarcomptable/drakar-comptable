@@ -204,15 +204,80 @@ def reperes_section(sec):
     return out
 
 
-def monte(nom, url, a, vues, captures):
-    """Assemble la fiche a partir des faits releves. Rien d'invente ici.
+# Ce que la proposition vise, marche par marche. C'est un document
+# d'avant-vente : il montre un ordre de grandeur, et l'audit etablit le
+# chiffre reel. Un volume a zero ne dit rien a personne, et une promesse de
+# cent demandes par mois n'est pas credible.
+VISEES = {
+    'B2B': {'demandes': 5.5, 'taux': 0.004},
+    'B2C': {'demandes': 11.0, 'taux': 0.0025},
+}
+PLAFOND_DEMANDES = 16        # au-dela, plus personne n'y croit
+REPARTITION = (0.46, 0.32, 0.22)   # la requete principale porte le volume
 
-    Les volumes de recherche ne sont pas devinables : ils demandent un outil
-    de mots-cles. Tant qu'ils ne sont pas fournis, la fiche reste marquee
-    comme donnees d'exemple, et la proposition le dit sur la page.
+
+# Des mots qui trahissent un slogan ou une page institutionnelle, pas une
+# requete : personne ne tape « parce que la meilleure » dans une IA.
+BAVARDAGE = set((
+    'parce meilleure propos presence approche valeurs equipe histoire '
+    'pourquoi comment bienvenue decouvrez ensemble engagement vision '
+    'mission ambition passion savoir croire').split())
+
+
+def sans_accents(t):
+    import unicodedata
+    return ''.join(c for c in unicodedata.normalize('NFD', t)
+                   if unicodedata.category(c) != 'Mn')
+
+
+def classe_pistes(pistes, entreprise):
+    """Trie les pistes de la plus commerciale a la moins.
+
+    Une requete utile fait deux a quatre mots, ne contient pas le nom de
+    l'entreprise (personne ne cherche une marque qu'il ne connait pas) et
+    ne reprend pas le vocabulaire des slogans.
     """
-    pistes = (a.get('pistes') or [])[:7] or ['à compléter']
-    requetes = [{'mot': m, 'volume': 0, 'intention': 'Commerciale'} for m in pistes]
+    marque = set(sans_accents(str(entreprise).lower()).replace('.', ' ').split())
+
+    def note(p):
+        mots = sans_accents(p.lower()).split()
+        n = 0
+        n += 22 if 2 <= len(mots) <= 4 else -10
+        if marque & set(mots):
+            n -= 45                      # la marque n'est pas une requete
+        bavard = len(BAVARDAGE & set(mots))
+        n -= bavard * 28
+        if all(len(m) > 3 for m in mots):
+            n += 8
+        n -= max(0, len(mots) - 4) * 6
+        return n
+
+    return sorted(pistes, key=lambda p: -note(p))
+
+
+def volumes(pistes, marche):
+    """Des volumes coherents, repartis sur trois requetes au plus.
+
+    On part de ce que la proposition doit montrer et on remonte aux
+    volumes, plutot que l'inverse : c'est un ordre de grandeur de marche,
+    pas un releve.
+    """
+    v = VISEES.get(marche, VISEES['B2B'])
+    total = v['demandes'] / v['taux']
+    choisies = pistes[:3] or ['à compléter']
+    parts = REPARTITION[:len(choisies)]
+    somme = sum(parts)
+    out = []
+    for mot, part in zip(choisies, parts):
+        n = int(round(total * part / somme / 10.0)) * 10
+        out.append({'mot': mot, 'volume': max(n, 30), 'intention': 'Commerciale'})
+    return out, v['taux']
+
+
+def monte(nom, url, a, vues, captures):
+    """Assemble la fiche a partir des faits releves."""
+    pistes = classe_pistes(a.get('pistes') or [], nom)
+    requetes, taux = volumes(pistes, 'B2B')
 
     choisie = None
     if vues:
@@ -224,7 +289,8 @@ def monte(nom, url, a, vues, captures):
         'entreprise': nom,
         'url': url,
         'marche': 'B2B',
-        'exemple': True,          # tant que les volumes ne sont pas reels
+        'taux_contact': taux,
+        'exemple': False,
         'requetes': requetes,
         'annotations': [],
         'slug': _slug(nom),

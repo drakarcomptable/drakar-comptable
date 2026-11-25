@@ -36,6 +36,10 @@ PORT = int(os.environ.get('PORT', '8080'))
 HOTE = os.environ.get('HOTE', '127.0.0.1')
 MDP = os.environ.get('DONETADOC_MDP', '')
 UTILISATEUR = os.environ.get('DONETADOC_UTILISATEUR', 'nazar')
+# Ouvrir l'outil a tout le monde est un choix, pas un oubli : il faut le
+# dire explicitement. Sans mot de passe ET sans cette declaration, le
+# service refuse de demarrer sur une adresse reseau.
+OUVERT = os.environ.get('DONETADOC_OUVERT', '').strip().lower() in ('oui', 'yes', '1', 'true')
 
 TYPES = {'image/png': '.png', 'image/jpeg': '.jpg', 'image/webp': '.webp'}
 
@@ -351,15 +355,22 @@ def main():
     # Garde-fou : ouvert sur le reseau sans mot de passe, l'outil donnerait
     # a n'importe qui les propositions, et donc les noms et les logos des
     # clients. On refuse de demarrer plutot que de le laisser faire.
-    if HOTE not in ('127.0.0.1', 'localhost', '::1') and not MDP:
+    if HOTE not in ('127.0.0.1', 'localhost', '::1') and not MDP and not OUVERT:
         raise SystemExit(
             'Refus de démarrer : HOTE=%s expose l’outil sur le réseau alors '
             'qu’aucun mot de passe n’est défini.\n'
-            'Donnez DONETADOC_MDP, ou laissez HOTE sur 127.0.0.1.' % HOTE)
+            'Donnez DONETADOC_MDP, ou DONETADOC_OUVERT=oui pour assumer un '
+            'accès libre, ou laissez HOTE sur 127.0.0.1.' % HOTE)
     srv = Serveur((HOTE, PORT), Poste)
     print('')
     print('  DONETADOC  ->  http://%s:%d' % (HOTE, PORT))
-    print('  accès %s' % ('par mot de passe' if MDP else 'libre, machine locale seule'))
+    if MDP:
+        acces = 'par mot de passe'
+    elif OUVERT:
+        acces = 'LIBRE : quiconque a l’adresse peut fabriquer des documents'
+    else:
+        acces = 'libre, machine locale seule'
+    print('  accès %s' % acces)
     print('  Ctrl+C pour arrêter.')
     print('')
     try:

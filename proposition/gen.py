@@ -20,6 +20,9 @@ import sys
 ICI = os.path.dirname(os.path.abspath(__file__))
 SORTIE = os.path.join(ICI, 'sortie')
 
+# Au-dela, une proposition d'avant-vente cesse d'etre credible.
+PLAFOND = 16
+
 MOIS = ('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet',
         'août', 'septembre', 'octobre', 'novembre', 'décembre')
 
@@ -68,6 +71,8 @@ def estime(p):
     bas, haut = int(round(n * 0.85)), int(round(n * 1.15))
     if bas == haut:
         haut = bas + 1
+    haut = min(haut, PLAFOND)
+    bas = min(bas, haut - 1)
     return {'volume': volume, 'taux': taux, 'bas': max(bas, 1), 'haut': max(haut, 2)}
 
 

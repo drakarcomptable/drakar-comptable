@@ -29,3 +29,7 @@ services:
         value: nazar
       - key: DONETADOC_MDP
         sync: false        # a saisir dans Render, jamais dans le depot
+      # Pour un acces sans mot de passe, mettre DONETADOC_OUVERT a « oui »
+      # et vider DONETADOC_MDP. L'outil devient alors accessible a quiconque
+      # connait l'adresse : il fabrique des documents au nom de NAZAR, avec
+      # les logos des clients, et chaque fabrication consomme la machine.
