@@ -44,10 +44,10 @@
   ],
   "annotations": [
     {
-      "x": 34,
-      "y": 10,
-      "w": 26,
-      "h": 5,
+      "x": 36,
+      "y": 2.5,
+      "w": 20,
+      "h": 5.5,
       "cote": "droite",
       "texte": "Menu générique : aucune page ne cible une requête"
     },

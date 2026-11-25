@@ -312,8 +312,7 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .couv .pied{z-index:3;color:rgba(223,242,249,.66);border-color:rgba(255,255,255,.2)}
 
 /* 2 */
-.tab{margin-top:26px;border-radius:12px;overflow:hidden;
-  box-shadow:0 20px 50px -34px rgba(0,67,88,.55)}
+.tab{margin-top:26px;border-radius:12px;overflow:hidden}
 .tab-tete{display:flex;align-items:center;gap:20px;background:#1c5570;padding:14px 22px}
 .tab-tete .ia{display:flex;gap:9px}
 .tab-tete .ia svg{width:26px;height:26px;background:#fff;border-radius:50%;padding:5px}
@@ -347,7 +346,7 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .cas-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
   margin:0;flex:1;min-height:0}
 .cas{background:#fff;border-radius:15px;overflow:hidden;
-  box-shadow:0 26px 54px -38px rgba(0,0,0,.9);display:flex;flex-direction:column}
+  display:flex;flex-direction:column}
 .cas .vis{position:relative;flex:1;min-height:0;overflow:hidden;background:#06283a}
 .cas .vis .ph{width:100%;height:100%;object-fit:cover;display:block}
 /* veil en aplat : un degrade sort mal dans certains lecteurs de PDF */
@@ -365,10 +364,10 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 
 /* diagnostic */
 .diag{position:relative;margin-top:24px;border-radius:12px;overflow:hidden;
-  box-shadow:0 22px 54px -34px rgba(0,67,88,.6);flex:1;min-height:0}
+  flex:1;min-height:0}
 .diag>img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
 .diag .box{position:absolute;border:2.5px solid #e01b24;border-radius:7px;
-  box-shadow:0 0 0 3px rgba(224,27,36,.16)}
+  outline:2px solid rgba(224,27,36,.22);outline-offset:1px}
 .diag .num{position:absolute;top:-11px;left:-11px;width:22px;height:22px;
   border-radius:50%;background:#e01b24;color:#fff;font-size:11px;font-weight:800;
   font-style:normal;display:grid;place-items:center}
@@ -409,11 +408,11 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   margin-bottom:auto;max-width:94ch}
 .bulle .tete{flex:none;display:block;text-align:center}
 .bulle .tete img{width:96px;height:96px;border-radius:50%;object-fit:cover;
-  border:3px solid #fff;box-shadow:0 12px 30px -16px rgba(0,67,88,.6);display:block}
+  border:3px solid #fff;display:block}
 .bulle .li{display:inline-flex;margin-top:9px}
 .bulle .li svg{width:19px;height:19px;display:block}
 .bulle .dit{position:relative;background:#fff;border-radius:16px;padding:24px 28px;
-  box-shadow:0 20px 48px -34px rgba(0,67,88,.5)}
+  border:1px solid rgba(0,67,88,.1)}
 .bulle .dit::before{content:"";position:absolute;left:-9px;top:28px;width:18px;
   height:18px;background:#fff;transform:rotate(45deg)}
 .bulle .dit p{position:relative;font-size:15.5px;line-height:1.65;color:#0e4e62;
