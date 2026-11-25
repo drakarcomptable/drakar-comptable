@@ -8,7 +8,7 @@
    Lancement :  node proposition/analyse.cjs <url>
    Sort un objet JSON sur la sortie standard.
 */
-const { chromium } = require('playwright');
+const { lance } = require('./navigateur.cjs');
 
 // Les robots des moteurs generatifs. Si robots.txt les bloque, le site est
 // absent des reponses, quoi qu'on fasse sur le contenu.
@@ -35,7 +35,7 @@ function nettoie(t) {
 }
 
 async function analyse(url) {
-  const nav = await chromium.launch();
+  const nav = await lance();
   const pg = await nav.newPage({ viewport: { width: 1440, height: 900 },
     deviceScaleFactor: 1 });
   const r = { url, atteint: false };

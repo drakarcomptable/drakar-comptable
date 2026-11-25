@@ -9,7 +9,7 @@
    Aucun nom de client n'apparait dans ce fichier. Les references sont
    designees par leur nom d'image, comme sur le site. La correspondance
    vit dans NAZAR-CORRESPONDANCE-LOGOS.md, hors du dossier publie. */
-const { chromium } = require('playwright');
+const { lance } = require('./navigateur.cjs');
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -441,7 +441,7 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 
 (async () => {
   if (!fs.existsSync(SORTIE)) fs.mkdirSync(SORTIE, { recursive: true });
-  const nav = await chromium.launch();
+  const nav = await lance();
   const cap = await capture(nav);
   analyse = fourni('capture_analyse');   // affecte la variable du module
   if (!cap.ok) console.log('  capture indisponible : ' + cap.raison);

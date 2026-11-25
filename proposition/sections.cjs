@@ -15,7 +15,7 @@
    Il ecrit les images et imprime leur description en JSON sur la sortie
    standard, pour que l'outil puisse les afficher.
 */
-const { chromium } = require('playwright');
+const { lance } = require('./navigateur.cjs');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,7 +27,7 @@ const MAX_N = 10;
 
 async function sections(url, dossier, prefixe) {
   if (!fs.existsSync(dossier)) fs.mkdirSync(dossier, { recursive: true });
-  const nav = await chromium.launch();
+  const nav = await lance();
   const pg = await nav.newPage({ viewport: { width: LARGE, height: HAUT },
     deviceScaleFactor: 1 });
   const sortie = [];

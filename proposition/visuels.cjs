@@ -10,7 +10,7 @@
 
    Lancement :  node proposition/visuels.cjs
 */
-const { chromium } = require('playwright');
+const { lance } = require('./navigateur.cjs');
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -50,7 +50,7 @@ const TRAVAUX = [
     fs.createReadStream(path.join(t.de[0], t.de[1])).pipe(rs);
   }).listen(8791);
 
-  const nav = await chromium.launch();
+  const nav = await lance();
   const pg = await nav.newPage();
   await pg.goto('http://127.0.0.1:8791/', { waitUntil: 'domcontentloaded' })
           .catch(() => {});
