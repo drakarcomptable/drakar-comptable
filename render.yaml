@@ -13,7 +13,10 @@ services:
     name: donetadoc
     runtime: docker
     branch: claude/youthful-dirac-hq8gun   # la ou vivent ces fichiers
-    plan: starter          # le plan gratuit s'endort et n'a pas la memoire
+    # Mesure : lecture du site 575 Mo, photographie 638 Mo, rendu du PDF
+    # 846 Mo. Les plans a 512 Mo (free, starter) ne tiennent pas, le
+    # service serait tue en plein travail. Standard apporte 2 Go.
+    plan: standard
     region: frankfurt
     dockerfilePath: ./proposition/Dockerfile
     dockerContext: .
