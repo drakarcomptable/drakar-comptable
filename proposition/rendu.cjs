@@ -179,7 +179,7 @@ function pages(cap) {
     .map(f => `<img src="/${f}" alt="">`).join('');
 
   return `
-${(p.couverture || 'centre') === 'portable' ? `
+${(p.couverture || 'portable') === 'portable' ? `
 <section class="pg couv couv-portable">
   ${marque}
   <div class="scene">
@@ -197,7 +197,7 @@ ${(p.couverture || 'centre') === 'portable' ? `
   </div>
   ${pied(1)}
 </section>` : `
-<section class="pg couv couv-${esc(p.couverture || 'centre')}">
+<section class="pg couv couv-${esc(p.couverture || 'portable')}">
   ${marque}
   <div class="fond">${cap.ok ? '<img src="/__capture" alt="">' : '<div class="vide"></div>'}</div>
   <div class="txt">

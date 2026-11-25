@@ -86,6 +86,7 @@ def main(chemin):
     p['date'] = date_fr(datetime.date.today())
     p['nazar'] = NAZAR
     p.setdefault('marche', 'B2B')
+    p.setdefault('couverture', 'portable')   # ou « bande », ou « centre »
     p.setdefault('agenda', NAZAR['agenda'])
     p.setdefault('exemple', False)
     p['slug'] = ''.join(c if c.isalnum() else '-'
