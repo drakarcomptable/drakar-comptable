@@ -74,9 +74,50 @@ chantier avance, modifier ce fichier et committer.
    « bien-être » dans son accroche, ABCD International pour « indépendant »,
    ForTeam IT pour « freelance »). Se limiter à l'intitulé de poste, aux
    mots-clés du contact et à l'effectif.
-9. **La borne haute de 60 salariés compte autant que la borne basse.** Sur les
-   no-shows, 13 fiches dépassaient 60 et seraient passées sans ce contrôle,
-   dont Wakam (1 000), Soraia (625) et Thecodingmachine (250).
+9. **Au-delà de 60 salariés : pas bloquant.** Brice a tranché — c'est un signal
+   de priorité basse, pas un motif d'exclusion. Signaler, ne pas écarter.
+
+---
+
+## 2bis. Les trois degrés de priorité — mesurés, pas supposés
+
+Mesure du 1er septembre au 25 novembre 2026 sur les 2 420 contacts des sept
+listes travaillées (301, 302, 303, 304, 291, 281, 312), avec pour résultat
+« une transaction créée depuis le 1er septembre ». **33 transactions au total.**
+
+| Degré | Définition | Vivier | Transactions | Taux |
+|---|---|---|---|---|
+| **P1** | fiche créée depuis octobre 2026 **et** famille porteuse | 386 | **20** | **5,2 %** |
+| **P2** | fiche récente, autre secteur | 590 | 7 | 1,2 % |
+| **P3** | fiche antérieure à octobre 2026 | 1 444 | 6 | 0,4 % |
+| | moyenne du vivier | 2 420 | 33 | 1,4 % |
+
+**P1 convertit 12 fois mieux que P3** et porte 61 % des transactions avec 16 %
+du volume. C'est le modèle à appliquer pour prioriser une liste d'appel.
+
+### Le facteur le plus fort, c'est la fraîcheur de la fiche
+
+Fiche créée depuis octobre : 976 contacts, 27 transactions, **2,8 %**.
+Fiche antérieure : 1 444 contacts, 6 transactions, **0,4 %**. Soit **×6,6**.
+Aucune variable de secteur n'a un effet de cette ampleur.
+
+### Familles de mots-clés, par rendement
+
+| Famille | Vivier | Transactions | Taux |
+|---|---|---|---|
+| **Formation, compétences, pédagogie** | 344 | 11 | **3,2 %** |
+| Patrimoine, fiscal, comptabilité, courtage | 217 | 4 | 1,8 % |
+| IT, infogérance, cyber, cloud, télécom, logiciel | 594 | 9 | 1,5 % |
+| Énergie, solaire, isolation | 144 | 2 | 1,4 % |
+
+⚠️ **La formation est la meilleure famille, pas l'IT.** Contre-intuitif vu le
+volume de l'IT dans la data, et contraire à ce qui avait été avancé plus tôt.
+
+⚠️ **Deux réserves à garder** : 33 transactions, c'est peu — les familles à 2 ou
+4 transactions ne veulent pas dire grand-chose. Et « transaction créée » = RDV
+pris, pas affaire signée. Surtout, la fraîcheur est **confondue avec l'effort** :
+les commerciaux ont travaillé les listes récentes en priorité, donc on mesure
+peut-être autant l'allocation du temps que la qualité intrinsèque de la donnée.
 
 ---
 

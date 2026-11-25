@@ -497,3 +497,36 @@ rang A) est relié dans HubSpot à une fiche entreprise « New Brands », domain
 **Reste ouvert** : l'effectif est inconnu pour 17 fiches, et la vérification
 « encore en poste » n'a été faite que sur le rang A. Les rangs B et C
 (130 contacts) restent à vérifier.
+
+---
+
+## Modèle de priorisation à trois degrés
+
+**Demande** : combien de degrés de priorité peut-on faire, et sur quelle base ?
+Réponse mesurée plutôt que supposée — détail complet au §2bis de `CLAUDE.md`.
+
+Population : les 2 420 contacts des sept listes travaillées. Résultat observé :
+une transaction créée entre le 1er septembre et le 25 novembre 2026. 33 au total.
+
+| Degré | Vivier | Transactions | Taux |
+|---|---|---|---|
+| **P1** — fiche d'octobre 2026 ou après, famille porteuse | 386 | **20** | **5,2 %** |
+| **P2** — fiche récente, autre secteur | 590 | 7 | 1,2 % |
+| **P3** — fiche antérieure à octobre | 1 444 | 6 | 0,4 % |
+
+**Trois degrés, pas plus** : au-delà, les effectifs deviennent trop petits pour
+que les écarts veuillent dire quelque chose.
+
+Deux enseignements qui vont contre ce qu'on pensait :
+
+1. **La fraîcheur de la fiche pèse ×6,6**, bien plus que n'importe quel critère
+   de secteur. C'est le premier axe de tri.
+2. **La formation convertit le mieux : 3,2 %**, devant le patrimoine (1,8 %) et
+   l'IT (1,5 %). On avait annoncé l'inverse en se fiant au volume.
+
+**Règle corrigée** : au-delà de 60 salariés n'est plus bloquant, c'est un signal
+de priorité basse. Brice a tranché.
+
+**Réserve de méthode** : la fraîcheur est confondue avec l'effort commercial —
+les listes récentes ont été travaillées en priorité. Il faudra refaire la mesure
+dans un mois, quand les mêmes listes auront vieilli, pour séparer les deux.
