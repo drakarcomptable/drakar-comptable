@@ -734,3 +734,32 @@ terme décrivait leur clientèle, pas leur nature.
 Règle élargie au §2.2 de `CLAUDE.md` : pour ce type de test, ne regarder que les
 **mots-clés du contact et le nom de la société**. C'est exactement le même piège
 que pour les indépendants (§2.8) — deux fois en deux jours.
+
+---
+
+## No Show : arbitrages de Brice sur les cas limites
+
+**Écartés** : Alvéole (culture cellulaire) · Eletech Industrie · Navys
+(ingénierie navale) · Reparalux (horlogerie) · Circus Music · Terrart.
+
+**Gardés et rangés en P3** — dans la cible mais loin du profil qui convertit :
+Esthi France (anti-inondation) · Mtk Échafaudage · Courtois Paris (chapellerie) ·
+Le Chanvrier Français (CBD).
+
+**Une agence de communication repérée en P1** : la fiche sans nom de société
+rattachée à `agence-nocta.fr`, dont les mots-clés fraîchement enrichis disent
+« Stratégie de communication digitale, Campagnes publicitaires multicanales,
+Identité de marque et branding ». Elle était passée à travers la règle §2.1
+parce que son nom de société était vide dans HubSpot et qu'elle n'avait pas de
+mots-clés avant l'enrichissement. Écartée.
+
+**Leçon** : une fiche sans nom de société et sans mots-clés échappe à toutes
+les règles d'exclusion. L'enrichissement n'est pas qu'un confort de ciblage, il
+est nécessaire pour que les garde-fous fonctionnent.
+
+| Degré | Contacts |
+|---|---|
+| **P1** | **78** |
+| **P2** | 17 |
+| **P3** | 44 |
+| écartés au total | 11 |
