@@ -33,7 +33,7 @@ let analyse = null;
 const IA = JSON.parse(fs.readFileSync(path.join(ICI, 'logos-ia.json'), 'utf8'));
 
 const L = 1280, H = 720;
-const ech = n => n.toLocaleString('fr-FR');
+const ech = n => n.toLocaleString('fr-FR').replace(/\u202f/g, '\u00a0');
 const esc = s => String(s).replace(/[&<>"]/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -140,9 +140,9 @@ function pages(cap) {
   const diag = avecDiag ? `
 <section class="pg">
   ${marque}
-  <h2 class="q">Ce que nous avons vu sur votre site</h2>
-  <p class="rep">${p.annotations.length} point${p.annotations.length > 1 ? 's' : ''} qui vous
-    <b>coûte${p.annotations.length > 1 ? 'nt' : ''} ces recherches.</b></p>
+  <h2 class="q">Ce que les IA voient sur votre site</h2>
+  <p class="rep">${p.annotations.length} pénalité${p.annotations.length > 1 ? 's' : ''} IA
+    <b>qui vous empêche${p.annotations.length > 1 ? 'nt' : ''} d’être cité.</b></p>
   <div class="diag">
     <img src="${src}" alt="">
     ${p.annotations.map((a, i) => `
@@ -194,14 +194,14 @@ function pages(cap) {
 <section class="pg">
   ${marque}
   <h2 class="q">Pourquoi nous vous avons contacté ?</h2>
-  <p class="rep">${qui} <b>ont recherché vos services.</b></p>
+  <p class="rep">${qui} <b>interrogent les IA sur votre marché.</b></p>
   <div class="tab">
     <div class="tab-tete">
       <span class="ia">${ico('Gemini')}${ico('ChatGPT')}${ico('Claude')}</span>
-      <span class="tt">Volume de recherche dans les réponses des IA</span>
+      <span class="tt">Requêtes posées aux IA sur votre marché</span>
     </div>
     <table>
-      <thead><tr><th>Mots-clés potentiels à exploiter <b class="ast">*</b></th>
+      <thead><tr><th>Requêtes sur lesquelles vous n’êtes pas cité <b class="ast">*</b></th>
         <th class="n">Vol/mois</th><th>Intention</th></tr></thead>
       <tbody>${lignes}</tbody>
     </table>
@@ -211,7 +211,7 @@ function pages(cap) {
   </div>
   <p class="concl">En ajoutant les taux de conversion GEO, cela pourrait généralement
     vous générer entre <b>${e.bas} et ${e.haut} leads par mois</b>
-    chez ${esc(p.entreprise)}.<span class="hyp">${ech(e.volume)} recherches mensuelles,
+    chez ${esc(p.entreprise)}.<span class="hyp">${ech(e.volume)} requêtes mensuelles posées aux IA,
     à un taux de prise de contact de ${String(e.taux * 100).replace('.', ',')} %.
     Hypothèse de travail : c’est ce que l’audit sert à établir.</span></p>
   ${pied(2)}
@@ -238,7 +238,7 @@ ${diag}
       <div class="st"><b>${esc(c.n)}</b><span>${esc(c.q)}</span></div>`).join('')}
     </div>
   </div>
-  <p class="rep rep-cas">Quelques résultats <b>obtenus pour nos clients.</b></p>
+  <p class="rep rep-cas">Ce que nos clients <b>ont gagné en visibilité.</b></p>
   <div class="cas-grille">${cartes}</div>
   ${pied(total - 1)}
 </section>

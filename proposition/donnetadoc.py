@@ -160,11 +160,14 @@ def _depart(ident, url, captures=None):
 
 
 def reperes_section(sec):
-    """Ce qu'on peut reprocher a la section montree, et rien d'autre.
+    """Pourquoi les IA passent a cote de la section montree.
 
     Chaque repere s'appuie sur un comptage fait sur ce bloc precis :
-    combien de puces, combien de phrases, combien de chiffres. Un
-    consultant les deplace et les reecrit ensuite s'il veut.
+    combien de puces, combien de phrases, combien de chiffres, combien de
+    questions. Ce qui se joue n'est pas la qualite de la redaction, c'est
+    la citation : un moteur generatif reprend des phrases sourcables, pas
+    des listes de puces. Un consultant les deplace et les reecrit ensuite
+    s'il veut.
     """
     if not sec:
         return []
@@ -176,13 +179,17 @@ def reperes_section(sec):
 
     trouves = []
     if puces >= 5 and (not mots or phrases / max(mots, 1) < 0.03):
-        trouves.append('%d puces, aucune phrase qu’une IA puisse citer' % puces)
+        trouves.append('%d puces et aucune phrase : une IA n’a rien à citer ici'
+                       % puces)
     if chiffres == 0 and mots >= 40:
-        trouves.append('Aucun chiffre dans ce bloc : rien de vérifiable à reprendre')
+        trouves.append('Aucune donnée chiffrée : les IA reprennent ce qu’elles '
+                       'peuvent sourcer')
     if questions == 0 and mots >= 40:
-        trouves.append('Ce bloc ne répond à aucune question posée par vos clients')
+        trouves.append('Ce bloc ne répond à aucune requête : rien à reprendre '
+                       'dans une réponse IA')
     if not trouves and mots:
-        trouves.append('Ce bloc décrit une offre sans la rattacher à une requête')
+        trouves.append('Offre décrite sans requête cible : invisible dans les '
+                       'réponses des IA')
 
     # Emplacements par defaut : le titre du bloc, puis le contenu a gauche
     # et a droite. Ce sont des reperes a deplacer, pas des mesures : le

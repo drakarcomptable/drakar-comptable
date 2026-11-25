@@ -48,7 +48,7 @@
       "w": 20,
       "h": 5.5,
       "cote": "droite",
-      "texte": "Menu générique : aucune page ne cible une requête"
+      "texte": "Menu générique : aucune page citable sur une requête"
     },
     {
       "x": 19,
@@ -56,7 +56,7 @@
       "w": 34,
       "h": 19,
       "cote": "droite",
-      "texte": "Titre sans requête : ni « pentest » ni « audit cybersécurité »"
+      "texte": "Titre sans requête : les IA ne savent pas sur quoi vous citer"
     },
     {
       "x": 30,
@@ -64,7 +64,7 @@
       "w": 39,
       "h": 13,
       "cote": "gauche",
-      "texte": "Chiffres forts, mais aucune donnée structurée à citer"
+      "texte": "500+ et 17+ non structurés : les IA ne peuvent pas les reprendre"
     }
   ]
 }
