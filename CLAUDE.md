@@ -56,6 +56,12 @@ chantier avance, modifier ce fichier et committer.
    Exemples arbitrés : Eurostep Digital, PE Cube et Edda (logiciels pour fonds)
    sont **gardés** ; Canovia, Sycomore Corporate Finance, LT Capital et MGT
    Partners sont **écartés**.
+   ⚠️ **Chercher aussi les termes anglais** : « venture capital », « club deal »,
+   « private equity ». Techmind est passé à travers le filtre parce que la règle
+   ne couvrait que « capital-risque » en français.
+   **Arbitrages voisins tranchés par Brice le 26/11** : cabinet d'avocats →
+   **écarter** · banque → **écarter** · family office → **écarter** ·
+   gestion de patrimoine → **garder**. Le reste des services B2B est bon.
 8. **Indépendants et structures solo : hors cible.** Remonté par les
    commerciaux sur la liste OKP Formation, où beaucoup de coachs en bien-être
    et de praticiens isolés leur ont fait perdre du temps. Signaux à vérifier

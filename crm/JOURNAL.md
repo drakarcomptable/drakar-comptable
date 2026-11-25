@@ -622,3 +622,40 @@ profil qui convertit.
 Quelques fiches ont un champ mots-clés contenant une phrase d'IA au lieu de
 mots-clés (« Je ne dispose pas d'informations suffisantes sur… » — Robinswood).
 Colonne `Mots-clés cassés` dans les fichiers livrés.
+
+---
+
+## No Show : arbitrages de Brice et extraction pour enrichissement
+
+**Arbitrages** (26/11) : cabinet d'avocats non · banque non · family office non ·
+gestion de patrimoine oui · le reste des services B2B, bon.
+
+**2 fiches écartées** sur 150 : Novlaw Avocats et Techmind. Techmind était passé
+à travers la règle finance parce qu'elle ne couvrait que « capital-risque » en
+français et pas « venture capital » — règle élargie au §2.7 de `CLAUDE.md`.
+
+| Degré | Contacts |
+|---|---|
+| **P1** — tech, SaaS, logiciel, data, service tech B2B, formation | **71** |
+| **P2** — autres services B2B | **28** |
+| **P3** — finance, énergie, construction, B2C | **49** |
+| écartés | 2 |
+
+### Les mots-clés manquants
+
+**56 des 148 n'ont pas de « Notes sur l'inscription » exploitable** — soit le
+champ est vide, soit il contient une phrase d'IA du type « Je ne dispose pas
+d'informations suffisantes… ». Répartition : 14 en P1, 17 en P2, 25 en P3.
+
+Livré : `A-ENRICHIR-MOTS-CLES-56.csv`, avec pour chaque fiche le Record ID,
+nom, prénom, société, **site web**, e-mail, téléphone, fonction, secteur
+HubSpot, ville, effectif et description de la société.
+
+**Les 56 ont toutes un site web** — reconstruit depuis le domaine de
+l'entreprise, ou à défaut depuis le domaine de l'e-mail. 38 ont aussi un secteur
+HubSpot et 51 une description, de quoi recouper le résultat de l'outil.
+
+**Prochaine étape** : Brice passe le fichier dans son outil de mots-clés, me
+rend le résultat, je le fusionne sur le `Record ID contact` et je régénère les
+trois listes avec un classement fondé sur la donnée réelle plutôt que sur le
+secteur HubSpot.
