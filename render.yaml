@@ -12,6 +12,7 @@ services:
   - type: web
     name: donetadoc
     runtime: docker
+    branch: claude/youthful-dirac-hq8gun   # la ou vivent ces fichiers
     plan: starter          # le plan gratuit s'endort et n'a pas la memoire
     region: frankfurt
     dockerfilePath: ./proposition/Dockerfile
