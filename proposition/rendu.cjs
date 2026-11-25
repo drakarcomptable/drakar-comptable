@@ -514,24 +514,36 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   analyse = fourni('capture_analyse');   // affecte la variable du module
   if (!cap.ok) console.log('  capture indisponible : ' + cap.raison);
 
+  const absents = [];
   const TYPES = { '.woff2':'font/woff2', '.png':'image/png', '.webp':'image/webp',
                   '.svg':'image/svg+xml', '.jpg':'image/jpeg', '.jpeg':'image/jpeg' };
   const srv = http.createServer((req, res) => {
     const nom = decodeURIComponent(req.url.split('?')[0].slice(1));
-    if (nom === '__capture' && cap.ok) {
-      res.writeHead(200, { 'Content-Type': TYPES[path.extname(cap.fichier)] || 'image/png' });
-      return fs.createReadStream(cap.fichier).pipe(res);
-    }
-    if (nom === '__analyse' && analyse) {
-      res.writeHead(200, { 'Content-Type': TYPES[path.extname(analyse)] || 'image/png' });
-      return fs.createReadStream(analyse).pipe(res);
-    }
+    const sert = (chemin, etiquette) => {
+      let ok = false;
+      try { ok = fs.statSync(chemin).isFile(); } catch (e) { ok = false; }
+      if (!ok) { absents.push(etiquette); res.writeHead(404); return res.end(); }
+      res.writeHead(200, { 'Content-Type': TYPES[path.extname(chemin)] || 'image/png' });
+      const flux = fs.createReadStream(chemin);
+      flux.on('error', e => { absents.push(etiquette + ' : ' + e.code); res.end(); });
+      flux.pipe(res);
+    };
+    if (nom === '__capture' && cap.ok) return sert(cap.fichier, '__capture');
+    if (nom === '__analyse' && analyse) return sert(analyse, '__analyse');
     const racine = (nom.startsWith('equipe/') || nom.startsWith('visuels/'))
       ? path.dirname(EQUIPE) : SITE;
     const f = path.join(racine, nom);
-    if (!f.startsWith(racine) || !fs.existsSync(f)) { res.writeHead(404); return res.end(); }
+    let fichier = false;
+    try { fichier = fs.statSync(f).isFile(); } catch (e) { fichier = false; }
+    if (!f.startsWith(racine) || !fichier) {
+      absents.push(nom || '(racine)');
+      res.writeHead(404); return res.end();
+    }
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(f)] || 'application/octet-stream' });
-    fs.createReadStream(f).pipe(res);
+    const flux = fs.createReadStream(f);
+    // sans cet ecouteur, la moindre erreur de lecture tue le processus
+    flux.on('error', e => { absents.push(nom + ' : ' + e.code); res.end(); });
+    flux.pipe(res);
   }).listen(8793);
 
   const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8">
@@ -579,14 +591,14 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
     console.error('Impression du PDF impossible : ' + e.message);
     console.error('memoire node : rss %d Mo, tas %d Mo',
       Math.round(m.rss / 1048576), Math.round(m.heapUsed / 1048576));
-    if (manque.length) {
-      console.error('ressources en echec (%d) :', manque.length);
-      manque.slice(0, 12).forEach(x => console.error('  ' + x));
-    }
+    [...new Set(absents)].slice(0, 12).forEach(x => console.error('  absent : ' + x));
+    manque.slice(0, 12).forEach(x => console.error('  ' + x));
     throw e;
   }
-  if (manque.length) {
-    console.log('  ressources en echec : ' + manque.length);
+  if (manque.length || absents.length) {
+    console.log('  ressources en echec : %d demandee(s) introuvable(s), %d erreur(s)',
+                absents.length, manque.length);
+    [...new Set(absents)].slice(0, 8).forEach(x => console.log('    absent : ' + x));
     manque.slice(0, 6).forEach(x => console.log('    ' + x));
   }
   await page.close();
