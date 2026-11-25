@@ -704,3 +704,33 @@ paysagisme — sont désormais tranchés par leurs mots-clés réels.
 **Important** : les 48 mots-clés ne sont pour l'instant que dans ces fichiers.
 Tant que l'import HubSpot n'est pas fait, le CRM reste vide sur ces fiches et le
 prochain export repartira de zéro.
+
+---
+
+## No Show : arbitrages recrutement, réseautage et secteur public
+
+Trois décisions de Brice, appliquées aux 148 :
+
+- **le recrutement est quali** → 4 fiches remontées en P1 : Pragmatike,
+  Reseauprosante, Talented People Group, We Find ;
+- **le réseautage n'est pas quali** → Les Cafés Business écarté ;
+- **le secteur public et les associations ne sont pas quali** → Pragma 9
+  (marchés publics, commande publique) écarté.
+
+| Degré | Contacts |
+|---|---|
+| **P1** | **79** |
+| **P2** | 27 |
+| **P3** | 40 |
+| écartés au total | 4 |
+
+### Le piège de la description, à nouveau
+
+Le premier passage du filtre « association » sortait 5 fiches dont **3 faux
+positifs** : Teamr et Claris Conseil sont des cabinets comptables qui *servent*
+des associations, SIG-Image édite des logiciels pour les travaux publics. Le
+terme décrivait leur clientèle, pas leur nature.
+
+Règle élargie au §2.2 de `CLAUDE.md` : pour ce type de test, ne regarder que les
+**mots-clés du contact et le nom de la société**. C'est exactement le même piège
+que pour les indépendants (§2.8) — deux fois en deux jours.

@@ -37,6 +37,17 @@ chantier avance, modifier ce fichier et committer.
    `référencement fournisseurs` (centrale d'achat).
 2. **Hors cible** : organismes, fédérations, syndicats, CCI, associations,
    clubs, ordres professionnels. Et les **ESN**.
+   S'y ajoutent, tranchés le 26/11 : le **réseautage** (clubs d'affaires,
+   cercles d'entrepreneurs, rencontres business) et le **secteur public**
+   (marchés publics, commande publique, collectivités).
+   ⚠️ Chercher ces termes **uniquement dans les mots-clés du contact et le nom
+   de la société**, jamais dans la `description` de l'entreprise : testé, trois
+   faux positifs sur cinq — Teamr et Claris Conseil sont des cabinets
+   comptables qui *servent* des associations, SIG-Image un éditeur de logiciels
+   pour les travaux publics. Le terme y décrit la clientèle, pas l'entreprise.
+   C'est le même piège qu'au §8 ci-dessous.
+   **Le recrutement, lui, est quali** et va en P1 : cabinets de recrutement,
+   chasse de têtes, staffing, intérim spécialisé, management de transition.
 3. **Jamais de clé API dans le chat.** Elles passent par les variables
    d'environnement ou les secrets réseau de l'environnement.
 4. **Ne jamais utiliser l'import « Liste de désinscription » de HubSpot** :
