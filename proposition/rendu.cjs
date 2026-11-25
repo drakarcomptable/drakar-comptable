@@ -358,12 +358,14 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
   aspect-ratio:16/10;object-fit:cover;object-position:top center}
 .couv-portable .ecran .vide{width:100%;aspect-ratio:16/10;border-radius:3px;
   background:#0a3544}
-/* le socle deborde de chaque cote, comme la base d'un portable */
-.couv-portable .socle{height:14px;margin:0 -9%;background:#202028;
-  border-radius:0 0 11px 11px;position:relative}
-.couv-portable .socle::after{content:"";position:absolute;top:0;left:50%;
-  width:13%;height:5px;margin-left:-6.5%;background:#101016;
-  border-radius:0 0 6px 6px}
+/* le socle s'evase vers le bas, comme la base d'un portable */
+.couv-portable .socle{height:0;width:118%;margin:0 -9%;
+  border-bottom:15px solid #23232b;
+  border-left:14px solid transparent;border-right:14px solid transparent;
+  box-sizing:border-box;position:relative}
+.couv-portable .socle::after{content:"";position:absolute;top:3px;left:50%;
+  width:120px;height:5px;margin-left:-60px;background:#13131a;
+  border-radius:0 0 5px 5px}
 
 .couv-portable .bandeau{position:absolute;left:0;right:0;bottom:0;height:126px;
   background:#00212c;display:flex;align-items:center;gap:28px;
