@@ -32,6 +32,8 @@ NAZAR = {
     'tel': '+33 7 43 39 25 74',
     'site': 'nazar-seo.fr',
     'linkedin_mael': 'https://www.linkedin.com/in/mael-gallais-0b0a031ba/',
+    'agenda': 'https://meetings-eu1.hubspot.com/mael-gallais'
+              '?uuid=4a220f85-6a7a-4e61-91e9-c2908eca8f75',
 }
 
 
@@ -66,7 +68,7 @@ def main(chemin):
     p['date'] = date_fr(datetime.date.today())
     p['nazar'] = NAZAR
     p.setdefault('marche', 'B2B')
-    p.setdefault('agenda', 'https://nazar-seo.fr/audit-gratuit')
+    p.setdefault('agenda', NAZAR['agenda'])
     p.setdefault('exemple', False)
     p['slug'] = ''.join(c if c.isalnum() else '-'
                         for c in p['entreprise'].lower()).strip('-')

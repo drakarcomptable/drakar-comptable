@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DONETADOC</title>
+<style>
+:root{
+  --violet:#6d4aff; --violet-f:#4a2fd4; --violet-c:#efeaff;
+  --encre:#1d1240; --gris:#6b6490; --blanc:#fff;
+  --fond:#f5f3ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--encre);
+  background:var(--fond);min-height:100vh;padding:46px 20px 90px;
+  /* Le relief : deux trames de points decalees, une blanche en haut a
+     gauche de chaque point et une violette en bas a droite. */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.95) 1.6px, transparent 1.7px),
+    radial-gradient(circle at 3px 3px, rgba(109,74,255,.26) 1.5px, transparent 1.6px);
+  background-size:22px 22px, 22px 22px;
+  background-position:0 0, 0 0;
+}
+.w{max-width:760px;margin:0 auto}
+
+header{text-align:center;margin-bottom:34px}
+h1{font-size:40px;font-weight:800;letter-spacing:-.045em;line-height:1.05;
+  display:inline-flex;align-items:center;gap:12px}
+h1 .pastille{width:26px;height:26px;border-radius:50%;background:var(--violet);
+  box-shadow:0 0 0 5px rgba(109,74,255,.18)}
+.bas{margin-top:10px;color:var(--gris);font-size:15px}
+
+.carte{background:var(--blanc);border-radius:20px;padding:26px 28px;
+  border:1px solid #e4defa;margin-bottom:16px}
+.carte > h2{font:700 11px/1 ui-monospace,monospace;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--violet);margin-bottom:16px}
+
+.saisie{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text],input[type=url]{flex:1 1 300px;font:16px/1.4 inherit;color:var(--encre);
+  padding:14px 16px;border:1.5px solid #ddd5f8;border-radius:12px;background:#fdfcff}
+input:focus{outline:2px solid var(--violet);outline-offset:-1px;border-color:var(--violet)}
+button{font:700 15px/1 inherit;cursor:pointer;border:0;border-radius:12px;
+  padding:14px 22px;background:var(--violet);color:#fff;white-space:nowrap}
+button:hover{background:var(--violet-f)}
+button:disabled{opacity:.45;cursor:default}
+button.sec{background:var(--violet-c);color:var(--violet-f)}
+button.sec:hover{background:#e3dbff}
+
+/* ---- jauge ---- */
+.jauge{height:12px;border-radius:999px;background:var(--violet-c);overflow:hidden}
+.jauge i{display:block;height:100%;width:0;border-radius:999px;
+  background:var(--violet);transition:width .45s cubic-bezier(.3,1,.4,1)}
+.etat{display:flex;justify-content:space-between;align-items:baseline;
+  gap:14px;margin-bottom:11px}
+.etat .msg{font-weight:600}
+.etat .pc{font:700 20px/1 ui-monospace,monospace;color:var(--violet)}
+.pas{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.pas span{font-size:11.5px;font-weight:700;color:var(--gris);
+  background:#f6f3ff;border-radius:999px;padding:5px 11px}
+.pas span.fait{background:var(--violet);color:#fff}
+.pas span.cours{background:var(--violet-c);color:var(--violet-f)}
+
+/* ---- pause et erreur ---- */
+.avis{border-radius:14px;padding:16px 18px;margin-top:16px;font-size:14.5px}
+.avis.pause{background:#fff7e8;border:1px solid #f3dcae;color:#7a5410}
+.avis.ko{background:#feecea;border:1px solid #f4cbc5;color:#8f2819}
+.avis b{display:block;margin-bottom:5px}
+.avis .det{margin-top:8px;font:12px/1.5 ui-monospace,monospace;
+  white-space:pre-wrap;opacity:.8}
+
+.zone{border:2px dashed #cbbdf5;border-radius:14px;background:#faf8ff;
+  padding:20px 16px;text-align:center;color:var(--gris);cursor:pointer;font-size:13.5px}
+.zone:hover,.zone.sur{background:#f1ebff;border-color:var(--violet)}
+.zone b{display:block;color:var(--encre);font-size:14px;margin-bottom:3px}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.apercu{margin-top:9px;border-radius:10px;overflow:hidden;line-height:0;
+  border:1px solid #e4defa}
+.apercu img{width:100%;display:block}
+
+/* ---- fini ---- */
+.fini{text-align:center;padding:8px 0 4px;position:relative}
+.fini .gros{font-size:21px;font-weight:800;letter-spacing:-.025em;margin-bottom:16px}
+.etoiles{position:absolute;inset:-26px -10px 0;pointer-events:none;overflow:hidden}
+.etoiles i{position:absolute;font-style:normal;font-size:15px;opacity:0;
+  animation:scintille 1.5s ease-out forwards}
+@keyframes scintille{
+  0%{opacity:0;transform:translateY(14px) scale(.4) rotate(0)}
+  40%{opacity:1;transform:translateY(-6px) scale(1.15) rotate(25deg)}
+  100%{opacity:0;transform:translateY(-34px) scale(.6) rotate(60deg)}
+}
+@media (prefers-reduced-motion:reduce){.etoiles{display:none}}
+
+.lignes{display:grid;gap:8px;margin-top:14px}
+.ligne{background:#f6f3ff;border-radius:10px;padding:10px 13px;font-size:13.5px}
+.ligne b{color:var(--violet-f)}
+.aide{font-size:13px;color:var(--gris);margin-top:10px;line-height:1.6}
+.aide code{background:#f1ecff;border-radius:5px;padding:1px 6px;
+  font:12.5px ui-monospace,monospace;color:var(--violet-f)}
+.pied{text-align:center;margin-top:26px;font-size:13px;color:var(--gris)}
+.pied a{color:var(--violet-f)}
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div class="w">
+
+  <header>
+    <h1>DONETADOC<span class="pastille"></span></h1>
+    <p class="bas">Collez l’adresse d’un prospect. Le reste se fait tout seul.</p>
+  </header>
+
+  <section class="carte">
+    <h2>L’adresse du site</h2>
+    <div class="saisie">
+      <input type="url" id="url" placeholder="https://www.exemple.fr"
+             autocomplete="off" spellcheck="false">
+      <button type="button" id="go">DONETADOC</button>
+    </div>
+    <div class="avis ko" id="erreur" hidden></div>
+  </section>
+
+  <section class="carte" id="travail" hidden>
+    <h2>Document créé</h2>
+    <div class="etat">
+      <span class="msg" id="msg">Départ…</span>
+      <span class="pc" id="pc">0 %</span>
+    </div>
+    <div class="jauge"><i id="barre"></i></div>
+    <div class="pas" id="pas"></div>
+
+    <div class="avis pause" id="pause" hidden>
+      <b id="pause-t"></b>
+      <span id="pause-b"></span>
+      <div class="det" id="pause-d" hidden></div>
+
+      <div id="pause-lien" hidden>
+        <div class="saisie" style="margin-top:14px">
+          <input type="url" id="url2" placeholder="Une autre adresse">
+          <button type="button" class="sec" id="relance">Réessayer</button>
+        </div>
+      </div>
+
+      <div id="pause-img" hidden>
+        <div class="deux">
+          <div>
+            <div class="zone" data-role="accueil">
+              <b>Page d’accueil</b>glisser l’image ici</div>
+            <div class="apercu" id="ap-accueil" hidden><img alt=""></div>
+          </div>
+          <div>
+            <div class="zone" data-role="analyse">
+              <b>Section à annoter</b>glisser l’image ici</div>
+            <div class="apercu" id="ap-analyse" hidden><img alt=""></div>
+          </div>
+        </div>
+        <button type="button" class="sec" id="reprendre"
+                style="margin-top:14px">Reprendre avec ces captures</button>
+      </div>
+    </div>
+
+    <div class="fini" id="fini" hidden>
+      <div class="etoiles" id="etoiles"></div>
+      <p class="gros">Votre document est prêt.</p>
+      <a id="tele"><button type="button">Télécharger ma doc</button></a>
+      <button type="button" class="sec" id="btn-mod"
+              style="margin-left:8px">Modifier la doc</button>
+    </div>
+  </section>
+
+  <section class="carte" id="modif" hidden>
+    <h2>Modifier la doc</h2>
+    <div class="saisie">
+      <input type="text" id="cmd" placeholder="nom : B.Secure">
+      <button type="button" class="sec" id="appliquer">Appliquer</button>
+    </div>
+    <div class="lignes" id="faits"></div>
+    <p class="aide" id="aide"></p>
+  </section>
+
+  <p class="pied">Besoin de tout régler à la main ?
+    <a href="/avance">Le formulaire détaillé</a>.</p>
+</div>
+
+<input type="file" id="fichier" accept="image/png,image/jpeg,image/webp" hidden>
+
+<script>
+const $ = s => document.querySelector(s);
+let ident = null, sonde = null, role = null;
+const images = { accueil: null, analyse: null };
+
+const LIBELLES = { lecture: 'Lecture', photo: 'Photographie',
+                   montage: 'Montage', pdf: 'Document', fini: 'Prêt' };
+const ORDRE = ['lecture', 'photo', 'montage', 'pdf'];
+
+function erreur(t, d) {
+  const e = $('#erreur');
+  e.hidden = false;
+  e.innerHTML = '<b></b>';
+  e.querySelector('b').textContent = t;
+  if (d) { const p = document.createElement('div');
+           p.className = 'det'; p.textContent = d; e.append(p); }
+}
+
+function lance(url) {
+  $('#erreur').hidden = true;
+  $('#travail').hidden = false;
+  $('#fini').hidden = true;
+  $('#modif').hidden = true;
+  $('#pause').hidden = true;
+  $('#go').disabled = true;
+  avance({ pct: 0, message: 'Départ…', etape: 'lecture', etat: 'en_cours' });
+  fetch('/doc', { method: 'POST', body: JSON.stringify({ url }) })
+    .then(r => r.json().then(d => ({ ok: r.ok, d })))
+    .then(({ ok, d }) => {
+      if (!ok) { $('#travail').hidden = true; $('#go').disabled = false;
+                 return erreur(d.erreur || 'Échec.', d.detail); }
+      ident = d.id;
+      suit();
+    })
+    .catch(e => { $('#go').disabled = false; erreur('L’outil ne répond pas : ' + e.message); });
+}
+
+function suit() {
+  clearInterval(sonde);
+  sonde = setInterval(async () => {
+    try {
+      const r = await fetch('/etat/' + ident);
+      if (!r.ok) return;
+      avance(await r.json());
+    } catch (e) { /* le serveur repondra au prochain tour */ }
+  }, 900);
+}
+
+function avance(t) {
+  $('#msg').textContent = t.message || '';
+  $('#pc').textContent = Math.round(t.pct || 0) + ' %';
+  $('#barre').style.width = (t.pct || 0) + '%';
+
+  const z = $('#pas');
+  z.innerHTML = '';
+  const i = ORDRE.indexOf(t.etape);
+  ORDRE.forEach((k, n) => {
+    const s = document.createElement('span');
+    s.textContent = LIBELLES[k];
+    if (t.etat === 'fini' || (i >= 0 && n < i)) s.className = 'fait';
+    else if (n === i && t.etat === 'en_cours') s.className = 'cours';
+    z.append(s);
+  });
+
+  const enPause = t.etat === 'pause_lien' || t.etat === 'pause_images';
+  $('#pause').hidden = !enPause && t.etat !== 'echec';
+  if (enPause || t.etat === 'echec') {
+    clearInterval(sonde);
+    $('#go').disabled = false;
+    $('#pause').className = 'avis ' + (t.etat === 'echec' ? 'ko' : 'pause');
+    $('#pause-t').textContent = t.message || '';
+    $('#pause-b').textContent = t.besoin || '';
+    $('#pause-d').hidden = !t.detail;
+    $('#pause-d').textContent = t.detail || '';
+    $('#pause-lien').hidden = t.etat !== 'pause_lien';
+    $('#pause-img').hidden = !(t.etat === 'pause_images' || t.etat === 'pause_lien');
+  }
+
+  if (t.etat === 'fini') {
+    clearInterval(sonde);
+    $('#go').disabled = false;
+    $('#pause').hidden = true;
+    if ($('#fini').hidden) { $('#fini').hidden = false; etoiles(); }
+    $('#tele').href = t.pdf;
+    $('#tele').setAttribute('download', '');
+  }
+}
+
+function etoiles() {
+  const z = $('#etoiles');
+  z.innerHTML = '';
+  for (let k = 0; k < 14; k++) {
+    const e = document.createElement('i');
+    e.textContent = k % 3 ? '✦' : '✧';
+    e.style.left = (4 + Math.random() * 92) + '%';
+    e.style.top = (10 + Math.random() * 70) + '%';
+    e.style.color = k % 2 ? '#6d4aff' : '#b9a6ff';
+    e.style.animationDelay = (Math.random() * .7).toFixed(2) + 's';
+    z.append(e);
+  }
+  setTimeout(() => { z.innerHTML = ''; }, 2600);
+}
+
+/* ---- captures a la main ---- */
+function montre(r, src) {
+  const a = $('#ap-' + r);
+  a.hidden = false;
+  a.querySelector('img').src = src;
+}
+function lis(r, f) {
+  if (!f) return;
+  if (!/^image\/(png|jpeg|webp)$/.test(f.type))
+    return erreur('Format non accepté : ' + (f.type || 'inconnu') + '. PNG, JPEG ou WebP.');
+  const l = new FileReader();
+  l.onload = () => { images[r] = l.result; montre(r, l.result); };
+  l.readAsDataURL(f);
+}
+document.querySelectorAll('.zone').forEach(z => {
+  const r = z.dataset.role;
+  z.onclick = () => { role = r; $('#fichier').value = ''; $('#fichier').click(); };
+  z.ondragover = e => { e.preventDefault(); z.classList.add('sur'); };
+  z.ondragleave = () => z.classList.remove('sur');
+  z.ondrop = e => { e.preventDefault(); z.classList.remove('sur');
+                    lis(r, e.dataTransfer.files[0]); };
+});
+$('#fichier').onchange = e => lis(role, e.target.files[0]);
+
+function reprend(corps) {
+  $('#pause').hidden = true;
+  avance({ pct: 0, message: 'Reprise…', etape: 'lecture', etat: 'en_cours' });
+  fetch('/doc/reprendre', { method: 'POST',
+    body: JSON.stringify(Object.assign({ id: ident }, corps)) })
+    .then(r => r.json().then(d => ({ ok: r.ok, d })))
+    .then(({ ok, d }) => { if (!ok) return erreur(d.erreur || 'Échec.'); suit(); })
+    .catch(e => erreur('L’outil ne répond pas : ' + e.message));
+}
+
+$('#reprendre').onclick = () => {
+  if (!images.accueil && !images.analyse)
+    return erreur('Déposez au moins une capture.');
+  reprend({ capture_accueil: images.accueil, capture_analyse: images.analyse });
+};
+$('#relance').onclick = () => {
+  const u = $('#url2').value.trim();
+  if (!u) return erreur('Donnez une adresse.');
+  reprend({ url: u });
+};
+
+/* ---- modifier ---- */
+$('#btn-mod').onclick = () => {
+  $('#modif').hidden = false;
+  $('#cmd').focus();
+  $('#modif').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+$('#appliquer').onclick = async () => {
+  const c = $('#cmd').value.trim();
+  if (!c) return;
+  $('#appliquer').disabled = true;
+  try {
+    const r = await fetch('/doc/modifier', { method: 'POST',
+      body: JSON.stringify({ id: ident, commande: c }) });
+    const d = await r.json();
+    const z = $('#faits');
+    if (r.ok) {
+      const l = document.createElement('div');
+      l.className = 'ligne';
+      l.innerHTML = '<b>fait</b> · ';
+      l.append(document.createTextNode(d.faits.join(' · ')));
+      z.prepend(l);
+      $('#tele').href = d.pdf;
+      $('#cmd').value = '';
+      $('#aide').textContent = '';
+    } else if (d.exemples) {
+      $('#aide').innerHTML = 'Je n’ai pas compris, et je préfère ne rien changer ' +
+        'plutôt que de deviner. Ce que je sais faire : ' +
+        d.exemples.map(e => '<code>' + e.replace(/</g, '&lt;') + '</code>').join(' ');
+    } else {
+      erreur(d.erreur || 'Échec.', d.detail);
+    }
+  } catch (e) { erreur('L’outil ne répond pas : ' + e.message); }
+  $('#appliquer').disabled = false;
+};
+$('#cmd').addEventListener('keydown', e => {
+  if (e.key === 'Enter') $('#appliquer').click();
+});
+
+$('#go').onclick = () => {
+  const u = $('#url').value.trim();
+  if (!u) return erreur('Collez d’abord une adresse.');
+  lance(u);
+};
+$('#url').addEventListener('keydown', e => {
+  if (e.key === 'Enter') $('#go').click();
+});
+</script>
+</body>
+</html>

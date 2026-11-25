@@ -19,6 +19,9 @@ import subprocess
 import sys
 import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from socketserver import ThreadingMixIn
+
+import donnetadoc
 
 ICI = os.path.dirname(os.path.abspath(__file__))
 DEPOTS = os.path.join(ICI, 'depots')
@@ -63,12 +66,42 @@ class Poste(BaseHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
+    def _page(self, nom):
+        p = io.open(os.path.join(ICI, 'outil', nom), encoding='utf-8').read()
+        return self._envoie(200, 'text/html; charset=utf-8', p)
+
+    def _json(self, code, obj):
+        return self._envoie(code, 'application/json',
+                            json.dumps(obj, ensure_ascii=False))
+
+    def _lu(self):
+        n = int(self.headers.get('Content-Length') or 0)
+        return json.loads(self.rfile.read(n).decode('utf-8')) if n else {}
+
+    def _captures(self, q, slug):
+        """Range les images collees dans la requete et rend leurs chemins."""
+        out = {}
+        for role, champ in (('accueil', 'capture_accueil'),
+                            ('analyse', 'capture_analyse')):
+            val = q.get(champ) or ''
+            if val.startswith('data:'):
+                out[role] = ecrit_depot(slug, role, val)
+        return out or None
+
     def do_GET(self):
         chemin = self.path.split('?')[0]
         if chemin in ('/', '/index.html'):
-            page = io.open(os.path.join(ICI, 'outil', 'page.html'),
-                           encoding='utf-8').read()
-            return self._envoie(200, 'text/html; charset=utf-8', page)
+            return self._page('donetadoc.html')
+        if chemin in ('/avance', '/avance.html'):
+            return self._page('page.html')
+        if chemin.startswith('/etat/'):
+            t = donnetadoc.etat(chemin[6:])
+            if not t:
+                return self._json(404, {'erreur': 'Document inconnu.'})
+            # on ne renvoie pas l'analyse brute : la page n'en a pas besoin
+            t.pop('analyse', None)
+            t.pop('donnees', None)
+            return self._json(200, t)
         if chemin.startswith('/depot/'):
             f = os.path.join(DEPOTS, nom_sur(chemin[7:]))
             if not os.path.exists(f):
@@ -85,6 +118,12 @@ class Poste(BaseHTTPRequestHandler):
         self._envoie(404, 'text/plain; charset=utf-8', 'absent')
 
     def do_POST(self):
+        if self.path == '/doc':
+            return self._doc_lance()
+        if self.path == '/doc/reprendre':
+            return self._doc_reprend()
+        if self.path == '/doc/modifier':
+            return self._doc_modifie()
         if self.path == '/capturer':
             return self._capture()
         if self.path != '/fabrique':
@@ -144,6 +183,61 @@ class Poste(BaseHTTPRequestHandler):
              'fiche': os.path.relpath(fiche, os.path.dirname(ICI))},
             ensure_ascii=False))
 
+    def _doc_lance(self):
+        try:
+            q = self._lu()
+        except Exception as e:
+            return self._json(400, {'erreur': 'données illisibles : %s' % e})
+        url = str(q.get('url', '')).strip()
+        if not re.match(r'^https?://[^\s/]+\.[^\s/]', url):
+            if url and not url.startswith('http'):
+                url = 'https://' + url
+            if not re.match(r'^https?://[^\s/]+\.[^\s/]', url):
+                return self._json(400, {'erreur':
+                    'Adresse invalide. Exemple : https://www.exemple.fr'})
+        ident = donnetadoc.lance(url)
+        return self._json(200, {'id': ident})
+
+    def _doc_reprend(self):
+        try:
+            q = self._lu()
+        except Exception as e:
+            return self._json(400, {'erreur': 'données illisibles : %s' % e})
+        ident = str(q.get('id', ''))
+        if not donnetadoc.etat(ident):
+            return self._json(404, {'erreur': 'Document inconnu.'})
+        url = str(q.get('url', '')).strip() or None
+        if url and not url.startswith('http'):
+            url = 'https://' + url
+        try:
+            caps = self._captures(q, 'doc-' + ident)
+        except ValueError as e:
+            return self._json(400, {'erreur': str(e)})
+        donnetadoc.reprend(ident, url, caps)
+        return self._json(200, {'id': ident})
+
+    def _doc_modifie(self):
+        try:
+            q = self._lu()
+        except Exception as e:
+            return self._json(400, {'erreur': 'données illisibles : %s' % e})
+        ident, cmd = str(q.get('id', '')), str(q.get('commande', '')).strip()
+        if not cmd:
+            return self._json(400, {'erreur': 'Écrivez ce qu’il faut changer.'})
+        try:
+            pdf, faits = donnetadoc.applique(ident, cmd)
+        except KeyError:
+            return self._json(404, {'erreur': 'Document inconnu.'})
+        except Exception as e:
+            return self._json(500, {'erreur': 'La refabrication a échoué.',
+                                    'detail': str(e)[:400]})
+        if not faits:
+            return self._json(422, {
+                'erreur': 'Je n’ai pas compris, et je préfère ne rien changer '
+                          'plutôt que de deviner.',
+                'exemples': donnetadoc.AIDE_COMMANDES})
+        return self._json(200, {'pdf': pdf, 'faits': faits})
+
     def _capture(self):
         """Photographie le site du prospect, section par section.
 
@@ -185,8 +279,14 @@ class Poste(BaseHTTPRequestHandler):
                             json.dumps({'vues': vues}, ensure_ascii=False))
 
 
+class Serveur(ThreadingMixIn, HTTPServer):
+    """Le travail dure une a deux minutes : sans fils separes, la page ne
+    pourrait pas demander ou il en est pendant qu'il tourne."""
+    daemon_threads = True
+
+
 def main():
-    srv = HTTPServer(('127.0.0.1', PORT), Poste)
+    srv = Serveur(('127.0.0.1', PORT), Poste)
     print('')
     print('  Outil de proposition  ->  http://127.0.0.1:%d' % PORT)
     print('  Ctrl+C pour arrêter.')

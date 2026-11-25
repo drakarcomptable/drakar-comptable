@@ -7,6 +7,43 @@ est NAZAR, et l'invitation a un echange de 9 minutes.
 Quatre pages, ou cinq quand la proposition porte des reperes rouges sur
 une capture.
 
+## DONETADOC
+
+La porte d'entree. On colle l'adresse d'un prospect, on appuie, et le
+document se fabrique.
+
+    python3 proposition/outil.py
+
+Puis <http://127.0.0.1:8080>.
+
+Le travail dure une a deux minutes et rend compte de son avancement, parce
+qu'une page qui ne dit rien pendant deux minutes donne l'impression d'etre
+plantee. Quatre etapes : lecture du site, photographie des sections,
+montage, fabrication.
+
+**Deux choses peuvent manquer, et ce ne sont pas des erreurs.** Si le site
+refuse d'etre photographie, le travail se met en PAUSE et demande deux
+captures a deposer. Si le site ne repond pas du tout, il demande une autre
+adresse. Dans les deux cas il reprend la ou il s'est arrete.
+
+**Modifier la doc** accepte des instructions ecrites. Ce qui n'est pas
+compris est dit, jamais devine : une modification mal interpretee sur un
+document commercial coute plus cher qu'une modification refusee. Les
+instructions reconnues sont listees dans `AIDE_COMMANDES`
+(`donnetadoc.py`) et s'affichent dans l'outil des qu'une commande echoue.
+
+### Ce que l'outil etablit tout seul, et ce qu'il n'invente pas
+
+`analyse.cjs` ne sort que des faits verifiables : une balise titre existe
+ou non, robots.txt laisse passer GPTBot ou non, la page porte des donnees
+structurees ou non. Ces constats deviennent les premiers reperes rouges.
+
+Il tire aussi des **pistes de requetes** des titres et du menu du site. Ce
+sont des pistes, pas des volumes : **un volume de recherche n'est pas
+devinable**, il demande un outil de mots-cles. Tant qu'aucun volume reel
+n'est saisi, la fiche reste marquee `exemple` et la proposition l'ecrit
+noir sur blanc. On corrige ensuite avec `volume de <requete> : <nombre>`.
+
 ## Lancer
 
 Deux facons. L'interface est la plus simple, le fichier JSON sert quand on
