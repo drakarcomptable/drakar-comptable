@@ -150,12 +150,23 @@ class Poste(BaseHTTPRequestHandler):
         # presenter de mot de passe, et cette reponse ne divulgue rien.
         if chemin == '/sante':
             return self._envoie(200, 'text/plain; charset=utf-8', 'ok')
+        if chemin.startswith('/icone-') and chemin.endswith('.png'):
+            g = os.path.join(ICI, 'outil', nom_sur(chemin[1:]))
+            if os.path.exists(g):
+                with open(g, 'rb') as src:
+                    return self._envoie(200, 'image/png', src.read())
         if not self._autorise():
             return
         if chemin in ('/', '/index.html'):
             return self._page('donetadoc.html')
         if chemin in ('/avance', '/avance.html'):
             return self._page('page.html')
+        if chemin.startswith('/icone-') and chemin.endswith('.png'):
+            f = os.path.join(ICI, 'outil', nom_sur(chemin[1:]))
+            if not os.path.exists(f):
+                return self._envoie(404, 'text/plain; charset=utf-8', 'absent')
+            with open(f, 'rb') as src:
+                return self._envoie(200, 'image/png', src.read())
         if chemin.startswith('/etat/'):
             t = donnetadoc.etat(chemin[6:])
             if not t:

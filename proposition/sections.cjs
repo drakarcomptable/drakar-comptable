@@ -25,6 +25,35 @@ const MIN_H = 260;      // en-dessous, ce n'est pas une section mais un liseret
 const MAX_H = 1500;     // au-dela, c'est la page entiere deguisee en section
 const MAX_N = 10;
 
+/* Une capture prise trop tot est blanche.
+
+   Apres un changement de taille de fenetre ou un defilement, la page doit
+   repeindre. Une attente fixe suffit sur une machine rapide et ne suffit
+   pas sur une petite : c'est exactement ce qui donnait un ecran blanc en
+   ligne alors que tout allait bien en local.
+
+   On attend donc le calme du reseau et deux images d'animation, puis on
+   verifie le resultat : une capture quasi uniforme pese une misere en
+   JPEG. Si elle est suspecte, on recommence en laissant plus de temps. */
+const BLANC = 14 * 1024;   // en dessous, l'image n'a presque rien dedans
+
+async function calme(pg, ms) {
+  await pg.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+  await pg.evaluate(() => new Promise(r =>
+    requestAnimationFrame(() => requestAnimationFrame(r))));
+  await pg.waitForTimeout(ms);
+}
+
+async function prise(pg, f, qualite) {
+  for (const attente of [350, 1200, 3000]) {
+    await calme(pg, attente);
+    await pg.screenshot({ path: f, type: 'jpeg', quality: qualite });
+    if (fs.statSync(f).size >= BLANC) return fs.statSync(f).size;
+  }
+  console.error('capture presque vide malgre trois essais : ' + path.basename(f));
+  return fs.statSync(f).size;
+}
+
 async function sections(url, dossier, prefixe) {
   if (!fs.existsSync(dossier)) fs.mkdirSync(dossier, { recursive: true });
   const nav = await lance();
@@ -113,20 +142,18 @@ async function sections(url, dossier, prefixe) {
       const f = path.join(dossier, prefixe + '-sect-' + (i + 1) + '.jpg');
       await pg.setViewportSize({ width: LARGE, height: Math.min(b.h, MAX_H) });
       await pg.evaluate(y => window.scrollTo(0, y), b.t);
-      await pg.waitForTimeout(250);
-      await pg.screenshot({ path: f, type: 'jpeg', quality: 84 });
+      const poids = await prise(pg, f, 84);
       sortie.push({ fichier: f, titre: b.titre, haut: b.t, hauteur: b.h,
                     note: b.note, mots: b.mots, puces: b.puces,
                     phrases: b.phrases, chiffres: b.chiffres,
-                    questions: b.questions, octets: fs.statSync(f).size });
+                    questions: b.questions, octets: poids });
     }
 
     // et la page d'accueil telle qu'on la decouvre, pour la couverture
     await pg.setViewportSize({ width: LARGE, height: HAUT });
     await pg.evaluate(() => window.scrollTo(0, 0));
-    await pg.waitForTimeout(250);
     const acc = path.join(dossier, prefixe + '-accueil.jpg');
-    await pg.screenshot({ path: acc, type: 'jpeg', quality: 86 });
+    await prise(pg, acc, 86);
     // La couverture, qui n'est jamais candidate a l'annotation.
     sortie.unshift({ fichier: acc, titre: 'Haut de la page d’accueil',
                      haut: 0, hauteur: HAUT, note: null, couverture: true,
