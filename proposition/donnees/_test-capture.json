@@ -1,0 +1,10 @@
+{
+  "entreprise": "Test Capture",
+  "url": "http://127.0.0.1:8777/index.html",
+  "marche": "B2B",
+  "exemple": true,
+  "requetes": [
+    { "mot": "agence geo", "volume": 1600 },
+    { "mot": "audit geo", "volume": 320 }
+  ]
+}

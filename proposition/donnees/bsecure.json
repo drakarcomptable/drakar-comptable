@@ -1,0 +1,15 @@
+{
+  "entreprise": "B.Secure",
+  "url": "https://www.bsecure.fr/",
+  "marche": "B2B",
+  "exemple": true,
+  "taux_contact": 0.005,
+  "agenda": "https://nazar-seo.fr/audit-gratuit",
+  "requetes": [
+    { "mot": "audit cybersécurité entreprise", "volume": 480 },
+    { "mot": "prestataire cybersécurité", "volume": 320 },
+    { "mot": "mise en conformité RGPD", "volume": 390 },
+    { "mot": "test d’intrusion entreprise", "volume": 260 },
+    { "mot": "sécurisation système d’information", "volume": 170 }
+  ]
+}
