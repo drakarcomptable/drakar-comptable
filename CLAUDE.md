@@ -56,6 +56,27 @@ chantier avance, modifier ce fichier et committer.
    Exemples arbitrés : Eurostep Digital, PE Cube et Edda (logiciels pour fonds)
    sont **gardés** ; Canovia, Sycomore Corporate Finance, LT Capital et MGT
    Partners sont **écartés**.
+8. **Indépendants et structures solo : hors cible.** Remonté par les
+   commerciaux sur la liste OKP Formation, où beaucoup de coachs en bien-être
+   et de praticiens isolés leur ont fait perdre du temps. Signaux à vérifier
+   avant de livrer une liste d'appel :
+   - effectif renseigné **inférieur à 3** ;
+   - intitulé de poste contenant *freelance*, *indépendant*, *auto-entrepreneur*,
+     *praticien*, *thérapeute*, *naturopathe*, *sophrologue*, *coach de vie*,
+     *coach sportif*, *formateur indépendant* ;
+   - mots-clés du contact relevant du coaching ou du bien-être personnel
+     (sophrologie, naturopathie, hypnose, yoga, pilates, massage,
+     développement personnel) ;
+   - **nom de la société identique au nom de la personne** — le marqueur le
+     plus fiable des trois.
+   ⚠️ Ne **jamais** chercher ces termes dans la `description` de l'entreprise :
+   testé, ça sort des faux positifs en série (Ecomac Construction pour
+   « bien-être » dans son accroche, ABCD International pour « indépendant »,
+   ForTeam IT pour « freelance »). Se limiter à l'intitulé de poste, aux
+   mots-clés du contact et à l'effectif.
+9. **La borne haute de 60 salariés compte autant que la borne basse.** Sur les
+   no-shows, 13 fiches dépassaient 60 et seraient passées sans ce contrôle,
+   dont Wakam (1 000), Soraia (625) et Thecodingmachine (250).
 
 ---
 

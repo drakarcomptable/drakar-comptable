@@ -462,3 +462,38 @@ d'accroche : il faut les enrichir avant de les appeler.
 
 **Livré** (hors dépôt, fichiers nominatifs) : `NO-SHOW-A-RAPPELER-176.csv` et
 `NO-SHOW-RANG-A-15-VERIFIES.csv`.
+
+---
+
+## No Show : contrôle « indépendants » et taille d'entreprise
+
+Remontée terrain : sur la liste OKP Formation, les commerciaux sont tombés sur
+beaucoup de coachs en bien-être et de praticiens isolés — hors cible, temps
+perdu. Règle ajoutée en §2.8 et §2.9 de `CLAUDE.md`, puis appliquée aux no-shows.
+
+| | |
+|---|---|
+| Appelables (numéro valide) | 166 |
+| **Dans la cible** | **150** |
+| Écartés : indépendant ou structure solo | 3 |
+| Écartés : plus de 60 salariés | 13 |
+| Numéro à retrouver | 10 |
+
+Les 13 au-delà de 60 salariés seraient passées sans ce contrôle : Wakam (1 000),
+Soraia (625), Thecodingmachine (250), Kali Group (250), Blunomy (250),
+Isp System (250), Cuisines Elite (250), Vega IM (200), Systemis (200),
+ABCD International (130), Martineau (64), et deux fiches sans nom.
+
+**Méthode qui ne marche pas** : chercher les termes « bien-être », « indépendant »
+ou « freelance » dans la `description` de l'entreprise. Essayé, quatre faux
+positifs sur quatre (Ecomac Construction, ABCD International, ForTeam IT,
+Gym Compagnie). Seuls l'intitulé de poste, les mots-clés du contact et
+l'effectif sont exploitables.
+
+**Erreur de rattachement repérée** : le contact de Corepulse (Hakim Merchichi,
+rang A) est relié dans HubSpot à une fiche entreprise « New Brands », domaine
+`prnewswire.com`, 5 000 salariés. L'effectif affiché sur cette fiche est faux.
+
+**Reste ouvert** : l'effectif est inconnu pour 17 fiches, et la vérification
+« encore en poste » n'a été faite que sur le rang A. Les rangs B et C
+(130 contacts) restent à vérifier.
