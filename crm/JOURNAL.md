@@ -530,3 +530,43 @@ de priorité basse. Brice a tranché.
 **Réserve de méthode** : la fraîcheur est confondue avec l'effort commercial —
 les listes récentes ont été travaillées en priorité. Il faudra refaire la mesure
 dans un mois, quand les mêmes listes auront vieilli, pour séparer les deux.
+
+---
+
+## Correction de comptage + découpage P1/P2/P3 des no-shows
+
+### Le bug
+
+`CONTAINS 'formation'` dans HubSpot est une recherche de sous-chaîne : il
+capture **trans**formation et in**formation**s. Le vivier « formation » était
+donc compté à 348 au lieu de 224. Corrigé au §2bis de `CLAUDE.md` : la famille
+formation passe de 3,2 % à **4,0 %**, soit trois fois la moyenne du vivier.
+Le bug jouait donc *contre* la conclusion, qui en sort renforcée.
+
+Même piège sur « placement » : Bluecoders (recrutement de développeurs) était
+classé en patrimoine à cause de « Placement profils data ».
+
+### Les 150 no-shows découpés
+
+| Degré | Contacts | dont R2 No Show |
+|---|---|---|
+| **P1** — les trois signaux | **8** | 2 |
+| **P2** — deux signaux sur trois | **47** | 9 |
+| **P3** — un seul ou aucun | **95** | 25 |
+
+Les trois signaux : famille porteuse (formation, patrimoine/compta, IT) ·
+dirigeant · rendez-vous manqué en 2026.
+
+**P1** : Geocom Networks, SIG-Image, 6netic, Addixi, Kytl Security,
+Smart Booster, Pédagogie Plus École, Urban Gaming.
+
+**Le vrai frein, c'est les mots-clés** : 121 des 150 n'ont aucune famille
+identifiable, dont 64 sans le moindre mot-clé dans HubSpot. Impossible de les
+prioriser autrement que par défaut. Les enrichir ferait remonter une partie du
+P3 vers le P2.
+
+⚠️ Ce découpage n'a **pas** la même valeur prédictive que celui du §2bis : le
+critère de fraîcheur de fiche, qui est le plus fort (×6,6), ne s'applique pas
+ici puisque tous les no-shows sont des fiches anciennes par construction. Il a
+été remplacé par la date du rendez-vous manqué, qui n'a pas été validée comme
+prédicteur.

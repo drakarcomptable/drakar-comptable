@@ -105,13 +105,21 @@ Aucune variable de secteur n'a un effet de cette ampleur.
 
 | Famille | Vivier | Transactions | Taux |
 |---|---|---|---|
-| **Formation, compétences, pédagogie** | 344 | 11 | **3,2 %** |
-| Patrimoine, fiscal, comptabilité, courtage | 217 | 4 | 1,8 % |
-| IT, infogérance, cyber, cloud, télécom, logiciel | 594 | 9 | 1,5 % |
-| Énergie, solaire, isolation | 144 | 2 | 1,4 % |
+| **Formation, compétences, pédagogie** | 224 | 9 | **4,0 %** |
+| Patrimoine, fiscal, comptabilité, courtage | 212 | 4 | 1,9 % |
+| IT, infogérance, cyber, cloud, télécom, logiciel | 826 | 13 | 1,6 % |
+| Énergie, solaire, isolation | 140 | 2 | 1,4 % |
 
-⚠️ **La formation est la meilleure famille, pas l'IT.** Contre-intuitif vu le
-volume de l'IT dans la data, et contraire à ce qui avait été avancé plus tôt.
+⚠️ **Piège de comptage corrigé ici.** Le `CONTAINS 'formation'` de HubSpot est
+une recherche de sous-chaîne : il capture aussi **trans**formation et
+in**formation**s, ce qui gonflait le vivier formation de 348 au lieu de 224.
+Toujours compter avec une borne de mot — en Python, `(?<![a-z])formation`.
+Même piège sur « placement », qui relève du recrutement aussi souvent que du
+patrimoine : exiger *placements financiers* ou *placement immobilier*.
+
+⚠️ **La formation est la meilleure famille, pas l'IT** — 4,0 % contre 1,6 %,
+soit trois fois la moyenne du vivier. Contre-intuitif vu le volume de l'IT dans
+la data, et contraire à ce qui avait été avancé plus tôt.
 
 ⚠️ **Deux réserves à garder** : 33 transactions, c'est peu — les familles à 2 ou
 4 transactions ne veulent pas dire grand-chose. Et « transaction créée » = RDV
