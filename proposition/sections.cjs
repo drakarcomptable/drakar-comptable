@@ -37,11 +37,72 @@ const MAX_N = 10;
    JPEG. Si elle est suspecte, on recommence en laissant plus de temps. */
 const BLANC = 14 * 1024;   // en dessous, l'image n'a presque rien dedans
 
+/* Combien d'elements sont reellement visibles dans la fenetre.
+
+   Beaucoup de sites font apparaitre leurs blocs au defilement. Tant que
+   l'animation n'a pas joue, ils sont la mais transparents : la page est
+   prete au sens du reseau, et pourtant la photo serait blanche. */
+async function peuple(pg) {
+  return pg.evaluate(() => {
+    let n = 0;
+    for (const e of document.body.querySelectorAll('*')) {
+      const r = e.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight || r.width < 24 || r.height < 12) continue;
+      const st = getComputedStyle(e);
+      if (st.visibility === 'hidden' || parseFloat(st.opacity) < 0.15) continue;
+      n++;
+      if (n > 40) return n;
+    }
+    return n;
+  }).catch(() => 99);
+}
+
+/* Ecarte les bandeaux de consentement avant la photo.
+
+   Ils flottent par-dessus la page et se retrouvaient sur la couverture
+   d'un document commercial. On vise d'abord les solutions connues par
+   leur identifiant, puis, pour les autres, un bloc flottant assez grand
+   dont le texte parle de cookies.
+
+   On ne touche a rien d'autre : un bandeau mal identifie et retire
+   abimerait la capture au lieu de l'ameliorer. */
+const CONNUS = [
+  '#onetrust-consent-sdk', '#didomi-host', '#axeptio_overlay', '#tarteaucitronRoot',
+  '#cookie-law-info-bar', '.cmplz-cookiebanner', '.cc-window', '#usercentrics-root',
+  '#CybotCookiebotDialog', '.cookie-banner', '#cookie-banner', '#cookieConsent',
+  '.cky-consent-container', '#hs-eu-cookie-confirmation',
+];
+
+async function masque(pg) {
+  return pg.evaluate((connus) => {
+    let n = 0;
+    for (const sel of connus) {
+      for (const e of document.querySelectorAll(sel)) { e.remove(); n++; }
+    }
+    const MOTS = /(cookie|consentement|consent|rgpd|gdpr|vie priv|tracking|traceur)/i;
+    for (const e of document.querySelectorAll('div,section,aside,dialog,iframe')) {
+      const st = getComputedStyle(e);
+      if (st.position !== 'fixed' && st.position !== 'sticky') continue;
+      const r = e.getBoundingClientRect();
+      if (r.width < 180 || r.height < 60) continue;
+      const t = (e.innerText || e.getAttribute('title') || '').slice(0, 800);
+      if (!MOTS.test(t)) continue;
+      e.remove(); n++;
+    }
+    return n;
+  }, CONNUS).catch(() => 0);
+}
+
 async function calme(pg, ms) {
   await pg.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
   await pg.evaluate(() => new Promise(r =>
     requestAnimationFrame(() => requestAnimationFrame(r))));
   await pg.waitForTimeout(ms);
+  // on laisse aux animations d'apparition le temps de jouer
+  for (let k = 0; k < 10 && (await peuple(pg)) < 8; k++) {
+    await pg.waitForTimeout(400);
+  }
+  await masque(pg);
 }
 
 async function prise(pg, f, qualite) {
@@ -63,6 +124,16 @@ async function sections(url, dossier, prefixe) {
   try {
     await pg.goto(url, { waitUntil: 'load', timeout: 25000 });
     await pg.waitForTimeout(1500);
+
+    // La couverture d'abord, avant d'avoir touche a quoi que ce soit.
+    // Prise en dernier, apres le parcours et dix changements de taille de
+    // fenetre, elle sortait blanche sur les sites dont les blocs
+    // apparaissent au defilement : revenus en haut, ils etaient masques.
+    const acc = path.join(dossier, prefixe + '-accueil.jpg');
+    await prise(pg, acc, 86);
+    sortie.push({ fichier: acc, titre: 'Haut de la page d’accueil',
+                  haut: 0, hauteur: HAUT, note: null, couverture: true,
+                  octets: fs.statSync(acc).size });
 
     // On fait defiler toute la page une fois : beaucoup de sites ne
     // chargent leurs images qu'au passage du lecteur.
@@ -149,15 +220,7 @@ async function sections(url, dossier, prefixe) {
                     questions: b.questions, octets: poids });
     }
 
-    // et la page d'accueil telle qu'on la decouvre, pour la couverture
-    await pg.setViewportSize({ width: LARGE, height: HAUT });
-    await pg.evaluate(() => window.scrollTo(0, 0));
-    const acc = path.join(dossier, prefixe + '-accueil.jpg');
-    await prise(pg, acc, 86);
-    // La couverture, qui n'est jamais candidate a l'annotation.
-    sortie.unshift({ fichier: acc, titre: 'Haut de la page d’accueil',
-                     haut: 0, hauteur: HAUT, note: null, couverture: true,
-                     octets: fs.statSync(acc).size });
+
   } finally {
     await nav.close();
   }
