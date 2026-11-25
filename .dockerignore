@@ -1,0 +1,19 @@
+# Ce fichier ne sert qu'aux constructions Docker (DONETADOC).
+node_modules
+dist
+.git
+.vscode
+__pycache__
+*.pyc
+
+# Les sorties et les depots sont volatils : ils n'ont rien a faire dans
+# une image, et ils contiennent des donnees de prospects.
+proposition/sortie
+proposition/depots
+
+# Le site React du depot n'est pas utilise par l'outil.
+src
+public
+index.html
+vite.config.*
+tsconfig*.json

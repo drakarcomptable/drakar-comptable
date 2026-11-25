@@ -69,6 +69,56 @@ telle quelle en ligne de commande.
 Ni `sortie/` ni `depots/` ne partent dans le depot git : ce sont des
 donnees de prospects, pas du code.
 
+## Le mettre en ligne pour l'equipe
+
+### Le mot de passe d'abord
+
+L'outil fabrique des documents qui portent des noms et des logos de
+clients. Un lien ouvert a tout vent les donnerait a qui le devine.
+
+    HOTE=127.0.0.1    acces libre, la machine seule          (defaut)
+    HOTE=0.0.0.0      ouvert au reseau, mot de passe EXIGE
+
+Sans `DONETADOC_MDP`, l'outil **refuse de demarrer** sur `0.0.0.0` plutot
+que de s'ouvrir. L'authentification est une authentification HTTP simple,
+comparee a temps constant pour qu'un temps de reponse ne trahisse pas
+combien de caracteres du mot de passe sont justes.
+
+`/sante` est la seule adresse qui repond sans mot de passe : l'hebergeur
+doit pouvoir verifier que le service est vivant, et cette reponse ne
+divulgue rien.
+
+### Pourquoi un conteneur et pas une fonction
+
+L'outil a besoin d'un vrai Chromium, et un document demande une a deux
+minutes. Une fonction sans etat ne tient ni la taille (Chromium pese plus
+que ce qu'elle accepte d'embarquer) ni la duree. Il lui faut un service
+qui vit.
+
+### Marche a suivre
+
+Le depot porte `render.yaml` et `proposition/Dockerfile`.
+
+1. Sur Render, « New » puis « Blueprint », et pointer le depot.
+2. Render lit `render.yaml` et propose le service `donetadoc`.
+3. Saisir `DONETADOC_MDP` quand il le demande. Il n'est pas dans le depot
+   et ne doit jamais y entrer.
+4. Mettre en ligne. La premiere construction est longue : l'image
+   Playwright pese lourd.
+
+L'adresse obtenue est le lien interne. Identifiant `nazar`, mot de passe
+celui qui a ete saisi.
+
+`autoDeploy` est a `false` volontairement : un document commercial ne doit
+pas changer de forme parce qu'un commit est passe. On remet en ligne quand
+on le decide.
+
+### Ce qui disparait au redemarrage
+
+`depots/` et `sortie/` sont volatils. Un document se telecharge dans la
+foulee, donc c'est sans consequence ; mais un lien de telechargement garde
+quelques heures ne vaudra plus rien apres un redemarrage.
+
 ## Photographier le site du prospect
 
 Dans l'interface, un bouton parcourt la page du prospect et la **decoupe en

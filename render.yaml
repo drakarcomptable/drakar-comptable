@@ -1,0 +1,27 @@
+# Mise en ligne de DONETADOC, l'outil interne de propositions.
+#
+# Render est choisi parce que l'outil a besoin d'un vrai Chromium et d'une
+# a deux minutes par document : une fonction sans etat ne tient ni la
+# taille ni la duree.
+#
+# Le mot de passe n'est PAS ecrit ici. Il se saisit dans l'interface de
+# Render, a la premiere mise en ligne. Sans lui, l'outil refuse de
+# demarrer plutot que de s'ouvrir a tout vent : les documents qu'il
+# fabrique portent des noms et des logos de clients.
+services:
+  - type: web
+    name: donetadoc
+    runtime: docker
+    plan: starter          # le plan gratuit s'endort et n'a pas la memoire
+    region: frankfurt
+    dockerfilePath: ./proposition/Dockerfile
+    dockerContext: .
+    healthCheckPath: /sante    # « / » repond 401, Render le croirait mort
+    autoDeploy: false
+    envVars:
+      - key: HOTE
+        value: 0.0.0.0
+      - key: DONETADOC_UTILISATEUR
+        value: nazar
+      - key: DONETADOC_MDP
+        sync: false        # a saisir dans Render, jamais dans le depot

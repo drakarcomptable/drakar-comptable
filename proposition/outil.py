@@ -18,6 +18,7 @@ import re
 import subprocess
 import sys
 import base64
+import hmac
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 
@@ -26,7 +27,14 @@ import donnetadoc
 ICI = os.path.dirname(os.path.abspath(__file__))
 DEPOTS = os.path.join(ICI, 'depots')
 SORTIE = os.path.join(ICI, 'sortie')
-PORT = 8080
+
+# En local on ecoute sur la machine seule. Pour le mettre en ligne, on
+# passe HOTE=0.0.0.0, et le mot de passe devient alors obligatoire : voir
+# le garde-fou dans main().
+PORT = int(os.environ.get('PORT', '8080'))
+HOTE = os.environ.get('HOTE', '127.0.0.1')
+MDP = os.environ.get('DONETADOC_MDP', '')
+UTILISATEUR = os.environ.get('DONETADOC_UTILISATEUR', 'nazar')
 
 TYPES = {'image/png': '.png', 'image/jpeg': '.jpg', 'image/webp': '.webp'}
 
@@ -53,6 +61,28 @@ def ecrit_depot(slug, role, donnee):
 
 
 class Poste(BaseHTTPRequestHandler):
+
+    def _autorise(self):
+        """Sans mot de passe configure, l'outil n'est ouvert qu'en local.
+
+        Les documents qu'il fabrique portent des noms et des logos de
+        clients : un lien ouvert a tout vent les donnerait a quiconque le
+        devine.
+        """
+        if not MDP:
+            return True
+        attendu = 'Basic ' + base64.b64encode(
+            ('%s:%s' % (UTILISATEUR, MDP)).encode('utf-8')).decode('ascii')
+        recu = self.headers.get('Authorization', '')
+        # comparaison a temps constant : sinon le temps de reponse trahit
+        # combien de caracteres du mot de passe sont justes
+        if hmac.compare_digest(recu, attendu):
+            return True
+        self.send_response(401)
+        self.send_header('WWW-Authenticate', 'Basic realm="DONETADOC", charset="UTF-8"')
+        self.send_header('Content-Length', '0')
+        self.end_headers()
+        return False
 
     def _envoie(self, code, type_, corps):
         if isinstance(corps, str):
@@ -90,6 +120,12 @@ class Poste(BaseHTTPRequestHandler):
 
     def do_GET(self):
         chemin = self.path.split('?')[0]
+        # L'hebergeur verifie que le service est vivant : il ne peut pas
+        # presenter de mot de passe, et cette reponse ne divulgue rien.
+        if chemin == '/sante':
+            return self._envoie(200, 'text/plain; charset=utf-8', 'ok')
+        if not self._autorise():
+            return
         if chemin in ('/', '/index.html'):
             return self._page('donetadoc.html')
         if chemin in ('/avance', '/avance.html'):
@@ -118,6 +154,8 @@ class Poste(BaseHTTPRequestHandler):
         self._envoie(404, 'text/plain; charset=utf-8', 'absent')
 
     def do_POST(self):
+        if not self._autorise():
+            return
         if self.path == '/doc':
             return self._doc_lance()
         if self.path == '/doc/reprendre':
@@ -286,9 +324,18 @@ class Serveur(ThreadingMixIn, HTTPServer):
 
 
 def main():
-    srv = Serveur(('127.0.0.1', PORT), Poste)
+    # Garde-fou : ouvert sur le reseau sans mot de passe, l'outil donnerait
+    # a n'importe qui les propositions, et donc les noms et les logos des
+    # clients. On refuse de demarrer plutot que de le laisser faire.
+    if HOTE not in ('127.0.0.1', 'localhost', '::1') and not MDP:
+        raise SystemExit(
+            'Refus de démarrer : HOTE=%s expose l’outil sur le réseau alors '
+            'qu’aucun mot de passe n’est défini.\n'
+            'Donnez DONETADOC_MDP, ou laissez HOTE sur 127.0.0.1.' % HOTE)
+    srv = Serveur((HOTE, PORT), Poste)
     print('')
-    print('  Outil de proposition  ->  http://127.0.0.1:%d' % PORT)
+    print('  DONETADOC  ->  http://%s:%d' % (HOTE, PORT))
+    print('  accès %s' % ('par mot de passe' if MDP else 'libre, machine locale seule'))
     print('  Ctrl+C pour arrêter.')
     print('')
     try:
