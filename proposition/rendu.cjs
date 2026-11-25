@@ -10,6 +10,7 @@
    designees par leur nom d'image, comme sur le site. La correspondance
    vit dans NAZAR-CORRESPONDANCE-LOGOS.md, hors du dossier publie. */
 const { lance } = require('./navigateur.cjs');
+const { prise, pose } = require('./sections.cjs');
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -88,22 +89,23 @@ async function capture(nav) {
   const main = fourni('capture_accueil');
   if (main) return { ok: true, fichier: main, manuel: true };
 
+  /* Cette capture de secours ne sert que si aucune image n'a ete
+     transmise. Elle attendait 3,3 s en tout, sans verifier quoi que ce
+     soit : sur un site dont les blocs apparaissent au defilement et sur
+     une machine lente, elle rendait une image presque blanche, et c'est
+     cette image qui habillait la page de garde. Elle suit maintenant la
+     meme procedure que le decoupage, qui attend la mise en page, retire
+     les bandeaux de consentement et recommence si la photo est vide. */
   const f = path.join(SORTIE, p.slug + '-site.jpg');
   const c = await nav.newContext({ viewport: { width: 1440, height: 900 },
-                                   deviceScaleFactor: 2 });
+                                   deviceScaleFactor: 1 });
   const pg = await c.newPage();
   try {
     await pg.goto(p.url, { waitUntil: 'load', timeout: 20000 });
-    await pg.waitForTimeout(2500);
-    for (const t of ['Tout accepter', 'Accepter', 'J’accepte', 'Accept all']) {
-      const b = pg.getByRole('button', { name: t });
-      if (await b.count()) { await b.first().click({ timeout: 1500 }).catch(() => {}); break; }
-    }
-    await pg.waitForTimeout(800);
-    // PNG et non JPEG : certains lecteurs rendent un JPEG avec un espace
-    // colorimetrique inattendu, ce qui vire l'image au magenta
-    await pg.screenshot({ path: f, type: 'jpeg', quality: 86 });
+    await pose(pg);
+    const octets = await prise(pg, f, 86, 'couverture');
     await c.close();
+    console.log('  capture de secours : ' + Math.round(octets / 1024) + ' Ko');
     return { ok: true, fichier: f };
   } catch (e) {
     await c.close();

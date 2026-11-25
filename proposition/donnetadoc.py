@@ -81,12 +81,18 @@ def utile(sortie, n=1600):
 
 
 def _node(script, *args, timeout=240):
+    """Rend (sortie, releve). Le releve est garde meme quand tout va bien.
+
+    Il ne l'etait pas, et c'est ce qui a rendu une panne en ligne muette :
+    sections.cjs signalait « capture presque vide » sur sa sortie d'erreur,
+    personne ne la lisait, et le journal du travail n'en disait rien.
+    """
     r = subprocess.run(['node', os.path.join(ICI, script)] + list(args),
                        capture_output=True, text=True, timeout=timeout)
     if r.returncode != 0:
         raise RuntimeError(utile(r.stderr or r.stdout) or
                            'le script a échoué sans rien dire')
-    return r.stdout
+    return r.stdout, (r.stderr or '').strip()
 
 
 def _fiche(ident):
@@ -114,7 +120,7 @@ def _depart(ident, url, captures=None):
         _maj(ident, etape='lecture', pct=3, message='Lecture du site…')
         a = None
         try:
-            a = json.loads(_node('analyse.cjs', url, timeout=120))
+            a = json.loads(_node('analyse.cjs', url, timeout=120)[0])
         except Exception as e:
             a = {'atteint': False, 'erreur': str(e)[:200]}
 
@@ -133,6 +139,7 @@ def _depart(ident, url, captures=None):
 
         # ---- photographie ----
         vues = []
+        releve = ''
         if captures:
             _maj(ident, etape='photo', pct=52,
                  message='Captures fournies à la main.')
@@ -140,8 +147,9 @@ def _depart(ident, url, captures=None):
             _maj(ident, etape='photo', pct=18,
                  message='Photographie des sections, c’est le plus long…')
             try:
-                vues = json.loads(_node('sections.cjs', url, DEPOTS,
-                                        _slug(nom), timeout=300))
+                sortie, releve = _node('sections.cjs', url, DEPOTS,
+                                       _slug(nom), timeout=300)
+                vues = json.loads(sortie)
             except Exception as e:
                 _maj(ident, etat='pause_images', pct=30,
                      message='Le site n’a pas pu être photographié.',
@@ -152,6 +160,7 @@ def _depart(ident, url, captures=None):
             if not vues:
                 _maj(ident, etat='pause_images', pct=30,
                      message='Aucune section exploitable n’a été trouvée.',
+                     journal=releve,
                      besoin='Déposez deux captures : la page d’accueil, '
                             'et la section à annoter.')
                 return
@@ -172,6 +181,9 @@ def _depart(ident, url, captures=None):
         # ---- fabrication ----
         _maj(ident, etape='pdf', pct=78, message='Fabrication du document…')
         chemin, journal = _fabrique(ident, p)
+        if releve:
+            journal = 'photographie :\n' + \
+                '\n'.join('  ' + l for l in releve.splitlines()) + '\n' + journal
         _maj(ident, etat='fini', pct=100, etape='fini',
              message='Document prêt.', journal=journal,
              pdf='/pdf/' + os.path.basename(chemin))

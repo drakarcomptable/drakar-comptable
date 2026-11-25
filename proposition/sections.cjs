@@ -36,6 +36,15 @@ const MAX_N = 10;
    verifie le resultat : une capture quasi uniforme pese une misere en
    JPEG. Si elle est suspecte, on recommence en laissant plus de temps. */
 const BLANC = 14 * 1024;   // en dessous, l'image n'a presque rien dedans
+const ATTENTES = [350, 1200, 3000];
+
+/* Ce que la machine a reellement fait, imprime sur la sortie d'erreur.
+
+   Sans ce releve, un echec en ligne est muet : on voit une couverture
+   blanche et un document sans page de diagnostic, sans savoir si la photo
+   etait vide sur le disque ou si aucun bloc n'a ete trouve. */
+const TRACE = [];
+const ko = n => Math.round(n / 1024) + ' Ko';
 
 /* Combien d'elements sont reellement visibles dans la fenetre.
 
@@ -105,14 +114,47 @@ async function calme(pg, ms) {
   await masque(pg);
 }
 
-async function prise(pg, f, qualite) {
-  for (const attente of [350, 1200, 3000]) {
-    await calme(pg, attente);
+async function prise(pg, f, qualite, etiquette) {
+  let octets = 0;
+  for (let i = 0; i < ATTENTES.length; i++) {
+    await calme(pg, ATTENTES[i]);
     await pg.screenshot({ path: f, type: 'jpeg', quality: qualite });
-    if (fs.statSync(f).size >= BLANC) return fs.statSync(f).size;
+    octets = fs.statSync(f).size;
+    if (octets >= BLANC) {
+      TRACE.push(etiquette + ' : ' + ko(octets) +
+                 (i ? ', ' + (i + 1) + ' essais' : ''));
+      return octets;
+    }
   }
-  console.error('capture presque vide malgre trois essais : ' + path.basename(f));
-  return fs.statSync(f).size;
+  TRACE.push(etiquette + ' : PRESQUE VIDE, ' + ko(octets) + ' apres ' +
+             ATTENTES.length + ' essais');
+  return octets;
+}
+
+/* Attend que la page soit posee : hauteur stable et blocs mesurables.
+
+   Le decoupage s'appuie sur getBoundingClientRect. Sur une machine lente
+   il s'executait avant la fin de la mise en page : les blocs faisaient
+   zero de haut, aucun ne passait les filtres, et le document sortait sans
+   sa page de diagnostic. Une attente fixe ne protege de rien, puisque
+   c'est justement la lenteur de la machine qui est en cause. */
+async function pose(pg) {
+  let avant = -1, m = { h: 0, gros: 0 };
+  for (let k = 0; k < 25; k++) {
+    m = await pg.evaluate(() => {
+      let gros = 0;
+      for (const e of document.querySelectorAll('section,div,main,article')) {
+        const r = e.getBoundingClientRect();
+        if (r.height >= 260 && r.width >= innerWidth * 0.6) gros++;
+      }
+      return { h: document.body.scrollHeight, gros };
+    }).catch(() => ({ h: 0, gros: 0 }));
+    if (m.gros >= 3 && m.h === avant && m.h > 0) break;
+    avant = m.h;
+    await pg.waitForTimeout(400);
+  }
+  TRACE.push('mise en page : ' + m.gros + ' blocs mesurables, hauteur ' + m.h);
+  return m;
 }
 
 async function sections(url, dossier, prefixe) {
@@ -120,17 +162,47 @@ async function sections(url, dossier, prefixe) {
   const nav = await lance();
   const pg = await nav.newPage({ viewport: { width: LARGE, height: HAUT },
     deviceScaleFactor: 1 });
+
+  /* Reproduire une machine lente sans en louer une.
+
+     Le serveur en ligne tourne sur un seul processeur. Une correction qui
+     passe ici et echoue la-bas coute un aller-retour a chaque fois :
+     DONETADOC_LENT=6 bride le processeur du navigateur d'autant, ce qui
+     remet les pannes de mise en page sous la main.  */
+  const lent = parseFloat(process.env.DONETADOC_LENT || '0');
+  if (lent > 1) {
+    const cdp = await pg.context().newCDPSession(pg);
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate: lent });
+    TRACE.push('processeur bride ' + lent + 'x (essai)');
+  }
   const sortie = [];
   try {
     await pg.goto(url, { waitUntil: 'load', timeout: 25000 });
     await pg.waitForTimeout(1500);
+
+    /* Dire quelle page est reellement arrivee.
+
+       Le meme code, le meme navigateur et la meme adresse ne donnent pas
+       forcement la meme page : un pare-feu peut servir une page de
+       controle a l'adresse IP d'un hebergeur et le vrai site ailleurs. Un
+       titre et un nombre de caracteres suffisent a le voir, au lieu de le
+       deduire d'une couverture blanche. */
+    const vu = await pg.evaluate(() => ({
+      titre: (document.title || '').slice(0, 70),
+      adresse: location.href.slice(0, 110),
+      texte: (document.body && document.body.innerText || '').trim().length,
+    })).catch(() => ({ titre: '?', adresse: '?', texte: 0 }));
+    TRACE.push('page servie : « ' + vu.titre + ' », ' + vu.texte +
+               ' caracteres de texte, ' + vu.adresse);
+
+    await pose(pg);
 
     // La couverture d'abord, avant d'avoir touche a quoi que ce soit.
     // Prise en dernier, apres le parcours et dix changements de taille de
     // fenetre, elle sortait blanche sur les sites dont les blocs
     // apparaissent au defilement : revenus en haut, ils etaient masques.
     const acc = path.join(dossier, prefixe + '-accueil.jpg');
-    await prise(pg, acc, 86);
+    await prise(pg, acc, 86, 'couverture');
     sortie.push({ fichier: acc, titre: 'Haut de la page d’accueil',
                   haut: 0, hauteur: HAUT, note: null, couverture: true,
                   octets: fs.statSync(acc).size });
@@ -146,8 +218,9 @@ async function sections(url, dossier, prefixe) {
       window.scrollTo(0, 0);
     });
     await pg.waitForTimeout(800);
+    await pose(pg);
 
-    const blocs = await pg.evaluate((bornes) => {
+    const scan = await pg.evaluate((bornes) => {
       const [min, max] = bornes;
       const vus = [];
 
@@ -187,25 +260,38 @@ async function sections(url, dossier, prefixe) {
         return { note: n, mots, puces, phrases, chiffres,
                  questions: (txt.match(/\?/g) || []).length };
       };
+      const rejets = { taille: 0, largeur: 0, double: 0, texte: 0 };
       const candidats = document.querySelectorAll(
         'body > section, body > div > section, main > section, main > div, ' +
         'body > div > div[class], body > main > div, section');
       for (const el of candidats) {
         const r = el.getBoundingClientRect();
         const h = r.height, t = r.top + window.scrollY;
-        if (h < min || h > max || r.width < window.innerWidth * 0.6) continue;
+        if (h < min || h > max) { rejets.taille++; continue; }
+        if (r.width < window.innerWidth * 0.6) { rejets.largeur++; continue; }
         // on ecarte un bloc qui en recouvre un deja retenu
-        if (vus.some(v => Math.abs(v.t - t) < 80)) continue;
+        if (vus.some(v => Math.abs(v.t - t) < 80)) { rejets.double++; continue; }
         const txt = (el.innerText || '').trim().replace(/\s+/g, ' ');
-        if (txt.length < 40) continue;      // un bloc sans texte n'a rien a dire
+        if (txt.length < 40) { rejets.texte++; continue; }
         const titre = (el.querySelector('h1,h2,h3')?.innerText || txt)
                         .trim().replace(/\s+/g, ' ').slice(0, 70);
         vus.push(Object.assign({ t: Math.round(t), h: Math.round(h), titre },
                                note(el, titre, t)));
       }
       vus.sort((a, b) => a.t - b.t);
-      return vus;
+      return { vus, examines: candidats.length, rejets };
     }, [MIN_H, MAX_H]);
+
+    const blocs = scan.vus;
+    const rj = scan.rejets;
+    TRACE.push('decoupage : ' + scan.examines + ' blocs examines, ' +
+               blocs.length + ' retenus (ecartes : taille ' + rj.taille +
+               ', largeur ' + rj.largeur + ', doublon ' + rj.double +
+               ', sans texte ' + rj.texte + ')');
+    if (blocs.length) {
+      TRACE.push('notes : ' + blocs.slice(0, MAX_N)
+        .map(b => '« ' + b.titre.slice(0, 24) + ' » ' + b.note).join(' | '));
+    }
 
     const retenus = blocs.slice(0, MAX_N);
     for (let i = 0; i < retenus.length; i++) {
@@ -213,7 +299,7 @@ async function sections(url, dossier, prefixe) {
       const f = path.join(dossier, prefixe + '-sect-' + (i + 1) + '.jpg');
       await pg.setViewportSize({ width: LARGE, height: Math.min(b.h, MAX_H) });
       await pg.evaluate(y => window.scrollTo(0, y), b.t);
-      const poids = await prise(pg, f, 84);
+      const poids = await prise(pg, f, 84, 'section ' + (i + 1));
       sortie.push({ fichier: f, titre: b.titre, haut: b.t, hauteur: b.h,
                     note: b.note, mots: b.mots, puces: b.puces,
                     phrases: b.phrases, chiffres: b.chiffres,
@@ -223,11 +309,12 @@ async function sections(url, dossier, prefixe) {
 
   } finally {
     await nav.close();
+    if (TRACE.length) console.error(TRACE.join('\n'));
   }
   return sortie;
 }
 
-module.exports = { sections };
+module.exports = { sections, prise, calme, masque, pose };
 
 if (require.main === module) {
   const [url, dossier, prefixe] = process.argv.slice(2);

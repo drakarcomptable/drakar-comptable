@@ -178,6 +178,45 @@ largeur et contient du texte ; dix au maximum. La page est parcourue de haut
 en bas avant la prise de vue, parce que beaucoup de sites ne chargent leurs
 images qu'au passage du lecteur.
 
+## Quand ca marche ici et pas en ligne
+
+C'est arrive, et le journal du travail n'en disait rien : couverture
+blanche et document sans page de diagnostic, sans rien pour savoir
+pourquoi. La cause de ce silence etait `_node`, qui jetait la sortie
+d'erreur des scripts des qu'ils rendaient la main sans code d'erreur.
+`sections.cjs` ecrivait bien « capture presque vide », personne ne la
+lisait.
+
+La sortie d'erreur est donc gardee et recopiee dans le journal. Elle dit
+maintenant, a chaque document :
+
+- **quelle page est reellement arrivee** : titre, adresse finale et
+  nombre de caracteres de texte. Le meme code et le meme navigateur ne
+  donnent pas forcement la meme page : un pare-feu peut servir une page
+  de controle a l'adresse IP d'un hebergeur et le vrai site ailleurs ;
+- **la mise en page** : combien de blocs sont mesurables et quelle
+  hauteur fait la page ;
+- **le decoupage** : combien de blocs examines, combien retenus, et pour
+  quelle raison les autres ont ete ecartes ;
+- **les notes** de chaque section retenue ;
+- **le poids de chaque photo**, et le nombre d'essais qu'elle a demandes.
+
+Un document a quatre pages au lieu de cinq veut dire qu'aucune section
+n'a ete notee. La ligne « decoupage » dit alors si les blocs ont ete
+ecartes sur leur taille, leur largeur ou leur absence de texte.
+
+### Reproduire une machine lente
+
+Le serveur en ligne tourne sur un seul processeur. Une correction qui
+passe ici et echoue la-bas coute un aller-retour a chaque fois.
+
+    DONETADOC_LENT=6 node proposition/sections.cjs <url> <dossier> essai
+
+Le processeur du navigateur est bride d'autant. A titre de mesure,
+chromaction.fr rend les memes 107 blocs et la meme couverture de 147 Ko a
+1x, 6x et 20x : la lenteur de la machine, a elle seule, ne suffit pas a
+expliquer une couverture blanche.
+
 ## Les captures
 
 La capture automatique demande un acces reseau sortant vers le site du
@@ -193,6 +232,13 @@ C'est pour ce cas que l'interface accepte deux images a la main :
 - **capture a annoter** (`capture_analyse`) : elle porte les reperes rouges.
 
 Une image fournie l'emporte toujours sur la capture automatique.
+
+Quand aucune image n'est fournie, `rendu.cjs` prend sa propre capture de
+secours. Elle attendait 3,3 secondes en tout sans rien verifier, la ou le
+decoupage attend la mise en page, retire les bandeaux de consentement et
+recommence si la photo est quasi vide. Les deux suivent desormais la meme
+procedure : il n'y a plus deux facons de photographier un site, dont une
+seule etait solide.
 
 ## Les reperes rouges
 
