@@ -206,19 +206,36 @@ def _depart(ident, url, captures=None):
              detail=str(e)[:1600])
 
 
+# Sous cette largeur libre, une etiquette ne tient pas a cote du cadre.
+PLACE = 24.0
+
+
 def _cadre(c, marge=1.4):
     """Un cadre rouge autour d'une cible mesuree, en % de l'image.
 
-    La marge evite que le trait colle au texte. Le cote est celui ou il
-    reste de la place : une etiquette posee a droite d'un bloc deja a
-    droite sortirait de la page.
+    La marge evite que le trait colle au texte.
+
+    Le cote se decide sur la place reellement libre, pas sur le centre du
+    cadre. Juger au centre donnait des resultats absurdes a la frontiere :
+    un cadre centre a 50,05 % partait a gauche alors qu'il restait autant
+    de place des deux cotes, et l'etiquette sortait de la page en coupant
+    son premier mot. Un cadre large ne laisse de place nulle part : son
+    etiquette se pose alors au-dessus, ou en dessous s'il touche le haut.
     """
     x = max(0.0, c['x'] - marge)
     y = max(0.0, c['y'] - marge)
     w = min(100.0 - x, c['w'] + 2 * marge)
     h = min(100.0 - y, c['h'] + 2 * marge)
+
+    gauche, droite = x, 100.0 - (x + w)
+    if max(gauche, droite) >= PLACE:
+        cote = 'gauche' if gauche > droite else 'droite'
+    elif y >= 14.0:
+        cote = 'haut'
+    else:
+        cote = 'bas'
     return {'x': round(x, 2), 'y': round(y, 2), 'w': round(w, 2),
-            'h': round(h, 2), 'cote': 'droite' if x + w / 2 < 50 else 'gauche'}
+            'h': round(h, 2), 'cote': cote}
 
 
 def reperes_section(sec):

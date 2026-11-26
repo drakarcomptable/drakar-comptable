@@ -148,7 +148,20 @@ d'accueil −25, « Contactez-nous » −50.
 DONETADOC retient automatiquement la mieux notee. Le formulaire detaille
 montre les vignettes et laisse choisir a la main.
 
-### Les reperes rouges automatiques
+### Ou se pose l'etiquette d'un repere
+
+Pas du cote ou le cadre est le moins centre, mais du cote ou il reste de
+la place. Juger au centre donnait des resultats absurdes a la frontiere :
+un cadre centre a 50,05 % partait a gauche alors qu'il restait autant de
+place des deux cotes, et l'etiquette sortait de la page en coupant son
+premier mot.
+
+Un cadre large ne laisse de place nulle part. Son etiquette se pose alors
+au-dessus du cadre, ou en dessous quand il touche le haut de l'image. Et
+elle peut se replier sur plusieurs lignes : `white-space:nowrap`
+l'empechait, donc une phrase un peu longue debordait forcement.
+
+## Les reperes rouges automatiques
 
 Ils parlent de la section montree, et d'elle seule : combien de puces,
 combien de phrases, combien de chiffres, combien de questions. Un constat
@@ -370,6 +383,19 @@ decoupage attend la mise en page, retire les bandeaux de consentement et
 recommence si la photo est quasi vide. Les deux suivent desormais la meme
 procedure : il n'y a plus deux facons de photographier un site, dont une
 seule etait solide.
+
+## Ou se pose l'etiquette d'un repere
+
+Pas du cote ou le cadre est le moins centre, mais du cote ou il reste de
+la place. Juger au centre donnait des resultats absurdes a la frontiere :
+un cadre centre a 50,05 % partait a gauche alors qu'il restait autant de
+place des deux cotes, et l'etiquette sortait de la page en coupant son
+premier mot.
+
+Un cadre large ne laisse de place nulle part. Son etiquette se pose alors
+au-dessus du cadre, ou en dessous quand il touche le haut de l'image. Et
+elle peut se replier sur plusieurs lignes : `white-space:nowrap`
+l'empechait, donc une phrase un peu longue debordait forcement.
 
 ## Les reperes rouges
 

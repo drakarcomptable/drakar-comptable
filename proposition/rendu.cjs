@@ -150,8 +150,9 @@ function pages(cap) {
     ${p.annotations.map((a, i) => `
       <span class="box" data-x="${a.x}" data-y="${a.y}" data-w="${a.w}" data-h="${a.h}">
         <i class="num">${i + 1}</i>
-        <i class="fl fl-${a.cote === 'gauche' ? 'g' : 'd'}"></i>
-        <i class="lab lab-${a.cote === 'gauche' ? 'g' : 'd'}">${esc(a.texte)}</i>
+        ${a.cote === 'haut' || a.cote === 'bas' ? ''
+          : `<i class="fl fl-${a.cote === 'gauche' ? 'g' : 'd'}"></i>`}
+        <i class="lab lab-${ {haut:'h', bas:'b', gauche:'g'}[a.cote] || 'd' }">${esc(a.texte)}</i>
       </span>`).join('')}
   </div>
   ${pied(3)}
@@ -450,9 +451,16 @@ body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiase
 .diag .fl-d{left:100%}.diag .fl-g{right:100%}
 .diag .lab{position:absolute;top:50%;transform:translateY(-50%);
   background:#e01b24;color:#fff;font-style:normal;font-size:11.5px;font-weight:700;
-  padding:6px 11px;border-radius:5px;white-space:nowrap}
+  padding:6px 11px;border-radius:5px;line-height:1.32;max-width:200px}
 .diag .lab-d{left:calc(100% + 26px)}
 .diag .lab-g{right:calc(100% + 26px)}
+/* Un cadre large ne laisse de place ni a gauche ni a droite : l'etiquette
+   se pose alors au-dessus, ou en dessous quand le cadre touche le haut.
+   Elle debordait de la page, et le premier mot etait coupe. */
+.diag .lab-h{left:0;right:auto;top:auto;bottom:calc(100% + 9px);
+  transform:none;max-width:100%}
+.diag .lab-b{left:0;right:auto;top:calc(100% + 9px);bottom:auto;
+  transform:none;max-width:100%}
 
 /* equipe et chiffres, page qui sommes-nous */
 .gens{display:grid;grid-template-columns:repeat(4,1fr) 1.5fr;gap:16px;
