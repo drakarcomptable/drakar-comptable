@@ -187,7 +187,11 @@ class Poste(BaseHTTPRequestHandler):
         if chemin.startswith('/pdf/'):
             f = os.path.join(SORTIE, nom_sur(chemin[5:]))
             if not os.path.exists(f):
-                return self._envoie(404, 'text/plain; charset=utf-8', 'absent')
+                # « absent » sur fond blanc n'explique rien a la personne
+                # qui voulait son document. Le disque du service est
+                # efface a chaque mise en ligne : un lien garde d'un jour
+                # sur l'autre ne vaut plus rien, et il faut le dire.
+                return self._envoie(404, 'text/html; charset=utf-8', DISPARU)
             with open(f, 'rb') as src:
                 corps = src.read()
             return self._envoie(200, 'application/pdf', corps,
@@ -384,6 +388,24 @@ def empreinte():
                 h.update(b'absent')
         _EMPREINTE = h.hexdigest()[:8]
     return _EMPREINTE
+
+
+DISPARU = """<!doctype html><html lang="fr"><meta charset="utf-8">
+<title>Document introuvable</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;
+background:#f5f3ff;color:#1b1340;font:16px/1.6 system-ui,sans-serif}
+.c{max-width:30rem;padding:2rem;text-align:center}
+h1{font-size:1.35rem;margin:0 0 .8rem}p{margin:.6rem 0;color:#4a4066}
+a{display:inline-block;margin-top:1.2rem;background:#6d4aff;color:#fff;
+text-decoration:none;padding:.7rem 1.4rem;border-radius:999px;font-weight:700}
+</style><div class="c"><h1>Ce document n\u2019existe plus sur le serveur</h1>
+<p>Les documents ne sont pas conserv\u00e9s&nbsp;: ils sont effac\u00e9s \u00e0 chaque
+remise en ligne de l\u2019outil. Un lien gard\u00e9 d\u2019un jour sur l\u2019autre ne
+fonctionne donc plus.</p>
+<p>Il n\u2019est pas perdu pour autant&nbsp;: recollez l\u2019adresse du site et il se
+refabrique en une \u00e0 deux minutes.</p>
+<a href="/">Refaire le document</a></div></html>"""
 
 
 class Serveur(ThreadingMixIn, HTTPServer):

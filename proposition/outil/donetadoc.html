@@ -164,6 +164,8 @@ button.sec:hover{background:#e3dbff}
     <div class="fini" id="fini" hidden>
       <div class="etoiles" id="etoiles"></div>
       <p class="gros">Votre document est prêt.</p>
+      <p class="note" id="enregistre" hidden>Il vient d’être enregistré dans
+        vos téléchargements.</p>
       <a id="tele"><button type="button">Télécharger ma doc</button></a>
       <button type="button" class="sec" id="btn-mod"
               style="margin-left:8px">Modifier la doc</button>
@@ -270,7 +272,49 @@ function avance(t) {
     $('#pause').hidden = true;
     if ($('#fini').hidden) { $('#fini').hidden = false; etoiles(); }
     $('#tele').href = t.pdf;
+    recupere(t.pdf);
   }
+}
+
+/* Prendre le document tout de suite, sans attendre le clic.
+
+   Les documents ne survivent pas a une remise en ligne de l'outil : le
+   disque du service est efface a chaque fois. Un lien laisse de cote le
+   temps d'une reunion ne valait plus rien, et la page repondait
+   « absent » sans rien expliquer. On le recupere donc des qu'il est
+   pret, pendant qu'il existe encore. Le bouton reste, pour une seconde
+   copie ou si le navigateur refuse l'enregistrement automatique. */
+let dejaPris = '';
+
+async function recupere(lien) {
+  if (!lien || dejaPris === lien) return;
+  dejaPris = lien;
+  try {
+    const r = await fetch(lien);
+    if (!r.ok) return;
+    const b = await r.blob();
+    const u = URL.createObjectURL(b);
+    const a = document.createElement('a');
+    a.href = u;
+    a.download = nomPropose(r.headers.get('content-disposition'));
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(u), 30000);
+    $('#enregistre').hidden = false;
+  } catch (e) {
+    // le bouton fait toujours le travail
+  }
+}
+
+/* Le nom lisible voyage dans l'en-tete, sous deux formes : celle qui
+   accepte les accents d'abord, l'autre ensuite. */
+function nomPropose(entete) {
+  const d = entete || '';
+  let m = /filename\*=UTF-8''([^;]+)/i.exec(d);
+  if (m) { try { return decodeURIComponent(m[1]); } catch (e) { /* suite */ } }
+  m = /filename="([^"]+)"/i.exec(d);
+  return m ? m[1] : 'proposition.pdf';
 }
 
 function etoiles() {

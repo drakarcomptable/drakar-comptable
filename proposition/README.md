@@ -121,9 +121,21 @@ on le decide.
 
 ### Ce qui disparait au redemarrage
 
-`depots/` et `sortie/` sont volatils. Un document se telecharge dans la
-foulee, donc c'est sans consequence ; mais un lien de telechargement garde
-quelques heures ne vaudra plus rien apres un redemarrage.
+`depots/` et `sortie/` sont volatils : le disque du service est efface a
+chaque remise en ligne. Un lien de telechargement garde le temps d'une
+reunion ne vaut donc plus rien, et c'est arrive : la page repondait
+« absent » sur fond blanc, ce qui n'explique rien a la personne qui
+voulait son document.
+
+Deux reponses. L'outil **prend le document des qu'il est pret**, sans
+attendre le clic, pendant qu'il existe encore ; le bouton reste pour une
+seconde copie ou si le navigateur refuse l'enregistrement automatique. Et
+un lien devenu caduc rend une page qui dit ce qui s'est passe et propose
+de refaire le document.
+
+Rendre les liens durables demanderait un disque persistant chez
+l'hebergeur, qui se paie en plus. Tant qu'un document se recupere a la
+fabrication, ca n'en vaut pas la peine.
 
 ## Photographier le site du prospect
 
