@@ -164,8 +164,8 @@ button.sec:hover{background:#e3dbff}
     <div class="fini" id="fini" hidden>
       <div class="etoiles" id="etoiles"></div>
       <p class="gros">Votre document est prêt.</p>
-      <p class="note" id="enregistre" hidden>Il vient d’être enregistré dans
-        vos téléchargements.</p>
+      <p class="note" id="enregistre" hidden>L’enregistrement a été lancé.
+        S’il n’apparaît pas dans vos téléchargements, utilisez le bouton.</p>
       <a id="tele"><button type="button">Télécharger ma doc</button></a>
       <button type="button" class="sec" id="btn-mod"
               style="margin-left:8px">Modifier la doc</button>
@@ -301,6 +301,12 @@ async function recupere(lien) {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(u), 30000);
+    /* On ne peut pas savoir si le navigateur a accepte.
+       Safari refuse souvent un enregistrement declenche par du code
+       longtemps apres le clic, et sans bruit. Annoncer « c'est
+       enregistre » serait alors faux, et la personne chercherait un
+       fichier qui n'existe pas. On annonce donc la tentative, et le
+       bouton reste la juste a cote. */
     $('#enregistre').hidden = false;
   } catch (e) {
     // le bouton fait toujours le travail
