@@ -138,9 +138,14 @@ voulait son document.
 
 Deux reponses. L'outil **prend le document des qu'il est pret**, sans
 attendre le clic, pendant qu'il existe encore ; le bouton reste pour une
-seconde copie ou si le navigateur refuse l'enregistrement automatique. Et
-un lien devenu caduc rend une page qui dit ce qui s'est passe et propose
-de refaire le document.
+seconde copie ou si le navigateur refuse l'enregistrement automatique.
+
+Et un lien devenu caduc n'est plus un cul-de-sac : la page porte un champ
+d'adresse, et la fabrication repart de la. Elle renvoyait d'abord vers
+l'accueil, ou il fallait retrouver l'adresse du prospect et la recoller ;
+entre les deux on revenait au lien mort, et on croyait l'outil casse.
+L'adresse voyage donc dans `/?url=`, et la page d'accueil la reprend
+toute seule.
 
 Rendre les liens durables demanderait un disque persistant chez
 l'hebergeur, qui se paie en plus. Tant qu'un document se recupere a la

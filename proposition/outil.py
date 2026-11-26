@@ -405,15 +405,20 @@ DISPARU = """<!doctype html><html lang="fr"><meta charset="utf-8">
 background:#f5f3ff;color:#1b1340;font:16px/1.6 system-ui,sans-serif}
 .c{max-width:30rem;padding:2rem;text-align:center}
 h1{font-size:1.35rem;margin:0 0 .8rem}p{margin:.6rem 0;color:#4a4066}
-a{display:inline-block;margin-top:1.2rem;background:#6d4aff;color:#fff;
-text-decoration:none;padding:.7rem 1.4rem;border-radius:999px;font-weight:700}
+button{display:inline-block;margin-top:1rem;background:#6d4aff;color:#fff;border:0;
+font:inherit;padding:.7rem 1.4rem;border-radius:999px;font-weight:700;cursor:pointer}
+input:focus{outline:2px solid #6d4aff;outline-offset:1px}
 </style><div class="c"><h1>Ce document n\u2019existe plus sur le serveur</h1>
 <p>Les documents ne sont pas conserv\u00e9s&nbsp;: ils sont effac\u00e9s \u00e0 chaque
 remise en ligne de l\u2019outil. Un lien gard\u00e9 d\u2019un jour sur l\u2019autre ne
 fonctionne donc plus.</p>
-<p>Il n\u2019est pas perdu pour autant&nbsp;: recollez l\u2019adresse du site et il se
-refabrique en une \u00e0 deux minutes.</p>
-<a href="/">Refaire le document</a></div></html>"""
+<p>Il n\u2019est pas perdu pour autant&nbsp;: collez l\u2019adresse du site ci-dessous
+et il se refabrique en une \u00e0 deux minutes.</p>
+<form onsubmit="location=\'/?url=\'+encodeURIComponent(this.u.value.trim());return false">
+<input name="u" type="url" required placeholder="https://www.exemple.fr"
+ style="width:100%;box-sizing:border-box;padding:.7rem .9rem;font:inherit;
+ border:1px solid #d6cffa;border-radius:10px;margin-top:.9rem">
+<button type="submit">Refaire le document</button></form></div></html>"""
 
 
 class Serveur(ThreadingMixIn, HTTPServer):

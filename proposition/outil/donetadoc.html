@@ -423,6 +423,20 @@ $('#go').onclick = () => {
 $('#url').addEventListener('keydown', e => {
   if (e.key === 'Enter') $('#go').click();
 });
+
+/* Arrive depuis un lien perime : on repart tout de suite.
+
+   La page d'un lien mort renvoyait vers l'accueil, et il fallait ensuite
+   retrouver l'adresse du prospect et la recoller. Entre les deux, on
+   revenait au lien mort et on croyait l'outil casse. L'adresse voyage
+   donc avec le retour, et la fabrication repart sans rien retaper. */
+(function () {
+  const u = new URLSearchParams(location.search).get('url');
+  if (!u) return;
+  $('#url').value = u;
+  history.replaceState(null, '', location.pathname);
+  $('#go').click();
+})();
 </script>
 </body>
 </html>
