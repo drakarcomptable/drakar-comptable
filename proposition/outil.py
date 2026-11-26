@@ -360,7 +360,8 @@ class Poste(BaseHTTPRequestHandler):
 
 _EMPREINTE = None
 _SOURCES = ('donnetadoc.py', 'sections.cjs', 'rendu.cjs', 'gen.py',
-            'analyse.cjs', 'outil.py', 'outil/donetadoc.html')
+            'analyse.cjs', 'requetes.py', 'navigateur.cjs', 'outil.py',
+            'outil/donetadoc.html')
 
 
 def empreinte():
