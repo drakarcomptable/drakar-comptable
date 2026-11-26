@@ -208,34 +208,72 @@ def _depart(ident, url, captures=None):
 
 # Sous cette largeur libre, une etiquette ne tient pas a cote du cadre.
 PLACE = 24.0
+# Encombrement approximatif d'une etiquette, en % de l'image.
+ETI_H = 7.5
+ETI_L = 30.0
 
 
-def _cadre(c, marge=1.4):
-    """Un cadre rouge autour d'une cible mesuree, en % de l'image.
-
-    La marge evite que le trait colle au texte.
-
-    Le cote se decide sur la place reellement libre, pas sur le centre du
-    cadre. Juger au centre donnait des resultats absurdes a la frontiere :
-    un cadre centre a 50,05 % partait a gauche alors qu'il restait autant
-    de place des deux cotes, et l'etiquette sortait de la page en coupant
-    son premier mot. Un cadre large ne laisse de place nulle part : son
-    etiquette se pose alors au-dessus, ou en dessous s'il touche le haut.
-    """
+def _boite(c, marge=1.4):
+    """Le cadre rouge autour d'une cible mesuree, en % de l'image."""
     x = max(0.0, c['x'] - marge)
     y = max(0.0, c['y'] - marge)
-    w = min(100.0 - x, c['w'] + 2 * marge)
-    h = min(100.0 - y, c['h'] + 2 * marge)
+    return {'x': round(x, 2), 'y': round(y, 2),
+            'w': round(min(100.0 - x, c['w'] + 2 * marge), 2),
+            'h': round(min(100.0 - y, c['h'] + 2 * marge), 2)}
 
-    gauche, droite = x, 100.0 - (x + w)
-    if max(gauche, droite) >= PLACE:
-        cote = 'gauche' if gauche > droite else 'droite'
-    elif y >= 14.0:
-        cote = 'haut'
+
+def _zone(b, cote):
+    """Ou se poserait l'etiquette, pour ce cadre et ce cote."""
+    if cote == 'haut':
+        return (b['x'], b['y'] - ETI_H, min(b['w'], 55.0), ETI_H)
+    if cote == 'bas':
+        return (b['x'], b['y'] + b['h'], min(b['w'], 55.0), ETI_H)
+    milieu = b['y'] + b['h'] / 2 - ETI_H / 2
+    if cote == 'gauche':
+        return (b['x'] - ETI_L, milieu, ETI_L, ETI_H)
+    return (b['x'] + b['w'], milieu, ETI_L, ETI_H)
+
+
+def _chevauche(a, b):
+    return (a[0] < b[0] + b[2] and b[0] < a[0] + a[2] and
+            a[1] < b[1] + b[3] and b[1] < a[1] + a[3])
+
+
+def _cote(b, prises):
+    """Le cote de l'etiquette, en evitant celles deja posees.
+
+    Le cote se decide d'abord sur la place reellement libre, pas sur le
+    centre du cadre : juger au centre donnait des resultats absurdes a la
+    frontiere, un cadre centre a 50,05 % partait a gauche alors qu'il
+    restait autant de place des deux cotes.
+
+    Mais chaque repere choisissait aussi son cote sans savoir ou etaient
+    les autres, et deux etiquettes finissaient l'une sur l'autre,
+    illisibles toutes les deux. On essaie donc les positions dans l'ordre
+    du plus confortable au moins, et on garde la premiere qui ne tombe
+    pas sur une etiquette deja placee.
+    """
+    gauche, droite = b['x'], 100.0 - (b['x'] + b['w'])
+    large = max(gauche, droite) >= PLACE
+    cote_large = 'gauche' if gauche > droite else 'droite'
+    autre = 'droite' if cote_large == 'gauche' else 'gauche'
+    if large:
+        ordre = [cote_large, autre, 'haut', 'bas']
+    elif b['y'] >= ETI_H + 2:
+        ordre = ['haut', 'bas', cote_large, autre]
     else:
-        cote = 'bas'
-    return {'x': round(x, 2), 'y': round(y, 2), 'w': round(w, 2),
-            'h': round(h, 2), 'cote': cote}
+        ordre = ['bas', 'haut', cote_large, autre]
+
+    for c in ordre:
+        z = _zone(b, c)
+        if z[1] < -1 or z[1] + z[3] > 101:
+            continue                       # sortirait de l'image
+        if any(_chevauche(z, p) for p in prises):
+            continue
+        prises.append(z)
+        return c
+    prises.append(_zone(b, ordre[0]))
+    return ordre[0]
 
 
 def reperes_section(sec):
@@ -274,7 +312,7 @@ def reperes_section(sec):
                         'réponses des IA', ('bloc', 'titre', 'para')))
 
     cibles = sec.get('cibles') or {}
-    pris, out = set(), []
+    pris, prises, out = set(), [], []
     for texte, prefs in trouves[:3]:
         c = None
         for cle in prefs:
@@ -291,7 +329,8 @@ def reperes_section(sec):
         # sur un document envoye a un prospect, une fleche qui ne montre
         # rien decredibilise la page entiere.
         if c:
-            out.append(dict(_cadre(c), texte=texte))
+            b = _boite(c)
+            out.append(dict(b, cote=_cote(b, prises), texte=texte))
     return out
 
 

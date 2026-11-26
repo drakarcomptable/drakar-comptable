@@ -32,8 +32,10 @@ DELAI = 60
 
 # Chaque appel coute une recherche au forfait. Un document ne doit pas
 # pouvoir vider le quota du mois a lui tout seul.
-BUDGET = 10
-A_VERIFIER = 3          # combien de requetes candidates on va verifier
+BUDGET = 12
+# Une candidate sur deux peut etre ecartee apres verification, faute de
+# marche : on en essaie une de plus pour ne pas finir avec une seule.
+A_VERIFIER = 4
 
 # Mots qui font qu'une suggestion n'est pas une requete de marche.
 # « saasu maa » est du bruit d'une autre langue, « demo » et « jobs » sont
@@ -43,7 +45,30 @@ BRUIT = {
     'wikipedia', 'linkedin', 'connexion', 'login', 'gratuit', 'free',
     'pdf', 'exemple', 'exemples', 'definition', 'meaning', 'traduction',
     'telecharger', 'download', 'tuto', 'tutoriel', 'cours', 'formation',
+    # « déchets industriels banals en anglais » n'est pas une requete de
+    # marche, c'est quelqu'un qui cherche une traduction. Le nom d'une
+    # langue etrangere dans une requete trahit presque toujours cette
+    # intention-la, jamais celle d'acheter une prestation.
+    'anglais', 'arabe', 'espagnol', 'allemand', 'italien', 'portugais',
+    'neerlandais', 'chinois', 'russe', 'japonais', 'polonais', 'turc',
+    'roumain', 'english', 'spanish', 'german', 'synonyme', 'liste',
 }
+
+# Des sources qui trahissent une requete sans marche.
+#
+# « dechets industriels no man's sky » a passe tous les filtres : les
+# deux premiers mots sont bien ceux du site. Ce que l'IA citait, en
+# revanche, ne laissait aucun doute : trois YouTube et un site de jeux.
+# Quand la reponse de Google s'appuie surtout la-dessus, la requete
+# n'interesse pas un acheteur de prestation.
+# Des fragments, pas des domaines : la liste des sources porte le nom
+# affiche par Google (« YouTube ») aussi bien que l'adresse.
+NON_MARCHAND = (
+    'youtube', 'wikipedia', 'wiktionary', 'reddit', 'quora', 'tiktok',
+    'facebook', 'instagram', 'twitter', 'pinterest', 'linkedin',
+    'service-public', 'gouv.fr', 'legifrance', 'fandom', 'jeuxvideo',
+    'gamekult', 'games.', 'millenium', 'dictionnaire', 'forum',
+)
 
 
 # Des lieux qui ne sont pas le marche d'un prospect francais.
@@ -248,7 +273,7 @@ def vocabulaire(titre, principaux, secondaires):
     return poids
 
 
-def noyau(poids, marque, n=6):
+def noyau(poids, marque, n=10):
     """Les mots qui font vraiment le metier du site."""
     jm = _jetons_marque(marque)
     cl = [m for m in sorted(poids, key=lambda x: (-poids[x], x))
@@ -278,10 +303,12 @@ def graines(pistes, poids, marque):
         mots = set(_plat(g).split())
         if jm and jm <= mots:
             continue
+        # Une piste qui n'emploie pas les mots du titre n'est pas hors
+        # sujet pour autant : « location de bennes » est un service, pas
+        # un detail, et c'est exactement le genre de requete qu'on
+        # cherche. Elle passe apres, elle n'est plus jetee.
         touche = [rang[m] for m in _racines(mots) if m in rang]
-        if not touche:
-            continue           # cette piste ne parle pas du metier du site
-        notees.append((min(touche), g))
+        notees.append((min(touche) if touche else len(rang) + 1, g))
     notees.sort()
 
     vus, out = set(), []
@@ -319,6 +346,21 @@ def _recevable(s, marque, rebut, texte_site='', noyau_mots=()):
     if noyau_mots and not (_racines(mots) & _racines(noyau_mots)):
         return False
     return True
+
+
+def _informatif(v):
+    """La reponse de l'IA s'appuie-t-elle surtout sur du non-marchand.
+
+    Une requete dont Google illustre la reponse avec YouTube, Wikipedia
+    ou un site de jeux n'est pas une requete d'acheteur, quels que
+    soient ses mots. C'est une preuve, pas une supposition : elle vient
+    de la page de resultats qu'on vient de lire.
+    """
+    liens = [_plat(s) for s in (v.get('concurrents') or [])]
+    if len(liens) < 3:
+        return False
+    hors = sum(1 for n in liens if any(x in n for x in NON_MARCHAND))
+    return hors * 2 > len(liens)
 
 
 def cherche(pistes, titre, principaux, secondaires, marque, domaine,
@@ -361,7 +403,7 @@ def cherche(pistes, titre, principaux, secondaires, marque, domaine,
     # intention d'achat qu'un mot seul
     candidates.sort(key=lambda x: -len(x.split()))
 
-    verifiees, absentes = [], []
+    verifiees, absentes, notes_inf = [], [], []
     for c in candidates[:A_VERIFIER]:
         if s.reste <= 1:
             break
@@ -369,6 +411,9 @@ def cherche(pistes, titre, principaux, secondaires, marque, domaine,
         if not v:
             continue
         verifiees.append(v)
+        if _informatif(v):
+            notes_inf.append(c)
+            continue
         if not v['ia_cite'] and v['rang'] is None:
             absentes.append(v)
 
@@ -381,6 +426,9 @@ def cherche(pistes, titre, principaux, secondaires, marque, domaine,
     retenues = absentes or []
     notes = list(s.notes)
     notes.append('graines : ' + ', '.join(gr))
+    if notes_inf:
+        notes.append('écartée(s) faute de marché, vu les sources citées : '
+                     + ', '.join(notes_inf))
     notes.append('%d requête(s) vérifiée(s) sur Google en %d appels, '
                  '%d sans citation' % (len(verifiees), s.appels, len(absentes)))
     if not absentes:

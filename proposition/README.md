@@ -173,6 +173,14 @@ au-dessus du cadre, ou en dessous quand il touche le haut de l'image. Et
 elle peut se replier sur plusieurs lignes : `white-space:nowrap`
 l'empechait, donc une phrase un peu longue debordait forcement.
 
+## Deux reperes ne se marchent plus dessus
+
+Chaque repere choisissait son cote sans savoir ou etaient les autres, et
+deux etiquettes finissaient l'une sur l'autre, illisibles toutes les
+deux. Les positions sont maintenant essayees dans l'ordre du plus
+confortable au moins, et la premiere qui ne tombe pas sur une etiquette
+deja posee est retenue.
+
 ## Les reperes rouges automatiques
 
 Ils parlent de la section montree, et d'elle seule : combien de puces,
@@ -285,6 +293,24 @@ sujet part chez le prospect.
 Resultat sur bsecure.fr : « pentest as a service », « pentest
 assurance », « pentest anssi », aucune des trois citee par l'IA de
 Google, qui cite a la place Synack, Cobalt, HackerOne et NetSPI.
+
+### Trois pieges que l'autocompletion tend
+
+**La traduction.** « dechets industriels banals en anglais » n'est pas
+une requete de marche, c'est quelqu'un qui cherche a traduire. Le nom
+d'une langue etrangere trahit presque toujours cette intention.
+
+**Le hors-sujet qui porte les bons mots.** « dechets industriels no
+man's sky » a passe tous les filtres : ses deux premiers mots sont ceux
+du site. Ce que l'IA citait ne laissait aucun doute, trois YouTube et un
+site de jeux. Quand la reponse de Google s'appuie pour moitie sur du non
+marchand, la requete est ecartee et le journal le dit. C'est une preuve,
+pas une supposition : elle vient de la page qu'on vient de lire.
+
+**Les services jetes par le filtre.** « location de bennes » n'emploie
+aucun mot du titre, et se trouvait donc ecarte comme hors sujet, alors
+que c'est exactement le genre de requete recherche. Une piste sans mot
+du noyau passe maintenant apres les autres, elle n'est plus jetee.
 
 ### Sa limite, qu'il faut connaitre
 
@@ -408,6 +434,14 @@ Un cadre large ne laisse de place nulle part. Son etiquette se pose alors
 au-dessus du cadre, ou en dessous quand il touche le haut de l'image. Et
 elle peut se replier sur plusieurs lignes : `white-space:nowrap`
 l'empechait, donc une phrase un peu longue debordait forcement.
+
+## Deux reperes ne se marchent plus dessus
+
+Chaque repere choisissait son cote sans savoir ou etaient les autres, et
+deux etiquettes finissaient l'une sur l'autre, illisibles toutes les
+deux. Les positions sont maintenant essayees dans l'ordre du plus
+confortable au moins, et la premiere qui ne tombe pas sur une etiquette
+deja posee est retenue.
 
 ## Les reperes rouges
 
