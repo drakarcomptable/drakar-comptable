@@ -236,6 +236,31 @@ vider le quota du mois a lui tout seul.
   emporte « production video entreprise », qui est pourtant exactement
   son marche.
 
+### Par quoi on commence a taper
+
+L'autocompletion ne vaut que ce que vaut la graine qu'on lui donne, et
+une graine tiree d'une page secondaire emmene toute la recherche
+ailleurs. Sur bsecure.fr, une mention d'hebergement a suffi a faire
+sortir « modèle attestation d'hébergement », une requete administrative
+sans aucun rapport avec un pentester.
+
+Les mots du site sont donc peses : la balise titre et le H1 comptent
+triple, un titre de section ou un item de menu compte une fois. Le noyau
+de bsecure.fr devient pentests, audits, cyberattaque, cybersecurite, et
+les graines en sortent seules. Une suggestion qui ne touche pas ce noyau
+est ecartee.
+
+La comparaison se fait sur les racines. Sans cela le noyau contenait
+« pentests » et la requete « pentest as a service » ne correspondait a
+rien : un « s » decidait du sort de la recherche. Le filtre reste
+volontairement severe, et laisse passer moins de requetes qu'il n'en
+existe : une requete manquante se rattrape a la main, une requete hors
+sujet part chez le prospect.
+
+Resultat sur bsecure.fr : « pentest as a service », « pentest
+assurance », « pentest anssi », aucune des trois citee par l'IA de
+Google, qui cite a la place Synack, Cobalt, HackerOne et NetSPI.
+
 ### Sa limite, qu'il faut connaitre
 
 Sur un site **en francais**, la chaine se suffit a elle-meme : les mots

@@ -83,6 +83,21 @@ GENERIQUE = {
 }
 
 
+def _racine(m):
+    """Le mot sans sa marque du pluriel.
+
+    Le noyau d'un site de pentest contenait « pentests », et la requete
+    « pentest as a service » ne correspondait a rien : le filtre par
+    sujet rejetait tout. Comparer des racines evite qu'un « s » decide
+    du sort d'une recherche.
+    """
+    return m[:-1] if len(m) > 4 and m.endswith(('s', 'x')) else m
+
+
+def _racines(mots):
+    return {_racine(m) for m in mots}
+
+
 def _jetons_marque(marque):
     """Les mots qui identifient vraiment la marque.
 
@@ -202,28 +217,88 @@ class Serp(object):
 
 # ---------------------------------------------------------------- graines
 
-def graines(pistes, mots_site, marque):
+VIDES = {
+    'le', 'la', 'les', 'un', 'une', 'des', 'du', 'de', 'et', 'ou', 'en',
+    'au', 'aux', 'pour', 'par', 'sur', 'dans', 'avec', 'sans', 'chez',
+    'qui', 'que', 'quoi', 'dont', 'est', 'sont', 'etre', 'avoir', 'plus',
+    'tout', 'tous', 'toute', 'votre', 'vos', 'notre', 'nos', 'son', 'ses',
+    'the', 'and', 'for', 'with', 'your', 'our', 'you', 'we', 'that',
+    'this', 'from', 'are', 'all', 'more', 'get', 'will', 'can',
+}
+
+
+def vocabulaire(titre, principaux, secondaires):
+    """De quoi ce site parle, par ordre d'importance.
+
+    La balise titre et le H1 disent le metier ; un item de menu ou un
+    titre de section ne dit qu'un detail. Sans ce poids, une page
+    secondaire suffisait a emporter toute la recherche : sur un site de
+    pentest, une mention d'hebergement a fait sortir « modèle attestation
+    d'hébergement », qui est une requete administrative sans aucun
+    rapport avec son marche.
+    """
+    poids = {}
+    for texte, p in ([(titre, 3)] + [(x, 3) for x in (principaux or [])] +
+                     [(x, 1) for x in (secondaires or [])]):
+        for m in re.split(r'[^a-z0-9]+', _plat(texte or '')):
+            if len(m) < 4 or m in VIDES:
+                continue
+            r = _racine(m)
+            poids[r] = poids.get(r, 0) + p
+    return poids
+
+
+def noyau(poids, marque, n=6):
+    """Les mots qui font vraiment le metier du site."""
+    jm = _jetons_marque(marque)
+    cl = [m for m in sorted(poids, key=lambda x: (-poids[x], x))
+          if m not in jm and m not in BRUIT]
+    return cl[:n]
+
+
+def graines(pistes, poids, marque):
     """Par quoi commencer a taper.
 
     Les pistes tirees du site sont de mauvaises requetes, mais de bonnes
     graines : elles portent le vocabulaire du metier. L'autocompletion
     fait le reste du chemin, et elle le fait avec ce que les gens tapent.
+
+    On garde d'abord les pistes faites des mots les plus centraux du
+    site, puis, a defaut, ces mots centraux accoles deux a deux.
     """
-    vus, out = set(), []
-    for p in list(pistes or []) + list(mots_site or []):
+    jm = _jetons_marque(marque)
+    cl = noyau(poids, marque)
+    rang = {m: i for i, m in enumerate(cl)}
+
+    notees = []
+    for p in (pistes or []):
         g = ' '.join((p or '').split()[:3]).strip()
         if len(g) < 5:
             continue
-        plat = _plat(g)
-        jm = _jetons_marque(marque)
-        if plat in vus or (jm and jm <= set(plat.split())):
+        mots = set(_plat(g).split())
+        if jm and jm <= mots:
             continue
-        vus.add(plat)
-        out.append(g)
+        touche = [rang[m] for m in _racines(mots) if m in rang]
+        if not touche:
+            continue           # cette piste ne parle pas du metier du site
+        notees.append((min(touche), g))
+    notees.sort()
+
+    vus, out = set(), []
+    for _, g in notees:
+        if _plat(g) not in vus:
+            vus.add(_plat(g))
+            out.append(g)
+    for i in range(min(3, len(cl))):
+        for j in range(i + 1, min(4, len(cl))):
+            g = cl[i] + ' ' + cl[j]
+            if g not in vus:
+                vus.add(g)
+                out.append(g)
     return out[:3]
 
 
-def _recevable(s, marque, rebut, texte_site=''):
+def _recevable(s, marque, rebut, texte_site='', noyau_mots=()):
     mots = set(_plat(s).split())
     if not (2 <= len(mots) <= 5):
         return False
@@ -238,11 +313,16 @@ def _recevable(s, marque, rebut, texte_site=''):
     ailleurs = mots & GEO_HORS
     if ailleurs and not any(g in _plat(texte_site) for g in ailleurs):
         return False
+    # Elle doit parler du metier du site. L'autocompletion part vite
+    # ailleurs : une seule mention d'hebergement sur un site de pentest
+    # suffisait a faire sortir « modèle attestation d'hébergement ».
+    if noyau_mots and not (_racines(mots) & _racines(noyau_mots)):
+        return False
     return True
 
 
-def cherche(pistes, mots_site, marque, domaine, rebut=(), cle=None,
-            budget=BUDGET, pays='fr', texte_site=''):
+def cherche(pistes, titre, principaux, secondaires, marque, domaine,
+            rebut=(), cle=None, budget=BUDGET, pays='fr'):
     """La chaine complete. Rend (requetes, notes) ou (None, notes).
 
     None veut dire « pas verifie », jamais « rien trouve » : l'appelant
@@ -253,14 +333,19 @@ def cherche(pistes, mots_site, marque, domaine, rebut=(), cle=None,
     if not s.actif():
         return None, ['pas de clé SerpAPI, requêtes tirées du site comme avant']
 
-    gr = graines(pistes, mots_site, marque)
+    poids = vocabulaire(titre, principaux, secondaires)
+    ny = set(noyau(poids, marque))
+    texte_site = ' '.join([titre or ''] + list(principaux or []) +
+                          list(secondaires or []))
+
+    gr = graines(pistes, poids, marque)
     if not gr:
         return None, ['aucune graine exploitable pour interroger Google']
 
     candidates, vus = [], set()
     for g in gr[:2]:
         for sug in s.suggestions(g, pays):
-            if not _recevable(sug, marque, rebut, texte_site):
+            if not _recevable(sug, marque, rebut, texte_site, ny):
                 continue
             k = _plat(sug)
             if k in vus:
@@ -295,6 +380,7 @@ def cherche(pistes, mots_site, marque, domaine, rebut=(), cle=None,
     # fabriquer un manque.
     retenues = absentes or []
     notes = list(s.notes)
+    notes.append('graines : ' + ', '.join(gr))
     notes.append('%d requête(s) vérifiée(s) sur Google en %d appels, '
                  '%d sans citation' % (len(verifiees), s.appels, len(absentes)))
     if not absentes:

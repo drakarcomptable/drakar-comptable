@@ -396,11 +396,12 @@ def monte(nom, url, a, vues, captures):
     # L'autocompletion de Google fait le reste, et la page de resultats
     # dit si le site y est, dans les liens comme dans la reponse de l'IA.
     # Sans cle, sans reseau ou hors quota, on garde l'ancienne methode.
-    titres = ((a.get('h1') or []) + (a.get('h2') or []) + (a.get('nav') or []))
     domaine = (urllib.parse.urlparse(url).hostname or '').replace('www.', '')
     verif, notes_req = serp.cherche(
-        pistes or (a.get('pistes') or []), [], nom, domaine,
-        rebut=REBUT, texte_site=' '.join(titres + [a.get('titre') or '']))
+        pistes or (a.get('pistes') or []),
+        a.get('titre') or '', a.get('h1') or [],
+        (a.get('h2') or []) + (a.get('nav') or []),
+        nom, domaine, rebut=REBUT)
     if verif:
         pistes = [v['mot'] for v in verif]
 
