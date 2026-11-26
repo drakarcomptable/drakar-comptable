@@ -110,6 +110,14 @@ class Poste(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header('Content-Type', type_)
         self.send_header('Content-Length', str(len(corps)))
+        # Rien ici ne gagne a etre garde par le navigateur, et beaucoup y
+        # perd. Apres une remise en ligne, une page gardee en memoire
+        # continue de faire tourner l'ancien code : on a vu un poste
+        # rester sans le telechargement automatique alors qu'il etait
+        # deja en service, et une page d'erreur revenir apres un clic qui
+        # avait pourtant abouti. Les documents, eux, se prennent une fois.
+        self.send_header('Cache-Control', 'no-store, must-revalidate')
+        self.send_header('Pragma', 'no-cache')
         if nom:
             # filename* porte les accents ; filename reste la pour les
             # clients qui ne connaissent pas la forme etendue.

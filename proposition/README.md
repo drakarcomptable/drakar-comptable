@@ -119,6 +119,15 @@ celui qui a ete saisi.
 pas changer de forme parce qu'un commit est passe. On remet en ligne quand
 on le decide.
 
+### Le navigateur ne garde rien
+
+Toutes les reponses portent `Cache-Control: no-store`. Sans cela, une
+page gardee en memoire continue de faire tourner l'ancien code apres une
+remise en ligne : un poste est reste sans le telechargement automatique
+alors qu'il etait deja en service, et une page d'erreur est revenue
+apres un clic qui avait pourtant abouti. Rien ici ne gagne a etre garde
+par le navigateur, et beaucoup y perd.
+
 ### Ce qui disparait au redemarrage
 
 `depots/` et `sortie/` sont volatils : le disque du service est efface a
