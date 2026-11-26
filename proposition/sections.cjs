@@ -354,7 +354,35 @@ async function sections(url, dossier, prefixe) {
                                       { texte: pris.t.replace(/\s+/g, ' ').slice(0, 60) })
                       : null;
         };
-        return { titre: choisit('h1,h2,h3,h4', 3, false),
+        /* Le gros bloc de contenu, et pas seulement son titre.
+
+           Un cadre fin autour d'un titre vise juste mais ne frappe pas :
+           sur un document commercial, ce qu'on veut montrer c'est « tout
+           ce pave ne dit rien a une IA ». On cherche donc le plus grand
+           conteneur qui porte vraiment du texte, en ne comptant que sa
+           partie visible dans la photo, et on s'arrete avant qu'il ne
+           couvre l'image entiere, ce qui ne designerait plus rien. */
+        const grosBloc = () => {
+          const aire = W * H;
+          let pris = null;
+          for (const e of document.querySelectorAll('div,section,article,ul,main')) {
+            const b = e.getBoundingClientRect();
+            const r = { left: Math.max(0, b.left), top: Math.max(0, b.top),
+                        right: Math.min(W, b.right), bottom: Math.min(H, b.bottom) };
+            r.width = r.right - r.left;
+            r.height = r.bottom - r.top;
+            if (r.width <= 0 || r.height <= 0) continue;
+            const a = r.width * r.height;
+            if (a < aire * 0.14 || a > aire * 0.82) continue;
+            if ((e.innerText || '').trim().length < 60) continue;
+            if (!pris || a > pris.a) pris = { r, a, t: (e.innerText || '').trim() };
+          }
+          return pris ? Object.assign(pc(pris.r),
+            { texte: pris.t.replace(/\s+/g, ' ').slice(0, 60) }) : null;
+        };
+
+        return { bloc:  grosBloc(),
+                 titre: choisit('h1,h2,h3,h4', 3, false),
                  puces: choisit('ul,ol', 12, true),
                  para:  choisit('p', 40, true) };
       }).catch(() => ({}));

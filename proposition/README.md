@@ -432,9 +432,31 @@ ajoute ou remplace une photo.
 Pour la meme raison, la capture automatique est enregistree en JPEG et pas
 en PNG : une capture de site est une photo.
 
+## Un gros cadre, pas un trait fin
+
+Le repere entourait le titre d'un bloc. C'etait juste et sans effet : sur
+un document commercial, ce qu'on montre c'est « tout ce pave ne dit rien
+a une IA ». Le decoupage releve donc aussi le plus grand conteneur qui
+porte vraiment du texte, en ne comptant que sa partie visible dans la
+photo, et en s'arretant a 82 % de l'image : au-dela le cadre ne designe
+plus rien.
+
+Sur bsecure.fr, le cadre couvre les quatre cartes d'expertise d'un seul
+tenant au lieu de souligner leur titre.
+
 ## Le nombre de demandes par mois n'est pas un chiffre magique
 
 Il est calcule, jamais saisi a la main :
+
+Les volumes sont ceux d'une niche, pas d'un marche de masse. 1 370
+recherches pour 5 a 6 demandes se lisait mal : un prospect qui fait la
+division trouve 0,4 % et en conclut que l'essentiel de son marche lui
+echappe de toute facon. Une requete tres precise, posee a une IA par
+quelqu'un qui cherche deja un prestataire, a un faible volume et une
+forte part de prise de contact. C'est le propos de la page : peu de
+monde, mais les bonnes personnes. En B2B cela donne 40, 30 et 20
+recherches, 90 au total, a 6,1 %.
+
 
     demandes = volume mensuel total x taux de prise de contact
 

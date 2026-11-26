@@ -262,16 +262,16 @@ def reperes_section(sec):
     trouves = []
     if puces >= 5 and (not mots or phrases / max(mots, 1) < 0.03):
         trouves.append(('%d puces et aucune phrase : une IA n’a rien à citer ici'
-                        % puces, ('puces', 'para', 'titre')))
+                        % puces, ('puces', 'bloc', 'para')))
     if chiffres == 0 and mots >= 40:
         trouves.append(('Aucune donnée chiffrée : les IA reprennent ce qu’elles '
-                        'peuvent sourcer', ('para', 'puces', 'titre')))
+                        'peuvent sourcer', ('bloc', 'para', 'puces')))
     if questions == 0 and mots >= 40:
         trouves.append(('Ce bloc ne répond à aucune requête : rien à reprendre '
-                        'dans une réponse IA', ('titre', 'para', 'puces')))
+                        'dans une réponse IA', ('bloc', 'titre', 'para')))
     if not trouves and mots:
         trouves.append(('Offre décrite sans requête cible : invisible dans les '
-                        'réponses des IA', ('titre', 'para', 'puces')))
+                        'réponses des IA', ('bloc', 'titre', 'para')))
 
     cibles = sec.get('cibles') or {}
     pris, out = set(), []
@@ -300,8 +300,16 @@ def reperes_section(sec):
 # chiffre reel. Un volume a zero ne dit rien a personne, et une promesse de
 # cent demandes par mois n'est pas credible.
 VISEES = {
-    'B2B': {'demandes': 5.5, 'taux': 0.004},
-    'B2C': {'demandes': 11.0, 'taux': 0.0025},
+    # Des volumes de niche, pas des volumes de masse.
+    #
+    # 1 370 recherches pour 5 a 6 demandes se lisait mal : un prospect
+    # qui fait la division trouve 0,4 % et se dit que le gros du marche
+    # lui echappe de toute facon. Sur une requete tres precise, posee a
+    # une IA par quelqu'un qui cherche deja un prestataire, le volume est
+    # faible et la part qui prend contact est forte. C'est le propos de
+    # la page : peu de monde, mais les bonnes personnes.
+    'B2B': {'demandes': 5.5, 'taux': 0.061},
+    'B2C': {'demandes': 11.0, 'taux': 0.05},
 }
 PLAFOND_DEMANDES = 16        # au-dela, plus personne n'y croit
 REPARTITION = (0.46, 0.32, 0.22)   # la requete principale porte le volume
@@ -398,7 +406,7 @@ def volumes(pistes, marche):
     out = []
     for mot, part in zip(choisies, parts):
         n = int(round(total * part / somme / 10.0)) * 10
-        out.append({'mot': mot, 'volume': max(n, 30), 'intention': 'Commerciale'})
+        out.append({'mot': mot, 'volume': max(n, 20), 'intention': 'Commerciale'})
     return out, v['taux']
 
 
