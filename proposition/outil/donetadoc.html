@@ -286,41 +286,26 @@ function avance(t) {
    copie ou si le navigateur refuse l'enregistrement automatique. */
 let dejaPris = '';
 
-async function recupere(lien) {
+function recupere(lien) {
   if (!lien || dejaPris === lien) return;
   dejaPris = lien;
+  /* Une navigation vers une adresse qui repond « attachment ».
+
+     La premiere version lisait le document, en faisait un blob et
+     cliquait sur un lien fabrique pour l'occasion. Safari refuse cela
+     quand c'est declenche par du code deux minutes apres le clic, et il
+     le refuse sans rien dire : la personne cherchait un fichier qui
+     n'existait pas. Une simple navigation vers l'adresse du document
+     declenche l'enregistrement sans quitter la page, parce que le
+     serveur repond « attachment », et c'est exactement ce que fait le
+     bouton, qui lui n'a jamais pose de probleme. Le nom lisible vient de
+     l'en-tete, comme avant. */
   try {
-    const r = await fetch(lien);
-    if (!r.ok) return;
-    const b = await r.blob();
-    const u = URL.createObjectURL(b);
-    const a = document.createElement('a');
-    a.href = u;
-    a.download = nomPropose(r.headers.get('content-disposition'));
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(u), 30000);
-    /* On ne peut pas savoir si le navigateur a accepte.
-       Safari refuse souvent un enregistrement declenche par du code
-       longtemps apres le clic, et sans bruit. Annoncer « c'est
-       enregistre » serait alors faux, et la personne chercherait un
-       fichier qui n'existe pas. On annonce donc la tentative, et le
-       bouton reste la juste a cote. */
+    location.href = lien;
     $('#enregistre').hidden = false;
   } catch (e) {
     // le bouton fait toujours le travail
   }
-}
-
-/* Le nom lisible voyage dans l'en-tete, sous deux formes : celle qui
-   accepte les accents d'abord, l'autre ensuite. */
-function nomPropose(entete) {
-  const d = entete || '';
-  let m = /filename\*=UTF-8''([^;]+)/i.exec(d);
-  if (m) { try { return decodeURIComponent(m[1]); } catch (e) { /* suite */ } }
-  m = /filename="([^"]+)"/i.exec(d);
-  return m ? m[1] : 'proposition.pdf';
 }
 
 function etoiles() {

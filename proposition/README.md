@@ -140,6 +140,14 @@ Deux reponses. L'outil **prend le document des qu'il est pret**, sans
 attendre le clic, pendant qu'il existe encore ; le bouton reste pour une
 seconde copie ou si le navigateur refuse l'enregistrement automatique.
 
+La premiere version lisait le document, en faisait un blob et cliquait
+sur un lien fabrique pour l'occasion. Safari refuse cela quand c'est
+declenche par du code deux minutes apres le clic, et il le refuse sans
+rien dire : la page annoncait « enregistre » et il n'y avait rien. Une
+navigation vers l'adresse du document suffit, puisque le serveur repond
+`attachment` : l'enregistrement part et la page ne bouge pas. C'est
+exactement ce que fait le bouton, qui n'a jamais pose de probleme.
+
 Et un lien devenu caduc n'est plus un cul-de-sac : la page porte un champ
 d'adresse, et la fabrication repart de la. Elle renvoyait d'abord vers
 l'accueil, ou il fallait retrouver l'adresse du prospect et la recoller ;
