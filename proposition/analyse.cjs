@@ -99,14 +99,36 @@ async function analyse(url) {
       }
     }
 
-    // le nom de l'entreprise : og:site_name, sinon le titre, sinon le domaine
-    let nom = nettoie(r.og_site);
-    if (!nom) {
-      const t = nettoie(r.titre);
-      nom = t.split(/[|–—·:]/)[0].trim();
-    }
+    /* Le nom de l'entreprise, et lui seul.
+
+       Un titre de page, et souvent og:site_name, porte le nom suivi de
+       l'accroche : « 1600.agency - The video agency for SaaS ». Sur une
+       page de garde adressee a un prospect, la phrase entiere n'est pas
+       son nom. On coupe donc aux separateurs usuels, puis on tranche
+       avec le nom de domaine, qui est la seule preuve disponible de la
+       marque : le morceau qui s'y retrouve est le bon, qu'il soit place
+       avant ou apres le separateur, les deux ordres etant courants. */
+    const hote = new URL(pg.url()).hostname.replace(/^www\./, '');
+    const plat = x => x.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const marque = (brut) => {
+      const t = nettoie(brut);
+      if (!t) return '';
+      const parts = t.split(/\s+[|–—·•]\s+|\s+-\s+|\s*:\s+/)
+                     .map(x => x.trim()).filter(x => x.length >= 2);
+      if (parts.length < 2) return t;
+      const h = plat(hote);
+      for (const x of parts) {
+        const p = plat(x);
+        if (p.length >= 3 && (h.includes(p) || p.includes(h.split('.')[0]))) return x;
+      }
+      // a defaut, le morceau le plus court reste le candidat le plus
+      // credible : une accroche est presque toujours plus longue qu'un nom
+      return parts.slice().sort((a, b) => a.length - b.length)[0];
+    };
+
+    let nom = marque(r.og_site) || marque(r.titre);
     if (!nom || nom.length > 40) {
-      nom = new URL(pg.url()).hostname.replace(/^www\./, '').split('.')[0];
+      nom = hote.split('.')[0];
       nom = nom.charAt(0).toUpperCase() + nom.slice(1);
     }
     r.entreprise = nom;

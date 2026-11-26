@@ -319,10 +319,50 @@ async function sections(url, dossier, prefixe) {
       await pg.setViewportSize({ width: LARGE, height: Math.min(b.h, MAX_H) });
       await pg.evaluate(y => window.scrollTo(0, y), b.t);
       const poids = await prise(pg, f, 84, 'section ' + (i + 1));
+
+      /* Ou se trouve reellement le texte, dans cette photo.
+
+         Les reperes rouges etaient poses a des pourcentages codes en dur.
+         Sur un document envoye a un prospect, un cadre rouge qui entoure
+         du vide ne designe rien et decredibilise la page entiere. On
+         releve donc la position reelle d'un titre, d'une liste et d'un
+         paragraphe, en pourcentage de la photo, pendant que la fenetre
+         est encore cadree dessus : c'est le seul moment ou la mesure est
+         exacte. */
+      const cibles = await pg.evaluate(() => {
+        const H = innerHeight, W = innerWidth;
+        const pc = r => ({ x: +(r.left / W * 100).toFixed(2),
+                           y: +(r.top / H * 100).toFixed(2),
+                           w: +(r.width / W * 100).toFixed(2),
+                           h: +(r.height / H * 100).toFixed(2) });
+        // visible dans la photo, et assez grand pour etre entoure
+        const dedans = r => r.width > 60 && r.height > 14 &&
+          r.top >= -6 && r.bottom <= H + 6 && r.left >= -6 && r.right <= W + 6;
+        const choisit = (sel, mini, parTaille) => {
+          let pris = null;
+          for (const e of document.querySelectorAll(sel)) {
+            const r = e.getBoundingClientRect();
+            if (!dedans(r)) continue;
+            const t = (e.innerText || '').trim();
+            if (t.length < mini) continue;
+            if (!pris) { pris = { r, t, a: r.width * r.height }; if (!parTaille) break; }
+            else if (parTaille && r.width * r.height > pris.a) {
+              pris = { r, t, a: r.width * r.height };
+            }
+          }
+          return pris ? Object.assign(pc(pris.r),
+                                      { texte: pris.t.replace(/\s+/g, ' ').slice(0, 60) })
+                      : null;
+        };
+        return { titre: choisit('h1,h2,h3,h4', 3, false),
+                 puces: choisit('ul,ol', 12, true),
+                 para:  choisit('p', 40, true) };
+      }).catch(() => ({}));
+
       sortie.push({ fichier: f, titre: b.titre, haut: b.t, hauteur: b.h,
                     note: b.note, mots: b.mots, puces: b.puces,
                     phrases: b.phrases, chiffres: b.chiffres,
-                    questions: b.questions, octets: poids });
+                    questions: b.questions, octets: poids, cibles });
     }
 
 

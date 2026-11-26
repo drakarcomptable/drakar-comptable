@@ -179,6 +179,12 @@ def _depart(ident, url, captures=None):
         # ---- montage ----
         _maj(ident, etape='montage', pct=62, message='Montage de la proposition…')
         p = monte(nom, url, a, vues, captures)
+        # Une requete absente se corrige en dix secondes si on le sait, et
+        # part chez un prospect si on ne le sait pas.
+        if len(p.get('_pistes') or []) < 2:
+            releve = (releve + '\n' if releve else '') + (
+                'requetes : aucune piste exploitable retenue sur ce site. '
+                'A completer a la main : « ajoute la requête <mot> à <volume> »')
         _maj(ident, pct=72, donnees=p)
 
         # ---- fabrication ----
@@ -193,6 +199,21 @@ def _depart(ident, url, captures=None):
     except Exception as e:
         _maj(ident, etat='echec', message='La fabrication a échoué.',
              detail=str(e)[:1600])
+
+
+def _cadre(c, marge=1.4):
+    """Un cadre rouge autour d'une cible mesuree, en % de l'image.
+
+    La marge evite que le trait colle au texte. Le cote est celui ou il
+    reste de la place : une etiquette posee a droite d'un bloc deja a
+    droite sortirait de la page.
+    """
+    x = max(0.0, c['x'] - marge)
+    y = max(0.0, c['y'] - marge)
+    w = min(100.0 - x, c['w'] + 2 * marge)
+    h = min(100.0 - y, c['h'] + 2 * marge)
+    return {'x': round(x, 2), 'y': round(y, 2), 'w': round(w, 2),
+            'h': round(h, 2), 'cote': 'droite' if x + w / 2 < 50 else 'gauche'}
 
 
 def reperes_section(sec):
@@ -213,30 +234,42 @@ def reperes_section(sec):
     chiffres = sec.get('chiffres') or 0
     questions = sec.get('questions') or 0
 
+    # Chaque constat sait sur quoi il veut pointer, par ordre de
+    # preference. Un constat sur des puces designe la liste, un constat
+    # sur l'absence de chiffres designe le texte qui aurait du en porter.
     trouves = []
     if puces >= 5 and (not mots or phrases / max(mots, 1) < 0.03):
-        trouves.append('%d puces et aucune phrase : une IA n’a rien à citer ici'
-                       % puces)
+        trouves.append(('%d puces et aucune phrase : une IA n’a rien à citer ici'
+                        % puces, ('puces', 'para', 'titre')))
     if chiffres == 0 and mots >= 40:
-        trouves.append('Aucune donnée chiffrée : les IA reprennent ce qu’elles '
-                       'peuvent sourcer')
+        trouves.append(('Aucune donnée chiffrée : les IA reprennent ce qu’elles '
+                        'peuvent sourcer', ('para', 'puces', 'titre')))
     if questions == 0 and mots >= 40:
-        trouves.append('Ce bloc ne répond à aucune requête : rien à reprendre '
-                       'dans une réponse IA')
+        trouves.append(('Ce bloc ne répond à aucune requête : rien à reprendre '
+                        'dans une réponse IA', ('titre', 'para', 'puces')))
     if not trouves and mots:
-        trouves.append('Offre décrite sans requête cible : invisible dans les '
-                       'réponses des IA')
+        trouves.append(('Offre décrite sans requête cible : invisible dans les '
+                        'réponses des IA', ('titre', 'para', 'puces')))
 
-    # Emplacements par defaut : le titre du bloc, puis le contenu a gauche
-    # et a droite. Ce sont des reperes a deplacer, pas des mesures : le
-    # formulaire detaille permet de les retracer a la souris.
-    zones = [(28, 14, 44, 12, 'droite'),
-             (6, 32, 42, 22, 'droite'),
-             (52, 56, 42, 22, 'gauche')]
-    out = []
-    for i, t in enumerate(trouves[:3]):
-        x, y, w, h, cote = zones[i]
-        out.append({'x': x, 'y': y, 'w': w, 'h': h, 'cote': cote, 'texte': t})
+    cibles = sec.get('cibles') or {}
+    pris, out = set(), []
+    for texte, prefs in trouves[:3]:
+        c = None
+        for cle in prefs:
+            v = cibles.get(cle)
+            if not v or cle in pris:
+                continue
+            # un cadre qui couvre toute l'image ne designe rien
+            if v['w'] >= 92 and v['h'] >= 80:
+                continue
+            c = v
+            pris.add(cle)
+            break
+        # Mieux vaut un repere de moins qu'un cadre rouge sur du vide :
+        # sur un document envoye a un prospect, une fleche qui ne montre
+        # rien decredibilise la page entiere.
+        if c:
+            out.append(dict(_cadre(c), texte=texte))
     return out
 
 
@@ -266,12 +299,40 @@ def sans_accents(t):
                    if unicodedata.category(c) != 'Mn')
 
 
-def classe_pistes(pistes, entreprise):
-    """Trie les pistes de la plus commerciale a la moins.
+# Des mots qui disqualifient une piste, quoi qu'elle vaille par ailleurs.
+#
+# « their words », « highlighted work », « discovery launch call » sont
+# des titres de sections et des boutons, pas des requetes de marche.
+# Personne ne les tape. Les laisser passer parce qu'ils etaient les mieux
+# classes revient a envoyer a un prospect trois requetes qui n'ont rien a
+# voir avec son metier, ce qui ruine la page des la premiere ligne.
+REBUT = {
+    # pronoms et possessifs
+    'their', 'our', 'your', 'its', 'his', 'her', 'we', 'us', 'you', 'they',
+    'notre', 'nos', 'votre', 'vos', 'leur', 'leurs', 'mon', 'mes', 'ses',
+    # mobilier de site : menus, boutons, titres de section
+    'work', 'works', 'word', 'words', 'call', 'home', 'about', 'pricing',
+    'process', 'contact', 'blog', 'news', 'faq', 'menu', 'login', 'signup',
+    'book', 'booking', 'demo', 'discovery', 'launch', 'hello', 'story',
+    'stories', 'review', 'reviews', 'testimonial', 'testimonials',
+    'highlighted', 'featured', 'welcome', 'team', 'careers', 'press',
+    'accueil', 'apropos', 'tarifs', 'tarif', 'contactez', 'actualites',
+    'temoignages', 'mentions', 'equipe', 'recrutement', 'newsletter',
+    'bienvenue', 'decouvrir', 'suivez', 'partager',
+}
 
-    Une requete utile fait deux a quatre mots, ne contient pas le nom de
-    l'entreprise (personne ne cherche une marque qu'il ne connait pas) et
-    ne reprend pas le vocabulaire des slogans.
+PLANCHER = 10       # en dessous, la piste ne vaut pas d'etre imprimee
+
+
+def classe_pistes(pistes, entreprise):
+    """Trie les pistes, et jette celles qui n'en sont pas.
+
+    Jusqu'ici cette fonction ne faisait que trier : les trois premieres
+    partaient dans le document quoi qu'elles vaillent, donc le rebut
+    passait toujours. Une requete utile fait deux a quatre mots, ne
+    contient pas le nom de l'entreprise (personne ne cherche une marque
+    qu'il ne connait pas), ne reprend pas le vocabulaire des slogans, et
+    ne contient aucun mot de mobilier de site.
     """
     marque = set(sans_accents(str(entreprise).lower()).replace('.', ' ').split())
 
@@ -288,7 +349,16 @@ def classe_pistes(pistes, entreprise):
         n -= max(0, len(mots) - 4) * 6
         return n
 
-    return sorted(pistes, key=lambda p: -note(p))
+    def retient(p):
+        mots = set(sans_accents(p.lower()).split())
+        if mots & REBUT:
+            return False                 # un titre de section, pas une requete
+        if len(mots) < 2:
+            return False                 # un mot seul n'est pas une intention
+        return note(p) >= PLANCHER
+
+    gardees = [p for p in pistes if retient(p)]
+    return sorted(gardees, key=lambda p: -note(p))
 
 
 def volumes(pistes, marche):
