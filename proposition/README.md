@@ -194,6 +194,60 @@ Meme empreinte, le code en ligne est celui du depot. Empreinte
 differente, la mise en ligne n'est pas passee. C'est une requete au lieu
 de deux minutes.
 
+## De vraies requetes, et la preuve que le prospect n'y est pas
+
+Les requetes venaient des titres du site : « their words »,
+« highlighted work ». Personne ne tape ca, et un prospect le voit a la
+premiere ligne.
+
+`requetes.py` les tire maintenant de l'autocompletion de Google, c'est a
+dire de ce que de vraies personnes tapent vraiment, puis verifie chacune
+sur une vraie page de resultats : le site ressort-il dans les liens, et
+surtout **est-il cite par la reponse de l'IA de Google**.
+
+C'est ce second point qui vaut le detour. Sur « agence vidéo saas »,
+l'IA de Google cite huit sites, et le prospect n'en fait pas partie. La
+colonne « requetes sur lesquelles vous n'etes pas cite » cesse d'etre une
+affirmation et devient un constat, avec le nom des concurrents cites a la
+place (`_concurrents_ia` dans la fiche).
+
+### Ce qu'il faut pour que ca marche
+
+La variable `SERP_API_KEY`. **Elle doit etre posee sur l'hebergeur**, pas
+seulement sur un poste : sans elle le service repart sur l'ancienne
+methode, le dit dans le journal, et ne plante pas.
+
+Un document consomme environ sept recherches du forfait : une ou deux
+d'autocompletion, puis une recherche et une lecture de la reponse IA par
+requete verifiee. Le plafond est dans `BUDGET` : un document ne peut pas
+vider le quota du mois a lui tout seul.
+
+### Ce que le filtre ecarte, et pourquoi
+
+- le **mobilier de site** et les intentions qui ne sont pas commerciales
+  (`jobs`, `avis`, `definition`, `gratuit`) ;
+- les **lieux qui ne sont pas les siens**. L'autocompletion repond au
+  monde entier : proposer « cabinet conseil management maroc », ou meme
+  « nantes », a un cabinet bordelais est une erreur visible. Une ville
+  n'est gardee que si le site en parle lui-meme ;
+- les **requetes de marque**, mais seulement quand *tous* les mots de la
+  marque y sont. Comparer la marque en sous-chaine etait faux : « x » se
+  trouve dans « bordeaux », et une marque appelee « Pro Video » aurait
+  emporte « production video entreprise », qui est pourtant exactement
+  son marche.
+
+### Sa limite, qu'il faut connaitre
+
+Sur un site **en francais**, la chaine se suffit a elle-meme : les mots
+du site font de bonnes graines et l'autocompletion rend de vraies
+requetes francaises.
+
+Sur un site **en anglais** vise sur le marche francais, elle derive :
+« video saas » rend « video saas demo » et « video saasu maa ». Rien ici
+ne traduit « video agency for SaaS » en « agence vidéo saas ». Cette
+etape-la demande autre chose, et en attendant on la fait a la main avec
+la commande ci-dessous.
+
 ## Imposer les requetes a la main
 
 L'outil lit le site, il ne connait pas le metier. Quand il se trompe, on

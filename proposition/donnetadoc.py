@@ -23,6 +23,9 @@ import sys
 import threading
 import time
 import uuid
+import urllib.parse
+
+import requetes as serp
 
 ICI = os.path.dirname(os.path.abspath(__file__))
 DEPOTS = os.path.join(ICI, 'depots')
@@ -179,6 +182,8 @@ def _depart(ident, url, captures=None):
         # ---- montage ----
         _maj(ident, etape='montage', pct=62, message='Montage de la proposition…')
         p = monte(nom, url, a, vues, captures)
+        for ligne in (p.get('_notes_requetes') or []):
+            releve = (releve + '\n' if releve else '') + 'requêtes : ' + ligne
         # Une requete absente se corrige en dix secondes si on le sait, et
         # part chez un prospect si on ne le sait pas.
         if len(p.get('_pistes') or []) < 2:
@@ -383,6 +388,22 @@ def volumes(pistes, marche):
 def monte(nom, url, a, vues, captures):
     """Assemble la fiche a partir des faits releves."""
     pistes = classe_pistes(a.get('pistes') or [], nom)
+
+    # Des requetes que de vraies personnes tapent, verifiees une par une.
+    #
+    # Celles tirees des titres du site ne servent plus que de graines :
+    # elles portent le vocabulaire du metier, mais personne ne les tape.
+    # L'autocompletion de Google fait le reste, et la page de resultats
+    # dit si le site y est, dans les liens comme dans la reponse de l'IA.
+    # Sans cle, sans reseau ou hors quota, on garde l'ancienne methode.
+    titres = ((a.get('h1') or []) + (a.get('h2') or []) + (a.get('nav') or []))
+    domaine = (urllib.parse.urlparse(url).hostname or '').replace('www.', '')
+    verif, notes_req = serp.cherche(
+        pistes or (a.get('pistes') or []), [], nom, domaine,
+        rebut=REBUT, texte_site=' '.join(titres + [a.get('titre') or '']))
+    if verif:
+        pistes = [v['mot'] for v in verif]
+
     requetes, taux = volumes(pistes, 'B2B')
 
     choisie = None
@@ -402,6 +423,10 @@ def monte(nom, url, a, vues, captures):
         'slug': _slug(nom),
         '_constats': a.get('constats') or [],
         '_pistes': pistes,
+        '_verifie': bool(verif),
+        '_notes_requetes': notes_req,
+        '_concurrents_ia': ([c for v in verif for c in v['concurrents']]
+                            if verif else []),
     }
 
     # Les reperes doivent parler de ce qu'on voit. Un constat qui vaut
