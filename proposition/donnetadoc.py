@@ -456,6 +456,7 @@ def reprend(ident, url=None, captures=None):
 # ---------------------------------------------------------------- modifier
 
 AIDE_COMMANDES = [
+    'requêtes : production vidéo SaaS, vidéo marketing produit',
     'nom : Bsecure',
     'marché : B2C',
     'taux : 0,4 %',
@@ -500,6 +501,32 @@ def modifie(p, commande):
         v = float(m.group(1).replace(',', '.'))
         p['taux_contact'] = v / 100 if (m.group(2) == '%' or v > 1) else v
         faits.append('taux de prise de contact : %.2f %%' % (p['taux_contact'] * 100))
+        return p, faits
+
+    # Imposer les requetes a la main, sans avoir a connaitre les volumes.
+    #
+    # L'outil lit le site, il ne connait pas le metier. Quand il se trompe
+    # de requete, la corriger ne doit pas obliger a inventer un volume en
+    # face : les volumes sont recalcules par la meme regle que partout
+    # ailleurs, celle qui ne descend jamais a zero et ne promet jamais
+    # plus de demandes que personne ne croirait.
+    m = re.search(r"^(?:requ[êe]tes?|mots?[- ]cl[ée]s?)\s*:\s*(.+)$", c, re.I)
+    if m:
+        mots = [x.strip() for x in re.split(r"\s*[;,]\s*|\s+/\s+", m.group(1))
+                if x.strip()]
+        if not mots:
+            faits.append('aucune requête lue dans cette instruction')
+            return p, faits
+        if len(mots) > 3:
+            faits.append('%d requêtes données, les 3 premières sont gardées'
+                         % len(mots))
+            mots = mots[:3]
+        p['requetes'], p['taux_contact'] = volumes(mots, p.get('marche', 'B2B'))
+        p['_pistes'] = mots
+        total = sum(r['volume'] for r in p['requetes'])
+        faits.append('requêtes remplacées : ' + ', '.join(mots))
+        faits.append('volumes recalculés : %d recherches/mois au total, '
+                     'taux %.2f %%' % (total, p['taux_contact'] * 100))
         return p, faits
 
     m = re.search(r"ajoute (?:la )?(?:requ[êe]te )?(.+?)\s*(?:[àa]|:)\s*" + _NOMBRE + r"\s*$", b)

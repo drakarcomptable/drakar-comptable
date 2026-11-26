@@ -194,6 +194,19 @@ Meme empreinte, le code en ligne est celui du depot. Empreinte
 differente, la mise en ligne n'est pas passee. C'est une requete au lieu
 de deux minutes.
 
+## Imposer les requetes a la main
+
+L'outil lit le site, il ne connait pas le metier. Quand il se trompe, on
+le corrige dans « Modifier la doc » sans avoir a inventer un volume en
+face :
+
+    requêtes : production vidéo SaaS, vidéo marketing produit
+
+Trois au maximum, les suivantes sont ignorees et l'outil le dit. Les
+volumes sont recalcules par la regle habituelle, celle qui ne descend
+jamais a zero et ne promet jamais plus de demandes que personne ne
+croirait. « mots-clés : ... » fait la meme chose.
+
 ## Une page vide n'est pas une page
 
 Mesure faite sur chromaction.fr depuis le serveur en ligne :
