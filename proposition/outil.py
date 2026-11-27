@@ -409,18 +409,20 @@ button{display:inline-block;margin-top:1rem;background:#6d4aff;color:#fff;border
 font:inherit;padding:.7rem 1.4rem;border-radius:999px;font-weight:700;cursor:pointer}
 input:focus{outline:2px solid #6d4aff;outline-offset:1px}
 .s{font-size:.85rem;color:#7a6fa0;margin-top:.9rem}
+.s a{color:#6d4aff;font-weight:700}
 </style><div class="c"><h1>Ce document n\u2019existe plus sur le serveur</h1>
 <p>Les documents ne sont pas conserv\u00e9s&nbsp;: ils sont effac\u00e9s \u00e0 chaque
 remise en ligne de l\u2019outil. Un lien gard\u00e9 d\u2019un jour sur l\u2019autre ne
 fonctionne donc plus.</p>
 <p>Il n\u2019est pas perdu pour autant&nbsp;: collez l\u2019adresse du site ci-dessous
 et il se refabrique en une \u00e0 deux minutes.</p>
-<form onsubmit="var v=this.u.value.trim();location=v?\'/?url=\'+encodeURIComponent(v):\'/\';return false">
-<input name="u" type="url" placeholder="https://www.exemple.fr"
+<form method="get" action="/">
+<input name="url" type="text" placeholder="https://www.exemple.fr"
  style="width:100%;box-sizing:border-box;padding:.7rem .9rem;font:inherit;
  border:1px solid #d6cffa;border-radius:10px;margin-top:.9rem">
 <button type="submit">Refaire le document</button></form>
 <p class="s">Le champ peut rester vide&nbsp;: le bouton ouvre alors DONETADOC.</p>
+<p class="s"><a href="/">Ouvrir DONETADOC</a></p>
 </div></html>"""
 
 
