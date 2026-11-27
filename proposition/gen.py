@@ -12,6 +12,7 @@ l'hypothese est visible est une estimation qu'on peut discuter.
 
 import datetime
 import io
+import unicodedata
 import json
 import os
 import subprocess
@@ -38,6 +39,17 @@ NAZAR = {
     'agenda': 'https://meetings-eu1.hubspot.com/mael-gallais'
               '?uuid=4a220f85-6a7a-4e61-91e9-c2908eca8f75',
 }
+
+
+def _slug(nom):
+    """Un nom de fichier en ASCII, accents retires."""
+    plat = unicodedata.normalize("NFD", (nom or "").lower())
+    plat = "".join(c for c in plat if unicodedata.category(c) != "Mn")
+    s = "".join(c if ("a" <= c <= "z" or "0" <= c <= "9") else "-"
+                for c in plat).strip("-")
+    while "--" in s:
+        s = s.replace("--", "-")
+    return s or "prospect"
 
 
 def nom_lisible(entreprise):
@@ -89,8 +101,10 @@ def main(chemin):
     p.setdefault('couverture', 'centre')   # ou « portable », ou « bande »
     p.setdefault('agenda', NAZAR['agenda'])
     p.setdefault('exemple', False)
-    p['slug'] = ''.join(c if c.isalnum() else '-'
-                        for c in p['entreprise'].lower()).strip('-')
+    # le meme calcul que donnetadoc._slug, et pour la meme raison : un
+    # nom de fichier accentue produit un lien que le serveur ne
+    # retrouve pas, donc un document fabrique mais intelechargeable
+    p['slug'] = _slug(p['entreprise'])
 
     if not os.path.isdir(SORTIE):
         os.makedirs(SORTIE)

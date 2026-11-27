@@ -480,6 +480,45 @@ Il fabrique une proposition a partir d'une image d'etalonnage portant des
 pastilles vertes a des pourcentages connus, puis mesure en pixels si les
 cadres rouges tombent bien dessus.
 
+## Pourquoi les mots se collaient
+
+Les mots se mangeaient entre eux dans le document, et le texte extrait
+donnait « REQUÊT ES », « INT ENT ION », « vot re marché ».
+
+La cause n'etait pas la mise en page : `police-jakarta.woff2` est une
+police **variable** (axe de graisse 200 a 800). Chromium ne sait pas
+embarquer une police variable comme une police : il la transforme en
+**Type 3**, c'est-a-dire en dessins de lettres. Un lecteur ne sait plus
+ou sont les espaces, l'extraction est illisible, et le fichier portait
+vingt-et-un sous-ensembles de police.
+
+Le rendu utilise donc des **instances fixes**, une par graisse, generees
+depuis la police variable :
+
+    python3 -c "from fontTools.ttLib import TTFont; \
+      from fontTools.varLib import instancer; \
+      f=TTFont('nazar-site/police-jakarta.woff2'); \
+      instancer.instantiateVariableFont(f,{'wght':800},inplace=True,updateFontNames=True); \
+      f.flavor='woff2'; f.save('nazar-site/police-jakarta-800.woff2')"
+
+Resultat : cinq vraies polices TrueType au lieu de vingt-et-un Type 3,
+le texte s'extrait proprement, et le fichier perd 230 Ko.
+
+Le site, lui, garde la police variable : elle convient parfaitement a un
+navigateur, c'est l'impression en PDF qui ne la supporte pas.
+
+## Un nom de fichier en ASCII
+
+« Négométal » donnait le fichier `négométal.pdf`. Le serveur nettoie les
+caracteres non ASCII de toute adresse demandee, allait donc chercher
+`n-gom-tal.pdf`, et rendait « document introuvable ». Le document
+existait pourtant. Tout prospect dont le nom porte un accent etait
+concerne, et c'est pourquoi l'outil marchait sur un site et pas sur le
+suivant.
+
+`_slug` retire maintenant les accents, dans `donnetadoc.py` comme dans
+`gen.py`, qui recalcule le nom de son cote.
+
 ## Le poids du fichier
 
 Chromium ne recopie pas une image WebP telle quelle dans un PDF : il la

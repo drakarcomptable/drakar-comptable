@@ -22,6 +22,7 @@ import subprocess
 import sys
 import threading
 import time
+import unicodedata
 import uuid
 import urllib.parse
 
@@ -58,8 +59,21 @@ def etat(ident):
 
 
 def _slug(nom):
-    s = ''.join(c if c.isalnum() else '-' for c in (nom or '').lower()).strip('-')
-    return s or 'prospect'
+    """Un nom de fichier en ASCII, accents retires.
+
+    « Négométal » donnait le fichier « négométal.pdf », et le serveur,
+    qui nettoie les caracteres non ASCII de toute adresse demandee,
+    allait chercher « n-gom-tal.pdf ». Le document existait, son lien
+    menait a une page « document introuvable », et cela touchait tout
+    prospect dont le nom porte un accent.
+    """
+    plat = unicodedata.normalize("NFD", (nom or "").lower())
+    plat = "".join(c for c in plat if unicodedata.category(c) != "Mn")
+    s = "".join(c if ("a" <= c <= "z" or "0" <= c <= "9") else "-"
+                for c in plat).strip("-")
+    while "--" in s:
+        s = s.replace("--", "-")
+    return s or "prospect"
 
 
 def utile(sortie, n=1600):
@@ -347,11 +361,11 @@ VISEES = {
     # une IA par quelqu'un qui cherche deja un prestataire, le volume est
     # faible et la part qui prend contact est forte. C'est le propos de
     # la page : peu de monde, mais les bonnes personnes.
-    'B2B': {'demandes': 5.5, 'taux': 0.061},
-    'B2C': {'demandes': 11.0, 'taux': 0.05},
+    'B2B': {'demandes': 4.5, 'taux': 0.0429},
+    'B2C': {'demandes': 11.0, 'taux': 0.0429},
 }
 PLAFOND_DEMANDES = 16        # au-dela, plus personne n'y croit
-REPARTITION = (0.46, 0.32, 0.22)   # la requete principale porte le volume
+REPARTITION = (0.38, 0.33, 0.29)   # la requete principale porte un peu plus
 
 
 # Des mots qui trahissent un slogan ou une page institutionnelle, pas une
@@ -444,7 +458,9 @@ def volumes(pistes, marche):
     somme = sum(parts)
     out = []
     for mot, part in zip(choisies, parts):
-        n = int(round(total * part / somme / 10.0)) * 10
+        # arrondi a cinq et non a dix : sur des volumes de niche,
+        # la dizaine ecrasait les ecarts et donnait trois chiffres plats
+        n = int(round(total * part / somme / 5.0)) * 5
         out.append({'mot': mot, 'volume': max(n, 20), 'intention': 'Commerciale'})
     return out, v['taux']
 

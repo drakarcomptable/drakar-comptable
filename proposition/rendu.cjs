@@ -233,7 +233,7 @@ ${(p.couverture || 'portable') === 'portable' ? `
   <p class="concl">En ajoutant les taux de conversion GEO, cela pourrait généralement
     vous générer entre <b>${e.bas} et ${e.haut} leads par mois</b>
     chez ${esc(p.entreprise)}.<span class="hyp">${ech(e.volume)} requêtes mensuelles posées aux IA,
-    à un taux de prise de contact de ${String(e.taux * 100).replace('.', ',')} %.
+    à un taux de prise de contact de ${(e.taux * 100).toFixed(1).replace('.', ',')} %.
     Hypothèse de travail : c’est ce que l’audit sert à établir.</span></p>
   ${pied(2)}
 </section>
@@ -294,7 +294,19 @@ ${diag}
 }
 
 const STYLE = `
-@font-face{font-family:'JK';src:url(/police-jakarta.woff2) format('woff2');font-weight:200 800;font-display:block}
+/* Des instances fixes, et non la police variable.
+
+   Chromium n'embarque pas une police variable comme une police : il la
+   transforme en Type 3, c'est-a-dire en dessins. Le document devenait
+   illisible a l'extraction (« REQUÊT ES », « vot re marché »), les mots
+   se collaient a l'affichage, et vingt-et-un sous-ensembles de police se
+   retrouvaient dans le fichier. Une instance fixe par graisse est
+   embarquee comme une vraie police TrueType. */
+@font-face{font-family:'JK';src:url(/police-jakarta-200.woff2) format('woff2');font-weight:200;font-display:block}
+@font-face{font-family:'JK';src:url(/police-jakarta-400.woff2) format('woff2');font-weight:400;font-display:block}
+@font-face{font-family:'JK';src:url(/police-jakarta-600.woff2) format('woff2');font-weight:600;font-display:block}
+@font-face{font-family:'JK';src:url(/police-jakarta-700.woff2) format('woff2');font-weight:700;font-display:block}
+@font-face{font-family:'JK';src:url(/police-jakarta-800.woff2) format('woff2');font-weight:800;font-display:block}
 @font-face{font-family:'MO';src:url(/police-mono-600.woff2) format('woff2');font-weight:600;font-display:block}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'JK',sans-serif;color:#004358;-webkit-font-smoothing:antialiased}
