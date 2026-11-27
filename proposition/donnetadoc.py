@@ -477,13 +477,31 @@ def monte(nom, url, a, vues, captures):
     # dit si le site y est, dans les liens comme dans la reponse de l'IA.
     # Sans cle, sans reseau ou hors quota, on garde l'ancienne methode.
     domaine = (urllib.parse.urlparse(url).hostname or '').replace('www.', '')
-    verif, notes_req = serp.cherche(
-        pistes or (a.get('pistes') or []),
-        a.get('titre') or '', a.get('h1') or [],
-        (a.get('h2') or []) + (a.get('nav') or []),
-        nom, domaine, rebut=REBUT)
-    if verif:
-        pistes = [v['mot'] for v in verif]
+
+    # L'outil maison d'abord : lui seul comprend le metier.
+    #
+    # L'autocompletion de Google rend ce que les gens tapent, et c'est
+    # precieux, mais elle ne sait pas ce que fait un site : sur un
+    # specialiste de la TVA europeenne elle sortait « vat refund south
+    # africa ». FindKeywords lit le site et nomme l'activite en francais.
+    # On verifie ensuite ces requetes-la sur Google, pour la citation et
+    # pour le nom des concurrents. S'il ne repond pas, on garde l'ancienne
+    # chaine plutot que de rendre un document sans requetes.
+    mots = serp.mots_cles(nom, url, domaine)
+    if mots:
+        verif, notes_req = serp.verifie_mots(mots, domaine)
+        notes_req = ['métier, par FindKeywords : ' + ', '.join(mots)] + notes_req
+        pistes = mots
+    else:
+        verif, notes_req = serp.cherche(
+            pistes or (a.get('pistes') or []),
+            a.get('titre') or '', a.get('h1') or [],
+            (a.get('h2') or []) + (a.get('nav') or []),
+            nom, domaine, rebut=REBUT)
+        notes_req = ['FindKeywords n’a pas répondu, requêtes tirées de Google'] \
+            + notes_req
+        if verif:
+            pistes = [v['mot'] for v in verif]
 
     requetes, taux = volumes(pistes, 'B2B')
 

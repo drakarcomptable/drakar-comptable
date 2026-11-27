@@ -346,6 +346,22 @@ ne traduit « video agency for SaaS » en « agence vidéo saas ». Cette
 etape-la demande autre chose, et en attendant on la fait a la main avec
 la commande ci-dessous.
 
+## Les requetes viennent de FindKeywords
+
+L'outil maison de NAZAR, `findkeywords.onrender.com`, lit le site d'un
+prospect et nomme son activite en francais. C'est la seule piece de la
+chaine qui **comprenne** un metier : l'autocompletion de Google rend ce
+que les gens tapent, mais sur un specialiste de la TVA europeenne elle
+sortait « vat refund south africa ».
+
+    POST https://findkeywords.onrender.com/api/generate-keywords-batch
+    {"prospects": [{"name": ..., "website": ..., "domain": ...}]}
+
+La reponse arrive en flux, en lignes `data: {...}`. Ces requetes sont
+ensuite verifiees sur Google : le site y ressort-il, l'IA le cite-t-elle,
+et qui cite-t-elle a sa place. Si l'outil ne repond pas, la chaine
+d'autocompletion prend le relais et le journal l'indique.
+
 ## Imposer les requetes a la main
 
 L'outil lit le site, il ne connait pas le metier. Quand il se trompe, on

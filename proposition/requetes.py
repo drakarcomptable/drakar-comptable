@@ -435,3 +435,90 @@ def cherche(pistes, titre, principaux, secondaires, marque, domaine,
         notes.append('le site ressort sur toutes les requêtes testées : '
                      'rien à reprocher de ce côté, à compléter à la main')
     return (retenues or None), notes
+
+
+# --------------------------------------------------------------- FindKeywords
+
+OUTIL = 'https://findkeywords.onrender.com/api/generate-keywords-batch'
+DELAI_OUTIL = 150
+
+
+def mots_cles(nom, site, domaine):
+    """Les mots-cles du metier, par l'outil maison de NAZAR.
+
+    L'autocompletion de Google rend ce que les gens tapent, mais elle ne
+    comprend pas le metier d'un site : sur un specialiste de la TVA
+    europeenne elle a sorti « vat refund south africa », et sur un site
+    anglais visant la France elle derive toujours. FindKeywords lit le
+    site et nomme l'activite en francais, ce qu'aucun comptage ne sait
+    faire.
+
+    Rend une liste, ou None : l'appelant garde alors l'ancienne chaine.
+    Rien ici n'est bloquant, un outil qui ne repond pas ne doit pas
+    empecher de fabriquer un document.
+    """
+    corps = json.dumps({'prospects': [{
+        'name': nom or '', 'website': site or '', 'linkedin': '',
+        'personalLinkedin': '', 'jobFunction': '',
+        'domain': domaine or '', 'location': '',
+    }]}).encode('utf-8')
+    req = urllib.request.Request(OUTIL, data=corps,
+                                 headers={'Content-Type': 'application/json'})
+    try:
+        with urllib.request.urlopen(req, timeout=DELAI_OUTIL) as r:
+            flux = r.read().decode('utf-8', 'replace')
+    except Exception:
+        return None
+
+    # La reponse arrive en flux : des lignes « data: {...} ». On garde la
+    # derniere qui porte un resultat, les precedentes n'etant que des
+    # etapes d'avancement.
+    brut = None
+    for ligne in flux.splitlines():
+        if not ligne.startswith('data: '):
+            continue
+        try:
+            d = json.loads(ligne[6:])
+        except Exception:
+            continue
+        if isinstance(d.get('results'), list) and d['results']:
+            brut = d['results'][0].get('keywords') or brut
+        elif isinstance(d.get('result'), dict):
+            brut = d['result'].get('keywords') or brut
+    if not brut:
+        return None
+
+    out, vus = [], set()
+    for m in re.split(r'\s*[;,]\s*|\s+/\s+', brut):
+        m = ' '.join(m.split())
+        if len(m) < 4 or _plat(m) in vus:
+            continue
+        vus.add(_plat(m))
+        out.append(m)
+    return out[:3] or None
+
+
+def verifie_mots(mots, domaine, cle=None, budget=8, pays='fr'):
+    """Qui l'IA cite sur ces requetes, et si le site y figure.
+
+    Les mots viennent du metier, pas d'un classement : on ne les jette
+    donc pas quand le site y ressort, on le dit. Ce qui compte ici est
+    la preuve, et le nom des concurrents cites.
+    """
+    s = Serp(cle, budget)
+    if not s.actif():
+        return [{'mot': m, 'rang': None, 'ia_presente': False, 'ia_cite': False,
+                 'concurrents': [], 'voisines': []} for m in mots], \
+               ['pas de clé SerpAPI : requêtes non vérifiées']
+    out = []
+    for m in mots:
+        if s.reste <= 1:
+            out.append({'mot': m, 'rang': None, 'ia_presente': False,
+                        'ia_cite': False, 'concurrents': [], 'voisines': []})
+            continue
+        v = s.verifie(m, domaine, pays)
+        out.append(v or {'mot': m, 'rang': None, 'ia_presente': False,
+                         'ia_cite': False, 'concurrents': [], 'voisines': []})
+    absents = sum(1 for v in out if not v['ia_cite'] and v['rang'] is None)
+    return out, s.notes + ['%d requête(s) du métier vérifiée(s) en %d appels, '
+                           '%d sans citation' % (len(out), s.appels, absents)]
